@@ -153,16 +153,16 @@
         <div class="ejercicios">
             <h3>Soluciones de una ecuación</h3>
             <p>Ya entendimos <i>qué es una ecuación</i> (y qué cosa NO es una ecuación). Ahora te propongo que avancemos en una idea súper importante.</p>
-            <p>Una solución de una ecuación es el (o los) valor(es) que puede tomar la incógnita para "devolver" una identidad verdadera.</p>
-            <p>AVISO (disclaimer): No nos vamos a enfocar aún en <i>cómo</i> obtener soluciones, solamente quiero que pensemos en <i>qué es una solución</i> de una ecuación.</p>
-            <p>¿Querés ejemplos?</p>
+            <p>Una solución de una ecuación es el (o los) valor(es) que puede tomar la incógnita para "devolver" una identidad verdadera. Es decir... si cambiamos (sustituímos) la incógnita de la ecuación por el valor que <i>suponemos</i> solución de la misma, deberíamos obtener una identidad verdadera.</p>
+            <p><i>AVISO (disclaimer): No nos vamos a enfocar aún en <b>cómo</b> obtener soluciones, solamente quiero que pensemos en <i>qué es una solución</i> de una ecuación.</i></p>
+            <p>Analicemos el siguiente ejemplo:</p>
             <div class="math">
                 <p>Imaginemos la siguiente ecuación (cuya incógnita es <i>j</i>):</p>
                 \[
                 5+3 \cdot j=2
                 \]
                 <p>¿Podríamos decir que una solución de esta ecuación es \(j=1\)?</p>
-                <p>No, no sería correcto. ¿Por qué? Simple: imaginate que reemplazamos (sustituimos) la incógnita de la ecuación por la solución propuesta:</p>
+                <p>No, eso no sería correcto. ¿Por qué? Simple: vamos a reemplazar (sustituir) la incógnita de la ecuación por la solución propuesta:</p>
                 \[
                 5+3 \cdot j=2
                 \]
@@ -175,8 +175,9 @@
                 \[
                 8 = 2
                 \]
-                <p>Hemos obtenido una <i>identidad falsa</i>; por esta razón diremos que \(j=1\) no es solución de la ecuación.</p>
+                <p>Lo que obtivimos fue una <i>identidad falsa</i> (recordá que una identidad es una comparación por igualdad... es decir <b>una cosa = otra cosa</b>; En este caso \(8=2\); esto es <b>FALSO</b>; y es por esta razón que podemos afirmar que \(j=1\) no es solución de la ecuación.</p>
             </div>
+            <p>Te recomiendo mirar un poco más</p>
             <button onclick="botonSolucionMasMenos('sol2')">Ver más</button>
             <div id="sol2" class="solution">
                 <p>Solución:</p>
@@ -206,14 +207,21 @@
         <h2>Resolución de una ecuación</h2>
         <div class="ejercicios">
             <h3>Casos MUY sencillos (primera parte)</h3>
-            <p>Vamos a considerar ecuaciones del siguiente tipo:</p>
+            <p>Ahora que ya sabemos qué cosa es una <i>ecuación</i> y qué cosa es una <i>solución de la ecuación</i> podemos dar el siguiente paso: recordar de <i>qué forma</i> obtenermos las soluciones de ecuaciones... es decir: ¿qué hacer para poder resolver una ecuación?</p>
+            <p>Vamos a ir por partes... de más simple a más complejo. En esta primera oportunidad consideramos ecuaciones del siguiente tipo:</p>
             <div class="math">
                 \[ 8 + b= 1\]
             </div>
-            <p>Ecuaciones muy sencillas, en las que el primer miembro es la suma de dos términos, uno de los cuales es la incógnita; y el segundo miembro es un valor constante.</p>
+            <p>Estas son ecuaciones muy sencillas, en las que el primer miembro es la suma de dos términos, uno de los cuales es la incógnita; y el segundo miembro es un valor constante.</p>
             <p>Recordá que el año pasado pensábamos esto como balanzas de dos platillos <a href="https://youtu.be/3Rm86HeBt0o?si=B1Bm3rl3dhtywBpG" target="_blank">(ver videos)</a></p>
             <p>Resolver la ecuación significa <i>dejar a la incógnita <b>sola</b></i> en uno de los miembros de la ecuación. Pero ojo: para hacerlo debemos realizar <i>en ambos miembros de la ecuación la misma operación</i> (podría ser una buena idea revisar los videos).</p>
-            <p>Resolvemos la ecuación</p>
+            <div class="math">
+                <p>Es decir, resolver la ecuación es poder obtener algo como esto:</p>
+                \[
+                incógnita = valor
+                \]
+            </div>
+            <p>Vamos con el primer ejemplo; resolvamos la siguiente ecuación:</p>
             <div class="math">
                     <table>
                     <tr>
@@ -221,7 +229,7 @@
                         <td>\( 8 + b= 1 \)</td>
                     </tr>
                     <tr>
-                        <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 8</i>. De modo que deberíamos restar 8... pero si restamos en un miembro debemos hacerlo también en el otro (NOTEMOS LA EMPLEAMOS OPERACIONES OPUESTAS (<i>inversas</i>); la inversa de la "suma" es la "resta", la inversa de la "multiplicación" es la "división"... en realidad hay algo más de todo esto, pero por ahora nos alcanza con estas ideas elementales):</td>
+                        <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 8</i>. De modo que deberíamos restar 8... pero si restamos en un miembro debemos hacerlo también en el otro (NOTEMOS QUE EMPLEAMOS OPERACIONES OPUESTAS o <i>inversas</i>); la inversa de la "suma" es la "resta", la inversa de la "multiplicación" es la "división"... en realidad hay algo más de todo esto, pero por ahora nos alcanza con estas ideas elementales):</td>
                         <td>\( 8 + b \textcolor{red}{-8}= 1 \textcolor{red}{-8}\)</td>
                     </tr>
                     <tr>
@@ -358,7 +366,7 @@
     </section>
 
     <footer>
-        <p>© 2023 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 2.1)</p>
+        <p>© 2023 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 2.2)</p>
     </footer>
 
     <script>
