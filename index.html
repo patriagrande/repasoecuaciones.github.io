@@ -254,8 +254,11 @@
             <h3>Casos MUY sencillos (segunda parte)</h3>
             <p>Vamos a considerar ecuaciones del siguiente tipo:</p>
             <div class="math">
-                \[ 8 \cdot b= 1\]
+                \[ 5 \cdot x= 20\]
             </div>
+            <p>Estos son casos en los cuales la incógnita está siendo multiplicada por algún factor constante (un número, no importa si es entero, racional, no interesa: hay alguna cantidad constate por la cuál es multiplicada la incógnita de nuestra ecuación en uno de los miembros.</p>
+            <p>¿Querés ver como se resuelve?</p>
+            <!-- INICIO DE BUTTON -->
             <button onclick="botonSolucionMasMenos('sol4')">Ver más</button>
             <div id="sol4" class="solution">
                 <p>Sea la ecuación: \(  5 \cdot x = 20  \); donde la incógnita es \(x\)</p>
@@ -266,7 +269,7 @@
                         <td>\( 5 \cdot x = 20 \)</td>
                     </tr>
                     <tr>
-                        <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 5</i>. Como está multiplicando, la forma de anularlo es dividiendo... pero si dividimos un miembro debemos hacerlo también en el otro:</td>
+                        <td>Deseamos dejar sola la incógnita. Acá es importante realizar una aclaración... <i> dejar sola la incógnita</i> significa <b>tener una incógnita</b>. Es decir \(x\) es lo mismo que decir \( 1 \cdot x \). De modo que necesitamos que ese \(5 \) que multiplica a nuestra \(x\) se convierta en un <b>1</b>. De modo que: <i>nos molesta el 5</i>; que está multiplicando a la incógnita de nuestra ecuación. Para convertirlo en 1 dividimos por 5... pero si dividimos un miembro debemos hacerlo también en el otro:</td>
                         <td>\( \frac{5 \cdot x}{\textcolor{red}{5}} = \frac{20}{\textcolor{red}{5}}\)</td>
                     </tr>
                     <tr>
@@ -276,10 +279,55 @@
                     </table>
                 </div>
             </div>
+            <!-- FINAL DE BUTTON -->
+        </div>
 
-            <!-- -->
-            <button onclick="botonSolucionMasMenos('sol5')">Ver más</button>
-            <div id="sol5" class="solution">
+        <div class="ejercicios">
+            <h3>Casos MUY sencillos (segunda parte, más ejemplos)</h3>
+            <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de una miembro de una ecuación factores (elementos que mutiplican ¿o dividen?).</p>
+            <p> En este caso consideremos el sieguiente ejemplo </p>
+            <div class="math">
+                \[ -3 \cdot b= 1\]
+            </div>
+            <p>Antes de continuar reparemos en lo siguiente: el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
+            <p> ¿Querés ver como se resuelve?</p>
+            <!-- INICIO DEL BUTTON -->
+            <button onclick="botonSolucionMasMenos('sol6')">Ver más</button>
+            <div id="sol6" class="solution">
+                <p>Sea la ecuación: \( -3 \cdot b= 1 \); donde la incógnita es \( b \)</p>
+                <div class="math">
+                    <table>
+                        <tr>
+                            <td>La ecuación que deseamos resolver, incógnita \( b \); como decíamos más arriba: la incógnita está multiplicada por una constante negativa... oho con eso!!!</td>
+                            <td>\( \textcolor{red}{-3} \cdot b= 1 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Para dejar sola la incógnita, detectamos que <i>nos molesta el factor que la multiplica</i>, que en este caso es <b>-3</b>. Como es un factor, multiplica a la incógnita, para <i>quitarlo del medio</b> deberíamos dividir (recordemos que el coiente de cantidades iguales, no nulas, es 1) ambos miembros por -3 (para que nos queda <i>una sola incógnita</i> y no -3 incógnitas como tenemos de momento):</td>
+                            <td>\( \frac{-3 \cdot b}{\textcolor{red}{-3}} = \frac{1}{\textcolor{red}{-3}} \)</td>
+                        </tr>
+                        <tr>
+                            <td>Como ya dijimos: \( \frac{-3}{-3}=1  \) de modo que tenemos lo siguiente:</td>
+                            <td>\( b = -\frac{1}{3} \)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- FINAL DEL BUTTON -->
+        </div>
+
+
+        <div class="ejercicios">
+            <h3>Casos MUY sencillos (segunda parte, más ejemplos)</h3>
+            <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de una miembro de una ecuación factores (elementos que mutiplican ¿o dividen?).</p>
+            <p> En este caso consideremos el sieguiente ejemplo </p>
+            <div class="math">
+                \[ -4 \cdot R = 22\]
+            </div>
+            <p>Como podemos observar en este caso, también el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
+            <p> ¿Querés ver como se resuelve?</p>
+            <!-- INCIO DEL BUTTON-->
+            <button onclick="botonSolucionMasMenos('sol7')">Ver más</button>
+            <div id="sol7" class="solution">
                 <p>Sea la ecuación: \( -4 \cdot R = 22 \); donde la incógnita es \( R \)</p>
                 <div class="math">
                     <table>
@@ -302,15 +350,12 @@
                     </table>
                 </div>
             </div>
-            <!-- -->
-
-
-
+            <!-- FINAL DEL BUTTON -->
         </div>
     </section>
 
     <footer>
-        <p>© 2023 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita</p>
+        <p>© 2023 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 2.2)</p>
     </footer>
 
     <script>
