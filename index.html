@@ -33,11 +33,56 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
         h2 {
             color: var(--secondary);
             border-bottom: 2px solid var(--accent);
             padding-bottom: 5px;
-            margin-top: 30px;
+            margin: 0;
+        }
+
+        .toggle-section {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-section:hover {
+            background-color: #5a4acd;
+        }
+
+        .section-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .div-ejercicios {
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .div-ejercicios:hover {
+            background-color: #d0522b;
         }
 
         table {
@@ -115,261 +160,439 @@
 <body>
     <h1>Ecuaciones lineales con una incógnita</h1>
 
-    <section>
-        <h2>Definición</h2>
-
-        <div class="ejercicios">
-            <h3>Ecuaciones Lineales</h3>
-            <p>Daremos la siguiente <b>definición de Ecuación</b>: identidad (esto refiere a dos expresiones <i>igualadas</i>) que conteiene algún o algunos elemento/s desconocidos. A ese elemento desconocido lo denominaremos como: <b>incógnita de la ecuación</b>.</p>
-            <div class="math">
-                \[ 4 \cdot  m+6=9 \]
-            </div>
-            <p>El <i>igual</i> divide a la ecuación en dos miembros, por izquierda y por derecha. La expresión que queda a la izquierda del <i>igual</i> se denomina <b>primer miembro de la ecuación</b>; la que está por derecha se denominará <b>segundo miembro de la ecuación</b>.</p>
-            <p>De modo que: \(4 \cdot  m+6\) es el primer miembro de la ecuación; y \(9\) el segudo miembro.</p>
-            <p>Queres ver algunos ejemplos?</p>
-            <button onclick="botonSolucionMasMenos('sol1')">Ver más</button>
-            <div id="sol1" class="solution">
-                <p>Algunos ejemplos:</p>
-                <p>Podemos analizar algunos ejemplos para comprender un poco más lo que conversamos recientemente...</p>
+    <div class="section"><!-- definiciones-->
+        <div class="section-header" onclick="AbrirCerrarSeccion('definicion')">
+            <h2>Definiciones importantes</h2>
+            <button class="toggle-section">Mostrar</button>
+        </div>
+        <div id="definicion" class="section-content">
+            <div class="ejercicios">
+                <h3>Ecuaciones Lineales</h3>
+                <p>Daremos la siguiente <b>definición de Ecuación</b>: identidad (esto refiere a dos expresiones <i>igualadas</i>) que contiene algún o algunos elemento/s desconocidos. A ese elemento desconocido lo denominaremos como: <b>incógnita de la ecuación</b>.</p>
                 <div class="math">
-                    <table>
-                    <tr>
-                        <td>En este caso tenemos una ecuación, cuya incógnita es m:</td>
-                        <td>\( 5 \cdot m + 4 = -1 \)</td>
-                    </tr>
-                    <tr>
-                        <td>En este otro caso no, si bien podemos observar que hay una igualdad, notaremos que no existen incógnitas:</td>
-                        <td>\( 6 + 4 = 10 \)</td>
-                    </tr>
-                    <tr>
-                        <td>Este último caso... Si bien hay elementos desconocidos, no hay igualdad entre expresiones, por lo tanto NO ES UNA ECUACIÓN:</td>
-                        <td>\( 4 \cdot x = \)</td>
-                    </tr>
-                    </table>
+                    \[ 4 \cdot  m+6=9 \]
+                </div>
+                <p>El <i>igual</i> divide a la ecuación en dos miembros, por izquierda y por derecha. La expresión que queda a la izquierda del <i>igual</i> se denomina <b>primer miembro de la ecuación</b>; la que está por derecha se denominará <b>segundo miembro de la ecuación</b>.</p>
+                <p>De modo que: \(4 \cdot  m+6\) es el primer miembro de la ecuación; y \(9\) el segundo miembro.</p>
+                <p>¿Querés ver algunos ejemplos?</p>
+                <button onclick="botonSolucionMasMenos('sol1')">Ver más</button>
+                <div id="sol1" class="solution">
+                    <p>Algunos ejemplos:</p>
+                    <p>Podemos analizar algunos ejemplos para comprender un poco más lo que conversamos recientemente...</p>
+                    <div class="math">
+                        <table>
+                        <tr>
+                            <td>En este caso tenemos una ecuación, cuya incógnita es m:</td>
+                            <td>\( 5 \cdot m + 4 = -1 \)</td>
+                        </tr>
+                        <tr>
+                            <td>En este otro caso no, si bien podemos observar que hay una igualdad, notaremos que no existen incógnitas:</td>
+                            <td>\( 6 + 4 = 10 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Este último caso... Si bien hay elementos desconocidos, no hay igualdad entre expresiones, por lo tanto NO ES UNA ECUACIÓN:</td>
+                            <td>\( 4 \cdot x = \)</td>
+                        </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="ejercicios">
-            <h3>Soluciones de una ecuación</h3>
-            <p>Ya entendimos <i>qué es una ecuación</i> (y qué cosa NO es una ecuación). Ahora te propongo que avancemos en una idea súper importante.</p>
-            <p>Una solución de una ecuación es el (o los) valor(es) que puede tomar la incógnita para "devolver" una identidad verdadera. Es decir... si cambiamos (sustituímos) la incógnita de la ecuación por el valor que <i>suponemos</i> solución de la misma, deberíamos obtener una identidad verdadera.</p>
-            <p><i>AVISO (disclaimer): No nos vamos a enfocar aún en <b>cómo</b> obtener soluciones, solamente quiero que pensemos en <i>qué es una solución</i> de una ecuación.</i></p>
-            <p>Analicemos el siguiente ejemplo:</p>
-            <div class="math">
-                <p>Imaginemos la siguiente ecuación (cuya incógnita es <i>j</i>):</p>
-                \[
-                5+3 \cdot j=2
-                \]
-                <p>¿Podríamos decir que una solución de esta ecuación es \(j=1\)?</p>
-                <p>No, eso no sería correcto. ¿Por qué? Simple: vamos a reemplazar (sustituir) la incógnita de la ecuación por la solución propuesta:</p>
-                \[
-                5+3 \cdot j=2
-                \]
-                \[
-                5+3 \cdot \textcolor{red}{1} = 2
-                \]
-                \[
-                5+3 = 2
-                \]
-                \[
-                8 = 2
-                \]
-                <p>Lo que obtivimos fue una <i>identidad falsa</i> (recordá que una identidad es una comparación por igualdad... es decir <b>una cosa = otra cosa</b>; En este caso \(8=2\); esto es <b>FALSO</b>; y es por esta razón que podemos afirmar que \(j=1\) no es solución de la ecuación.</p>
-            </div>
-            <p>Te recomiendo mirar un poco más</p>
-            <button onclick="botonSolucionMasMenos('sol2')">Ver más</button>
-            <div id="sol2" class="solution">
-                <p>Solución:</p>
+            <div class="ejercicios">
+                <h3>Soluciones de una ecuación</h3>
+                <p>Ya entendimos <i>qué es una ecuación</i> (y qué cosa NO es una ecuación). Ahora te propongo que avancemos en una idea súper importante.</p>
+                <p>Una solución de una ecuación es el (o los) valor(es) que puede tomar la incógnita para "devolver" una identidad verdadera. Es decir... si cambiamos (sustituimos) la incógnita de la ecuación por el valor que <i>suponemos</i> solución de la misma, deberíamos obtener una identidad verdadera.</p>
+                <p><i>AVISO (disclaimer): No nos vamos a enfocar aún en <b>cómo</b> obtener soluciones, solamente quiero que pensemos en <i>qué es una solución</i> de una ecuación.</i></p>
+                <p>Analicemos el siguiente ejemplo:</p>
                 <div class="math">
-                    <p>Sigamos con el ejemplo anterior... ¿Sería correcto decir que \(j=-1\) es solución de la ecuación?</p>
-                    <p>Nuevamente deberíamos reemplazar (sustituir) la incógnita por la solución propuesta:</p>
+                    <p>Imaginemos la siguiente ecuación (cuya incógnita es <i>j</i>):</p>
+                    \[
+                    5+3 \cdot j=2
+                    \]
+                    <p>¿Podríamos decir que una solución de esta ecuación es \(j=1\)?</p>
+                    <p>No, eso no sería correcto. ¿Por qué? Simple: vamos a reemplazar (sustituir) la incógnita de la ecuación por la solución propuesta:</p>
                     \[
                     5+3 \cdot j=2
                     \]
                     \[
-                    5+3 \cdot (\textcolor{red}{-1}) = 2
+                    5+3 \cdot \textcolor{red}{1} = 2
                     \]
                     \[
-                    5-3 = 2
+                    5+3 = 2
                     \]
-                    <p>Recordá que: \(+3 \cdot (-1)=-3\)</p>
                     \[
-                    2 = 2
+                    8 = 2
                     \]
-                    <p>Hemos obtenido una <i>identidad <b>verdadera</b></i>; por esta razón diremos que sí, que efectivamente \(j=-1\) es solución de la ecuación.</p>
+                    <p>Lo que obtuvimos fue una <i>identidad falsa</i> (recordá que una identidad es una comparación por igualdad... es decir <b>una cosa = otra cosa</b>; En este caso \(8=2\); esto es <b>FALSO</b>; y es por esta razón que podemos afirmar que \(j=1\) no es solución de la ecuación.</p>
+                </div>
+                <p>Te recomiendo mirar un poco más</p>
+                <button onclick="botonSolucionMasMenos('sol2')">Ver más</button>
+                <div id="sol2" class="solution">
+                    <p>Solución:</p>
+                    <div class="math">
+                        <p>Sigamos con el ejemplo anterior... ¿Sería correcto decir que \(j=-1\) es solución de la ecuación?</p>
+                        <p>Nuevamente deberíamos reemplazar (sustituir) la incógnita por la solución propuesta:</p>
+                        \[
+                        5+3 \cdot j=2
+                        \]
+                        \[
+                        5+3 \cdot (\textcolor{red}{-1}) = 2
+                        \]
+                        \[
+                        5-3 = 2
+                        \]
+                        <p>Recordá que: \(+3 \cdot (-1)=-3\)</p>
+                        \[
+                        2 = 2
+                        \]
+                        <p>Hemos obtenido una <i>identidad <b>verdadera</b></i>; por esta razón diremos que sí, que efectivamente \(j=-1\) es solución de la ecuación.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
-        <h2>Resolución de una ecuación</h2>
-        <div class="ejercicios">
-            <h3>Casos MUY sencillos (primera parte)</h3>
-            <p>Ahora que ya sabemos qué cosa es una <i>ecuación</i> y qué cosa es una <i>solución de la ecuación</i> podemos dar el siguiente paso: recordar de <i>qué forma</i> obtenermos las soluciones de ecuaciones... es decir: ¿qué hacer para poder resolver una ecuación?</p>
-            <p>Vamos a ir por partes... de más simple a más complejo. En esta primera oportunidad consideramos ecuaciones del siguiente tipo:</p>
-            <div class="math">
-                \[ 8 + b= 1\]
-            </div>
-            <p>Estas son ecuaciones muy sencillas, en las que el primer miembro es la suma de dos términos, uno de los cuales es la incógnita; y el segundo miembro es un valor constante.</p>
-            <p>Recordá que el año pasado pensábamos esto como balanzas de dos platillos <a href="https://youtu.be/3Rm86HeBt0o?si=B1Bm3rl3dhtywBpG" target="_blank">(ver videos)</a></p>
-            <p>Resolver la ecuación significa <i>dejar a la incógnita <b>sola</b></i> en uno de los miembros de la ecuación. Pero ojo: para hacerlo debemos realizar <i>en ambos miembros de la ecuación la misma operación</i> (podría ser una buena idea revisar los videos).</p>
-            <div class="math">
-                <p>Es decir, resolver la ecuación es poder obtener algo como esto:</p>
-                \[
-                incógnita = valor
-                \]
-            </div>
-            <p>Vamos con el primer ejemplo; resolvamos la siguiente ecuación:</p>
-            <div class="math">
-                    <table>
-                    <tr>
-                        <td>La ecuación que deseamos resolver, incógnita \(b\):</td>
-                        <td>\( 8 + b= 1 \)</td>
-                    </tr>
-                    <tr>
-                        <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 8</i>. De modo que deberíamos restar 8... pero si restamos en un miembro debemos hacerlo también en el otro (NOTEMOS QUE EMPLEAMOS OPERACIONES OPUESTAS o <i>inversas</i>); la inversa de la "suma" es la "resta", la inversa de la "multiplicación" es la "división"... en realidad hay algo más de todo esto, pero por ahora nos alcanza con estas ideas elementales):</td>
-                        <td>\( 8 + b \textcolor{red}{-8}= 1 \textcolor{red}{-8}\)</td>
-                    </tr>
-                    <tr>
-                        <td>\(8-8=0\) y además \(1-8=-7\), de modo que tendremos:</td>
-                        <td>\( b=-7 \)</td>
-                    </tr>
-                    </table>
-                </div>
-            <p>¿Querés más ejemplos?</p>
-            <button onclick="botonSolucionMasMenos('sol3')">Ver más</button>
-            <div id="sol3" class="solution">
-                <p>Sea la ecuación: \(  r-9=-2  \); donde la incógnita es \(r\)</p>
+    <div class="section"><!-- Resolución de una ecuaciones -->
+        <div class="section-header" onclick="AbrirCerrarSeccion('resolucion')">
+            <h2>Resolución de una ecuaciones</h2>
+            <button class="toggle-section">Mostrar</button>
+        </div>
+        <div id="resolucion" class="section-content">
+            <div class="ejercicios">
+                <h3>Casos MUY simples:  \(8 + b= 1\)</h3>
+                <p>Ahora que ya sabemos qué cosa es una <i>ecuación</i> y qué cosa es una <i>solución de la ecuación</i> podemos dar el siguiente paso: recordar de <i>qué forma</i> obtenemos las soluciones de ecuaciones... es decir: ¿qué hacer para poder resolver una ecuación?</p>
+                <p>Vamos a ir por partes... de más simple a más complejo. En esta primera oportunidad consideramos ecuaciones del siguiente tipo:</p>
                 <div class="math">
-                  <table>
-                    <tr>
-                        <td>La ecuación que deseamos resolver, incógnita \(r\):</td>
-                        <td>\( r-9=-2 \)</td>
-                    </tr>
-                    <tr>
-                        <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 9</i>. Lo novedoso aquí es que 9 resta... la forma de anularlo es sumando 9... pero si sumamos en un miembro debemos hacerlo también en el otro:</td>
-                        <td>\( r-9 \textcolor{red}{+9}= -2 \textcolor{red}{+9}\)</td>
-                    </tr>
-                    <tr>
-                        <td>Operando convenientemente tendremos que:</td>
-                        <td>\( r=7 \)</td>
-                    </tr>
-                    </table>
+                    \[ 8 + b= 1\]
                 </div>
-            </div>
-        </div>
-
-        <div class="ejercicios">
-            <h3>Casos MUY sencillos (segunda parte)</h3>
-            <p>Vamos a considerar ecuaciones del siguiente tipo:</p>
-            <div class="math">
-                \[ 5 \cdot x= 20\]
-            </div>
-            <p>Estos son casos en los cuales la incógnita está siendo multiplicada por algún factor constante (un número, no importa si es entero, racional, no interesa: hay alguna cantidad constate por la cuál es multiplicada la incógnita de nuestra ecuación en uno de los miembros.</p>
-            <p>¿Querés ver como se resuelve?</p>
-            <!-- INICIO DE BUTTON -->
-            <button onclick="botonSolucionMasMenos('sol4')">Ver más</button>
-            <div id="sol4" class="solution">
-                <p>Sea la ecuación: \(  5 \cdot x = 20  \); donde la incógnita es \(x\)</p>
+                <p>Estas son ecuaciones muy sencillas, en las que el primer miembro es la suma de dos términos, uno de los cuales es la incógnita; y el segundo miembro es un valor constante.</p>
+                <p>Recordá que el año pasado pensábamos esto como balanzas de dos platillos <a href="https://youtu.be/3Rm86HeBt0o?si=B1Bm3rl3dhtywBpG" target="_blank">(ver videos)</a></p>
+                <p>Resolver la ecuación significa <i>dejar a la incógnita <b>sola</b></i> en uno de los miembros de la ecuación. Pero ojo: para hacerlo debemos realizar <i>en ambos miembros de la ecuación la misma operación</i> (podría ser una buena idea revisar los videos).</p>
                 <div class="math">
-                  <table>
-                    <tr>
-                        <td>La ecuación que deseamos resolver, incógnita \(x\):</td>
-                        <td>\( 5 \cdot x = 20 \)</td>
-                    </tr>
-                    <tr>
-                        <td>Deseamos dejar sola la incógnita. Acá es importante realizar una aclaración... <i> dejar sola la incógnita</i> significa <b>tener una incógnita</b>. Es decir \(x\) es lo mismo que decir \( 1 \cdot x \). Por lo tanto necesitamos que ese \(5 \) que multiplica a nuestra \(x\) se convierta en un <b>1</b>. De modo que: <i>nos molesta el 5</i>; que está multiplicando a la incógnita de nuestra ecuación. Para convertirlo en 1 dividimos por 5... pero si dividimos un miembro debemos hacerlo también en el otro:</td>
-                        <td>\( \frac{5 \cdot x}{\textcolor{red}{5}} = \frac{20}{\textcolor{red}{5}}\)</td>
-                    </tr>
-                    <tr>
-                        <td>Operando convenientemente tendremos que:</td>
-                        <td>\( x=4 \)</td>
-                    </tr>
-                    </table>
+                    <p>Es decir, resolver la ecuación es poder obtener algo como esto:</p>
+                    \[
+                    incógnita = valor
+                    \]
                 </div>
-            </div>
-            <!-- FINAL DE BUTTON -->
-        </div>
-
-        <div class="ejercicios">
-            <h3>Casos MUY sencillos (segunda parte, más ejemplos)</h3>
-            <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de una miembro de una ecuación factores (elementos que mutiplican ¿o dividen?).</p>
-            <p> En este caso consideremos el sieguiente ejemplo </p>
-            <div class="math">
-                \[ -3 \cdot b= 1\]
-            </div>
-            <p>Antes de continuar reparemos en lo siguiente: el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
-            <p> ¿Querés ver como se resuelve?</p>
-            <!-- INICIO DEL BUTTON -->
-            <button onclick="botonSolucionMasMenos('sol6')">Ver más</button>
-            <div id="sol6" class="solution">
-                <p>Sea la ecuación: \( -3 \cdot b= 1 \); donde la incógnita es \( b \)</p>
+                <p>Vamos con el primer ejemplo; resolvamos la siguiente ecuación:</p>
                 <div class="math">
-                    <table>
+                        <table>
                         <tr>
-                            <td>La ecuación que deseamos resolver, incógnita \( b \); como decíamos más arriba: la incógnita está multiplicada por una constante negativa... oho con eso!!!</td>
-                            <td>\( \textcolor{red}{-3} \cdot b= 1 \)</td>
+                            <td>La ecuación que deseamos resolver, incógnita \(b\):</td>
+                            <td>\( 8 + b= 1 \)</td>
                         </tr>
                         <tr>
-                            <td>Para dejar sola la incógnita, detectamos que <i>nos molesta el factor que la multiplica</i>, que en este caso es <b>-3</b>. Como es un factor, multiplica a la incógnita, para <i>quitarlo del medio</b> deberíamos dividir (recordemos que el coiente de cantidades iguales, no nulas, es 1) ambos miembros por -3 (para que nos queda <i>una sola incógnita</i> y no -3 incógnitas como tenemos de momento):</td>
-                            <td>\( \frac{-3 \cdot b}{\textcolor{red}{-3}} = \frac{1}{\textcolor{red}{-3}} \)</td>
+                            <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 8</i>. De modo que deberíamos restar 8... pero si restamos en un miembro debemos hacerlo también en el otro (NOTEMOS QUE EMPLEAMOS OPERACIONES OPUESTAS o <i>inversas</i>); la inversa de la "suma" es la "resta", la inversa de la "multiplicación" es la "división"... en realidad hay algo más de todo esto, pero por ahora nos alcanza con estas ideas elementales):</td>
+                            <td>\( 8 + b \textcolor{red}{-8}= 1 \textcolor{red}{-8}\)</td>
                         </tr>
                         <tr>
-                            <td>Como ya dijimos: \( \frac{-3}{-3}=1  \) de modo que tenemos lo siguiente:</td>
-                            <td>\( b = -\frac{1}{3} \)</td>
+                            <td>\(8-8=0\) y además \(1-8=-7\), de modo que tendremos:</td>
+                            <td>\( b=-7 \)</td>
                         </tr>
-                    </table>
+                        </table>
+                    </div>
+                <p>¿Querés más ejemplos?</p>
+                <button onclick="botonSolucionMasMenos('sol3')">Ver más</button>
+                <div id="sol3" class="solution">
+                    <p>Sea la ecuación: \(  r-9=-2  \); donde la incógnita es \(r\)</p>
+                    <div class="math">
+                      <table>
+                        <tr>
+                            <td>La ecuación que deseamos resolver, incógnita \(r\):</td>
+                            <td>\( r-9=-2 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Deseamos dejar sola la incógnita, por lo tanto detectamos que <i>nos molesta el 9</i>. Lo novedoso aquí es que 9 resta... la forma de anularlo es sumando 9... pero si sumamos en un miembro debemos hacerlo también en el otro:</td>
+                            <td>\( r-9 \textcolor{red}{+9}= -2 \textcolor{red}{+9}\)</td>
+                        </tr>
+                        <tr>
+                            <td>Operando convenientemente tendremos que:</td>
+                            <td>\( r=7 \)</td>
+                        </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <!-- FINAL DEL BUTTON -->
-        </div>
 
-
-        <div class="ejercicios">
-            <h3>Casos MUY sencillos (segunda parte, más ejemplos)</h3>
-            <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de una miembro de una ecuación factores (elementos que mutiplican ¿o dividen?).</p>
-            <p> En este caso consideremos el sieguiente ejemplo </p>
-            <div class="math">
-                \[ -4 \cdot R = 22\]
-            </div>
-            <p>Como podemos observar en este caso, también el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
-            <p> ¿Querés ver como se resuelve?</p>
-            <!-- INCIO DEL BUTTON-->
-            <button onclick="botonSolucionMasMenos('sol7')">Ver más</button>
-            <div id="sol7" class="solution">
-                <p>Sea la ecuación: \( -4 \cdot R = 22 \); donde la incógnita es \( R \)</p>
+            <div class="ejercicios">
+                <h3>Casos muy simples \( 5 \cdot x= 20 \)</h3>
+                <p>Vamos a considerar ecuaciones del siguiente tipo:</p>
                 <div class="math">
-                    <table>
+                    \[ 5 \cdot x= 20\]
+                </div>
+                <p>Estos son casos en los cuales la incógnita está siendo multiplicada por algún factor constante (un número, no importa si es entero, racional, no interesa: hay alguna cantidad constante por la cual es multiplicada la incógnita de nuestra ecuación en uno de los miembros.</p>
+                <p>¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol4')">Ver más</button>
+                <div id="sol4" class="solution">
+                    <p>Sea la ecuación: \(  5 \cdot x = 20  \); donde la incógnita es \(x\)</p>
+                    <div class="math">
+                      <table>
                         <tr>
-                            <td>La ecuación que deseamos resolver, incógnita \( R \):</td>
-                            <td>\( -4 \cdot R = 22 \)</td>
+                            <td>La ecuación que deseamos resolver, incógnita \(x\):</td>
+                            <td>\( 5 \cdot x = 20 \)</td>
                         </tr>
                         <tr>
-                            <td>Para dejar sola la incógnita, detectamos que <i>nos molesta el -4</i>. Como está multiplicando, lo anulamos dividiendo ambos miembros por -4:</td>
-                            <td>\( \frac{-4 \cdot R}{\textcolor{red}{-4}} = \frac{22}{\textcolor{red}{-4}} \)</td>
+                            <td>Deseamos dejar sola la incógnita. Acá es importante realizar una aclaración... <i> dejar sola la incógnita</i> significa <b>tener una incógnita</b>. Es decir \(x\) es lo mismo que decir \( 1 \cdot x \). Por lo tanto necesitamos que ese \(5 \) que multiplica a nuestra \(x\) se convierta en un <b>1</b>. De modo que: <i>nos molesta el 5</i>; que está multiplicando a la incógnita de nuestra ecuación. Para convertirlo en 1 dividimos por 5... pero si dividimos un miembro debemos hacerlo también en el otro:</td>
+                            <td>\( \frac{5 \cdot x}{\textcolor{red}{5}} = \frac{20}{\textcolor{red}{5}}\)</td>
                         </tr>
                         <tr>
-                            <td>Simplificamos la fracción:</td>
-                            <td>\( R = -\frac{22}{4} = -\frac{11}{2} \)</td>
+                            <td>Operando convenientemente tendremos que:</td>
+                            <td>\( x=4 \)</td>
                         </tr>
-                        <tr>
-                            <td>Solución final:</td>
-                            <td>\( R = -5.5 \) o \( R = -\frac{11}{2} \)</td>
-                        </tr>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <!-- FINAL DEL BUTTON -->
+
+            <div class="ejercicios">
+                <h3>Casos muy simples \( -3 \cdot b= 1  \)</h3>
+                <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de un miembro de una ecuación factores (elementos que multiplican ¿o dividen?).</p>
+                <p> En este caso consideremos el siguiente ejemplo </p>
+                <div class="math">
+                    \[ -3 \cdot b= 1\]
+                </div>
+                <p>Antes de continuar reparemos en lo siguiente: el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
+                <p> ¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol6')">Ver más</button>
+                <div id="sol6" class="solution">
+                    <p>Sea la ecuación: \( -3 \cdot b= 1 \); donde la incógnita es \( b \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>La ecuación que deseamos resolver, incógnita \( b \); como decíamos más arriba: la incógnita está multiplicada por una constante negativa... ¡ojo con eso!!!</td>
+                                <td>\( \textcolor{red}{-3} \cdot b= 1 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Para dejar sola la incógnita, detectamos que <i>nos molesta el factor que la multiplica</i>, que en este caso es <b>-3</b>. Como es un factor, multiplica a la incógnita, para <i>quitarlo del medio</i> deberíamos dividir (recordemos que el cociente de cantidades iguales, no nulas, es 1) ambos miembros por -3 (para que nos quede <i>una sola incógnita</i> y no -3 incógnitas como tenemos de momento):</td>
+                                <td>\( \frac{-3 \cdot b}{\textcolor{red}{-3}} = \frac{1}{\textcolor{red}{-3}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Como ya dijimos: \( \frac{-3}{-3}=1  \) de modo que tenemos lo siguiente:</td>
+                                <td>\( b = -\frac{1}{3} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ejercicios">
+                <h3>Casos muy simples \( -4 \cdot R = 22 \)</h3>
+                <p>Vamos a continuar estudiando situaciones en las que necesitamos despejar, retirar, de un miembro de una ecuación factores (elementos que multiplican ¿o dividen?).</p>
+                <p> En este caso consideremos el siguiente ejemplo </p>
+                <div class="math">
+                    \[ -4 \cdot R = 22\]
+                </div>
+                <p>Como podemos observar en este caso, también el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
+                <p> ¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol7')">Ver más</button>
+                <div id="sol7" class="solution">
+                    <p>Sea la ecuación: \( -4 \cdot R = 22 \); donde la incógnita es \( R \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>La ecuación que deseamos resolver, incógnita \( R \):</td>
+                                <td>\( -4 \cdot R = 22 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Para dejar sola la incógnita, detectamos que <i>nos molesta el -4</i>. Como está multiplicando, lo anulamos dividiendo ambos miembros por -4:</td>
+                                <td>\( \frac{-4 \cdot R}{\textcolor{red}{-4}} = \frac{22}{\textcolor{red}{-4}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Simplificamos la fracción:</td>
+                                <td>\( R = -\frac{22}{4} = -\frac{11}{2} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Solución final:</td>
+                                <td>\( R = -5.5 \) o \( R = -\frac{11}{2} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="ejercicios">
+                <h3>Casos un poco más complejos: \(4 + 5 \cdot T = 2 + T\)</h3>
+                <p>Ya en este caso tenemos algunas variantes... de algún modo se empiezan a
+                     combinar situaciones</p>
+                <p> En este caso consideremos el siguiente ejemplo </p>
+                <div class="math">
+                    \[ 4 + 5 \cdot T = 2 + T\]
+                </div>
+                <p>Ahora las incógnitas de la ecuación (T) están presentes en ambos miembros de 
+                    la ecuación. Esto es un problema... de muy simple solución.</p>
+                <p> ¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol8')">Ver más</button>
+                <div id="sol8" class="solution">
+                    <p>Sea la ecuación: \( 4 + 5 \cdot T = 2 + T \); donde la incógnita es \( T \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación que deseamos resolver:</td>
+                                <td>\( 4 + 5 \cdot T = 2 + T \)</td>
+                            </tr>
+                            <tr>
+                                <td>Restamos \( T \) en ambos miembros para agrupar los términos con incógnita:</td>
+                                <td>\( 4 + 5 \cdot T \textcolor{red}{- T} = 2 + T \textcolor{red}{- T} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Realizamos las operaciones correspondientes:</td>
+                                <td>\( 4 + 4 \cdot T = 2 \)</td>
+                            </tr>
+                            <tr>
+                                <td>A partir de acá no hay novedades, ¿no?. 
+                                    Restamos 4 en ambos miembros de la ecuación para <i>empezar a dejar sola</i> 
+                                    la incógnita:</td>
+                                <td>\( 4 + 4 \cdot T \textcolor{red}{- 4} = 2 \textcolor{red}{- 4} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>\( 4 \cdot T = -2 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Dividimos ambos miembros por 4:</td>
+                                <td>\( \frac{4 \cdot T}{\textcolor{red}{4}} = \frac{-2}{\textcolor{red}{4}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Resultado final:</td>
+                                <td>\( T = -\frac{1}{2} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                 
+            </div>
+
+            <div class="ejercicios">
+                <h3>Casos un poco más complejos: \(1 - 7 \cdot x = 8 - 2 \cdot x\)</h3>
+                <p>Otra ecuación interesante donde las incógnitas están presentes en ambos miembros, 
+                    pero también hay constantes mezcladas. Esto se puede resolver, con prolijidad y teniendo 
+                    en cuenta las claves ya trabajadas.</p>
+                <p>Veamos cómo se puede resolver:</p>
+                <div class="math">
+                    \[ 1 - 7 \cdot x = 8 - 2 \cdot x \]
+                </div>
+                <p>La clave está en asegurarnos de que las incógnitas <i>solamente</i> estén presente
+                    en <i>uno de los miembros</i> de la ecuación.</p>
+                <p>¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol10')">Ver más</button>
+                <div id="sol10" class="solution">
+                    <p>Sea la ecuación: \( 1 - 7 \cdot x = 8 - 2 \cdot x \); donde la incógnita es \( x \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación que deseamos resolver:</td>
+                                <td>\( 1 - 7 \cdot x = 8 - 2 \cdot x \)</td>
+                            </tr>
+                            <tr>
+                                <td>Sumamos \( 2 \cdot x \) en ambos miembros para que todas las incógnitas queden a la izquierda:</td>
+                                <td>\( 1 - 7 \cdot x \textcolor{red}{+ 2 \cdot x} = 8 - 2 \cdot x \textcolor{red}{+ 2 \cdot x} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>\( 1 - 5 \cdot x = 8 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Restamos 1 en ambos miembros para empezar a dejar sola la parte con \( x \):</td>
+                                <td>\( 1 - 5 \cdot x \textcolor{red}{- 1} = 8 \textcolor{red}{- 1} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>\( -5 \cdot x = 7 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Dividimos ambos miembros por -5:</td>
+                                <td>\( \frac{-5 \cdot x}{\textcolor{red}{-5}} = \frac{7}{\textcolor{red}{-5}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Resultado final:</td>
+                                <td>\( x = -\frac{7}{5} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                 
+            </div>
+
+            <div class="ejercicios">
+                <h3>Casos que involucran la propiedad distributiva: \(1 + 3 \cdot (m - 1) = 12\)</h3>
+                <p>En este tipo de ecuaciones aparece una nueva situación: una expresión con paréntesis 
+                    (en la que se suman o restán miembros) multiplicada por alguna constante. 
+                    Esto nos lleva a aplicar una propiedad muy importante: la <b>propiedad distributiva</b>. 
+                    Podés leer más sobre ella en 
+                    <a href="https://es.wikipedia.org/wiki/Propiedad_distributiva" target="_blank">Wikipedia</a>.</p>
+                <p>Veamos cómo se puede resolver esta ecuación:</p>
+                <div class="math">
+                    \[ 1 + 3 \cdot (m - 1) = 12 \]
+                </div>
+                <p>La idea es aplicar la propiedad distributiva para ir simplificando la expresión
+                    , luego asociar (sumar/restar) en los términos que sea posible, y luego continuar
+                    del mismo modo en que ya hemos estado trabajando (despejando).</p>
+                <p>¿Querés ver cómo se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol11')">Ver más</button>
+                <div id="sol11" class="solution">
+                    <p>Sea la ecuación: \( 1 + 3 \cdot (m - 1) = 12 \); donde la incógnita es \( m \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación dada:</td>
+                                <td>\( 1 + 3 \cdot (m - 1) = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Aplicamos la <a href="https://es.wikipedia.org/wiki/Propiedad_distributiva" target="_blank">propiedad distributiva</a>: 
+                                    multiplicamos el 3 por cada término dentro del paréntesis... mucho
+                                    cuidado <i>con los signos</i>:</td>
+                                <td>
+                                    <div>\( 1 \textcolor{red}{+ 3 \cdot (m) + 3 \cdot (-1)} = 12 \)</div>
+                                    <div>\( 1 + 3 \cdot m - 3 = 12 \)</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Operamos en los términos <i>equivalentes</i> (realizamos las operaciones
+                                    que podemos realizar):</td>
+                                <td>\( -2 + 3 \cdot m = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Sumamos 2 en ambos miembros para <i>empezar a dejar sola la incógnita</i> \( m \):</td>
+                                <td>\( -2 + 3 \cdot m \textcolor{red}{+ 2} = 12 \textcolor{red}{+ 2} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>\( 3 \cdot m = 14 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Dividimos ambos miembros por 3:</td>
+                                <td>\( \frac{3 \cdot m}{\textcolor{red}{3}} = \frac{14}{\textcolor{red}{3}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Resultado final:</td>
+                                <td>\( m = \frac{14}{3} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                 
+            </div>
+
+
         </div>
-    </section>
+    </div>
 
     <footer>
-        <p>© 2025 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 2.2)</p>
+        <p>© 2023 Guía de Matemáticas - ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 3.0)</p>
     </footer>
 
     <script>
+        // Función para mostrar/ocultar secciones principales
+        function AbrirCerrarSeccion(id) {
+            const section = document.getElementById(id);
+            const button = event.currentTarget.querySelector('.toggle-section');
+            
+            if (section.style.display === "block") {
+                section.style.display = "none";
+                button.textContent = "Mostrar";
+            } else {
+                section.style.display = "block";
+                button.textContent = "Ocultar";
+            }
+        }
+
+        // Función para mostrar/ocultar soluciones
         function botonSolucionMasMenos(id) {
             const solution = document.getElementById(id);
             if (solution.style.display === "block") {
@@ -380,6 +603,45 @@
                 event.target.textContent = "Ver menos";
             }
         }
+
+        // Mostrar solo títulos de los ejercicios al cargar
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.ejercicios').forEach(ej => {
+                const hijos = Array.from(ej.children);
+                const h3 = hijos.find(el => el.tagName === "H3");
+
+                const contenedor = document.createElement("div");
+                contenedor.classList.add("contenido-ejercicio");
+
+                hijos.forEach(el => {
+                    if (el !== h3) contenedor.appendChild(el);
+                });
+
+                contenedor.style.display = "none";
+
+                const btn = document.createElement("button");
+                btn.classList.add("div-ejercicios");
+                btn.textContent = "Ver más";
+                btn.onclick = () => {
+                    const visible = contenedor.style.display === "block";
+                    contenedor.style.display = visible ? "none" : "block";
+                    btn.textContent = visible ? "Ver más" : "Ver menos";
+                };
+
+                ej.appendChild(btn);
+                ej.appendChild(contenedor);
+            });
+        });
+
+
+        // Ocultar todas las secciones al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.style.display = 'none';
+            });
+        });
+    
+    
     </script>
 </body>
 </html>
