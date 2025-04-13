@@ -155,6 +155,32 @@
             color: var(--dark);
             font-size: 0.9rem;
         }
+
+
+        .para-aclarar {
+            color: var(--primary);
+            text-decoration: underline dotted;
+            cursor: pointer;
+        }
+
+        .tooltip-aclaracion {
+            position: absolute;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 300px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+        }
+
+        .aclaraciones {
+            display: none;
+        }
+
+
     </style>
 </head>
 <body>
@@ -252,7 +278,7 @@
         </div>
     </div>
 
-    <div class="section"><!-- Resolución de una ecuaciones -->
+    <div class="section"><!-- Resolución de una ecuaciones algunos ejemplos -->
         <div class="section-header" onclick="AbrirCerrarSeccion('resolucion')">
             <h2>Resolución de una ecuación</h2>
             <button class="toggle-section">Mostrar</button>
@@ -320,7 +346,11 @@
                 <div class="math">
                     \[ 5 \cdot x= 20\]
                 </div>
-                <p>Estos son casos en los cuales la incógnita está siendo multiplicada por algún factor constante (un número, no importa si es entero, racional, no interesa: hay alguna cantidad constante por la cual es multiplicada la incógnita de nuestra ecuación en uno de los miembros.</p>
+                <p>Estos son casos en los cuales la incógnita está siendo multiplicada por algún <span class="para-aclarar" data-aclaracion="factor">factor</span>
+                    constante; se trata de un número, no importa si es entero, racional, no interesa:
+                     simplemente hay <i>alguna cantidad constante</i> por la cual es multiplicada la incógnita de 
+                     nuestra ecuación en uno de los miembros.
+                </p>
                 <p>¿Querés ver cómo se resuelve?</p>
                 <button onclick="botonSolucionMasMenos('sol4')">Ver más</button>
                 <div id="sol4" class="solution">
@@ -382,7 +412,8 @@
                 <div class="math">
                     \[ -4 \cdot R = 22\]
                 </div>
-                <p>Como podemos observar en este caso, también el <b>factor</b> que multiplica a la incógnita tiene signo <b>negativo</b></p>
+                <p>Como podemos observar en este caso, también el <span class="para-aclarar" data-aclaracion="factor">factor</span> 
+                    que multiplica a la incógnita tiene signo <b>negativo</b></p>
                 <p> ¿Querés ver cómo se resuelve?</p>
                 <button onclick="botonSolucionMasMenos('sol7')">Ver más</button>
                 <div id="sol7" class="solution">
@@ -409,6 +440,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="ejercicios">
                 <h3>Casos un poco más complejos: \(4 + 5 \cdot T = 2 + T\)</h3>
                 <p>Ya en este caso tenemos algunas variantes... de algún modo se empiezan a
@@ -569,6 +601,243 @@
                 </div>                 
             </div>
 
+            <div class="ejercicios">  <!-- ejempo con la incógnita en el denominador-->
+                <h3>Ejemplo simple, pero <i>extraño</i>: \( \frac{1}{m}=3 \)</h3>
+                <p>Tenemos que conversar un poco sobre esta ecuación.</p>
+                <div class="math">
+                    \[ \frac{1}{m}=3 \]
+                </div>
+                <p>
+                    La incógnita se encuentra como <i>divisor de 1</i>; es decir: la incónita de la ecuación, 
+                    \(m\), está dividiendo a 1.
+                </p>
+                <p>
+                    Esto es relativamente nuevo (por lo menos para nuestro repaso); hasta el momento la incógnita siempre
+                    era un <span class="para-aclarar" data-aclaracion="factor">factor</span> de alguna multiplicación ( \( 4 \cdot m \) ), o un término en la 
+                    ecuación (\( 3+m \) ó \( 5-m \) ). En fin: el problema es que, en este caso, nuestra incógnita esta
+                    ocupando el lugar del <i>denominador</i> de una fracción. Necesitamos <i>hacer algo</i> para vuelva
+                    a ocupar el numerador de la fracción... <i>lo voy a decir de un modo muy vulgar y poco riguroso, de modo 
+                        que espero no lo comenten 😎 <b>la incógnita está abajo y queremos que quede arriba</b>
+                    </i>
+                </p>
+                <p>
+                    Quiero que hagamos un ejercicio mental... pensemos en estos resultados:
+                </p>
+                <div class="math">
+                    <table style="border-style: none;">
+                        <tr><td>\( \frac{8}{8}=1 \)</td><td>\( \frac{-8}{-8}=1 \)</td></tr>
+                        <tr><td>\( \frac{30}{30}=1 \)</td><td>\( \frac{2.34}{2.34}=1 \)</td></tr>
+                        <tr><td>\( \frac{\sqrt{137}}{\sqrt{137}}=1 \)</td><td>\( \frac{m}{m}=1 \)🤔</td></tr>
+                    </table>
+                </div>
+                <p>
+                    En fin... dividiendo una cantidad, la que sea (🤔🤔 ¿la que sea? ¿cualquiera? 🤔🤔) por si misma, obtendremos 
+                    1 como resutlado...
+                </p>
+                <p>
+                    🤔 Pero será así??? esto será válido para cualquier número que elijamos? dividéndolo por si mismo
+                    obtendremos como resultado 1?
+                </p>
+                <p>
+                    💡💡💡 Probá con 0... probá <i><b>ahora mismo</b></i>, <i>antes de continuar con la lectura</i>,
+                    agarrá tu calculadora y probá dividir \(\frac{0}{0}\), ¿a ver qué ocurre?.
+                </p>
+                <div class="math">
+                    <p>Si te tomaste el trabajo de verificar esa operación descubriste que no.. que no siempre que
+                        dividamos a un número por si mismo obtendremos 1 como resultado... esto ocurrirá siempre, <b>excepto</b>
+                        cuando lo hagamos con 0.
+                    </p>
+                    <p>
+                        En matemática decimos que <b><i>la división por 0 no está definida</i></b>; siempre que dividamos un número (no nulo)
+                        por si mismo obtendremos 1 como resutlado. Esto lo escribimos del siguiente modo:
+                    </p>
+                    \[
+                    a \in \mathbb{R}, a \neq 0 \longrightarrow \frac{a}{a}=1
+                    \]
+                </div>
+                <p><i>Si te quedaste con alguna curiosidad sobre esta situación, si tenés ganas de saber ¿por qué motivo? 
+                0 dividido 0 no se puede calcular... Si es así te dejo este
+                <a href="https://youtu.be/zpLr0u0yKPI?si=sY_WBLSDcKvGweLm" target="_blank">video</a>; 
+                tiene una explicación muy copada!</i></p>
+                <p>
+                    Resumiendo: siempre que <i>estemos seguros/as</i> de que \(m\neq 0\) podremos afirmar que \(\frac{m}{m}=1\). 
+                    Esto nos será muy últil... recordemos nuestra ecuación: 
+                </p>
+                <div class="math">
+                    \[\frac{1}{m}=3\]
+                    <p>Por ahora no haremos nada nuevo. Vamos a aplicar una operación en ambos miembros de la ecuación. ¿qué
+                         operación?.... multiplicamos por m en cada miembro:
+                    </p>
+                    \[
+                        \frac{1}{m} \textcolor{red}{\cdot m} =3 \textcolor{red}{\cdot m}
+                    \]
+                    <p>
+                        Ahora si... tenemos que ser precabidos/as. Vamos a <b>suponer</b> que \(m \neq 0 \). 
+                        Esto es muy importante y tiene que ver con todo lo que estuvimos <i>charlando</i>. 
+                        <span class="para-aclarar" data-aclaracion="simplificar-las-m">Nos interesa simplificar "las m"</span>
+                        que encontramos en primer miembro de la ecuación... pero como ya dijimos varias
+                        veces... solo podemos dividir m con m si m no es 0. 
+                        <i>nos acomodamos para poder dividir!!!!!</i>
+                    </p>
+                    <p>
+                        Como <i>sabemos/suponemos</i> que \(m \neq 0 \) podemos hacer lo siguiente:
+                    </p>
+                    \[
+                        \frac{1}{\cancel{m}} \cancel{\textcolor{red}{\cdot m}} =3 \textcolor{red}{\cdot m}
+                    \]
+                    \[
+                        1= 3 \cdot m
+                    \]
+                    <p>
+                        Hemos dado un GRAN paso.... como podemos observar la incógnita de nuestra ecuación ahora <i>no divide a nadie</i>
+                        , sino que más bien <i>está siendo multiplicada por 3</i>; con lo cual nuestro problema ahora (mucho más simple, y
+                        conocido) es <i>sacarnos de encima ese 3 que multiplica... y ya todos y todas sabemos como hacerlo:</i>
+                    </p>
+                    \[
+                        \frac{1}{\textcolor{red}{3}}= \frac{3 \cdot m}{\textcolor{red}{3}}
+                    \]
+                    \[
+                        \frac{1}{\textcolor{red}{3}}= \frac{\cancel{3} \cdot m}{\cancel{\textcolor{red}{3}}}
+                    \]
+                    \[
+                        \frac{1}{{3}}= m
+                    \]
+                </div>
+                <p>
+                    La verdad que esta ecuación se hizo muy larga de resolver, pero esto pasó porque nos hemos tomado
+                    el tiempo de conversar y explicar un montón de <i>por qués</i>.
+                </p>
+                <p>Te propongo que resolvamos otra:</p>
+                <button onclick="botonSolucionMasMenos('sol12')">Ver más</button>
+                <div id="sol12" class="solution">
+                    <p>Sea la ecuación: \( \frac{2}{1+m}=4 \); donde la incógnita es \( m \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación dada:</td>
+                                <td>\( \frac{2}{1+m}=4 \)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        En este caso, también nuestra incógnita es parte de un <i>dnominador</i>. Necesitamos
+                                        <i>hacerla <b>emerger</b></i>... que no sea más un denominador, sino el numerador de una
+                                        expresión.
+                                    </div>
+                                    <div>
+                                        Para ello debemos multiplicar, ambos miembros de la ecuación, por el denominador que desamos "eliminar"...
+                                        pero con mucho cuidado!!!! Multiplicamos ambos miembros por: \(1+m\)
+                                    </div>
+                                </td>
+                                <td>
+                                    \( \frac{2}{1+m} \textcolor{red}{\cdot (1+m)}=4 \textcolor{red}{\cdot (1+m)}\)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Suponiendo que \(1+m \neq 0\) podemos afirmar que la división: \(\frac{1+m}{1+m} =1\)
+                                </td>
+                                <td>
+                                    <div>
+                                        \( \frac{2}{\cancel{1+m}} \cancel{\textcolor{red}{\cdot (1+m)}}=4 \textcolor{red}{\cdot (1+m)}\)
+                                    </div>
+                                    <div>
+                                        \( 2=4 \cdot (1+m) \)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tenemos dos caminos... (1) aplicamos la 
+                                    <span class="para-aclarar" data-aclaracion="aplica-distributiva-01">propiedad distributiva</span>; 
+                                    (2) dividimos ambos miembros de la ecuación por 4... es lo que haremos (y simplificamos):
+                                </td>
+                                <td>
+                                    <div>
+                                        \( \frac{2}{\textcolor{red}{4}}=\frac{4 \cdot (1+m)}{\textcolor{red}{4}} \)
+                                    </div>
+                                    <div>
+                                        \( \frac{\cancel{2}}{\textcolor{red}{\cancel{4}}}=\frac{\cancel{4} \cdot (1+m)}{\textcolor{red}{\cancel{4}}} \)
+                                    </div>
+                                    <div>
+                                        \( \frac{1}{2}=1+m \)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Ahora restámos 1 en cada miembro de la ecuación:</td>
+                                <td>
+                                    <div>
+                                        \( \frac{1}{2} \textcolor{red}{-1}=1+m \textcolor{red}{-1}\)
+                                    </div>
+                                    <div>
+                                        \( \frac{1}{2} \textcolor{red}{-1} =\cancel{1}+m \cancel{\textcolor{red}{-1}}\)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Obteniendo finalmente:</td>
+                                <td>
+                                    \( -\frac{1}{2}=m     \)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                 
+            </div>
+            <!---->
+            <div class="ejercicios">  <!-- ejempo con la incógnita en el denominador-->
+                <h3>Ejemplo complejo <i>extraño</i>: \( \frac{3}{2-5 \cdot x}=3 \)</h3>
+                <p>... ¿queres ver como se resuelve?</p>
+                <button onclick="botonSolucionMasMenos('sol13')">Ver más</button>
+                <!-- -->
+                <div id="sol13" class="solution">
+                    <p>Sea la ecuación: \( \frac{3}{2 - 5x} = 3 \); donde la incógnita es \( x \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación dada:</td>
+                                <td>\( \frac{3}{2 - 5x} = 3 \)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    En esta ecuación, la incógnita aparece en el <span class="para-aclarar" data-aclaracion="denominador">denominador</span>. Queremos que deje de estar "abajo", así que vamos a <i>multiplicar ambos miembros</i> de la ecuación por \(2 - 5x\).
+                                </td>
+                                <td>
+                                    \( \frac{3}{2 - 5x} \cdot (2 - 5x) = 3 \cdot (2 - 5x) \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>El producto del numerador con el mismo denominador da 1:</td>
+                                <td>
+                                    \( 3 = 3 \cdot (2 - 5x) \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dividimos ambos miembros por 3 para simplificar:</td>
+                                <td>
+                                    \( \frac{3}{\textcolor{red}{3}} = \frac{3 \cdot (2 - 5x)}{\textcolor{red}{3}} \Rightarrow 1 = 2 - 5x \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Restamos 2 en ambos miembros:</td>
+                                <td>
+                                    \( 1 \textcolor{red}{-2} = 2 - 5x \textcolor{red}{-2} \Rightarrow -1 = -5x \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Dividimos ambos miembros por -5 para despejar \(x\):</td>
+                                <td>
+                                    \( \frac{-1}{\textcolor{red}{-5}} = \frac{-5x}{\textcolor{red}{-5}} \Rightarrow x = \frac{1}{5} \)
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <!---->                 
+            </div>
+            <!---->
         </div>
     </div>
 
@@ -583,10 +852,30 @@
     </div>
     <footer>
         <p>
-            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 3.0).
-            <a href="mailto:nicolasrosbaco@ejemplo.com" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
+            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 6.0 - 13/04/25).
+            <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
         </p>
     </footer>
+    <!-- ACÁ EMPIEZA EL DICCIONARIO DE ACLARACIONES -->
+   
+    <div class="aclaraciones" data-id="factor">En matemáticas, los factores de una multiplicación son los números que se multiplican entre sí. 
+        El resultado de la multiplicación se llama producto
+    </div>
+    <div class="aclaraciones" data-id="simplificar-las-m">
+        Del mismo modo en que simplificamos 4 dividido 4, sabiendo que nos da 1
+    </div>
+
+    <div class="aclaraciones" data-id="aplica-distributiva-01">
+        4.(1+m)=4.1+4.m=4+4m
+    </div>
+
+    <div class="aclaraciones" data-id="denominador">En una fracción, el número que aparece debajo de la línea de división. 
+        Indica en cuántas partes se divide el todo. En este caso el denominador cuenta con dos términos: 2-5x; uno de estos
+        términos posee la incógnita.
+    </div>
+
+
+    <!-- ACÁ TERMINA EL DICCIONARIO DE ACLARACIONES -->
 
     <script>
         // Función para mostrar/ocultar secciones principales
@@ -651,7 +940,44 @@
                 section.style.display = 'none';
             });
         });
-    
+        
+        // estas son las funciones que generan las ventanas emergentes aclarando.
+        document.addEventListener('DOMContentLoaded', function () {
+            const aclaraciones = {};
+            document.querySelectorAll('.aclaraciones').forEach(div => {
+                const id = div.dataset.id;
+                aclaraciones[id] = div.innerHTML;
+            });
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip-aclaracion';
+            document.body.appendChild(tooltip);
+
+            document.querySelectorAll('.para-aclarar').forEach(el => {
+                el.addEventListener('mouseenter', (e) => {
+                    const clave = el.dataset.aclaracion;
+                    tooltip.innerHTML = aclaraciones[clave] || '⚠️ Definición no encontrada';
+                    tooltip.style.display = 'block';
+                    const rect = el.getBoundingClientRect();
+                    tooltip.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                    tooltip.style.left = (rect.left + window.scrollX) + 'px';
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tooltip.style.display = (tooltip.style.display === 'block') ? 'none' : 'block';
+                });
+            });
+
+            document.addEventListener('click', () => {
+                tooltip.style.display = 'none';
+            });
+        });
+
     
     </script>
 </body>
