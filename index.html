@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+    <!-- Declaración de principios: Milei, basura, vos sos la dictadura -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -180,20 +181,55 @@
             display: none;
         }
 
+        div.introduccion{
+            background-color: #ffffff;
+            //color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
     </style>
 </head>
 <body>
     <h1>Ecuaciones lineales con una incógnita</h1>
-
-    <div class="section"><!-- definiciones-->
+    <div class="introduccion">
+        <p>
+            Esta página es un resumen del trabajo con ecuaciones lineales en una incógnita. El próposito de la misma es
+            que sirva como una referencia para realizar consultas.
+        </p>
+        <p>
+            Esta destinada a estudiantes de la escuela secundaria. Por lo tanto las explicaciones están, a mi criterio, orientadas,
+            <i>ajustadas</i> a los alcances de los programas de estudio de la escuela secundaria rionegrina.
+        </p>
+        <p>
+            <b><i>IMPORTANTE:</i></b> los números NO pasan de un lado al otro, tampoco <i>lo que está haciendo una cosa <b>pasa</b>  haciendo otra</i>.
+        </p>
+        <p>
+            Con la lectura y análisis de este <i>documento</i> vas a poder ver que: quien <i>capitanea</i> el proceso de resolución 
+            de la ecuación sos vos. <b>Vos sos quien</b> realizando operaciones matemáticas <i>válidas</i>, conservando la igualdad, vas
+            a ir <i>dejando sola</i> (despejando) a la incógnita de la ecuación.
+        </p>
+        <p>
+            En esta página vas a encontrar definiciones importantes (para entender que es una ecuación y que cosa NO es una ecuación), además
+            un montón de ejemplos (desde los más simples a los más complejos) para poder enfrentar luego, las ecuaciones (lineales) que necesites.
+        </p>
+        <p>
+            Este material está organizado en secciones y podes ir desplegando cada una de ellas para leer de una forma más organizada.
+        </p>
+    </div>
+    <div class="section"><!-- definiciones importantes-->
         <div class="section-header" onclick="AbrirCerrarSeccion('definicion')">
             <h2>Definiciones importantes</h2>
             <button class="toggle-section">Mostrar</button>
         </div>
         <div id="definicion" class="section-content">
-            <div class="ejercicios">
-                <h3>Ecuaciones Lineales</h3>
+            <div class="ejercicios"> <!-- definición de ecuación -->
+                <h3>¿Qué es una Ecuación?</h3> 
                 <p>Daremos la siguiente <b>definición de Ecuación</b>: identidad (esto refiere a dos expresiones <i>igualadas</i>) que contiene algún o algunos elemento/s desconocidos. A ese elemento desconocido lo denominaremos como: <b>incógnita de la ecuación</b>.</p>
                 <div class="math">
                     \[ 4 \cdot  m+6=9 \]
@@ -224,8 +260,46 @@
                 </div>
             </div>
 
-            <div class="ejercicios">
-                <h3>Soluciones de una ecuación</h3>
+            <div class="ejercicios"> <!-- definición de ecuación LINEAL-->
+                <h3>¿Qué es una Ecuación LINEAL?</h3> 
+                <p>Ya definimos que era una ecuación; pero el título de la página dice <b>Ecuaciones Lineales</b>
+                    ¿a qué se refiere ese adjetivo <i>LINEAL</i>?
+                </p>
+                <p>
+                    Una ecuación lineal es una ecuación en la que cada variable (podrías haber más de una;
+                    sin embargo en este material solo consideramos el caso de ecuaciones con UNA sola
+                    incógnita) tiene un exponente=1
+                </p>
+                <p>
+                    La forma general de una ecuación lineal será:
+                </p>
+                <div class="math">
+                    <!-- Polinómica de primer grado -->
+                    \[ a \cdot x + b = c \]
+                    <p>
+                        En donde:
+                    </p>
+                    <ul>
+                        <li> \( a \in \mathbb{R} \): significa que a es un número real. </li>
+                        <li> \( b \in \mathbb{R} \): significa que b es un número real. </li>
+                        <li> \( c \in \mathbb{R} \): significa que c es un número real. </li>  
+                        <li> \( x \): es la incógnita y no está determinado su valor. Podemos emplear
+                            cualquier letra para identifacarla.</li>
+                    </ul>
+                </div>
+                <p>
+                    A lo largo de este material abordaremos varios ejemplos, y analizaremos el caso de un tipo de ecuaciones que, 
+                    estrictamente no sería lineal \( \frac{a}{x}=b \). Si bien no cumple con la premisa de ser una ecuación lineal, 
+                    a este tipo las llamamos ecuacinoes racionales, haremos alguna trampa para convertirla en una ecuación lineal.
+                </p>
+                <p>
+                    Más adelante en tus estudios, vas a poder profundizar, tal vez, en este tipo de diferencias. Por ahora NO NOS IMPORTA... 
+                    solamente queremos resolver ecuaciones!!! 😂
+                </p>
+            </div>
+
+            <div class="ejercicios"> <!-- definición de SOLUCIÓN de una ecuación -->
+                <h3>¿Qué es una solución de una ecuación?</h3>
                 <p>Ya entendimos <i>qué es una ecuación</i> (y qué cosa NO es una ecuación). Ahora te propongo que avancemos en una idea súper importante.</p>
                 <p>Una solución de una ecuación es el (o los) valor(es) que puede tomar la incógnita para "devolver" una identidad verdadera. Es decir... si cambiamos (sustituimos) la incógnita de la ecuación por el valor que <i>suponemos</i> solución de la misma, deberíamos obtener una identidad verdadera.</p>
                 <p><i>AVISO (disclaimer): No nos vamos a enfocar aún en <b>cómo</b> obtener soluciones, solamente quiero que pensemos en <i>qué es una solución</i> de una ecuación.</i></p>
@@ -608,6 +682,10 @@
                     \[ \frac{1}{m}=3 \]
                 </div>
                 <p>
+                    En su momento ya se dijo que: <i>esta ecuación NO es LINEAL</i>... no obstante lo cual realizaremos
+                    un trabajo tendiente a su resolución.
+                </p>
+                <p>
                     La incógnita se encuentra como <i>divisor de 1</i>; es decir: la incónita de la ecuación, 
                     \(m\), está dividiendo a 1.
                 </p>
@@ -685,9 +763,11 @@
                     \[
                         \frac{1}{\cancel{m}} \cancel{\textcolor{red}{\cdot m}} =3 \textcolor{red}{\cdot m}
                     \]
-                    \[
-                        1= 3 \cdot m
-                    \]
+                    <span class="para-aclarar" data-aclaracion="ahora-es-lineal">
+                        \[
+                            1=3 \cdot m
+                        \]
+                    </span>
                     <p>
                         Hemos dado un GRAN paso.... como podemos observar la incógnita de nuestra ecuación ahora <i>no divide a nadie</i>
                         , sino que más bien <i>está siendo multiplicada por 3</i>; con lo cual nuestro problema ahora (mucho más simple, y
@@ -787,34 +867,60 @@
             </div>
             <!---->
             <div class="ejercicios">  <!-- ejempo con la incógnita en el denominador-->
-                <h3>Ejemplo complejo <i>extraño</i>: \( \frac{3}{2-5 \cdot x}=3 \)</h3>
-                <p>... ¿queres ver como se resuelve?</p>
+                <h3>Ejemplo un poco más complejo: \( \frac{3}{2-5 \cdot x}=3 \)</h3>
+                <p>Ya en este caso pondremos en juego todas las estrategias que hemos venido practicando.</p>
+                <p>Deberíamos ocuparnos, inicialmente, del denominador de la fracción; ya que observamos que contiene la incógnita.</p>
                 <button onclick="botonSolucionMasMenos('sol13')">Ver más</button>
                 <!-- -->
                 <div id="sol13" class="solution">
-                    <p>Sea la ecuación: \( \frac{3}{2 - 5x} = 3 \); donde la incógnita es \( x \)</p>
+                    <p>Sea la ecuación: \( \frac{3}{2 - 5 \cdot x} = 3 \); donde la incógnita es \( x \)</p>
                     <div class="math">
                         <table>
                             <tr>
                                 <td>Partimos de la ecuación dada:</td>
-                                <td>\( \frac{3}{2 - 5x} = 3 \)</td>
+                                <td>\( \frac{3}{2 - 5 \cdot x} = 3 \)</td>
                             </tr>
                             <tr>
                                 <td>
-                                    En esta ecuación, la incógnita aparece en el <span class="para-aclarar" data-aclaracion="denominador">denominador</span>. Queremos que deje de estar "abajo", así que vamos a <i>multiplicar ambos miembros</i> de la ecuación por \(2 - 5x\).
+                                    En esta ecuación, la incógnita aparece en el <span class="para-aclarar" data-aclaracion="denominador">denominador</span>. 
+                                    Queremos que deje de estar "abajo", así que (como primera medida) vamos a <i>multiplicar ambos miembros</i> 
+                                    de la ecuación por \(2 - 5 \cdot x\).
                                 </td>
                                 <td>
-                                    \( \frac{3}{2 - 5x} \cdot (2 - 5x) = 3 \cdot (2 - 5x) \)
+                                    \( \frac{3}{2 - 5 \cdot x} \textcolor{red}{\cdot (2 - 5 \cdot x)} = 3 \textcolor{red}{\cdot (2 - 5 \cdot x)} \)
                                 </td>
                             </tr>
                             <tr>
-                                <td>El producto del numerador con el mismo denominador da 1:</td>
+                                <td>
+                                    <p>
+                                        Ahora, teniendo en cuenta que 
+                                        <span class="para-aclarar" data-aclaracion="precuacion-denominador-no-nulo">\( 2 - 5 \cdot x \neq 0 \)</span> 
+                                        procedemos a simplificar.
+                                    </p>
+                                    <p>
+                                        Como asumimos que \( 2 - 5 \cdot x \neq 0 \rightarrow \frac{2 - 5 \cdot x}{2 - 5 \cdot x}=1 \)
+                                    </p>
+                                </td>
+                                <td>
+                                    \( \frac{3}{\cancel{2 - 5 \cdot x}} \cancel{\textcolor{red}{\cdot (2 - 5 \cdot x)}} = 3 {\textcolor{red}{\cdot (2 - 5x)}} \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nos quedaría lo siguiente</td>
                                 <td>
                                     \( 3 = 3 \cdot (2 - 5x) \)
                                 </td>
                             </tr>
                             <tr>
-                                <td>Dividimos ambos miembros por 3 para simplificar:</td>
+                                <td>
+                                    <p>
+                                        Dividimos ambos miembros por 3 para simplificar:
+                                    </p>
+                                    <p>
+                                        Podríamos simplemente cancelar de este modo: 
+                                        \( \cancel{3} = \cancel{3} \cdot (2 - 5 \cdot x) \rightarrow 1= 2-5 \cdot x \)
+                                    </p>
+                                </td>
                                 <td>
                                     \( \frac{3}{\textcolor{red}{3}} = \frac{3 \cdot (2 - 5x)}{\textcolor{red}{3}} \Rightarrow 1 = 2 - 5x \)
                                 </td>
@@ -822,13 +928,13 @@
                             <tr>
                                 <td>Restamos 2 en ambos miembros:</td>
                                 <td>
-                                    \( 1 \textcolor{red}{-2} = 2 - 5x \textcolor{red}{-2} \Rightarrow -1 = -5x \)
+                                    \( 1 \textcolor{red}{-2} = 2 - 5 \cdot x \textcolor{red}{-2} \Rightarrow -1 = -5 \cdot x \)
                                 </td>
                             </tr>
                             <tr>
                                 <td>Dividimos ambos miembros por -5 para despejar \(x\):</td>
                                 <td>
-                                    \( \frac{-1}{\textcolor{red}{-5}} = \frac{-5x}{\textcolor{red}{-5}} \Rightarrow x = \frac{1}{5} \)
+                                    \( \frac{-1}{\textcolor{red}{-5}} = \frac{-5 \cdot x}{\textcolor{red}{-5}} \Rightarrow x = \frac{1}{5} \)
                                 </td>
                             </tr>
                         </table>
@@ -843,37 +949,56 @@
 
     <div class="disclaimer" style="background-color: rgb(208, 208, 224); padding: 10px; border-left: 4px solid #ffc107; margin: 15px 0;">
         <p>
-            <strong>📢 Disclaimer:</strong> 
-            Este contenido es un repaso de ecuaciones para estudiantes de 3er año. Ideal para refrescar conceptos elementales 💡💡💡.-
-        </p>
-        <p>
-            Si te gusta compartilo, sino... seguí de largo 😀😀😀
+            <span class="para-aclarar" data-aclaracion="te-pido-un-favor">Te pido un favor</span>: 
+            si encontraste algún error (de lo que sea: de ortografía, matemático, etc.), 
+            por favor, <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">mandame un mail</a> y me avisas.
         </p>
     </div>
     <footer>
         <p>
-            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 6.0 - 13/04/25).
+            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 7.0 - 13/04/25).
             <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
         </p>
     </footer>
-    <!-- ACÁ EMPIEZA EL DICCIONARIO DE ACLARACIONES -->
+    <!-- ACÁ EMPIEZA EL DICCIONARIO DE ACLARACIONES 
+        están todos ocultos, funcionan como repositorio de significados ¿diccionario? -->
    
-    <div class="aclaraciones" data-id="factor">En matemáticas, los factores de una multiplicación son los números que se multiplican entre sí. 
-        El resultado de la multiplicación se llama producto
-    </div>
-    <div class="aclaraciones" data-id="simplificar-las-m">
-        Del mismo modo en que simplificamos 4 dividido 4, sabiendo que nos da 1
-    </div>
+        <div class="aclaraciones" data-id="factor">En matemáticas, los factores de una multiplicación son los números que se multiplican entre sí. 
+            El resultado de la multiplicación se llama producto
+        </div>
+        <div class="aclaraciones" data-id="simplificar-las-m">
+            Del mismo modo en que simplificamos 4 dividido 4, sabiendo que nos da 1
+        </div>
 
-    <div class="aclaraciones" data-id="aplica-distributiva-01">
-        4.(1+m)=4.1+4.m=4+4m
-    </div>
+        <div class="aclaraciones" data-id="aplica-distributiva-01">
+            4.(1+m)=4.1+4.m=4+4m
+        </div>
 
-    <div class="aclaraciones" data-id="denominador">En una fracción, el número que aparece debajo de la línea de división. 
-        Indica en cuántas partes se divide el todo. En este caso el denominador cuenta con dos términos: 2-5x; uno de estos
-        términos posee la incógnita.
-    </div>
+        <div class="aclaraciones" data-id="denominador">En una fracción, el número que aparece debajo de la línea de división. 
+            Indica en cuántas partes se divide el todo. En este caso el denominador cuenta con dos términos: 2-5x; uno de estos
+            términos posee la incógnita.
+        </div>
 
+        <div class="aclaraciones" data-id="precuacion-denominador-no-nulo">
+            Este tema es fundamental, sobre todo a esta altura del partido: necesitamos
+            que la cantidad sea NO nula, porque solo de ese modo podemos garantizar
+            que el cociente por si misma sea 1 (por eso podemos cancelar/simplificar).
+        </div>
+
+        <div class="aclaraciones" data-id="te-pido-un-favor">
+            trancu... no te voy a pedir guita 😂😂
+        </div>
+
+        <div class="aclaraciones" data-id="ahora-es-lineal">
+            Fijate vos que interesante; la ecuación AHORA SI es lineal. Es decir: haciendo lo que hicimos 
+            convertimos esa ecuación que NO era lineal, en una ecuación LINEAL (más adelante, si seguis 
+            tus estudios de matemática, esto tendrá un nombre: ecuaciones equivalentes)
+        </div>
+        
+        <div class="aclaraciones" data-id="xxxxxxxxxx">
+            Significa que "algo_mas" pertenece al conjunto de núemros reales; es decir: es un número real.
+            Por lo tanto: "algo:mas" debe ser un número real, una constante.
+        </div>
 
     <!-- ACÁ TERMINA EL DICCIONARIO DE ACLARACIONES -->
 
