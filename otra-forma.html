@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+    <!-- Declaración de principios: Milei, basura, vos sos la dictadura -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecuaciones: repaso</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #6a5acd;
+            --secondary: #ff7f50;
+            --accent: #20b2aa;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5ff;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: var(--secondary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 5px;
+            margin: 0;
+        }
+
+        .toggle-section {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-section:hover {
+            background-color: #5a4acd;
+        }
+
+        .section-content {
+            //display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .div-ejercicios {
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .div-ejercicios:hover {
+            background-color: #d0522b;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .ejercicios {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ejercicios:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .solution {
+            display: none;
+            background-color: var(--light);
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid var(--accent);
+            border-radius: 0 5px 5px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5a4acd;
+        }
+
+        .math {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            overflow-x: auto;
+            text-align: left;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+
+        .para-aclarar {
+            color: var(--primary);
+            text-decoration: underline dotted;
+            cursor: pointer;
+        }
+
+        .tooltip-aclaracion {
+            position: absolute;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid var(--accent);
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 300px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            display: none;
+        }
+
+        .aclaraciones {
+            display: none;
+        }
+
+        div.introduccion{
+            background-color: #ffffff;
+            //color: white;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Resoluciones Alternativas de Ecuaciones</h1>
+    <div class="introduccion">
+        <p>
+            En esta página vamos a proponer formas alternativas de resolver ecuaciones. Si estas acá probablemente venis desde 
+            la <a href="./index.html" target="_blank">página principal</a>.
+        </p>
+    </div>
+    
+
+    <div class="section"><!-- Casos -->
+        <div class="section-header" onclick="AbrirCerrarSeccion('resolucion')">
+            <h2>Ejemplos</h2>
+        </div>
+        <div id="resolucion" class="section-content"> 
+
+            <div class="ejercicios" id="eq-01"> <!-- 1 + 3 \cdot (m - 1) = 12  -->
+                <h3>Primer Ejemplo: \(1 + 3 \cdot (m - 1) = 12\)</h3>
+                <p>
+                    Cuando analizamos este ejemplo habíamos hecho lo siguiente:
+                </p>
+                <div class="math">
+                    <table>
+                        <tr>
+                            <td>Partimos de la ecuación dada:</td>
+                            <td>\( 1 + 3 \cdot (m - 1) = 12 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Aplicamos la <a href="https://es.wikipedia.org/wiki/Propiedad_distributiva" target="_blank">propiedad distributiva</a>: 
+                                multiplicamos el 3 por cada término dentro del paréntesis... mucho
+                                cuidado <i>con los signos</i>:</td>
+                            <td>
+                                <div>\( 1 \textcolor{red}{+ 3 \cdot (m) + 3 \cdot (-1)} = 12 \)</div>
+                                <div>\( 1 + 3 \cdot m - 3 = 12 \)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Operamos en los términos <i>equivalentes</i> (realizamos las operaciones
+                                que podemos realizar):</td>
+                            <td>\( -2 + 3 \cdot m = 12 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Sumamos 2 en ambos miembros para <i>empezar a dejar sola la incógnita</i> \( m \):</td>
+                            <td>\( -2 + 3 \cdot m \textcolor{red}{+ 2} = 12 \textcolor{red}{+ 2} \)</td>
+                        </tr>
+                        <tr>
+                            <td>Operamos:</td>
+                            <td>\( 3 \cdot m = 14 \)</td>
+                        </tr>
+                        <tr>
+                            <td>Dividimos ambos miembros por 3:</td>
+                            <td>\( \frac{3 \cdot m}{\textcolor{red}{3}} = \frac{14}{\textcolor{red}{3}} \)</td>
+                        </tr>
+                        <tr>
+                            <td>Resultado final:</td>
+                            <td>\( m = \frac{14}{3} \)</td>
+                        </tr>
+                    </table>
+                </div>
+                <p>
+                    Te voy a proponer ahora que lo pensemos de un modo diferente. <b><i>Ni mejor, ni peor</i></b>, simplemente
+                    diferente. Evitaremos aplicar la propiedad distributiva.
+                </p>
+                <p>¿Querés ver más?</p>
+                <button onclick="botonSolucionMasMenos('sol11')">Ver más</button>
+                <div id="sol11" class="solution">
+                    <p>Sea la ecuación: \( 1 + 3 \cdot (m - 1) = 12 \); donde la incógnita es \( m \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación dada:</td>
+                                <td>\( 1 + 3 \cdot (m - 1) = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Queremos <span class="para-aclarar" data-aclaracion="aislar-despejar">aislar</span> 
+                                    el término que contiene la incógnita. Para eso, primero restamos 1 en ambos miembros:</td>
+                                <td>
+                                    <p>
+                                        \( 1 + 3 \cdot (m - 1) \textcolor{red}{-1} = 12 \textcolor{red}{-1} \)
+                                    </p>
+                                    <p>
+                                        \( \cancel{1} + 3 \cdot (m - 1) \cancel{\textcolor{red}{-1}} = 12 \textcolor{red}{-1} \)
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Operamos ambos lados:</td>
+                                <td>\( 3 \cdot (m - 1) = 11 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Ahora dividimos ambos miembros de la ecuación por 3 para "liberar" el paréntesis:</td>
+                                <td>
+                                    <p>
+                                        \( \frac{3 \cdot (m - 1)}{\textcolor{red}{3}} = \frac{11}{\textcolor{red}{3}} \)
+                                    </p>
+                                    <p>
+                                        \( \frac{\cancel{3} \cdot (m - 1)}{\cancel{\textcolor{red}{3}}} = \frac{11}{\textcolor{red}{3}} \)
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>\( m - 1 = \frac{11}{3} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Sumamos 1 en ambos miembros para despejar la incógnita:</td>
+                                <td>
+                                    <p>
+                                        \( m - 1 \textcolor{red}{+1}= \frac{11}{3} \textcolor{red}{+1}\)
+                                    </p>
+                                    <p>
+                                        \( m \cancel{- 1} \cancel{\textcolor{red}{+1}}= \frac{11}{3} \textcolor{red}{+1}\)
+                                    </p>
+                                    <p>
+                                        \( m = \frac{11}{3} +1\)
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Por si no recordas como sumar las fracciones (igual, si queres, podes usas calculadora).
+                                    Una posibilidad, bastante simple, es escribir el 1 como fracción (con denominador
+                                    3) y realizamos las operaciones:</td>
+                                <td>\( m = \frac{11}{3} + \frac{3}{3} = \frac{14}{3} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Resultado final:</td>
+                                <td>\( m = \frac{14}{3} \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>                                 
+            </div> <!-- 1 + 3 \cdot (m - 1) = 12  -->
+
+        </div>
+    </div>
+
+    <div class="disclaimer" style="background-color: rgb(208, 208, 224); padding: 10px; border-left: 4px solid #ffc107; margin: 15px 0;">
+        <p>
+            <span class="para-aclarar" data-aclaracion="te-pido-un-favor">Te pido un favor</span>: 
+            si encontraste algún error (de lo que sea: de ortografía, matemático, etc.), 
+            por favor, <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">mandame un mail</a> y me avisas.
+        </p>
+    </div>
+    <footer>
+        <p>
+            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 7.0 - 13/04/25).
+            <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
+        </p>
+    </footer>
+    <!-- ACÁ EMPIEZA EL DICCIONARIO DE ACLARACIONES 
+        están todos ocultos, funcionan como repositorio de significados ¿diccionario? -->
+   
+        <div class="aclaraciones" data-id="factor">En matemáticas, los factores de una multiplicación son los números que se multiplican entre sí. 
+            El resultado de la multiplicación se llama producto
+        </div>
+        <div class="aclaraciones" data-id="simplificar-las-m">
+            Del mismo modo en que simplificamos 4 dividido 4, sabiendo que nos da 1
+        </div>
+
+        <div class="aclaraciones" data-id="aplica-distributiva-01">
+            4.(1+m)=4.1+4.m=4+4m
+        </div>
+
+        <div class="aclaraciones" data-id="denominador">En una fracción, el número que aparece debajo de la línea de división. 
+            Indica en cuántas partes se divide el todo. En este caso el denominador cuenta con dos términos: 2-5x; uno de estos
+            términos posee la incógnita.
+        </div>
+
+        <div class="aclaraciones" data-id="precuacion-denominador-no-nulo">
+            Este tema es fundamental, sobre todo a esta altura del partido: necesitamos
+            que la cantidad sea NO nula, porque solo de ese modo podemos garantizar
+            que el cociente por si misma sea 1 (por eso podemos cancelar/simplificar).
+        </div>
+
+        <div class="aclaraciones" data-id="te-pido-un-favor">
+            trancu... no te voy a pedir guita 😂😂
+        </div>
+
+        <div class="aclaraciones" data-id="ahora-es-lineal">
+            Fijate vos que interesante; la ecuación AHORA SI es lineal. Es decir: haciendo lo que hicimos 
+            convertimos esa ecuación que NO era lineal, en una ecuación LINEAL (más adelante, si seguis 
+            tus estudios de matemática, esto tendrá un nombre: ecuaciones equivalentes)
+        </div>
+        
+        <div class="aclaraciones" data-id="aislar-despejar">
+            Aislar como sinónimo de despejar... intentamos, como hicimos en cada ecuación
+            despejar, dejar sola... sacar lo que nos molesta... etc.
+        </div>
+
+    <!-- ACÁ TERMINA EL DICCIONARIO DE ACLARACIONES -->
+
+    <script>
+        
+        // Función para mostrar/ocultar soluciones
+        function botonSolucionMasMenos(id) {
+            const solution = document.getElementById(id);
+            if (solution.style.display === "block") {
+                solution.style.display = "none";
+                event.target.textContent = "Ver más";
+            } else {
+                solution.style.display = "block";
+                event.target.textContent = "Ver menos";
+            }
+        }
+
+        // Mostrar solo títulos de los ejercicios al cargar
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.ejercicios').forEach(ej => {
+                const hijos = Array.from(ej.children);
+                const h3 = hijos.find(el => el.tagName === "H3");
+
+                const contenedor = document.createElement("div");
+                contenedor.classList.add("contenido-ejercicio");
+
+                hijos.forEach(el => {
+                    if (el !== h3) contenedor.appendChild(el);
+                });
+
+                contenedor.style.display = "none";
+
+                const btn = document.createElement("button");
+                btn.classList.add("div-ejercicios");
+                btn.textContent = "Ver más";
+                btn.onclick = () => {
+                    const visible = contenedor.style.display === "block";
+                    contenedor.style.display = visible ? "none" : "block";
+                    btn.textContent = visible ? "Ver más" : "Ver menos";
+                };
+
+                ej.appendChild(btn);
+                ej.appendChild(contenedor);
+            });
+        });
+
+
+        
+        // estas son las funciones que generan las ventanas emergentes aclarando.
+        document.addEventListener('DOMContentLoaded', function () {
+            const aclaraciones = {};
+            document.querySelectorAll('.aclaraciones').forEach(div => {
+                const id = div.dataset.id;
+                aclaraciones[id] = div.innerHTML;
+            });
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip-aclaracion';
+            document.body.appendChild(tooltip);
+
+            document.querySelectorAll('.para-aclarar').forEach(el => {
+                el.addEventListener('mouseenter', (e) => {
+                    const clave = el.dataset.aclaracion;
+                    tooltip.innerHTML = aclaraciones[clave] || '⚠️ Definición no encontrada';
+                    tooltip.style.display = 'block';
+                    const rect = el.getBoundingClientRect();
+                    tooltip.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                    tooltip.style.left = (rect.left + window.scrollX) + 'px';
+                });
+
+                el.addEventListener('mouseleave', () => {
+                    tooltip.style.display = 'none';
+                });
+
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    tooltip.style.display = (tooltip.style.display === 'block') ? 'none' : 'block';
+                });
+            });
+
+            document.addEventListener('click', () => {
+                tooltip.style.display = 'none';
+            });
+        });
+
+    
+    </script>
+
+</body>
+</html>
