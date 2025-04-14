@@ -328,6 +328,174 @@
                 </div>                                 
             </div> <!-- 1 + 3 \cdot (m - 1) = 12  -->
 
+            <div class="ejercicios" id="eq-02"> <!-- 3 + 5x = 12 -->
+                <h3>Segundo Ejemplo: \(3 + 5 \cdot x = 12\)</h3>
+                <p>Esta ecuación ya fue resuelta (y analizada) del siguiente modo:</p>
+
+                <!---->
+                <div id="" class="">
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación original:</td>
+                                <td>\( 3 + 5x = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Restamos 3 en ambos miembros para aislar el término con x:</td>
+                                <td>\( 3 + 5x \textcolor{red}{- 3} = 12 \textcolor{red}{- 3} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Realizamos las operaciones:</td>
+                                <td>\( 5x = 9 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Ahora, para despejar x, dividimos ambos miembros por 5:</td>
+                                <td>\( \frac{5x}{\textcolor{red}{5}} = \frac{9}{\textcolor{red}{5}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Obtenemos el resultado final:</td>
+                                <td>\( x = \frac{9}{5} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Que también puede expresarse como:</td>
+                                <td>\( x = 1.8 \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!---->
+                <p>
+                    Ahora te propongo algo diferente.
+                </p>
+                <p>
+                    Vamos a analizar esta ecuación con un enfoque diferente, prestando especial atención a cómo tratamos el coeficiente de la incógnita.
+                </p>
+                <div class="math">
+                    \[ 3 + 5 \cdot x = 12 \]
+                </div>
+                <p>
+                    <b>Importante:</b> No podemos simplemente 
+                    <span class="para-aclarar" data-aclaracion="mover-terminos">"mover" el 5 al otro lado</span>. 
+                    ¡Las matemáticas no funcionan así! 
+                    Debemos operar correctamente ambos miembros de la ecuación.
+                </p>
+                <p>¿Querés entender por qué y cómo resolverlo adecuadamente?</p>
+                <button onclick="botonSolucionMasMenos('sol12')">Ver más</button>
+                <div id="sol12" class="solution">
+                    <p>Sea la ecuación: \( 3 + 5 \cdot x = 12 \); donde la incógnita es \( x \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td colspan="2"><b>Método directo (dividiendo primero):</b></td>
+                            </tr>
+                            <tr>
+                                <td>Partimos de la ecuación original:</td>
+                                <td>\( 3 + 5 \cdot x = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>La idea más habitual (por muchas razones) es la de ir eliminando términos, cantidades
+                                    que se están sumando o restándo. Bueno, en esta oportunidad te propongo pensarlo de otro modo.
+                                    Vamos a eliminar inicialmente el factor que multiplica la incógnita. No podemos simplemente
+                                    revolearlo "para el otro lado"; lo que haremos (por ser un factor que multiplica) es 
+                                    dividir <b>todos los términos</b> de <b>ambos miembros</b> por 5:</td>
+                                <td>
+                                    \( \frac{3 + 5 \cdot x}{\textcolor{red}{5}} = \frac{12}{\textcolor{red}{5}} \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>¡Atención! La división debe aplicarse a cada término, es decir: aplicamos la propiedad distributiva</td>
+                                <td>
+                                    <p>
+                                        \( \frac{3}{5} + \frac{5 \cdot x}{5} = \frac{12}{5} \)
+                                    </p>
+                                    <p>
+                                        \( \frac{3}{5} + \frac{\cancel{5} \cdot x}{\cancel{5}} = \frac{12}{5} \)
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Simplificamos (observa cómo el 5 no "desaparece", sino que se convierte en 1):</td>
+                                <td>
+                                    \( \frac{3}{5} + x = \frac{12}{5} \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Restamos \(\frac{3}{5}\) en ambos miembros para aislar x:</td>
+                                <td>
+                                    \( \frac{3}{5} + x \textcolor{red}{- \frac{3}{5}} = \frac{12}{5} \textcolor{red}{- \frac{3}{5}} \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Operamos:</td>
+                                <td>
+                                    \( x = \frac{9}{5} \)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="reflexion">
+                                    <p><b>Reflexión importante:</b> El 5 que multiplica a x no puede "pasarse dividiendo" de forma aislada. 
+                                    Debemos dividir <i>todo el miembro</i> por 5, lo que afecta a todos sus términos. 
+                                    Esto mantiene la igualdad en la ecuación.</p>
+                                    
+                                    <p>🔊🔊 Al dividir \( 3 + 5x \) por 5, obtenemos \( \frac{3}{5} + x \), no \( 3 + x \) 
+                                    (error común cuando se intenta "mover" el 5 sin considerar su operación completa).</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>
+                        No hay una forma más correcta que la otra; ambas lo son. En ocaciones una puede resultar más cómoda.
+                        Es decir: por ahí en un determinado caso conviene eliminar algo que suma o resta antes de embarcarte
+                        en despejar factores que multiplican... pero por ahí en otros casos conviene antes ocuparse de las multiplicaciones.
+                    </p>
+                    <p>Si tenemos la ecuación \( 5 + 10 \cdot m = 5 \); por ahí sería muy simple directamente dividir
+                        por 5 ambos miembros:
+                    </p>
+                    <div class="math">
+                        \[
+                        \frac{5 + 10 \cdot m}{\textcolor{red}{5}}=\frac{5}{\textcolor{red}{5}}
+                        \]
+                        <p>Aplicamos la propiedad distributiva</p>
+                        \[
+                        \frac{\cancel{5}}{\cancel{\textcolor{red}{5}}}
+                        +\frac{\cancel{10} \cdot m}{\cancel{5}}=\frac{\cancel{5}}{\cancel{\textcolor{red}{5}}}
+                        \]
+                        <p>recordá que \(\frac{5}{5}=1 \) y que \(\frac{10}{5}=2 \)</p>
+                        \[
+                        1+2 \cdot{m}=1
+                        \]
+                        <p>Ahora podemos pensar en algo bastante piola: restándo 1 en cada miembro es obvio que
+                            "no quedaría ningún 1" ¿no?
+                        </p>
+                        <p>
+                            \(\cancel{1}+2 \cdot{m} \cancel{\textcolor{red}{-1}}=\cancel{1} \cancel{\textcolor{red}{-1}} \rightarrow 2 \cdot m = 0\)
+                        </p>
+                        <p>
+                            Por lo tanto, retomando la ecuación (aplicaremos la propiedad cancelativa):
+                        </p>
+                        \[
+                            \cancel{1}+2 \cdot{m}=\cancel{1}
+                        \]
+                        \[
+                            2 \cdot{m}=0
+                        \]
+                        <p>Dividiendo ambos miembros de la ecuación por 2 tenemos:</p>
+                        \[
+                            \frac{2 \cdot{m}}{2}=\frac{0}{2}
+                        \]
+                        <p>Cómo \(\frac{2}{2}=1\), y 0 dividido cualquier cosa (que no sea 0) es 1:</p>
+                        \[
+                            \frac{\cancel{2} \cdot{m}}{\cancel{2}}=0
+                        \]
+                        \[
+                            m=0
+                        \]
+
+                    </div>
+                </div>                                 
+            </div> <!-- 3 + 5x = 12 -->
+
+
         </div>
     </div>
 
@@ -354,6 +522,15 @@
         <div class="aclaraciones" data-id="aislar-despejar">
             Aislar como sinónimo de despejar... intentamos, como hicimos en cada ecuación
             despejar, dejar sola... sacar lo que nos molesta... etc.
+        </div>
+
+        <div class="aclaraciones" data-id="mover-terminos">
+            Es muy común escuchar que para resolver una ecuación "esto que está acá" "pasa para allá".
+            Bueno... eso es una barbáridad. Los números no se revolean de un lado para el otro;
+            como venimos diciendo (hace rato) se debe ir realizando operaciones VÁLIDAS
+            en ambos miembros de la ecuación. Si continuas con tus estudios matemáticos, más adelante
+            podrás estudiar propiedades de las operaciones en los conjuntos numéricos
+            que sostienen estas ideas.
         </div>
 
     <!-- ACÁ TERMINA EL DICCIONARIO DE ACLARACIONES -->
