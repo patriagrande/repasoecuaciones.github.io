@@ -42,10 +42,24 @@
             margin-top: 30px;
         }
 
-        h2 {
+        h2{
             color: var(--secondary);
             border-bottom: 2px solid var(--accent);
             padding-bottom: 5px;
+            margin: 0;
+        }
+
+        h3{
+            color: var(--primary);
+            padding-bottom: 5px;
+            padding-top: 5px;
+            margin: 0;
+        }
+
+        h4{
+            color: #3f3633;
+            padding-bottom: 5px;
+            padding-top: 5px;
             margin: 0;
         }
 
@@ -183,7 +197,6 @@
 
         div.introduccion{
             background-color: #ffffff;
-            //color: white;
             font-size: 0.9rem;
             padding: 6px 12px;
             margin-top: 10px;
@@ -191,6 +204,13 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+        }
+
+        .disclaimer {
+            background-color: var(--light);
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
         }
 
     </style>
@@ -362,7 +382,7 @@
 
     <div class="section"><!-- Resolución de una ecuaciones algunos ejemplos -->
         <div class="section-header" onclick="AbrirCerrarSeccion('resolucion')">
-            <h2>Resolución de una ecuación</h2>
+            <h2>Resolución de una ecuación, algunos ejemplos</h2>
             <button class="toggle-section">Mostrar</button>
         </div>
         <div id="resolucion" class="section-content">
@@ -522,6 +542,56 @@
                     </div>
                 </div>
             </div> <!-- -4 \cdot R = 22 -->
+
+            <div class="ejercicios"> <!-- 3 + 5x = 12 -->
+                <h3>Resolución de la ecuación: \(3 + 5x = 12\)</h3>
+                <p>Este es un buen ejemplo donde tenemos una combinación de operaciones que debemos resolver paso a paso.</p>
+                <p>Consideremos la siguiente ecuación:</p>
+                <div class="math">
+                    \[ 3 + 5x = 12 \]
+                </div>
+                <p>En este caso, la incógnita (x) aparece multiplicada por un coeficiente y sumada a otro número. Es decir... tenemos dos
+                    términos, uno de ellos con incógnita. Veamos cómo resolverla.</p>
+                <p>¿Querés ver la solución paso a paso?</p>
+                <button onclick="botonSolucionMasMenos('sol14')">Ver más</button>
+                <div id="sol14" class="solution">
+                    <p>Sea la ecuación: \( 3 + 5x = 12 \); donde la incógnita es \( x \)</p>
+                    <div class="math">
+                        <table>
+                            <tr>
+                                <td>Partimos de la ecuación original:</td>
+                                <td>\( 3 + 5x = 12 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Restamos 3 en ambos miembros para aislar el término con x:</td>
+                                <td>\( 3 + 5x \textcolor{red}{- 3} = 12 \textcolor{red}{- 3} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Realizamos las operaciones:</td>
+                                <td>\( 5x = 9 \)</td>
+                            </tr>
+                            <tr>
+                                <td>Ahora, para despejar x, dividimos ambos miembros por 5:</td>
+                                <td>\( \frac{5x}{\textcolor{red}{5}} = \frac{9}{\textcolor{red}{5}} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Obtenemos el resultado final:</td>
+                                <td>\( x = \frac{9}{5} \)</td>
+                            </tr>
+                            <tr>
+                                <td>Que también puede expresarse como:</td>
+                                <td>\( x = 1.8 \)</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>¡Y listo! Hemos resuelto la ecuación. El valor de x que satisface la igualdad es \(\frac{9}{5}\) o 1.8.</p>
+                    <p>
+                        ¿Te quedaron ganas de ver esto resuelto de otro modo? Si queres ver como se resuelve esta
+                        misma ecuación, pero cambiando el orden en el cual realizamos los despejes, 
+                        <a href="./otra-forma.html#eq-02" target="_blank"> pasá por acá</a> (yo, si fuera vos, no me lo perdería).
+                    </p>
+                </div>                 
+            </div> <!-- 3 + 5x = 12 -->
 
             <div class="ejercicios"> <!-- 4 + 5 \cdot T = 2 + T -->
                 <h3>Casos un poco más complejos: \(4 + 5 \cdot T = 2 + T\)</h3>
@@ -960,7 +1030,158 @@
         </div>
     </div>
 
-    <div class="disclaimer" style="background-color: rgb(208, 208, 224); padding: 10px; border-left: 4px solid #ffc107; margin: 15px 0;">
+    <div class="section"><!-- utilizar software -->
+        <div class="section-header" onclick="AbrirCerrarSeccion('software')">
+            <h2>Empleo de Software</h2>
+            <button class="toggle-section">Mostrar</button>
+        </div>
+        <div id="software" class="section-content">
+
+            <div class="ejercicios"> <!-- por qué-->
+                <h3>¿Por qué usar software?</h3> 
+                <p>
+                    Cuando yo estudiaba, créanme 
+                    <span class="para-aclarar" data-aclaracion="mucho-tiempo-atras">
+                        hace ya muchísimo tiempo
+                    </span>, la única forma de saber si un cálculo o (como en este caso) 
+                    la resolución de una ecuación <i>me había salido bien o mal</i> era consultar con el profe.
+                </p>
+                <p>
+                    Es decir: tenía que esperar a que apareciera el docente y solo entonces sabía si 
+                    estaba bien o mal.
+                </p>
+                <p>
+                    Otro <i>disclaimer</i>: podría decir alguien que esté leyendo esto ahora que 
+                    parte del trabajo del estudiante es <b>verificar las soluciones</b>
+                    de las ecuaciones y así corroborar si
+                    el proceso de solución fue correcto o no.
+                </p>
+                <div class="disclaimer">
+                    <p>
+                    🔊 <strong>Disclaimer</strong>: Esto es parcialmente cierto. Quiero decir que, incluso si yo (como estudiante) 
+                    hubiera verificado las soluciones, podrían persistir mis dudas. ¿Por qué? Porque tranquilamente 
+                    podía cometer errores aritméticos o de cálculo... Pero además hay otra realidad: 
+                    uno (como estudiante) tampoco tiene TANTAS ganas de hacer tantas cuentas, ¿no?
+                    </p>
+                </div>
+                <p> 
+                    Así que, retomando, para saber si lo que practicaba estaba bien o mal
+                    tenía que esperar... es decir: <b>dependíamos</b> del docente incluso para
+                    saber si estaba bien o mal.
+                </p>
+                <p>
+                    Bien... los tiempos cambiaron, la tecnología está mucho más avanzada y accesible.
+                    Por eso mi idea es compartir con ustedes herramientas que les darán
+                    <i>independencia</i> (¿soberanía?, ¿podríamos decir?).
+                </p>
+                <p>
+                    Con los programas que les voy a compartir aquí, ustedes 
+                    podrán <i>saber si está bien o mal</i> antes de encontrarse
+                    con su profe. Luego, con él o ella podrán consultar el <i>por qué</i>
+                    de los resultados obtenidos... lo que parece
+                    mucho más interesante.
+                </p>
+            </div>
+
+            <div class="ejercicios"> <!-- wxMaxima -->
+                <h3>wxMaxima</h3> 
+                <h4>Te vendo wxMaxima</h4>
+                <p>
+                    <strong>wxMaxima</strong> es un software <strong>libre y 
+                    gratuito</strong> para resolver problemas matemáticos, 
+                    ideal para estudiantes. Es <strong>multiplataforma</strong> 
+                    (funciona en Windows, macOS y Linux) y también puede 
+                    usarse <strong>directamente desde la web</strong>, sin 
+                    instalación. Permite hacer cálculos,  
+                    <span class="para-aclarar" data-aclaracion="wxmaxima-graficar">
+                        gráficos
+                    </span>
+                    y álgebra de 
+                    forma sencilla, con una interfaz amigable. Perfecto para 
+                    aprender matemáticas, física o programación básica. ¡Una 
+                    herramienta poderosa sin costo y sin peligros de virus 
+                    (gracias a que es <strong>Software Libre</strong>!
+                </p>
+                <h4>¿Para que lo vamos a usar?</h4>
+                <p>
+                    Si bien este es un programa MUY serio para el trabajo matemático,
+                    nosotros le daremos un uso bastante <i>terrenal</i>.
+                </p>
+                <p>
+                    Por el momento solamente realizaremos algunos  
+                    <span class="para-aclarar" data-aclaracion="calculos-aritmeticos">
+                        calculos algebraicos
+                    </span>; algunos 
+                    <span class="para-aclarar" data-aclaracion="calculos-algebraicos">
+                        calculos aritméticos
+                    </span>; pero lo más útli (tal vez) es que podremos resolver ecuaciones.
+                </p>
+            </div>
+
+            <div class="ejercicios"> <!-- GeoGebra-->
+                <h3>GeoGebra</h3> 
+                <h4>Te vendo GeoGebra</h4>
+                <p>
+                    <strong>GeoGebra</strong> es un <strong>software libre</strong>
+                    increíblemente versátil y fácil de usar, perfecto para estudiantes.
+                    Combina <strong>geometría, álgebra y cálculo</strong> en una interfaz
+                    intuitiva, ideal para crear gráficos interactivos y visualizar
+                    conceptos matemáticos de forma clara. Funciona en <strong>Windows,
+                    macOS, Linux y dispositivos móviles</strong>, además de tener una
+                    versión web que no requiere instalación. Sus herramientas amigables
+                    permiten explorar desde funciones básicas hasta gráficos 3D,
+                    haciendo el aprendizaje más dinámico. ¡Una opción perfecta para
+                    aprender jugando con las matemáticas!
+                </p>
+                <h4>¿Para que lo vamos a usar?</h4>
+                <p>
+                    Esta aclaración es casi la misma que para wxMaxima. Le daremos al GeoGebra
+                    un uso similar al que le damos a wxMaxima, vinculado (por ahora) al trabajo
+                    aritmético y algebraico.
+                </p>
+                <p>
+                    ¿Por que usar dos programas para realizar una sola tarea?... Bueno, la verdad
+                    es que yo creo que wxMaxima es suficiente; pero capaz hay alguién que (por la
+                    razón que sea) no tiene posibilidad de usar wxMaxima y prefiere tener GeoGebra 
+                    en el celu...
+                </p>
+                <p>
+                    Sea como sea, yo les comento las opciones, uds toman la que prefieran.
+                </p>
+            </div>
+
+            <div class="ejercicios"> <!-- IA generativa-->
+                <h3>IA: Inteligencia Artificial Generativa</h3> 
+                <h4>¿Cuál elegir?</h4>
+                <p>
+                    Existen <strong>múltiples herramientas de IA generativa</strong> 
+                    para uso educativo y creativo. Siempre recomiendo optar por
+                    <strong>sistemas abiertos y transparentes</strong>, como los modelos
+                    basados en código abierto (GPT-J, LLaMA 2, Mistral, etc.), en lugar
+                    de soluciones cerradas o comerciales. Evito especialmente las
+                    integradas en apps como <strong>WhatsApp (Meta)</strong>, ya que
+                    suelen tener fines publicitarios y poca transparencia en el manejo
+                    de datos. Plataformas como <strong>DeepSeek Chat, Hugging Face o
+                    Perplexity</strong> ofrecen alternativas éticas, con mayor control
+                    sobre la privacidad y sin restricciones ocultas. ¡La IA puede ser
+                    poderosa, pero es clave elegir opciones que respeten al usuario!
+                </p>
+                <p>Personalmente <span class="para-aclarar" data-aclaracion="el-presente">estoy</span>
+                    usando mucho <a href="https://chat.deepseek.com/" target="_blank">
+                    DeepSeek chat</a> y poco <a href="https://chat.openai.com/" target="_blank">ChatGPT</a> 
+                    (que si bien anda muy bien, es cerrado y no me merece confianza 
+                    el uso de los datos que hace). Pero será tu desición cuál usar.
+                </p>
+                <p>
+                    En este material te voy a mostrar algunos ejemplos de lo que podes hacer
+                    emplando un chatBoot de IA. Con el <i>qué hacer</i> me refiero en tanto el estudio de
+                    ecuaciones, que es el propósito de este sitio.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
         <p>
             <span class="para-aclarar" data-aclaracion="te-pido-un-favor">Te pido un favor</span>: 
             si encontraste algún error (de lo que sea: de ortografía, matemático, etc.), 
@@ -969,13 +1190,13 @@
     </div>
     <footer>
         <p>
-            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 7.0 - 13/04/25).
+            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 9.0 - 14/04/25).
             <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
         </p>
     </footer>
     <!-- ACÁ EMPIEZA EL DICCIONARIO DE ACLARACIONES 
         están todos ocultos, funcionan como repositorio de significados ¿diccionario? -->
-   
+    <div class="aclaraciones" id="contenedor-de-aclaraciones">
         <div class="aclaraciones" data-id="factor">En matemáticas, los factores de una multiplicación son los números que se multiplican entre sí. 
             El resultado de la multiplicación se llama producto
         </div>
@@ -1013,6 +1234,41 @@
             Por lo tanto: "algo:mas" debe ser un número real, una constante.
         </div>
 
+        <div class="aclaraciones" data-id="wxmaxima-graficar">
+            Si bien es cierto que wxMaxima sirve para realizar gráficos,
+            nosotros/as no le daremos ese uso.
+            Para cuestiones vinculadas a gráficas (del tipo que sean) vamos a
+            emplear GeoGebra.
+        </div>
+
+        <div class="aclaraciones" data-id="calculos-aritmeticos">
+            Los calculos aritméticos son los que realizamos con cantidades conocidas,
+             por ejemplo sumas dos fracciones, dividir dos números, calcular alguna
+             raíz cuadrada, etc... los calculos aritméticos devuelven un resultado numérico.
+             Es muy importante entender que obtendremos resultados exactos y aproximados.
+        </div>
+
+        <div class="aclaraciones" data-id="calculos-algebraicos">
+            Los calculos algebraicos son entre cantidades NO determinadas.
+             Por ejemplo: 4m+5m=9m.
+             Es decir: sumamos términos cuyos valores no podemos determinar, no obstante
+             como se trata de términos equivalentes pueden ser sumados... 
+        </div>
+
+        <div class="aclaraciones" data-id="mucho-tiempo-atras">
+            Hace tanto, pero tanto tiempo, que en aquel entonces la única forma
+            de comunicarse con alguien era a traves de un cable. NO existía
+            ni el bluetooth, ni el wifi, ni nada por el estilo.
+        </div>
+
+        <div class="aclaraciones" data-id="el-presente">
+            Todo cambia muy rápido, por lo tanto está bueno aclarar que este texto
+            lo estoy escribiendo en Abril/2025.
+        </div>
+    </div>
+
+    
+    
     <!-- ACÁ TERMINA EL DICCIONARIO DE ACLARACIONES -->
 
     <script>
