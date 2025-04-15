@@ -197,7 +197,7 @@
 
         div.introduccion{
             background-color: #ffffff;
-            font-size: 0.9rem;
+            font-size: 1rem;
             padding: 6px 12px;
             margin-top: 10px;
             border: none;
@@ -211,6 +211,13 @@
             padding: 10px;
             border-left: 4px solid #ffc107;
             margin: 15px 0;
+        }
+
+        /* estilos para video de youtube */
+        .video-centro {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
         }
 
     </style>
@@ -544,35 +551,35 @@
             </div> <!-- -4 \cdot R = 22 -->
 
             <div class="ejercicios"> <!-- 3 + 5x = 12 -->
-                <h3>Resolución de la ecuación: \(3 + 5x = 12\)</h3>
+                <h3>Resolución de la ecuación: \(3 + 5 \cdot x = 12\)</h3>
                 <p>Este es un buen ejemplo donde tenemos una combinación de operaciones que debemos resolver paso a paso.</p>
                 <p>Consideremos la siguiente ecuación:</p>
                 <div class="math">
-                    \[ 3 + 5x = 12 \]
+                    \[ 3 + 5 \cdot x = 12 \]
                 </div>
                 <p>En este caso, la incógnita (x) aparece multiplicada por un coeficiente y sumada a otro número. Es decir... tenemos dos
                     términos, uno de ellos con incógnita. Veamos cómo resolverla.</p>
                 <p>¿Querés ver la solución paso a paso?</p>
                 <button onclick="botonSolucionMasMenos('sol14')">Ver más</button>
                 <div id="sol14" class="solution">
-                    <p>Sea la ecuación: \( 3 + 5x = 12 \); donde la incógnita es \( x \)</p>
+                    <p>Sea la ecuación: \( 3 + 5 \cdot x = 12 \); donde la incógnita es \( x \)</p>
                     <div class="math">
                         <table>
                             <tr>
                                 <td>Partimos de la ecuación original:</td>
-                                <td>\( 3 + 5x = 12 \)</td>
+                                <td>\( 3 + 5 \cdot x = 12 \)</td>
                             </tr>
                             <tr>
                                 <td>Restamos 3 en ambos miembros para aislar el término con x:</td>
-                                <td>\( 3 + 5x \textcolor{red}{- 3} = 12 \textcolor{red}{- 3} \)</td>
+                                <td>\( 3 + 5 \cdot x \textcolor{red}{- 3} = 12 \textcolor{red}{- 3} \)</td>
                             </tr>
                             <tr>
                                 <td>Realizamos las operaciones:</td>
-                                <td>\( 5x = 9 \)</td>
+                                <td>\( 5 \cdot x = 9 \)</td>
                             </tr>
                             <tr>
                                 <td>Ahora, para despejar x, dividimos ambos miembros por 5:</td>
-                                <td>\( \frac{5x}{\textcolor{red}{5}} = \frac{9}{\textcolor{red}{5}} \)</td>
+                                <td>\( \frac{5 \cdot x}{\textcolor{red}{5}} = \frac{9}{\textcolor{red}{5}} \)</td>
                             </tr>
                             <tr>
                                 <td>Obtenemos el resultado final:</td>
@@ -985,13 +992,13 @@
                                     </p>
                                 </td>
                                 <td>
-                                    \( \frac{3}{\cancel{2 - 5 \cdot x}} \cancel{\textcolor{red}{\cdot (2 - 5 \cdot x)}} = 3 {\textcolor{red}{\cdot (2 - 5x)}} \)
+                                    \( \frac{3}{\cancel{2 - 5 \cdot x}} \cancel{\textcolor{red}{\cdot (2 - 5 \cdot x)}} = 3 {\textcolor{red}{\cdot (2 - 5 \cdot x)}} \)
                                 </td>
                             </tr>
                             <tr>
                                 <td>Nos quedaría lo siguiente</td>
                                 <td>
-                                    \( 3 = 3 \cdot (2 - 5x) \)
+                                    \( 3 = 3 \cdot (2 - 5 \cdot x) \)
                                 </td>
                             </tr>
                             <tr>
@@ -1005,7 +1012,7 @@
                                     </p>
                                 </td>
                                 <td>
-                                    \( \frac{3}{\textcolor{red}{3}} = \frac{3 \cdot (2 - 5x)}{\textcolor{red}{3}} \Rightarrow 1 = 2 - 5x \)
+                                    \( \frac{3}{\textcolor{red}{3}} = \frac{3 \cdot (2 - 5 \cdot x)}{\textcolor{red}{3}} \Rightarrow 1 = 2 - 5 \cdot x \)
                                 </td>
                             </tr>
                             <tr>
@@ -1116,6 +1123,17 @@
                         calculos aritméticos
                     </span>; pero lo más útli (tal vez) es que podremos resolver ecuaciones.
                 </p>
+                <p>
+                    Te dejo este video, breve, concreto, que te permite ver de qué modo accedes a la
+                    versión on-line de este programa y qué hacer, tanto para resolver las ecuaciones,
+                    como para poder revisar los resultados:
+                </p>
+                <div class="video-centro">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/tJlUls-vOZI?si=teFWgAp0vCFg-hQp"
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+                        gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                    </iframe>
+                </div>
             </div>
 
             <div class="ejercicios"> <!-- GeoGebra-->
@@ -1148,6 +1166,7 @@
                 <p>
                     Sea como sea, yo les comento las opciones, uds toman la que prefieran.
                 </p>
+                <p>🏗️🏗️🏗️ sección en construcción 🏗️🏗️🏗️</p>
             </div>
 
             <div class="ejercicios"> <!-- IA generativa-->
@@ -1177,6 +1196,8 @@
                     emplando un chatBoot de IA. Con el <i>qué hacer</i> me refiero en tanto el estudio de
                     ecuaciones, que es el propósito de este sitio.
                 </p>
+                <p>🏗️🏗️🏗️ sección en construcción 🏗️🏗️🏗️</p>
+
             </div>
         </div>
     </div>
@@ -1190,7 +1211,7 @@
     </div>
     <footer>
         <p>
-            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 9.0 - 14/04/25).
+            © 2025 ESRN Paulo VI - Repaso para Ecuaciones Lineales una Incógnita (v 9.1 - 15/04/25).
             <a href="mailto:nicolasrosbaco@curza.com.ar" title="Enviar correo a Nicolás">Lic. Nicolás Rosbaco</a>
         </p>
     </footer>
