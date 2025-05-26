@@ -18,6 +18,7 @@ body::before {
   transform-origin: center;
 }
 
+
 .slide {
   position: absolute;
   top: 0; left: 0;
@@ -46,13 +47,13 @@ body::before {
   margin-bottom: 0.5em;
 }
 
-.slide p {
+.slide p, li {
   font-size: 2.5em;
   line-height: 1.5;
 }
 
 .slide h1, .slide h2, .slide p {
-   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.813);
 }
 
 .nav-arrow {
@@ -104,6 +105,10 @@ body::before {
   position: relative;
   padding-left: 2em;
   z-index: 3;
+}
+
+li.zoomable{
+  display: block;
 }
 
 .sonoro::before {
