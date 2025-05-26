@@ -1,0 +1,137 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; width: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; color: white; }
+
+body {
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 110vw;
+  height: 110vh;
+  background: url("./img/fondo.png") center center / cover no-repeat;
+  z-index: -1;
+  animation: zoomandmove 40s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  padding: 60px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.slide.visible {
+  opacity: 1;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.slide h1 {
+  font-size: 3.8em;
+  margin-bottom: 0.5em;
+}
+
+.slide h2 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.slide p {
+  font-size: 2.5em;
+  line-height: 1.5;
+}
+
+.slide h1, .slide h2, .slide p {
+   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3em;
+  color: #444;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+}
+
+.nav-left { left: 20px; }
+.nav-right { right: 20px; }
+.nav-arrow:hover { background: rgba(255,255,255,0.9); }
+
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  position: relative;
+}
+
+.carousel img {
+  max-height: 100%;
+  max-width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+}
+
+.carousel img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.zoomable {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  cursor: default;
+  position: relative;
+  padding-left: 2em;
+  z-index: 3;
+}
+
+.sonoro::before {
+  content: "🔊";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.zoomable:hover {
+  transform: scale(1.3);
+}
+
+@keyframes zoomandmove {
+  0% {
+    transform: scale(1) translate(0px, 0px);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.05) translate(15px, 15px);
+    filter: brightness(1.06);
+  }
+  50% {
+    transform: scale(1.10) translate(5px, 5px);
+    filter: brightness(1.12);
+  }
+  100% {
+    transform: scale(1) translate(0px, 0px);
+    filter: brightness(1);
+  }
+}
