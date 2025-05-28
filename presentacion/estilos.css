@@ -47,9 +47,17 @@ body::before {
   margin-bottom: 0.5em;
 }
 
+.slide h3 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
 .slide p, li {
   font-size: 2.5em;
   line-height: 1.5;
+}
+
+p.chico{
+  font-size: 1.8em;
 }
 
 .slide h1, .slide h2, .slide p {
