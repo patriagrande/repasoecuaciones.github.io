@@ -11,8 +11,11 @@ body::before {
   position: fixed;
   top: 0; left: 0;
   width: 110vw;
-  height: 110vh;
+  height: 110vh;/**/
+  /*
   background: url("./img/fondo.png") center center / cover no-repeat;
+  */
+  background: url("./img/red-neuronal-invertida.png") center center / cover no-repeat;
   z-index: -1;
   animation: zoomandmove 40s ease-in-out infinite;
   transform-origin: center;
