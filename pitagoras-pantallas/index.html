@@ -1,1 +1,390 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantallas y Pitágoras: Una Exploración Interactiva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -0.5rem;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            border-radius: 9999px;
+            background-color: #3b82f6; /* blue-500 */
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
 
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-blue-600">Pantallas y Pitágoras</h1>
+            <div class="hidden md:flex space-x-6">
+                <a href="#conceptos" class="nav-link text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-1">Conceptos</a>
+                <a href="#historia" class="nav-link text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-1">Historia</a>
+                <a href="#calculadora" class="nav-link text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-1">Calculadora</a>
+                <a href="#actividades" class="nav-link text-slate-600 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600 pb-1">Actividades</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#conceptos" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Conceptos</a>
+            <a href="#historia" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Historia</a>
+            <a href="#calculadora" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Calculadora</a>
+            <a href="#actividades" class="block text-center py-2 px-4 text-sm text-slate-600 hover:bg-blue-50">Actividades</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        <section id="intro" class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Un Mundo a Través de la Pantalla</h2>
+            <p class="max-w-3xl mx-auto text-slate-600">
+                ¿Alguna vez te has detenido a pensar cómo funciona esa ventana mágica a través de la cual ves tus series, juegas o haces tus tareas? Descubre la tecnología detrás de las pantallas y cómo el famoso **Teorema de Pitágoras** es fundamental para entender sus dimensiones.
+            </p>
+        </section>
+
+        <section id="conceptos" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-10">Conceptos Técnicos Clave</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">Diagonal y Pulgadas</h3>
+                    <p class="text-slate-600 mb-4">El tamaño de una pantalla se mide por su diagonal, en pulgadas (1 pulgada = 2.54 cm). Es la forma universal de comparar tamaños.</p>
+                    <div class="aspect-video bg-slate-200 rounded-md flex items-center justify-center relative">
+                        <div class="w-full h-full border-2 border-slate-400 border-dashed"></div>
+                        <div class="absolute top-0 left-0 w-full h-full" style="background: linear-gradient(to bottom right, transparent calc(50% - 1px), #3b82f6, transparent calc(50% + 1px));"></div>
+                        <span class="absolute text-blue-600 font-semibold bg-white/70 px-2 rounded">Diagonal</span>
+                    </div>
+                </div>
+
+                <div class="card p-6 lg:col-span-2">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">Relación de Aspecto</h3>
+                    <p class="text-slate-600 mb-4">Es la proporción entre el ancho y el alto. Selecciona una para ver cómo afecta la visualización de un video (el cuadrado azul).</p>
+                    <div class="flex justify-center space-x-2 mb-4">
+                        <button class="aspect-btn btn bg-blue-500 text-white px-3 py-1 rounded-full text-sm" data-aspect="1.777">16:9 (Widescreen)</button>
+                        <button class="aspect-btn btn bg-slate-500 text-white px-3 py-1 rounded-full text-sm" data-aspect="1.333">4:3 (Antiguo)</button>
+                        <button class="aspect-btn btn bg-slate-500 text-white px-3 py-1 rounded-full text-sm" data-aspect="2.333">21:9 (Ultrawide)</button>
+                    </div>
+                    <div id="aspect-container" class="bg-black rounded-md mx-auto flex items-center justify-center transition-all duration-300" style="width: 100%; height: 250px;">
+                        <div id="aspect-content" class="bg-blue-400" style="width: 177.7px; height: 100px;"></div>
+                    </div>
+                </div>
+
+                <div class="card p-6 lg:col-span-3">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">Resolución y Píxeles</h3>
+                    <p class="text-slate-600 mb-4">La resolución es la cantidad total de puntos de luz (píxeles) que forman una imagen. A mayor resolución, mayor nitidez y detalle.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-semibold">HD</h4>
+                            <p class="text-sm text-slate-500">1280 x 720</p>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-semibold">Full HD (FHD)</h4>
+                            <p class="text-sm text-slate-500">1920 x 1080</p>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-semibold">4K (UHD)</h4>
+                            <p class="text-sm text-slate-500">3840 x 2160</p>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg">
+                            <h4 class="font-semibold">8K</h4>
+                            <p class="text-sm text-slate-500">7680 x 4320</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="historia" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-10">Un Viaje en el Tiempo: La Evolución de las Pantallas</h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="relative pl-8 border-l-2 border-slate-300">
+                    <div class="timeline-item mb-12">
+                        <h3 class="font-bold text-xl text-blue-600">Inicios: Tubos de Rayos Catódicos (CRT)</h3>
+                        <p class="text-sm text-slate-500 mb-2">Décadas de 1930 - 2000s</p>
+                        <p class="text-slate-600">Voluminosos y pesados, con pantallas curvas y relación de aspecto 4:3. La resolución era baja y los colores limitados.</p>
+                    </div>
+                    <div class="timeline-item mb-12">
+                        <h3 class="font-bold text-xl text-blue-600">Transición: LCD y Plasma</h3>
+                        <p class="text-sm text-slate-500 mb-2">Finales de los 90s - 2000s</p>
+                        <p class="text-slate-600">Llegaron las pantallas planas, mucho más delgadas y ligeras. La relación 16:9 se popularizó y las resoluciones aumentaron a HD y Full HD.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3 class="font-bold text-xl text-blue-600">Era Moderna: LED y OLED</h3>
+                        <p class="text-sm text-slate-500 mb-2">2010s - Actualidad</p>
+                        <p class="text-slate-600">Tecnologías que permiten negros perfectos, colores vibrantes y resoluciones 4K/8K. Las pantallas son ultra delgadas y eficientes.</p>
+                    </div>
+                </div>
+                <div class="card p-4">
+                    <h3 class="font-bold text-center mb-4">Crecimiento de la Resolución (Píxeles Verticales)</h3>
+                    <div class="chart-container" style="position: relative; height: 350px; width: 100%; max-width: 600px; margin: auto;">
+                      <canvas id="resolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculadora" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2">¡Matemáticas en Acción!</h2>
+            <p class="text-center text-slate-600 mb-10">Usa la calculadora para ver cómo el Teorema de Pitágoras determina las dimensiones de una pantalla.</p>
+
+            <div class="card p-6 max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="mb-6">
+                            <label for="diagonal" class="block font-semibold mb-2">1. Selecciona la Diagonal (en pulgadas)</label>
+                            <div class="flex items-center space-x-4">
+                                <input type="range" id="diagonal" min="10" max="100" value="32" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                                <span id="diagonalValue" class="font-bold text-blue-600 w-12 text-center">32"</span>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <p class="block font-semibold mb-2">2. Elige la Relación de Aspecto</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="calc-aspect-btn btn bg-blue-500 text-white px-4 py-2 rounded-lg" data-aspect-w="16" data-aspect-h="9">16:9</button>
+                                <button class="calc-aspect-btn btn bg-slate-500 text-white px-4 py-2 rounded-lg" data-aspect-w="4" data-aspect-h="3">4:3</button>
+                                <button class="calc-aspect-btn btn bg-slate-500 text-white px-4 py-2 rounded-lg" data-aspect-w="21" data-aspect-h="9">21:9</button>
+                            </div>
+                        </div>
+                         <div class="mt-8 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">Resultados:</h4>
+                            <p>Ancho: <span id="resultWidth" class="font-mono font-bold">27.89"</span> (<span id="resultWidthCm">70.84 cm</span>)</p>
+                            <p>Alto: <span id="resultHeight" class="font-mono font-bold">15.69"</span> (<span id="resultHeightCm">39.85 cm</span>)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                        <p class="font-semibold mb-2">Visualización:</p>
+                        <div id="screen-visual" class="bg-slate-800 border-4 border-slate-300 rounded-lg flex items-center justify-center relative transition-all duration-300" style="width: 278.8px; height: 156.9px;">
+                            <div id="screen-diagonal-line" class="absolute top-0 left-0 w-full h-full" style="background: linear-gradient(to bottom right, transparent calc(50% - 1px), rgba(59, 130, 246, 0.5), transparent calc(50% + 1px));"></div>
+                            <span class="absolute text-white/80 font-bold text-lg" id="visual-diagonal">32"</span>
+                            <span class="absolute -bottom-6 text-sm" id="visual-width">27.89"</span>
+                            <span class="absolute -left-12 text-sm transform -rotate-90" id="visual-height">15.69"</span>
+                        </div>
+                        <div class="mt-8 text-sm p-3 bg-slate-100 rounded-lg w-full">
+                            <p class="font-semibold">Cálculo de Pitágoras:</p>
+                            <p class="font-mono text-slate-600 break-words" id="calculation-steps">(9x)² + (16x)² = 32² ...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="actividades" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-10">Actividades Propuestas</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">1. Calcula las Dimensiones</h3>
+                    <p class="text-slate-600">Usa la calculadora para encontrar el ancho y alto de un monitor de 24" (16:9), un televisor de 20" (4:3) y un monitor de 34" (21:9).</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">2. Mide y Compara</h3>
+                    <p class="text-slate-600">Mide la diagonal de tu celular o monitor. Investiga su relación de aspecto y usa la calculadora para verificar sus dimensiones.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-3 text-blue-600">3. Diseña tu Pantalla</h3>
+                    <p class="text-slate-600">Imagina una pantalla de 50". ¿Qué dimensiones tendría con una relación de aspecto 5:4 o 2:1? ¿Cómo se vería el contenido?</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white mt-16">
+        <div class="container mx-auto px-4 py-6 text-center text-slate-500">
+            <p>&copy; 2024 Exploración Interactiva de Pantallas y Pitágoras. Creado para inspirar a futuros matemáticos y tecnólogos.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const aspectBtns = document.querySelectorAll('.aspect-btn');
+            const aspectContainer = document.getElementById('aspect-container');
+            const aspectContent = document.getElementById('aspect-content');
+            
+            aspectBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    aspectBtns.forEach(b => b.classList.replace('bg-blue-500', 'bg-slate-500'));
+                    btn.classList.replace('bg-slate-500', 'bg-blue-500');
+                    
+                    const containerWidth = aspectContainer.clientWidth;
+                    const containerHeight = aspectContainer.clientHeight;
+                    const containerAspect = containerWidth / containerHeight;
+                    const contentAspect = parseFloat(btn.dataset.aspect);
+
+                    if (contentAspect > containerAspect) {
+                        aspectContent.style.width = containerWidth + 'px';
+                        aspectContent.style.height = (containerWidth / contentAspect) + 'px';
+                    } else {
+                        aspectContent.style.height = containerHeight + 'px';
+                        aspectContent.style.width = (containerHeight * contentAspect) + 'px';
+                    }
+                });
+            });
+            if(aspectBtns.length > 0) aspectBtns[0].click();
+
+            const ctx = document.getElementById('resolutionChart').getContext('2d');
+            const resolutionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['CRT (ej. 800x600)', 'LCD/Plasma (Full HD)', 'LED/OLED (4K)'],
+                    datasets: [{
+                        label: 'Píxeles Verticales',
+                        data: [600, 1080, 2160],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.6)',
+                            'rgba(96, 165, 250, 0.6)',
+                            'rgba(59, 130, 246, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(148, 163, 184, 1)',
+                            'rgba(96, 165, 250, 1)',
+                            'rgba(59, 130, 246, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y + 'p';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                             ticks: {
+                                callback: function(value, index, ticks) {
+                                    return value + 'p';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const diagonalSlider = document.getElementById('diagonal');
+            const diagonalValue = document.getElementById('diagonalValue');
+            const calcAspectBtns = document.querySelectorAll('.calc-aspect-btn');
+            let currentAspectW = 16;
+            let currentAspectH = 9;
+
+            const resultWidth = document.getElementById('resultWidth');
+            const resultHeight = document.getElementById('resultHeight');
+            const resultWidthCm = document.getElementById('resultWidthCm');
+            const resultHeightCm = document.getElementById('resultHeightCm');
+            
+            const screenVisual = document.getElementById('screen-visual');
+            const visualDiagonal = document.getElementById('visual-diagonal');
+            const visualWidth = document.getElementById('visual-width');
+            const visualHeight = document.getElementById('visual-height');
+            
+            const calculationSteps = document.getElementById('calculation-steps');
+
+            function calculateDimensions() {
+                const diagonal = parseFloat(diagonalSlider.value);
+                diagonalValue.textContent = `${diagonal}"`;
+
+                const ratio = Math.sqrt(Math.pow(diagonal, 2) / (Math.pow(currentAspectW, 2) + Math.pow(currentAspectH, 2)));
+                
+                const widthIn = currentAspectW * ratio;
+                const heightIn = currentAspectH * ratio;
+
+                const widthCm = widthIn * 2.54;
+                const heightCm = heightIn * 2.54;
+
+                resultWidth.textContent = `${widthIn.toFixed(2)}"`;
+                resultHeight.textContent = `${heightIn.toFixed(2)}"`;
+                resultWidthCm.textContent = `${widthCm.toFixed(2)} cm`;
+                resultHeightCm.textContent = `${heightCm.toFixed(2)} cm`;
+                
+                calculationSteps.textContent = `(${currentAspectH}x)² + (${currentAspectW}x)² = ${diagonal}²  =>  ${currentAspectH**2}x² + ${currentAspectW**2}x² = ${diagonal**2}  =>  ${currentAspectH**2 + currentAspectW**2}x² = ${diagonal**2}  =>  x ≈ ${ratio.toFixed(3)}`;
+
+                const maxWidth = screenVisual.parentElement.clientWidth * 0.9;
+                const scaleFactor = maxWidth / widthIn;
+                screenVisual.style.width = `${widthIn * scaleFactor}px`;
+                screenVisual.style.height = `${heightIn * scaleFactor}px`;
+                visualDiagonal.textContent = `${diagonal}"`;
+                visualWidth.textContent = `${widthIn.toFixed(1)}"`;
+                visualHeight.textContent = `${heightIn.toFixed(1)}"`;
+            }
+
+            diagonalSlider.addEventListener('input', calculateDimensions);
+
+            calcAspectBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    calcAspectBtns.forEach(b => b.classList.replace('bg-blue-500', 'bg-slate-500'));
+                    btn.classList.replace('bg-slate-500', 'bg-blue-500');
+                    currentAspectW = parseInt(btn.dataset.aspectW);
+                    currentAspectH = parseInt(btn.dataset.aspectH);
+                    calculateDimensions();
+                });
+            });
+            
+            calculateDimensions();
+        });
+    </script>
+</body>
+</html>
