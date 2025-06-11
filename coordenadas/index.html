@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Coordenadas en el Plano</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="estilos.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-4">
+    <h1 class="mb-3">¿Dónde está el objeto?</h1>
+    <p class="mb-4">Observá el plano y escribí las coordenadas del objeto:</p>
+    <p class="mb-3">El botón amarillo alterna entre <i>Modo solo Positivos</i> y <i>Modo Avanzado</i></p>
+    
 
+    <canvas id="plano" width="600" height="600"></canvas>
+
+    <div class="mt-4">
+      <label for="x">X:</label>
+      <input type="number" id="x" class="form-control d-inline w-auto mx-2" />
+      <label for="y">Y:</label>
+      <input type="number" id="y" class="form-control d-inline w-auto mx-2" />
+      <button class="btn btn-primary mx-1" onclick="verificar()">Verificar</button>
+      <button class="btn btn-success mx-1" onclick="nuevoEnsayo()">Nuevo ensayo</button>
+    </div>
+
+    <div class="mt-3">
+      <button id="modoBtn" class="btn btn-warning" onclick="toggleCuadrantes()">Modo avanzado</button>
+    </div>
+    
+
+    <div class="mensaje" id="mensaje"></div>
+  </div>
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+  © 2025 - Actividad educativa interactiva - <a href="mailto:nicolasrosbaco@curza.com.ar">Lic. Nicolás Rosbaco</a> | 2025 año de la #Proscripción política en Argentina
+</footer>
+
+
+  <script src="funciones.js"></script>
+</body>
+</html>
