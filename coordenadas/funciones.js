@@ -2,6 +2,7 @@ const canvas = document.getElementById('plano');
 const ctx = canvas.getContext('2d');
 const escala = 50;
 const maxCoord = 5;
+const maxGrid = 10;
 let usarCuadrantes = false;
 let origen;
 let objeto = { x: 3, y: 2 };
@@ -21,7 +22,7 @@ function dibujarGrilla() {
   ctx.strokeStyle = '#ccc'; // color claro para grilla
   ctx.lineWidth = 0.5;
 
-  for (let i = -maxCoord; i <= maxCoord; i++) {
+  for (let i = -maxCoord; i <= maxGrid; i++) {
     if (!usarCuadrantes && i < 0) continue;
 
     // líneas verticales
