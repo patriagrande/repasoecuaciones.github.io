@@ -96,14 +96,27 @@
     <p>Sigue estos pasos para poner en marcha el <strong>Sistema de Gestión de Trayectorias Escolares</strong> en tu equipo local.</p>
 
     <h2>1. Requisito Primordial: Docker</h2>
-    <p>Docker es el motor que permite que el sistema funcione sin que tengas que instalar bases de datos o lenguajes de programación manualmente.</p>
+        <p>Docker es el motor que permite que el sistema funcione sin instalaciones complicadas.</p>
+        
+        <div class="step">
+            <span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
+            Descarga e instala <strong>Docker Desktop</strong>: <br>
+            <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop aquí</a>
+        </div>
     
-    <div class="step">
-        <span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
-        Descarga e instala <strong>Docker Desktop</strong> (Acepta las configuraciones por defecto): <br>
-        <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop aquí</a>
-    </div>
+        <div class="step">
+            <span class="badge linux">Linux</span><br>
+            <p>Instala el motor de Docker y Compose abriendo una terminal y ejecutando:</p>
+            <div class="code-container">
+                <button class="copy-btn" onclick="copyCode('codeLinux')">Copiar</button>
+                <pre id="codeLinux" class="bash">sudo apt update
+    sudo apt install docker.io docker-compose-v2 -y
+    sudo usermod -aG docker $USER</pre>
+            </div>
+            <p><small><i>*Nota: Es posible que necesites cerrar sesión y volver a entrar para que los permisos se apliquen.</i></small></p>
+        </div>
 
+    
     <h2>2. Configuración de Archivos</h2>
     <p>Crea una carpeta llamada <code>SGE_Patagoniko</code> en tu Escritorio. Dentro de ella debes tener los siguientes dos archivos:</p>
     
