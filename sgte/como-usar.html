@@ -9,7 +9,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f4f7f6;
@@ -17,40 +17,55 @@
         .container {
             background-color: #fff;
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         h1 {
             color: #2c3e50;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 3px solid #3498db;
             padding-bottom: 10px;
+            text-align: center;
         }
         h2 {
             color: #2980b9;
             margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
         }
         .step {
             background: #eef7fd;
-            padding: 15px;
-            border-left: 5px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
             margin-bottom: 20px;
         }
-        code {
-            background-color: #f8f8f8;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #e74c3c;
+        .code-container {
+            position: relative;
+            margin: 15px 0;
         }
         .bash {
             background-color: #2d3436;
             color: #fab1a0;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             display: block;
             overflow-x: auto;
-            margin: 10px 0;
+            white-space: pre;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
         }
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #636e72;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7em;
+        }
+        .copy-btn:hover { background: #2d3436; }
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -61,76 +76,110 @@
             margin-right: 5px;
         }
         .win { background-color: #00a8ff; color: white; }
-        .mac { background-color: #f5f6fa; color: #2f3640; border: 1px solid #dcdde1; }
+        .mac { background-color: #dcdde1; color: #2f3640; }
         .linux { background-color: #f1c40f; color: black; }
         .footer {
             margin-top: 50px;
             text-align: center;
-            font-size: 0.9em;
-            color: #7f8c8d;
+            font-size: 0.8em;
+            color: #95a5a6;
+            font-style: italic;
         }
-        a { color: #3498db; text-decoration: none; }
+        a { color: #3498db; text-decoration: none; font-weight: bold; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚀 Guía de Instalación - Sistema Gestión de Trayectorias Escolares</h1>
-    <p>Bienvenido al <strong>Sistema de Gestión de Estudiantes</strong>. Sigue estos pasos para poner la aplicación en marcha en tu equipo.</p>
+    <h1>🚀 Guía de Instalación - SGE PatagoNiKo</h1>
+    <p>Sigue estos pasos para poner en marcha el <strong>Sistema de Gestión de Trayectorias Escolares</strong> en tu equipo local.</p>
 
-    <h2>1. Requisito: Instalar Docker</h2>
-    <p>Docker permite que la aplicación funcione en cualquier sistema operativo sin instalaciones complicadas.</p>
+    <h2>1. Requisito Primordial: Docker</h2>
+    <p>Docker es el motor que permite que el sistema funcione sin que tengas que instalar bases de datos o lenguajes de programación manualmente.</p>
     
     <div class="step">
-        <p><span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
-        Descarga e instala <strong>Docker Desktop</strong> desde la web oficial: <br>
-        <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop</a></p>
+        <span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
+        Descarga e instala <strong>Docker Desktop</strong> (Acepta las configuraciones por defecto): <br>
+        <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop aquí</a>
     </div>
 
-    <div class="step">
-        <p><span class="badge linux">Linux</span><br>
-        Instala Docker Compose desde tu terminal:</p>
-        <code class="bash">sudo apt update && sudo apt install docker-compose -y</code>
+    <h2>2. Configuración de Archivos</h2>
+    <p>Crea una carpeta llamada <code>SGE_Patagoniko</code> en tu Escritorio. Dentro de ella debes tener 3 archivos:</p>
+    
+    <h3>A. El archivo de configuración (<code>docker-compose.yml</code>)</h3>
+    <p>Copia el contenido del archivo YAML que te enviamos originalmente en esta carpeta.</p>
+
+    <h3>B. El Lanzador de Sistema</h3>
+    <p>Crea un archivo de texto, pega el código correspondiente y guárdalo en la misma carpeta:</p>
+
+    <div class="code-container">
+        <span class="badge win">Para Windows</span> <code>iniciar_sistema.bat</code>
+        <button class="copy-btn" onclick="copyCode('codeWin')">Copiar Código</button>
+        <pre id="codeWin" class="bash">
+@echo off
+title Lanzador Patagóniko SGE
+echo -------------------------------------------------------
+echo   SISTEMA DE GESTION DE ESTUDIANTES - PATAGONIKO
+echo -------------------------------------------------------
+docker compose up -d
+echo.
+echo ¡Todo listo! El sistema esta corriendo.
+echo.
+echo    - Acceso a la APP: http://localhost:8000
+echo    - Acceso a la DB:   http://localhost:8081
+echo.
+pause</pre>
     </div>
 
-    <h2>2. Preparar los Archivos</h2>
-    <p>Crea una carpeta en tu Escritorio llamada <code>GestionEstudiantes</code> y asegúrate de que contenga los archivos que te enviamos:</p>
-    <ul>
-        <li><code>docker-compose.yml</code> (Instrucciones del sistema)</li>
-        <li><code>iniciar_sistema</code> (Script de inicio rápido)</li>
-    </ul>
+    <div class="code-container">
+        <span class="badge mac">Para Mac/Linux</span> <code>iniciar_sistema.sh</code>
+        <button class="copy-btn" onclick="copyCode('codeMac')">Copiar Código</button>
+        <pre id="codeMac" class="bash">
+#!/bin/bash
+echo "Iniciando Sistema Patagóniko..."
+docker compose up -d
+echo "Acceso App: http://localhost:8000"
+read -p "Presiona Enter para finalizar..."</pre>
+    </div>
 
-    <h2>3. Iniciar el Sistema</h2>
-    <p>Elige tu método preferido:</p>
-    
-    <h3>🖥️ Windows (Doble Clic)</h3>
-    <p>Simplemente haz doble clic en el archivo <code>iniciar_windows.bat</code>. Se abrirá una ventana negra que descargará e iniciará todo automáticamente.</p>
+    <h2>3. Puesta en Marcha</h2>
+    <p>Haz <strong>doble clic</strong> en el archivo que creaste (<code>.bat</code> o <code>.sh</code>). 
+    <br><em>Nota: La primera vez demorará unos minutos mientras descarga los componentes desde la nube.</em></p>
 
-    <h3>🍎 Mac / 🐧 Linux</h3>
-    <p>Abre la terminal en la carpeta seleccionada y ejecuta:</p>
-    <code class="bash">docker compose up -d</code>
+    <h2>4. ¿Cómo actualizar el sistema?</h2>
+    <p>Como estamos en etapa de desarrollo, enviaré mejoras seguido. Para actualizar a la última versión disponible, no necesitas borrar nada, solo:</p>
+    <ol>
+        <li>Abre una terminal en la carpeta del sistema.</li>
+        <li>Escribe: <code>docker compose pull</code></li>
+        <li>Escribe: <code>docker compose up -d</code></li>
+    </ol>
 
-    <h2>4. Acceso a la Aplicación</h2>
-    <p>Una vez finalizado el proceso anterior, abre tu navegador (Chrome, Edge o Firefox) y entra en la siguiente dirección:</p>
-    
-    <div style="text-align: center; font-size: 1.5em; margin: 20px 0;">
-        <a href="http://localhost:8000" target="_blank">🌐 http://localhost:8000</a>
+    <div style="text-align: center; margin: 40px 0; padding: 20px; border: 2px dashed #3498db; border-radius: 10px;">
+        <h3>🔗 Enlace de Acceso Directo</h3>
+        <a href="http://localhost:8000" target="_blank" style="font-size: 1.4em;">👉 ENTRAR AL SISTEMA (http://localhost:8000)</a>
     </div>
 
     <hr>
 
     <h2>💡 Notas Importantes</h2>
     <ul>
-        <li><strong>Primera vez:</strong> La primera ejecución puede tardar unos minutos porque el sistema debe descargarse de la nube. Las siguientes veces será instantáneo.</li>
-        <li><strong>Persistencia:</strong> Tus datos se guardan automáticamente. Puedes apagar la computadora sin miedo a perder información.</li>
-        <li><strong>Uso Offline:</strong> Una vez descargado, no necesitas conexión a internet para usar la aplicación.</li>
+        <li><strong>Base de Datos:</strong> Puedes auditar los datos en tiempo real entrando a <a href="http://localhost:8081">http://localhost:8081</a>.</li>
+        <li><strong>Persistencia:</strong> Aunque apagues la computadora, los datos de los estudiantes quedan guardados de forma segura en Docker.</li>
     </ul>
 
     <div class="footer">
-        Desarrollado patagoNiKo (<dode>#MileiBasura</dode>)
+        Desarrollado por patagoNiKo (#MileiBasura)
     </div>
 </div>
+
+<script>
+    function copyCode(id) {
+        const code = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(code);
+        alert("Código copiado al portapapeles. Pégalo en tu archivo de texto.");
+    }
+</script>
 
 </body>
 </html>
