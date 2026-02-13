@@ -77,4 +77,60 @@
 
 <div class="container">
     <h1>🚀 Guía de Instalación: Sistema Patagóniko</h1>
-    <p>Bienvenido al <strong>Sistema de Gestión
+    <p>Bienvenido al <strong>Sistema de Gestión de Estudiantes</strong>. Sigue estos pasos para poner la aplicación en marcha en tu equipo.</p>
+
+    <h2>1. Requisito: Instalar Docker</h2>
+    <p>Docker permite que la aplicación funcione en cualquier sistema operativo sin instalaciones complicadas.</p>
+    
+    <div class="step">
+        <p><span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
+        Descarga e instala <strong>Docker Desktop</strong> desde la web oficial: <br>
+        <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop</a></p>
+    </div>
+
+    <div class="step">
+        <p><span class="badge linux">Linux</span><br>
+        Instala Docker Compose desde tu terminal:</p>
+        <code class="bash">sudo apt update && sudo apt install docker-compose -y</code>
+    </div>
+
+    <h2>2. Preparar los Archivos</h2>
+    <p>Crea una carpeta en tu Escritorio llamada <code>GestionEstudiantes</code> y asegúrate de que contenga los archivos que te enviamos:</p>
+    <ul>
+        <li><code>docker-compose.yml</code> (Instrucciones del sistema)</li>
+        <li><code>iniciar_sistema</code> (Script de inicio rápido)</li>
+    </ul>
+
+    <h2>3. Iniciar el Sistema</h2>
+    <p>Elige tu método preferido:</p>
+    
+    <h3>🖥️ Windows (Doble Clic)</h3>
+    <p>Simplemente haz doble clic en el archivo <code>iniciar_windows.bat</code>. Se abrirá una ventana negra que descargará e iniciará todo automáticamente.</p>
+
+    <h3>🍎 Mac / 🐧 Linux</h3>
+    <p>Abre la terminal en la carpeta seleccionada y ejecuta:</p>
+    <code class="bash">docker compose up -d</code>
+
+    <h2>4. Acceso a la Aplicación</h2>
+    <p>Una vez finalizado el proceso anterior, abre tu navegador (Chrome, Edge o Firefox) y entra en la siguiente dirección:</p>
+    
+    <div style="text-align: center; font-size: 1.5em; margin: 20px 0;">
+        <a href="http://localhost:8000" target="_blank">🌐 http://localhost:8000</a>
+    </div>
+
+    <hr>
+
+    <h2>💡 Notas Importantes</h2>
+    <ul>
+        <li><strong>Primera vez:</strong> La primera ejecución puede tardar unos minutos porque el sistema debe descargarse de la nube. Las siguientes veces será instantáneo.</li>
+        <li><strong>Persistencia:</strong> Tus datos se guardan automáticamente. Puedes apagar la computadora sin miedo a perder información.</li>
+        <li><strong>Uso Offline:</strong> Una vez descargado, no necesitas conexión a internet para usar la aplicación.</li>
+    </ul>
+
+    <div class="footer">
+        Desarrollado con ❤️ por el equipo de Desarrollo SGE
+    </div>
+</div>
+
+</body>
+</html>
