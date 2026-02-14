@@ -97,13 +97,13 @@
 
     <h2>1. Requisito Primordial: Docker</h2>
         <p>Docker es el motor que permite que el sistema funcione sin instalaciones complicadas.</p>
-        
+
         <div class="step">
             <span class="badge win">Windows</span> <span class="badge mac">Mac</span><br>
             Descarga e instala <strong>Docker Desktop</strong>: <br>
             <a href="https://www.docker.com/products/docker-desktop/" target="_blank">👉 Descargar Docker Desktop aquí</a>
         </div>
-    
+
         <div class="step">
             <span class="badge linux">Linux</span><br>
             <p>Instala el motor de Docker y Compose abriendo una terminal y ejecutando:</p>
@@ -113,15 +113,22 @@
     sudo apt install docker.io docker-compose-v2 -y
     sudo usermod -aG docker $USER</pre>
             </div>
-            <p><small><i>*Nota: Es posible que necesites cerrar sesión y volver a entrar para que los permisos se apliquen.</i></small></p>
+            <p><small><i>*Nota: Es posible que necesites cerrar sesión y volver a entrar para
+             que los permisos se apliquen.</i> hasta que no hagas <code>docker ps</code>
+             y te deje ejecutar el comando significa que tu usuario aún no tiene los permisos 
+             necesarios (no está en el grupo de docker).</small></p>
         </div>
 
-    
+
     <h2>2. Configuración de Archivos</h2>
     <p>Crea una carpeta llamada <code>SGE_Patagoniko</code> en tu Escritorio. Dentro de ella debes tener los siguientes dos archivos:</p>
-    
+
     <h3>A. El archivo de configuración (<code>docker-compose.yml</code>)</h3>
     <p>Copia el contenido del archivo YAML que te enviamos originalmente en esta carpeta.</p>
+    <p>Te enviaremos el <code>docker-compose.yml</code> más otro archivo con
+    una serie de claves en su interior. Se llama <code>.env-ejemplo</code>. Va a ser
+    necesario que le cambies el nombre a: <code>.env</code></p>
+    <p>Pero no te preocupes por eso... lo que no logras por tus medios, te  ayuda GPT 😀</p>
 
     <h3>B. El Lanzador de Sistema</h3>
     <p>Crea un archivo de texto, pega el código correspondiente y guárdalo en la misma carpeta:</p>
@@ -130,19 +137,21 @@
         <span class="badge win">Para Windows</span> <code>iniciar_sistema.bat</code>
         <button class="copy-btn" onclick="copyCode('codeWin')">Copiar Código</button>
         <pre id="codeWin" class="bash">
-@echo off
-title Lanzador Patagóniko SGE
-echo -------------------------------------------------------
-echo   SISTEMA DE GESTION DE ESTUDIANTES - PATAGONIKO
-echo -------------------------------------------------------
-docker compose up -d
-echo.
-echo ¡Todo listo! El sistema esta corriendo.
-echo.
-echo    - Acceso a la APP: http://localhost:8000
-echo    - Acceso a la DB:   http://localhost:8081
-echo.
-pause</pre>
+            @echo off
+            title Lanzador Patagóniko SGE
+            echo -------------------------------------------------------
+            echo   SISTEMA DE GESTION DE ESTUDIANTES - PATAGONIKO
+            echo -------------------------------------------------------
+            docker compose up -d
+            echo.
+            echo ¡Todo listo! El sistema esta corriendo.
+            echo.
+            echo    - Acceso a la APP: http://localhost:8000
+            echo    - Acceso a la DB:   http://localhost:8081
+            echo.
+            pause
+        </pre>
+        <p>La clave es esta instrucción: <code>docker compose up -d</code>, todo lo demás es adorno.</p>
     </div>
 
     <div class="code-container">
@@ -157,7 +166,7 @@ read -p "Presiona Enter para finalizar..."</pre>
     </div>
 
     <h2>3. Puesta en Marcha</h2>
-    <p>Haz <strong>doble clic</strong> en el archivo que creaste (<code>.bat</code> o <code>.sh</code>). 
+    <p>Haz <strong>doble clic</strong> en el archivo que creaste (<code>.bat</code> o <code>.sh</code>).
     <br><em>Nota: La primera vez demorará unos minutos mientras descarga los componentes desde la nube.</em></p>
 
     <h2>4. ¿Cómo actualizar el sistema?</h2>
