@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apuntes de Clase: Resolución de Límites Matemáticos</title>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            background-color: #fdfdfd;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+        }
+        .conversacion {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .pregunta {
+            background-color: #e8f4f8;
+            padding: 15px 20px;
+            border-left: 5px solid #3498db;
+            border-radius: 0 8px 8px 0;
+            align-self: flex-start;
+            max-width: 90%;
+        }
+        .respuesta {
+            background-color: #f0f7f4;
+            padding: 15px 20px;
+            border-left: 5px solid #2ecc71;
+            border-radius: 0 8px 8px 0;
+            align-self: flex-start;
+            max-width: 100%;
+        }
+        .etiqueta {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+        .math-container {
+            overflow-x: auto;
+            margin: 15px 0;
+            padding: 10px 0;
+        }
+        .destacado {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ffeeba;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            padding: 20px 10px;
+            border-top: 2px solid #3498db;
+            color: #555;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <h1>Apuntes de Clase: Resolución de Límites y Asintotas</h1>
+    <p>Registro paso a paso de la resolución de un ejercicio, abordando indeterminaciones y límites tendientes al infinito.</p>
+
+    <div class="conversacion">
+
+        <div class="pregunta">
+            <span class="etiqueta">Consulta inicial</span>
+            ¿Cómo resolver este problema sin usar software?:
+            <div class="math-container">
+                $$ \lim_{x \to 1} \frac{\sqrt{x} - 1}{x^2 - 1} $$
+            </div>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Acciones</span>
+            <p>Siempre que nos enfrentamos a un límite, el primer paso <i>debería ser</i> intentar evaluar la función directamente en el valor a al que tiende la variable. En este caso, la $x$ tiende a $1$. Por lo tanto debería ser necesario calcular la expresión cuando x=1</p>
+            <p>¿Pensa.... qué pasa al reemplazar $x$ por $1$ en la expresión original?</p>
+        </div>
+
+        <div class="pregunta">
+            <span class="etiqueta">Respuesta</span>
+            <p>Se indetermina la expresión cuando $x$ es $1$ (queda 0 dividido 0); una buena idea podría ser factorizarla... el queda así: $(x+1)(x-1)$ que sería lo mismo que escribir: $(x+1)(\sqrt{x}+1)(\sqrt{x}-1)$ (<i>acá uso diferencias de cuadrados</i>).</p>
+            <p>Simplificando con el numerador quedaría:</p>
+            <div class="math-container">
+                $$ \frac{1}{(x+1)(\sqrt{x}+1)} $$
+            </div>
+            <p>Listo... <b>salvamos la indeterminación</b> podemos sustituír $x=1$ y nos aaría $1/4$ el límite buscado.</p>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Más ideas...</span>
+            <p>Pasemos en limpio: no podíamos sustitír originalemente porque la expresión se <b>indeterminaba</b>. Usamos estrategias algebraicas (diferencia de cuadrados) y la pudimos simplificar.</p>
+            <p>Aplicamos el caso de factoreo de <strong>diferencia de cuadrados</strong> de forma "anidada", lo cual es una estrategia muy común en estos ejercicios (que son todos iguales).</p>
+            <p>Al simplificar el factor problemático $(\sqrt{x} - 1)$, "salvamos" la indeterminación y el cálculo final quedó así:</p>
+            <div class="math-container">
+                $$ \lim_{x \to 1} \frac{1}{(x + 1)(\sqrt{x} + 1)} = \frac{1}{(1 + 1)(\sqrt{1} + 1)} = \frac{1}{(2)(2)} = \frac{1}{4} $$
+            </div>
+        </div>
+
+        <div class="pregunta">
+            <span class="etiqueta">Pregunta MUY común en estas situaciones de estudio</span>
+            <p>¿a qué llamamos indeterminación?</p>
+        </div>
+
+        <!-- desde acá -->
+
+
+    <div class="respuesta" >
+            <h2>Los 7 Casos de Indeterminación (Resueltos paso a paso)</h2>
+            <p>En el cálculo de límites, existen siete formas matemáticas que no nos dan un resultado concluyente de forma directa. Cuando llegamos a una de ellas, necesitamos aplicar herramientas algebraicas, límites notables o la regla de L'Hôpital para encontrar el valor real.</p>
+
+            <ul style="list-style-type: none; padding-left: 0;">
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>1. Cero sobre cero $$ \frac{0}{0} $$</h3>
+                    <p>Ocurre frecuentemente en cocientes de polinomios o funciones trigonométricas. Aquí aplicamos la Regla de L'Hôpital (derivando arriba y abajo).</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        \lim_{x \to 0} \frac{\sin(x)}{x} &\xrightarrow{\text{L'Hôpital}} \lim_{x \to 0} \frac{\cos(x)}{1} \\
+                        &= \frac{\cos(0)}{1} = \frac{1}{1} = 1
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>2. Infinito sobre infinito $$ \frac{\infty}{\infty} $$</h3>
+                    <p>Muy común al analizar asintotas horizontales. La estrategia algebraica clásica es dividir todos los términos por la $x$ de mayor grado.</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        \lim_{x \to \infty} \frac{2x^2 + 3}{x^2 - 1} &= \lim_{x \to \infty} \frac{x^2\left(2 + \frac{3}{x^2}\right)}{x^2\left(1 - \frac{1}{x^2}\right)} \\
+                        &= \lim_{x \to \infty} \frac{2 + \frac{3}{x^2}}{1 - \frac{1}{x^2}} = \frac{2 + 0}{1 - 0} = 2
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>3. Cero por infinito $$ 0 \cdot \infty $$</h3>
+                    <p>Se resuelve reescribiendo la multiplicación como una división para llevarla al caso 1 o 2, y luego aplicar L'Hôpital.</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        \lim_{x \to 0^+} x \ln(x) &= \lim_{x \to 0^+} \frac{\ln(x)}{\frac{1}{x}} \quad \text{(queda } \frac{-\infty}{\infty} \text{)} \\
+                        &\xrightarrow{\text{L'Hôpital}} \lim_{x \to 0^+} \frac{\frac{1}{x}}{-\frac{1}{x^2}} \\
+                        &= \lim_{x \to 0^+} (-x) = 0
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>4. Infinito menos infinito $$ \infty - \infty $$</h3>
+                    <p>Suele aparecer con diferencias de raíces. La clave geométrica es multiplicar y dividir por el conjugado.</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        \lim_{x \to \infty} (\sqrt{x^2 + x} - x) &= \lim_{x \to \infty} \frac{(\sqrt{x^2 + x} - x)(\sqrt{x^2 + x} + x)}{\sqrt{x^2 + x} + x} \\
+                        &= \lim_{x \to \infty} \frac{x^2 + x - x^2}{\sqrt{x^2\left(1 + \frac{1}{x}\right)} + x} \\
+                        &= \lim_{x \to \infty} \frac{x}{x\sqrt{1 + \frac{1}{x}} + x} \\
+                        &= \lim_{x \to \infty} \frac{1}{\sqrt{1 + \frac{1}{x}} + 1} = \frac{1}{\sqrt{1} + 1} = \frac{1}{2}
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>5. Uno elevado al infinito $$ 1^\infty $$</h3>
+                    <p>Para bajar la $x$ del exponente, igualamos el límite a una variable $y$ y aplicamos logaritmo natural a ambos lados.</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        y &= \lim_{x \to \infty} \left(1 + \frac{1}{x}\right)^x \\
+                        \ln(y) &= \lim_{x \to \infty} x \ln\left(1 + \frac{1}{x}\right) = \lim_{x \to \infty} \frac{\ln\left(1 + \frac{1}{x}\right)}{\frac{1}{x}} \\
+                        &\xrightarrow{\text{L'Hôpital}} \lim_{x \to \infty} \frac{\frac{1}{1 + 1/x} \cdot \left(-\frac{1}{x^2}\right)}{-\frac{1}{x^2}} \\
+                        &= \lim_{x \to \infty} \frac{1}{1 + \frac{1}{x}} = 1 \\
+                        \ln(y) &= 1 \implies y = e^1 = e
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <h3>6. Cero elevado a la cero $$ 0^0 $$</h3>
+                    <p>Al igual que el caso anterior, usamos logaritmos para transformar la potencia en una multiplicación que ya sabemos resolver (Caso 3).</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        y &= \lim_{x \to 0^+} x^x \\
+                        \ln(y) &= \lim_{x \to 0^+} x \ln(x) \quad \text{(Visto en el Caso 3)} \\
+                        \ln(y) &= 0 \implies y = e^0 = 1
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+                <li style="margin-bottom: 25px; padding-bottom: 15px;">
+                    <h3>7. Infinito elevado a la cero $$ \infty^0 $$</h3>
+                    <p>Nuevamente, la aplicación de logaritmos nos permite bajar el exponente y aplicar L'Hôpital de forma sencilla.</p>
+                    <div class="destacado">
+                        <strong>Ejemplo resuelto:</strong>
+                        $$ \begin{aligned}
+                        y &= \lim_{x \to \infty} x^{\frac{1}{x}} \\
+                        \ln(y) &= \lim_{x \to \infty} \frac{1}{x} \ln(x) = \lim_{x \to \infty} \frac{\ln(x)}{x} \\
+                        &\xrightarrow{\text{L'Hôpital}} \lim_{x \to \infty} \frac{\frac{1}{x}}{1} = 0 \\
+                        \ln(y) &= 0 \implies y = e^0 = 1
+                        \end{aligned} $$
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <!-- hasta acá -->
+
+
+        <div class="respuesta">
+            <span class="etiqueta">Pasando en limpio</span>
+            <p>En el cálculo de límites, si llegas a una <b><i>indeterminación</i></b> : no significa que la cuenta dé cero, ni tampoco significa que el límite no exista. Simplemente nos está diciendo: <em>"El resultado está indeterminado por ahora, hay algo escondido y tenés que usar álgebra para descubrirlo"</em>.</p>
+        </div>
+
+        <div class="pregunta">
+            <span class="etiqueta">Otra, pregunta muy habitual:</span>
+            <p>¿Qué pasa si al sustituir obtengo una constante dividido cero... si fuera:</p>
+            <div class="math-container">
+                $$ \lim_{x \to 2} \frac{4}{x - 2} $$
+            </div>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Pensando lo anterior:</span>
+            <p>A diferencia del $\frac{0}{0}$ (la indeterminación que motivó toda esta charla), cuando obtenemos una constante <i>NO nula</i> dividida por cero ($\frac{k}{0}$), estamos frente a una <strong>asíntota vertical</strong> y la función se dispara hacia el infinito.</p>
+            <p><strong>UNA SÚPER IDEA:</strong> hay una herramienta que tenés que tener súper a mano cuando estudias estas cosas...
+            Más importante que el aire que respiras, más importante que rajar a Milei: es GeoGebra. Probá graficar con GeoGebra:
+            $ f(x)= \frac{4}{x - 2} $, antes de hacer ninguna cuenta.</p>
+            <p>Para saber hacia qué infinito va, analizamos los límites laterales:</p>
+            <ul>
+                <li><strong>Por la derecha ($x \to 2^+$):</strong> El denominador da un número positivo muy chiquito. $\frac{+}{+} = +\infty$.<br>
+                $$ \lim_{x \to 2^+} \frac{4}{x - 2} = +\infty $$</li>
+                <li><strong>Por la izquierda ($x \to 2^-$):</strong> El denominador da un número negativo muy chiquito. $\frac{+}{-} = -\infty$.<br>
+                $$ \lim_{x \to 2^-} \frac{4}{x - 2} = -\infty $$</li>
+            </ul>
+            <div class="destacado">
+                <strong>En resumen:</strong><br>
+                $\frac{0}{0} \rightarrow$ Indeterminación (se usa álgebra para salvarla).<br>
+                $\frac{k}{0} \rightarrow$ Infinito (hay una asíntota vertical).
+            </div>
+        </div>
+
+    </div>
+    <footer class="footer">
+        <div>patagoNiKo</div>
+        <div>2026 #mileiBasura</div>
+    </footer>
+</body>
+</html>
