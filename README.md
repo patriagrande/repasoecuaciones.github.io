@@ -7,3 +7,7 @@ Pitágoras y Pantallas: https://patriagrande.github.io/repasoecuaciones.github.i
 Coordenadas en el plano (para Anto): https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
 
 Sistema Gestión Trayectorias Escolares: https://patriagrande.github.io/repasoecuaciones.github.io/sgte/como-usar.html
+
+Problemas de límites:
+
+[1] https://patriagrande.github.io/repasoecuaciones.github.io/matematik/limite_ejercicio01.html
