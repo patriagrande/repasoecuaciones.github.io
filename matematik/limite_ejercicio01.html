@@ -285,6 +285,189 @@
             </div>
         </div>
 
+
+        <div class="conversacion">
+        <div class="pregunta">
+            <span class="etiqueta">Ejemplo Práctico</span>
+            <p>Apliquemos el Teorema de Rouché-Frobenius para clasificar el siguiente sistema de ecuaciones lineales:</p>
+            <div class="math-container">
+                $$ \begin{cases}
+                x + y + z = 6 \\
+                2x - y + z = 3 \\
+                x + 2y - z = 2
+                \end{cases} $$
+            </div>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Profesor</span>
+            <p>Para aplicar el teorema y saber cuántas soluciones tiene esto antes de intentar resolverlo, vamos a seguir estos pasos:</p>
+
+            <h3>Paso 1: Armar las matrices</h3>
+            <p>Primero, extraemos los coeficientes (los números que multiplican a las letras) para formar la matriz $A$. Luego, le agregamos la columna de los resultados para formar la matriz ampliada $A^*$. Sabemos que la cantidad de incógnitas es $n = 3$.</p>
+
+            <div class="math-container">
+                $$ A = \begin{pmatrix}
+                1 & 1 & 1 \\
+                2 & -1 & 1 \\
+                1 & 2 & -1
+                \end{pmatrix}
+                \quad \text{y} \quad
+                A^* = \begin{pmatrix}
+                1 & 1 & 1 & | & 6 \\
+                2 & -1 & 1 & | & 3 \\
+                1 & 2 & -1 & | & 2
+                \end{pmatrix} $$
+            </div>
+
+            <h3>Paso 2: Calcular el Rango de la matriz A ($rg(A)$)</h3>
+            <p>La forma más rápida de saber el rango de una matriz cuadrada de 3x3 es calcular su determinante. Si el determinante es distinto de cero, significa que sus 3 filas son linealmente independientes, por lo tanto, su rango es 3.</p>
+
+            <div class="math-container">
+                $$ |A| = \begin{vmatrix}
+                1 & 1 & 1 \\
+                2 & -1 & 1 \\
+                1 & 2 & -1
+                \end{vmatrix} = 1(1 - 2) - 1(-2 - 1) + 1(4 - (-1)) $$
+                <br>
+                $$ |A| = 1(-1) - 1(-3) + 1(5) = -1 + 3 + 5 = 7 $$
+            </div>
+            <p>Como $|A| = 7 \neq 0$, confirmamos que el <strong>$rg(A) = 3$</strong>.</p>
+
+            <h3>Paso 3: Calcular el Rango de la matriz ampliada ($rg(A^*)$)</h3>
+            <p>La matriz $A^*$ tiene 3 filas y 4 columnas. El rango máximo que puede tener una matriz está limitado por su dimensión más pequeña (en este caso, 3 filas). Como la matriz $A$ (que ya sabemos que tiene rango 3) está "adentro" de $A^*$, automáticamente sabemos que el <strong>$rg(A^*) = 3$</strong>. No hace falta calcular nada más.</p>
+
+            <h3>Paso 4: Conclusión con el Teorema</h3>
+            <p>Comparamos los tres datos que recolectamos:</p>
+            <ul>
+                <li>Rango de $A$: $rg(A) = 3$</li>
+                <li>Rango de $A^*$: $rg(A^*) = 3$</li>
+                <li>Número de incógnitas: $n = 3$</li>
+            </ul>
+
+            <div class="destacado">
+                <p>Como <strong>$rg(A) = rg(A^*) = n = 3$</strong>, el Teorema de Rouché-Frobenius nos garantiza que estamos ante un <strong>Sistema Compatible Determinado (SCD)</strong>.</p>
+                <p><em>Conclusión:</em> El sistema tiene una única solución exacta.</p>
+            </div>
+
+            <p>[Image of three planes intersecting at a single point]</p>
+            <p>Geométricamente, esto significa que si dibujáramos cada ecuación como un plano en el espacio 3D, los tres planos se chocarían exactamente en un único punto (que en este caso es el punto $x=1, y=2, z=3$).</p>
+        </div>
+
+        <div class="conversacion">
+
+        <div class="pregunta">
+            <span class="etiqueta">Consulta del Alumno</span>
+            <p>Mostrame un ejemplo de un sistema de 3 incógnitas y 2 ecuaciones analizado con este mismo teorema.</p>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Profesor</span>
+            <p>¡Con gusto! Vamos a analizar el siguiente sistema rectangular (donde hay más letras que ecuaciones):</p>
+
+            <div class="math-container">
+                $$ \begin{cases}
+                x + y + z = 1 \\
+                2x + 2y + z = 3
+                \end{cases} $$
+            </div>
+
+            <h3>Paso 1: Armar las matrices</h3>
+            <p>Extraemos los coeficientes para la matriz $A$ y agregamos los resultados para la matriz ampliada $A^*$. Tenemos $n = 3$ incógnitas ($x, y, z$).</p>
+
+            <div class="math-container">
+                $$ A = \begin{pmatrix}
+                1 & 1 & 1 \\
+                2 & 2 & 1
+                \end{pmatrix}
+                \quad \text{y} \quad
+                A^* = \begin{pmatrix}
+                1 & 1 & 1 & | & 1 \\
+                2 & 2 & 1 & | & 3
+                \end{pmatrix} $$
+            </div>
+
+            <h3>Paso 2: Calcular el Rango de la matriz A ($rg(A)$)</h3>
+            <p>Como la matriz no es cuadrada (es de 2x3), no podemos calcular un determinante de toda la matriz. Buscamos el determinante cuadrado más grande que podamos formar (de 2x2) que sea distinto de cero.</p>
+            <p>Si tomamos las primeras dos columnas, el determinante da cero ($1 \cdot 2 - 1 \cdot 2 = 0$), lo que indica que esas columnas son proporcionales. Pero si tomamos la primera y la tercera columna:</p>
+
+            <div class="math-container">
+                $$ \begin{vmatrix}
+                1 & 1 \\
+                2 & 1
+                \end{vmatrix} = 1(1) - 1(2) = 1 - 2 = -1 $$
+            </div>
+
+            <p>Como encontramos un determinante de 2x2 distinto de cero, confirmamos que el <strong>$rg(A) = 2$</strong>.</p>
+
+            <h3>Paso 3: Calcular el Rango de la matriz ampliada ($rg(A^*)$)</h3>
+            <p>La matriz ampliada $A^*$ tiene solo 2 filas. El rango de una matriz nunca puede ser mayor que su número de filas. Como ya sabemos que dentro de $A^*$ hay un bloque (el de la matriz $A$) que tiene rango 2, el rango de la ampliada no puede ser otro más que 2. Por lo tanto, <strong>$rg(A^*) = 2$</strong>.</p>
+
+            <h3>Paso 4: Conclusión con el Teorema</h3>
+            <p>Comparamos nuestros datos:</p>
+            <ul>
+                <li>Rango de $A$: $rg(A) = 2$</li>
+                <li>Rango de $A^*$: $rg(A^*) = 2$</li>
+                <li>Número de incógnitas: $n = 3$</li>
+            </ul>
+
+            <div class="destacado">
+                <p>Como <strong>$rg(A) = rg(A^*) < n$</strong> (es decir, $2 = 2 < 3$), el Teorema de Rouché-Frobenius nos indica que estamos ante un <strong>Sistema Compatible Indeterminado (SCI)</strong>.</p>
+                <p><em>Conclusión:</em> El sistema tiene infinitas soluciones.</p>
+            </div>
+
+            <p></p>
+            <p>Geométricamente, cada ecuación representa un plano en el espacio. Como no son paralelos, se cortan, pero no en un solo punto, sino a lo largo de toda una <strong>línea recta</strong>. Todos los puntos que pertenezcan a esa recta son solución del sistema.</p>
+        </div>
+    </div>
+
+
+
+    <div class="conversacion" style="margin-top: 40px;">
+        <div class="pregunta">
+            <span class="etiqueta">Teoría Fundamental</span>
+            <p>¿Cuál es la definición matemática de un Espacio Vectorial?</p>
+        </div>
+
+        <div class="respuesta">
+            <span class="etiqueta">Profesor</span>
+            <p>Un <strong>espacio vectorial</strong> $V$ sobre un cuerpo de escalares $K$ (generalmente los números reales, $\mathbb{R}$) es un conjunto no vacío de elementos a los que llamamos <em>vectores</em>, en el cual están definidas dos operaciones fundamentales:</p>
+            <ul>
+                <li><strong>Suma de vectores:</strong> A cada par de vectores $\vec{u}, \vec{v} \in V$ se le asigna un único vector $\vec{u} + \vec{v} \in V$.</li>
+                <li><strong>Producto por un escalar:</strong> A cada escalar $\alpha \in K$ y a cada vector $\vec{v} \in V$ se le asigna un único vector $\alpha \cdot \vec{v} \in V$.</li>
+            </ul>
+
+            <p>Para que este conjunto reciba oficialmente el título de "Espacio Vectorial", estas dos operaciones deben cumplir estrictamente con <strong>10 axiomas</strong> (o propiedades):</p>
+
+            <div class="destacado" style="margin-top: 20px;">
+                <h4 style="margin-top: 0; color: #d35400;">Axiomas de la Suma</h4>
+                <ol style="line-height: 1.8;">
+                    <li><strong>Cerradura:</strong> Si sumás dos vectores del conjunto, el resultado sigue estando dentro del conjunto. $\vec{u} + \vec{v} \in V$</li>
+                    <li><strong>Conmutativa:</strong> El orden de los sumandos no altera el resultado. $\vec{u} + \vec{v} = \vec{v} + \vec{u}$</li>
+                    <li><strong>Asociativa:</strong> Podés agrupar las sumas como quieras. $(\vec{u} + \vec{v}) + \vec{w} = \vec{u} + (\vec{v} + \vec{w})$</li>
+                    <li><strong>Elemento neutro:</strong> Existe un vector nulo $\vec{0} \in V$ que no altera a los demás al sumarse. $\vec{v} + \vec{0} = \vec{v}$</li>
+                    <li><strong>Elemento opuesto:</strong> Para cada vector, existe otro que lo cancela dando como resultado el vector nulo. $\vec{v} + (-\vec{v}) = \vec{0}$</li>
+                </ol>
+
+                <h4 style="color: #d35400; border-top: 1px solid #ffeeba; padding-top: 15px;">Axiomas del Producto por un Escalar</h4>
+                <ol start="6" style="line-height: 1.8;">
+                    <li><strong>Cerradura:</strong> Si multiplicás un vector por un número, el resultado sigue estando en el conjunto. $\alpha \cdot \vec{v} \in V$</li>
+                    <li><strong>Distributiva respecto a la suma de vectores:</strong> $\alpha \cdot (\vec{u} + \vec{v}) = \alpha \cdot \vec{u} + \alpha \cdot \vec{v}$</li>
+                    <li><strong>Distributiva respecto a la suma de escalares:</strong> $(\alpha + \beta) \cdot \vec{v} = \alpha \cdot \vec{v} + \beta \cdot \vec{v}$</li>
+                    <li><strong>Asociativa mixta:</strong> $\alpha \cdot (\beta \cdot \vec{v}) = (\alpha \beta) \cdot \vec{v}$</li>
+                    <li><strong>Elemento neutro multiplicativo:</strong> Multiplicar por $1$ no altera el vector. $1 \cdot \vec{v} = \vec{v}$</li>
+                </ol>
+            </div>
+
+            <p><strong>La regla de oro:</strong> Si un conjunto falla en cumplir tan solo <em>uno</em> de estos 10 axiomas, todo el sistema se cae y <strong>no</strong> es un espacio vectorial.</p>
+        </div>
+    </div>
+
+
+    </div>
+
+
+
     </div>
     <footer class="footer">
         <div>patagoNiKo</div>
