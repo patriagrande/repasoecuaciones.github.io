@@ -8,6 +8,6 @@ Coordenadas en el plano (para Anto): https://patriagrande.github.io/repasoecuaci
 
 Sistema Gestión Trayectorias Escolares: https://patriagrande.github.io/repasoecuaciones.github.io/sgte/como-usar.html
 
-Problemas de límites:
+Charlas con Valeria:
 
-[1] https://patriagrande.github.io/repasoecuaciones.github.io/matematik/limite_ejercicio01.html
+[1] : limites, discontinuidades, algo de matrices y espacios vectoriales, te todo un pco (https://patriagrande.github.io/repasoecuaciones.github.io/matematik/limite_ejercicio01.html)
