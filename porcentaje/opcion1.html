@@ -1,0 +1,255 @@
+
+<style>
+  .pres-wrap { font-family: var(--font-sans); max-width: 700px; margin: 0 auto; padding: 0 0 4rem; }
+  .slide { padding: 2.5rem 2rem; margin: 0 0 1.5rem; border-radius: 16px; opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .slide.visible { opacity: 1; transform: translateY(0); }
+  .slide-header { background: #7F77DD; color: #fff; border-radius: 16px; padding: 2.5rem 2rem; text-align: center; }
+  .slide-header h1 { font-size: 28px; font-weight: 500; margin: 0 0 0.5rem; color: #fff; }
+  .slide-header p { font-size: 15px; margin: 0; opacity: 0.88; color: #EEEDFE; }
+  .slide-problem { background: #E6F1FB; border-left: 5px solid #378ADD; }
+  .slide-fracs { background: #EAF3DE; border-left: 5px solid #639922; }
+  .slide-equiv { background: #FAEEDA; border-left: 5px solid #BA7517; }
+  .slide-tanto { background: #FBEAF0; border-left: 5px solid #D4537E; }
+  .slide-porcent { background: #EEEDFE; border-left: 5px solid #7F77DD; }
+  .slide-conclusion { background: #E1F5EE; border-left: 5px solid #1D9E75; }
+  .slide-context { background: #FAECE7; border-left: 5px solid #D85A30; }
+  .slide-title { font-size: 20px; font-weight: 500; margin: 0 0 1rem; }
+  .slide-problem .slide-title { color: #0C447C; }
+  .slide-fracs .slide-title { color: #3B6D11; }
+  .slide-equiv .slide-title { color: #854F0B; }
+  .slide-tanto .slide-title { color: #993556; }
+  .slide-porcent .slide-title { color: #3C3489; }
+  .slide-conclusion .slide-title { color: #0F6E56; }
+  .slide-context .slide-title { color: #993C1D; }
+  .slide-body { font-size: 15px; line-height: 1.75; color: var(--color-text-primary); }
+  .frac-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .frac-box { background: rgba(255,255,255,0.7); border-radius: 10px; padding: 1rem 1.25rem; text-align: center; }
+  .frac-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .result-box { display: flex; justify-content: space-around; margin: 1rem 0; }
+  .result-item { text-align: center; background: rgba(255,255,255,0.75); border-radius: 10px; padding: 1rem 1.5rem; }
+  .result-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 0.25rem; }
+  .result-big { font-size: 26px; font-weight: 500; }
+  .curso-a { color: #185FA5; }
+  .curso-b { color: #3B6D11; }
+  .badge { display: inline-block; border-radius: 8px; padding: 0.2rem 0.7rem; font-size: 13px; font-weight: 500; margin: 0 0.25rem; }
+  .badge-a { background: #B5D4F4; color: #0C447C; }
+  .badge-b { background: #C0DD97; color: #27500A; }
+  .step-row { display: flex; align-items: center; gap: 0.75rem; margin: 0.5rem 0; flex-wrap: wrap; }
+  .arrow { font-size: 20px; color: var(--color-text-secondary); }
+  .highlight-box { background: rgba(255,255,255,0.8); border-radius: 10px; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 14px; }
+  .conclusion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .concl-card { background: rgba(255,255,255,0.8); border-radius: 12px; padding: 1.25rem; text-align: center; }
+  .concl-pct { font-size: 36px; font-weight: 500; }
+  .concl-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 0.25rem; }
+  .winner-badge { background: #1D9E75; color: #fff; border-radius: 6px; padding: 0.2rem 0.6rem; font-size: 12px; font-weight: 500; margin-left: 0.5rem; }
+  .prog-bar-wrap { background: rgba(255,255,255,0.5); border-radius: 8px; height: 18px; overflow: hidden; margin: 0.5rem 0; }
+  .prog-bar { height: 100%; border-radius: 8px; transition: width 1.2s cubic-bezier(.4,0,.2,1); width: 0; }
+  .bar-a { background: #378ADD; }
+  .bar-b { background: #639922; }
+  .context-quote { font-style: italic; font-size: 16px; line-height: 1.8; color: #4A1B0C; margin: 1rem 0; padding-left: 1rem; border-left: 3px solid #D85A30; }
+  .prof-sig { font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem; }
+  .nav-dots { display: flex; justify-content: center; gap: 8px; position: sticky; top: 8px; z-index: 10; padding: 0.5rem 0; margin-bottom: 1rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-border-tertiary); border: none; cursor: pointer; padding: 0; transition: background 0.3s; }
+  .dot.active { background: #7F77DD; }
+  mjx-container { overflow-x: auto; max-width: 100%; }
+</style>
+
+<div class="pres-wrap">
+
+  <div class="nav-dots" id="navDots"></div>
+
+  <div class="slide slide-header" data-idx="0">
+    <div style="font-size: 40px; margin-bottom: 0.75rem;">%</div>
+    <h1>Cálculo de porcentajes</h1>
+    <p>¿Para qué sirve el porcentaje? — Una introducción desde el problema concreto</p>
+    <p class="prof-sig" style="margin-top:1.5rem; color:#CECBF6;">Prof. Nicolás Rosbaco</p>
+  </div>
+
+  <div class="slide slide-problem" data-idx="1">
+    <div class="slide-title">El problema inicial</div>
+    <div class="slide-body">
+      <p>Queremos comparar el rendimiento académico de dos cursos en matemática:</p>
+      <div class="frac-grid">
+        <div class="frac-box">
+          <div class="frac-label">Curso A</div>
+          <p>Aprobaron <strong>17</strong> alumnos<br>sobre un total de <strong>32</strong></p>
+        </div>
+        <div class="frac-box">
+          <div class="frac-label">Curso B</div>
+          <p>Aprobaron <strong>19</strong> alumnos<br>sobre un total de <strong>35</strong></p>
+        </div>
+      </div>
+      <p>¿Cuál curso tuvo mejor rendimiento? A simple vista… <strong>¡no es fácil saberlo!</strong></p>
+    </div>
+  </div>
+
+  <div class="slide slide-fracs" data-idx="2">
+    <div class="slide-title">Expresamos la información como fracciones</div>
+    <div class="slide-body">
+      <p>Representamos la porción de aprobados en cada curso:</p>
+      <div class="frac-grid">
+        <div class="frac-box">
+          <div class="frac-label">Curso A</div>
+          <div id="frac1">\(\dfrac{17}{32}\)</div>
+        </div>
+        <div class="frac-box">
+          <div class="frac-label">Curso B</div>
+          <div id="frac2">\(\dfrac{19}{35}\)</div>
+        </div>
+      </div>
+      <p>Para compararlas, necesitamos <strong>fracciones equivalentes con el mismo denominador</strong>.</p>
+    </div>
+  </div>
+
+  <div class="slide slide-equiv" data-idx="3">
+    <div class="slide-title">Primer intento: denominador común</div>
+    <div class="slide-body">
+      <p>Multiplicamos para obtener el mismo denominador (1120):</p>
+      <div class="frac-grid">
+        <div class="frac-box">
+          <div class="frac-label">Curso A × 35</div>
+          <div>\(\dfrac{17}{32} = \dfrac{17 \times 35}{32 \times 35} = \dfrac{595}{1120}\)</div>
+        </div>
+        <div class="frac-box">
+          <div class="frac-label">Curso B × 32</div>
+          <div>\(\dfrac{19}{35} = \dfrac{19 \times 32}{35 \times 32} = \dfrac{608}{1120}\)</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>Podemos ver que <span class="badge badge-b">608 &gt; 595</span> → el Curso B tiene mayor proporción de aprobados.</p>
+        <p>Pero… ¿alguien se imagina fácilmente <em>mil ciento veinte avos</em>? No es muy amigable. ¡Busquemos otra forma!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide slide-tanto" data-idx="4">
+    <div class="slide-title">Segundo intento: el tanto por uno</div>
+    <div class="slide-body">
+      <p>Dividimos numerador y denominador por el propio denominador de cada fracción, buscando una fracción equivalente con denominador <strong>1</strong>:</p>
+      <div class="frac-grid">
+        <div class="frac-box">
+          <div class="frac-label">Curso A ÷ 32</div>
+          <div>\(\dfrac{17}{32} \approx \dfrac{0{,}531}{1}\)</div>
+        </div>
+        <div class="frac-box">
+          <div class="frac-label">Curso B ÷ 35</div>
+          <div>\(\dfrac{19}{35} \approx \dfrac{0{,}542}{1}\)</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>A estas expresiones con denominador 1 las llamamos <strong>tanto por uno</strong>.</p>
+        <p>Por cada alumno del Curso A, <strong>0,531</strong> aprobó.<br>Por cada alumno del Curso B, <strong>0,542</strong> aprobó.</p>
+        <p>Mejor… pero todavía un poco extraño. ¡Un último esfuerzo!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide slide-porcent" data-idx="5">
+    <div class="slide-title">La solución: el tanto por ciento</div>
+    <div class="slide-body">
+      <p>Multiplicamos numerador y denominador por <strong>100</strong>, buscando ahora denominador 100:</p>
+      <div class="frac-grid">
+        <div class="frac-box">
+          <div class="frac-label">Curso A × 100</div>
+          <div>\(\dfrac{0{,}531}{1} \times \dfrac{100}{100} = \dfrac{53{,}1}{100}\)</div>
+        </div>
+        <div class="frac-box">
+          <div class="frac-label">Curso B × 100</div>
+          <div>\(\dfrac{0{,}542}{1} \times \dfrac{100}{100} = \dfrac{54{,}2}{100}\)</div>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <p>Las expresiones con denominador 100 se llaman <strong>expresiones porcentuales</strong> o <em>tanto por ciento</em> (%).</p>
+        <div class="step-row">
+          <span>\(\dfrac{17}{32}\)</span>
+          <span class="arrow">→</span>
+          <span>\(\dfrac{0{,}531}{1}\)</span>
+          <span class="arrow">→</span>
+          <span style="font-size:18px; font-weight:500; color:#534AB7;">53,1%</span>
+        </div>
+        <div class="step-row">
+          <span>\(\dfrac{19}{35}\)</span>
+          <span class="arrow">→</span>
+          <span>\(\dfrac{0{,}542}{1}\)</span>
+          <span class="arrow">→</span>
+          <span style="font-size:18px; font-weight:500; color:#534AB7;">54,2%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide slide-conclusion" data-idx="6">
+    <div class="slide-title">Conclusión</div>
+    <div class="slide-body">
+      <p>El porcentaje es una forma <strong>poderosa</strong> para comparar porciones, independientemente del total de referencia. Nos permite imaginar qué ocurre <em>cada 100 alumnos</em>:</p>
+      <div class="conclusion-grid">
+        <div class="concl-card">
+          <div class="frac-label">Curso A</div>
+          <div class="concl-pct curso-a">53,1%</div>
+          <div class="concl-sub">de alumnos aprobados</div>
+          <div class="prog-bar-wrap" style="margin-top:0.75rem;">
+            <div class="prog-bar bar-a" data-width="53.1"></div>
+          </div>
+        </div>
+        <div class="concl-card">
+          <div class="frac-label">Curso B</div>
+          <div class="concl-pct curso-b">54,2%<span class="winner-badge">Mayor</span></div>
+          <div class="concl-sub">de alumnos aprobados</div>
+          <div class="prog-bar-wrap" style="margin-top:0.75rem;">
+            <div class="prog-bar bar-b" data-width="54.2"></div>
+          </div>
+        </div>
+      </div>
+      <p>Si ambos cursos tuvieran 100 alumnos: en el A aprobarían <strong>53,1</strong> y en el B, <strong>54,2</strong>.</p>
+      <p>¡Mucho más claro que <em>mil ciento veinte avos</em>!</p>
+    </div>
+  </div>
+
+  <div class="slide slide-context" data-idx="7">
+    <div class="slide-title">El porcentaje en la vida cotidiana</div>
+    <div class="slide-body">
+      <p>El porcentaje aparece todo el tiempo a nuestro alrededor. Por ejemplo:</p>
+      <p class="context-quote">En 2003, la desocupación en Argentina rondaba el <strong>24%</strong>.<br>
+      Eso significa: por cada 100 argentinos, <strong>24</strong> no accedían al derecho de trabajar dignamente.</p>
+      <p class="context-quote">Para 2010 ese número había bajado a menos del <strong>8%</strong>.<br>
+      ¿Qué porcentaje de argentinos recuperó el derecho al trabajo?</p>
+      <div class="highlight-box">
+        <p>El porcentaje nos permite comparar situaciones <strong>sin importar el total de referencia</strong>, y entender de forma inmediata qué ocurre cada 100 unidades.</p>
+      </div>
+      <p class="prof-sig">Prof. Nicolás Rosbaco</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('navDots');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', 'Ir a sección ' + (i + 1));
+    dot.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const idx = parseInt(entry.target.dataset.idx);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+        entry.target.querySelectorAll('.prog-bar').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  slides.forEach(s => observer.observe(s));
+</script>
