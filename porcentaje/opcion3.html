@@ -3,26 +3,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Lora:ital,wght@0,600;1,400&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --c0-bg:#F0EEFF;--c0-ac:#7F77DD;
-  --c1-bg:#E8F4FF;--c1-ac:#2E7BC4;
-  --c2-bg:#E8F7EE;--c2-ac:#1F8A4C;
-  --c3-bg:#FFF8E8;--c3-ac:#C47A1F;
-  --c3b-bg:#FFF0E8;--c3b-ac:#C45A1F;
-  --c4-bg:#FFECF5;--c4-ac:#C43B80;
-  --c5-bg:#EDECFF;--c5-ac:#5A52C4;
-  --c6-bg:#E4F7EF;--c6-ac:#1A8C60;
-  --c7-bg:#FFF0E8;--c7-ac:#C45A1F;
+  --c0-bg:#F0EEFF;--c1-bg:#E8F4FF;--c2-bg:#E8F7EE;
+  --c3-bg:#FFF8E8;--c3b-bg:#FFF0E8;--c4-bg:#FFECF5;
+  --c5-bg:#EDECFF;--c6-bg:#E4F7EF;--c7-bg:#FFF0E8;
 }
 #pr{width:100%;height:94vh;min-height:500px;overflow:hidden;position:relative;background:#1C1B33;font-family:'Nunito',sans-serif}
-.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(0.5rem,2vw,1.5rem) clamp(0.5rem,2vw,1.5rem) 52px;opacity:0;pointer-events:none;transform:translateX(55px) scale(0.95);transition:transform 0.7s cubic-bezier(0.77,0,0.175,1),opacity 0.7s ease}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(0.5rem,2vw,1.2rem) clamp(0.5rem,2vw,1.2rem) 52px;opacity:0;pointer-events:none;transform:translateX(55px) scale(0.95);transition:transform 0.7s cubic-bezier(0.77,0,0.175,1),opacity 0.7s ease}
 .slide.active{opacity:1;pointer-events:all;transform:translateX(0) scale(1)}
 .slide.exit-l{opacity:0;transform:translateX(-55px) scale(0.95)}
 .slide.exit-r{opacity:0;transform:translateX(55px) scale(0.95)}
 .slide.from-r{transform:translateX(55px) scale(0.95)}
 .slide.from-l{transform:translateX(-55px) scale(0.95)}
-
-.card{width:100%;max-width:900px;height:100%;max-height:calc(94vh - 80px);border-radius:22px;padding:clamp(1.2rem,3vw,2.8rem) clamp(1.2rem,3.5vw,3rem);display:flex;flex-direction:column;justify-content:center;overflow:auto}
-
+.card{width:100%;max-width:940px;height:100%;max-height:calc(94vh - 68px);border-radius:22px;padding:clamp(1rem,2.5vw,2.5rem) clamp(1rem,3vw,2.8rem);display:flex;flex-direction:column;justify-content:center;overflow:auto}
 .s0 .card{background:var(--c0-bg);border:2.5px solid #C4C0F5}
 .s1 .card{background:var(--c1-bg);border:2.5px solid #A8CEED}
 .s2 .card{background:var(--c2-bg);border:2.5px solid #A0D9B8}
@@ -32,56 +24,49 @@
 .s5 .card{background:var(--c5-bg);border:2.5px solid #B0ACEE}
 .s6 .card{background:var(--c6-bg);border:2.5px solid #90D4B4}
 .s7 .card{background:var(--c7-bg);border:2.5px solid #F0B090}
-
-.htitle{font-family:'Lora',serif;font-size:clamp(28px,6vw,52px);font-weight:600;color:#26215C;text-align:center;line-height:1.2;margin-bottom:0.6rem}
-.hsub{font-family:'Nunito',sans-serif;font-size:clamp(14px,2.5vw,20px);color:#534AB7;text-align:center;line-height:1.6;margin-bottom:1rem}
-.prof{font-size:clamp(12px,1.8vw,15px);color:#AFA9EC;text-align:center;margin-top:1rem}
-.pct-deco{font-family:'Lora',serif;font-size:clamp(90px,20vw,180px);font-weight:600;color:rgba(127,119,221,0.1);position:absolute;right:5%;top:50%;transform:translateY(-50%);line-height:1;user-select:none;pointer-events:none}
-
-.stitle{font-family:'Lora',serif;font-size:clamp(18px,3.5vw,30px);font-weight:600;text-align:center;margin-bottom:0.75rem}
-.s1 .stitle{color:#1a4e80} .s2 .stitle{color:#145c32} .s3 .stitle{color:#7a4c10}
-.s3b .stitle{color:#7a3810} .s4 .stitle{color:#7a1f50} .s5 .stitle{color:#2e2880}
-.s6 .stitle{color:#0f5c3a} .s7 .stitle{color:#7a3810}
-.sbody{font-size:clamp(13px,2vw,17px);line-height:1.8;color:#2a2a40;width:100%;flex:1;display:flex;flex-direction:column;justify-content:center}
-
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(0.6rem,1.5vw,1.2rem);margin:clamp(0.6rem,1.5vw,1.2rem) 0}
+.htitle{font-family:'Lora',serif;font-size:clamp(26px,5.5vw,50px);font-weight:600;color:#26215C;text-align:center;line-height:1.2;margin-bottom:0.5rem}
+.hsub{font-size:clamp(13px,2.3vw,19px);color:#534AB7;text-align:center;line-height:1.6;margin-bottom:0.8rem}
+.prof{font-size:clamp(11px,1.6vw,14px);color:#AFA9EC;text-align:center;margin-top:0.8rem}
+.pct-deco{font-family:'Lora',serif;font-size:clamp(80px,18vw,160px);font-weight:600;color:rgba(127,119,221,0.1);position:absolute;right:5%;top:50%;transform:translateY(-50%);line-height:1;user-select:none;pointer-events:none}
+.stitle{font-family:'Lora',serif;font-size:clamp(17px,3.2vw,28px);font-weight:600;text-align:center;margin-bottom:0.6rem}
+.s1 .stitle{color:#1a4e80}.s2 .stitle{color:#145c32}.s3 .stitle{color:#7a4c10}
+.s3b .stitle{color:#7a3810}.s4 .stitle{color:#7a1f50}.s5 .stitle{color:#2e2880}
+.s6 .stitle{color:#0f5c3a}.s7 .stitle{color:#7a3810}
+.sbody{font-size:clamp(13px,1.9vw,16px);line-height:1.8;color:#2a2a40;width:100%;flex:1;display:flex;flex-direction:column;justify-content:center}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:clamp(0.5rem,1.5vw,1.1rem);margin:clamp(0.5rem,1.2vw,1rem) 0}
 @media(max-width:420px){.two-col{grid-template-columns:1fr}}
-.col-box{background:rgba(255,255,255,0.8);border-radius:14px;padding:clamp(0.75rem,2vw,1.25rem);text-align:center;border:1.5px solid rgba(0,0,0,0.07)}
-.col-label{font-size:clamp(10px,1.5vw,13px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:0.5rem}
-.hlbox{background:rgba(255,255,255,0.75);border-radius:12px;padding:clamp(0.6rem,1.5vw,1rem) clamp(0.8rem,2vw,1.25rem);margin:clamp(0.5rem,1vw,0.8rem) 0;font-size:clamp(12px,1.8vw,15px);border:1.5px solid rgba(0,0,0,0.07)}
-.pct-result{font-size:clamp(28px,6vw,48px);font-weight:800;margin:0.3rem 0}
-.pct-a{color:#1a5fa0} .pct-b{color:#1a7040}
-.winner{background:#1D9E75;color:#fff;border-radius:6px;padding:2px 8px;font-size:clamp(10px,1.5vw,12px);font-weight:800;vertical-align:middle;margin-left:6px}
-.prog-wrap{background:rgba(0,0,0,0.1);border-radius:6px;height:clamp(10px,1.5vw,16px);overflow:hidden;margin:6px 0}
+.col-box{background:rgba(255,255,255,0.8);border-radius:14px;padding:clamp(0.6rem,1.8vw,1.1rem);text-align:center;border:1.5px solid rgba(0,0,0,0.07)}
+.col-label{font-size:clamp(10px,1.3vw,12px);font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-bottom:0.4rem}
+.hlbox{background:rgba(255,255,255,0.75);border-radius:12px;padding:clamp(0.5rem,1.2vw,0.9rem) clamp(0.7rem,1.8vw,1.1rem);margin:clamp(0.4rem,0.8vw,0.7rem) 0;font-size:clamp(12px,1.7vw,15px);border:1.5px solid rgba(0,0,0,0.07)}
+.pct-result{font-size:clamp(26px,5.5vw,44px);font-weight:800;margin:0.3rem 0}
+.pct-a{color:#1a5fa0}.pct-b{color:#1a7040}
+.winner{background:#1D9E75;color:#fff;border-radius:6px;padding:2px 8px;font-size:clamp(10px,1.4vw,12px);font-weight:800;vertical-align:middle;margin-left:6px}
+.prog-wrap{background:rgba(0,0,0,0.1);border-radius:6px;height:clamp(10px,1.4vw,15px);overflow:hidden;margin:5px 0}
 .prog{height:100%;border-radius:6px;transition:width 1.5s cubic-bezier(.4,0,.2,1);width:0}
-.prog-a{background:#378ADD} .prog-b{background:#2D9E60}
-.ital{font-style:italic;border-left:3px solid var(--c7-ac);padding-left:0.9rem;margin:0.6rem 0;font-size:clamp(12px,1.8vw,15px);color:#5a3010;line-height:1.7}
-.step-row{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;font-size:clamp(11px,1.8vw,15px);margin:0.4rem 0;justify-content:center}
-.arr{color:#aaa;font-size:16px}
-.big-pct{font-size:clamp(18px,3vw,24px);font-weight:800;color:#4240B0}
-
-/* PIZZA SVG section */
-.pizza-row{display:flex;align-items:center;justify-content:center;gap:clamp(1rem,3vw,3rem);flex-wrap:wrap;margin:clamp(0.5rem,1.5vw,1.2rem) 0}
-.pizza-item{text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.4rem}
-.pizza-label{font-size:clamp(12px,1.8vw,16px);font-weight:700;color:#7a4c10}
-.pizza-sub{font-size:clamp(10px,1.5vw,13px);color:#a07040}
-.vs-badge{font-size:clamp(16px,3vw,28px);font-weight:800;color:#C47A1F;align-self:center}
-.eq-badge{font-size:clamp(16px,3vw,28px);font-weight:800;color:#1F8A4C;align-self:center}
-.pizza-size{width:clamp(70px,12vw,110px);height:clamp(70px,12vw,110px)}
-.pizza-size-sm{width:clamp(55px,9vw,85px);height:clamp(55px,9vw,85px)}
-
-#bar{position:absolute;bottom:0;left:0;right:0;background:rgba(15,14,40,0.92);display:flex;align-items:center;justify-content:space-between;padding:0.6rem 1rem;z-index:30;gap:0.5rem;height:50px}
-#dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.prog-a{background:#378ADD}.prog-b{background:#2D9E60}
+.ital{font-style:italic;border-left:3px solid #C45A1F;padding-left:0.9rem;margin:0.5rem 0;font-size:clamp(12px,1.7vw,15px);color:#5a3010;line-height:1.7}
+.step-row{display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;font-size:clamp(11px,1.7vw,14px);margin:0.35rem 0;justify-content:center}
+.arr{color:#aaa;font-size:14px}
+.big-pct{font-size:clamp(17px,2.8vw,22px);font-weight:800;color:#4240B0}
+.pizza-section{display:flex;align-items:center;justify-content:center;gap:clamp(0.8rem,2.5vw,2.5rem);flex-wrap:wrap;margin:clamp(0.4rem,1vw,0.8rem) 0}
+.pizza-item{text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.3rem}
+.pizza-label{font-size:clamp(13px,2vw,18px);font-weight:800;color:#7a4c10}
+.pizza-sub{font-size:clamp(10px,1.4vw,13px);color:#a07040;font-weight:600}
+.vs-txt{font-size:clamp(18px,3.5vw,32px);font-weight:800;color:#C47A1F}
+.ok-txt{font-size:clamp(18px,3.5vw,30px);font-weight:800;color:#1F8A4C}
+.psvg{width:clamp(75px,13vw,120px);height:clamp(75px,13vw,120px)}
+.psvg-sm{width:clamp(60px,10vw,95px);height:clamp(60px,10vw,95px)}
+#bar{position:absolute;bottom:0;left:0;right:0;background:rgba(15,14,40,0.92);display:flex;align-items:center;justify-content:space-between;padding:0.55rem 1rem;z-index:30;gap:0.5rem;height:50px}
+#dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
 .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;cursor:pointer;padding:0;transition:background .3s,transform .2s}
 .dot.on{background:#AFA9EC;transform:scale(1.4)}
-.btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:8px;padding:0.3rem 0.9rem;font-size:clamp(11px,1.8vw,14px);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;white-space:nowrap}
+.btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:8px;padding:0.28rem 0.85rem;font-size:clamp(11px,1.7vw,14px);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;white-space:nowrap}
 .btn:hover{background:rgba(255,255,255,0.22)}
 #ctr{color:rgba(255,255,255,0.45);font-size:12px;min-width:38px;text-align:center}
 </style>
 
 <div id="pr">
 
-  <!-- S0: Título -->
   <div class="slide s0 active">
     <div class="card" style="position:relative;overflow:hidden">
       <div class="pct-deco">%</div>
@@ -91,176 +76,178 @@
     </div>
   </div>
 
-  <!-- S1: El problema -->
   <div class="slide s1">
     <div class="card">
       <div class="stitle">El problema inicial</div>
       <div class="sbody">
         <p style="text-align:center">Queremos comparar el rendimiento en matemática de dos cursos:</p>
         <div class="two-col">
-          <div class="col-box"><div class="col-label">Curso A</div><div style="font-size:clamp(18px,3vw,26px);font-weight:800;color:#1a4e80;margin:0.4rem 0">17</div><div style="font-size:clamp(13px,1.8vw,15px)">aprobaron sobre <strong>32</strong> alumnos</div></div>
-          <div class="col-box"><div class="col-label">Curso B</div><div style="font-size:clamp(18px,3vw,26px);font-weight:800;color:#145c32;margin:0.4rem 0">19</div><div style="font-size:clamp(13px,1.8vw,15px)">aprobaron sobre <strong>35</strong> alumnos</div></div>
+          <div class="col-box"><div class="col-label">Curso A</div><div style="font-size:clamp(20px,3.5vw,30px);font-weight:800;color:#1a4e80;margin:0.35rem 0">17</div><div style="font-size:clamp(12px,1.7vw,15px)">aprobaron sobre <strong>32</strong> alumnos</div></div>
+          <div class="col-box"><div class="col-label">Curso B</div><div style="font-size:clamp(20px,3.5vw,30px);font-weight:800;color:#145c32;margin:0.35rem 0">19</div><div style="font-size:clamp(12px,1.7vw,15px)">aprobaron sobre <strong>35</strong> alumnos</div></div>
         </div>
         <div class="hlbox" style="text-align:center">¿Cuál curso tuvo mejor rendimiento? A simple vista… <strong>¡no es fácil saberlo!</strong></div>
       </div>
     </div>
   </div>
 
-  <!-- S2: Fracciones -->
   <div class="slide s2">
     <div class="card">
       <div class="stitle">Expresamos como fracciones</div>
       <div class="sbody">
         <p style="text-align:center">La porción de aprobados en cada curso:</p>
         <div class="two-col">
-          <div class="col-box"><div class="col-label">Curso A</div><div style="font-size:clamp(20px,3.5vw,30px)">\(\dfrac{17}{32}\)</div></div>
-          <div class="col-box"><div class="col-label">Curso B</div><div style="font-size:clamp(20px,3.5vw,30px)">\(\dfrac{19}{35}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso A</div><div style="font-size:clamp(18px,3vw,26px)">\(\dfrac{17}{32}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso B</div><div style="font-size:clamp(18px,3vw,26px)">\(\dfrac{19}{35}\)</div></div>
         </div>
         <div class="hlbox" style="text-align:center">Para compararlas necesitamos <strong>fracciones equivalentes con el mismo denominador</strong>.</div>
       </div>
     </div>
   </div>
 
-  <!-- S3: NUEVA — Analogía pizza -->
+  <!-- S3: Analogía pizza — PIZZAS CORREGIDAS -->
   <div class="slide s3">
     <div class="card">
       <div class="stitle">¿Por qué necesitamos igual denominador?</div>
       <div class="sbody">
-        <p style="text-align:center;margin-bottom:0.5rem">Cuando las porciones tienen distinta referencia, <strong>no podemos compararlas directamente</strong>. Como con una pizza:</p>
-        <div class="pizza-row">
-          <!-- 1/2 pizza -->
+        <p style="text-align:center;margin-bottom:0.4rem">Cuando las porciones tienen distinta referencia, <strong>no podemos compararlas directamente</strong>:</p>
+
+        <div class="pizza-section">
+          <!-- 1/2: círculo cortado en 2, mitad superior coloreada -->
           <div class="pizza-item">
-            <svg class="pizza-size" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="46" fill="#F5D97A" stroke="#C9A84C" stroke-width="2.5"/>
-              <path d="M50,50 L50,4 A46,46 0 0,1 50,96 Z" fill="#E8A040" stroke="#C9A840" stroke-width="1.5"/>
-              <circle cx="50" cy="50" r="5" fill="#C9703A"/>
-              <line x1="50" y1="4" x2="50" y2="96" stroke="#C9A840" stroke-width="1.5"/>
+            <svg class="psvg" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" fill="#F5E6A0" stroke="#C9A84C" stroke-width="2"/>
+              <path d="M6,50 A44,44 0 0,1 94,50 Z" fill="#E8A040" stroke="none"/>
+              <line x1="6" y1="50" x2="94" y2="50" stroke="#C9A84C" stroke-width="1.5"/>
+              <circle cx="50" cy="50" r="4" fill="#C9703A"/>
             </svg>
             <div class="pizza-label">\(\dfrac{1}{2}\)</div>
             <div class="pizza-sub">1 de 2 porciones</div>
           </div>
-          <div class="vs-badge">≠ ?</div>
-          <!-- 3/4 pizza -->
+          <div class="vs-txt">¿ = ?</div>
+          <!-- 3/4: círculo cortado en 4, tres sectores coloreados -->
           <div class="pizza-item">
-            <svg class="pizza-size" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="46" fill="#F5D97A" stroke="#C9A84C" stroke-width="2.5"/>
-              <path d="M50,50 L50,4 A46,46 0 0,1 96,50 A46,46 0 0,1 50,96 A46,46 0 0,1 4,50 Z" fill="#E8A040" stroke="#C9A840" stroke-width="1.5"/>
-              <circle cx="50" cy="50" r="5" fill="#C9703A"/>
-              <line x1="50" y1="4" x2="50" y2="96" stroke="#C9A840" stroke-width="1.5"/>
-              <line x1="50" y1="50" x2="96" y2="50" stroke="#C9A840" stroke-width="1.5"/>
+            <svg class="psvg" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" fill="#F5E6A0" stroke="#C9A84C" stroke-width="2"/>
+              <path d="M50,50 L94,50 A44,44 0 0,0 50,6 Z" fill="#F5E6A0" stroke="none"/>
+              <path d="M50,50 L50,6 A44,44 0 0,0 6,50 Z" fill="#E8A040" stroke="none"/>
+              <path d="M50,50 L6,50 A44,44 0 0,0 50,94 Z" fill="#E8A040" stroke="none"/>
+              <path d="M50,50 L50,94 A44,44 0 0,0 94,50 Z" fill="#E8A040" stroke="none"/>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#C9A84C" stroke-width="2"/>
+              <line x1="6" y1="50" x2="94" y2="50" stroke="#C9A84C" stroke-width="1.5"/>
+              <line x1="50" y1="6" x2="50" y2="94" stroke="#C9A84C" stroke-width="1.5"/>
+              <circle cx="50" cy="50" r="4" fill="#C9703A"/>
             </svg>
             <div class="pizza-label">\(\dfrac{3}{4}\)</div>
             <div class="pizza-sub">3 de 4 porciones</div>
           </div>
         </div>
-        <div class="hlbox" style="text-align:center">¿Cuál es mayor? ¡Los denominadores son distintos (2 y 4), así que no podemos compararlas directamente!</div>
 
-        <div class="pizza-row" style="margin-top:0.4rem">
-          <!-- 2/4 pizza (equivalente a 1/2) -->
+        <div class="hlbox" style="text-align:center;margin:0.3rem 0">¡Los denominadores son distintos (2 y 4) → no se pueden comparar directamente!<br>Pero si expresamos ½ con el mismo denominador que ¾…</div>
+
+        <div class="pizza-section" style="margin-top:0.3rem">
+          <!-- 2/4: círculo cortado en 4, DOS sectores coloreados (izquierda: superior e inferior) -->
           <div class="pizza-item">
-            <svg class="pizza-size-sm" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="46" fill="#F5D97A" stroke="#C9A84C" stroke-width="2.5"/>
-              <path d="M50,50 L50,4 A46,46 0 0,1 96,50 Z" fill="#E8A040" stroke="#C9A840" stroke-width="1.5"/>
+            <svg class="psvg-sm" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" fill="#F5E6A0" stroke="#C9A84C" stroke-width="2"/>
+              <path d="M50,50 L50,6 A44,44 0 0,0 6,50 Z" fill="#E8A040" stroke="none"/>
+              <path d="M50,50 L6,50 A44,44 0 0,0 50,94 Z" fill="#E8A040" stroke="none"/>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#C9A84C" stroke-width="2"/>
+              <line x1="6" y1="50" x2="94" y2="50" stroke="#C9A84C" stroke-width="1.5"/>
+              <line x1="50" y1="6" x2="50" y2="94" stroke="#C9A84C" stroke-width="1.5"/>
               <circle cx="50" cy="50" r="4" fill="#C9703A"/>
-              <line x1="50" y1="4" x2="50" y2="96" stroke="#C9A840" stroke-width="1.5"/>
-              <line x1="50" y1="50" x2="96" y2="50" stroke="#C9A840" stroke-width="1.5"/>
-              <line x1="50" y1="50" x2="4" y2="50" stroke="#C9A840" stroke-width="1.5"/>
             </svg>
             <div class="pizza-label">\(\dfrac{2}{4}\)</div>
-            <div class="pizza-sub" style="color:#1F8A4C;font-weight:700">= ½ con 4 porciones</div>
+            <div class="pizza-sub" style="color:#1F8A4C">= ½ expresado en cuartos</div>
           </div>
-          <div class="eq-badge">≡</div>
+          <div class="ok-txt">&lt;</div>
+          <!-- 3/4 igual que arriba -->
           <div class="pizza-item">
-            <svg class="pizza-size-sm" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="46" fill="#F5D97A" stroke="#C9A84C" stroke-width="2.5"/>
-              <path d="M50,50 L50,4 A46,46 0 0,1 96,50 A46,46 0 0,1 50,96 A46,46 0 0,1 4,50 Z" fill="#E8A040" stroke="#C9A840" stroke-width="1.5"/>
+            <svg class="psvg-sm" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="44" fill="#F5E6A0" stroke="#C9A84C" stroke-width="2"/>
+              <path d="M50,50 L50,6 A44,44 0 0,0 6,50 Z" fill="#E8A040" stroke="none"/>
+              <path d="M50,50 L6,50 A44,44 0 0,0 50,94 Z" fill="#E8A040" stroke="none"/>
+              <path d="M50,50 L50,94 A44,44 0 0,0 94,50 Z" fill="#E8A040" stroke="none"/>
+              <circle cx="50" cy="50" r="44" fill="none" stroke="#C9A84C" stroke-width="2"/>
+              <line x1="6" y1="50" x2="94" y2="50" stroke="#C9A84C" stroke-width="1.5"/>
+              <line x1="50" y1="6" x2="50" y2="94" stroke="#C9A84C" stroke-width="1.5"/>
               <circle cx="50" cy="50" r="4" fill="#C9703A"/>
-              <line x1="50" y1="4" x2="50" y2="96" stroke="#C9A840" stroke-width="1.5"/>
-              <line x1="50" y1="50" x2="96" y2="50" stroke="#C9A840" stroke-width="1.5"/>
             </svg>
             <div class="pizza-label">\(\dfrac{3}{4}\)</div>
-            <div class="pizza-sub" style="color:#C47A1F;font-weight:700">ya tiene 4 porciones</div>
+            <div class="pizza-sub" style="color:#C47A1F">ya está en cuartos</div>
           </div>
-          <div class="eq-badge" style="font-size:clamp(14px,2.5vw,20px);color:#1a4e80">→ ¡ahora sí<br>se comparan!</div>
+          <div class="ok-txt" style="font-size:clamp(14px,2.2vw,20px);color:#1a4e80;text-align:center">¡ahora sí<br>se comparan!</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- S3b: Denominador común con los cursos -->
   <div class="slide s3b">
     <div class="card">
       <div class="stitle">Primer intento: denominador común</div>
       <div class="sbody">
         <p style="text-align:center">Igual que con la pizza, buscamos fracciones equivalentes con el mismo denominador (1120):</p>
         <div class="two-col">
-          <div class="col-box"><div class="col-label">Curso A × 35</div><div style="font-size:clamp(11px,1.6vw,14px)">\(\dfrac{17}{32} = \dfrac{17\times35}{32\times35} = \dfrac{595}{1120}\)</div></div>
-          <div class="col-box"><div class="col-label">Curso B × 32</div><div style="font-size:clamp(11px,1.6vw,14px)">\(\dfrac{19}{35} = \dfrac{19\times32}{35\times32} = \dfrac{608}{1120}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso A × 35</div><div style="font-size:clamp(10px,1.5vw,13px)">\(\dfrac{17}{32} = \dfrac{17\times35}{32\times35} = \dfrac{595}{1120}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso B × 32</div><div style="font-size:clamp(10px,1.5vw,13px)">\(\dfrac{19}{35} = \dfrac{19\times32}{35\times32} = \dfrac{608}{1120}\)</div></div>
         </div>
-        <div class="hlbox" style="text-align:center">
-          <strong>608 &gt; 595</strong> → el Curso B tiene mayor proporción de aprobados.<br>
-          <span style="color:#8a6020">Pero… ¿alguien puede imaginar fácilmente <em>mil ciento veinte avos</em>? No es muy amigable. <strong>¡Busquemos otra forma!</strong></span>
-        </div>
+        <div class="hlbox" style="text-align:center"><strong>608 &gt; 595</strong> → el Curso B tiene mayor proporción.<br><span style="color:#8a6020">Pero… ¿alguien imagina fácilmente <em>mil ciento veinte avos</em>? <strong>¡Busquemos otra forma!</strong></span></div>
       </div>
     </div>
   </div>
 
-  <!-- S4: Tanto por uno -->
   <div class="slide s4">
     <div class="card">
       <div class="stitle">El tanto por uno</div>
       <div class="sbody">
-        <p style="text-align:center">Dividimos cada fracción por su propio denominador → obtenemos denominador <strong>1</strong>:</p>
+        <p style="text-align:center">Dividimos por el propio denominador → denominador <strong>1</strong>:</p>
         <div class="two-col">
           <div class="col-box"><div class="col-label">Curso A ÷ 32</div><div>\(\dfrac{17}{32}\approx\dfrac{0{,}531}{1}\)</div></div>
           <div class="col-box"><div class="col-label">Curso B ÷ 35</div><div>\(\dfrac{19}{35}\approx\dfrac{0{,}542}{1}\)</div></div>
         </div>
         <div class="hlbox">
           <p>A estas expresiones con denominador 1 las llamamos <strong>tanto por uno</strong>.</p>
-          <p style="margin-top:0.4rem">Por cada alumno del Curso A, <strong>0,531</strong> aprobó.<br>Por cada alumno del Curso B, <strong>0,542</strong> aprobó.</p>
-          <p style="margin-top:0.4rem;color:#7a1f50">Mejor… pero todavía algo extraño. <strong>¡Un último esfuerzo!</strong></p>
+          <p style="margin-top:0.35rem">Por cada alumno del Curso A, <strong>0,531</strong> aprobó.<br>Por cada alumno del Curso B, <strong>0,542</strong> aprobó.</p>
+          <p style="margin-top:0.35rem;color:#7a1f50">Mejor… pero todavía algo raro. <strong>¡Un último esfuerzo!</strong></p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- S5: Porcentaje -->
   <div class="slide s5">
     <div class="card">
       <div class="stitle">El tanto por ciento — el porcentaje</div>
       <div class="sbody">
         <p style="text-align:center">Multiplicamos por 100 → denominador <strong>100</strong>:</p>
         <div class="two-col">
-          <div class="col-box"><div class="col-label">Curso A × 100</div><div style="font-size:clamp(10px,1.5vw,13px)">\(\dfrac{0{,}531\times100}{1\times100}=\dfrac{53{,}1}{100}\)</div></div>
-          <div class="col-box"><div class="col-label">Curso B × 100</div><div style="font-size:clamp(10px,1.5vw,13px)">\(\dfrac{0{,}542\times100}{1\times100}=\dfrac{54{,}2}{100}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso A × 100</div><div style="font-size:clamp(10px,1.4vw,12px)">\(\dfrac{0{,}531\times100}{1\times100}=\dfrac{53{,}1}{100}\)</div></div>
+          <div class="col-box"><div class="col-label">Curso B × 100</div><div style="font-size:clamp(10px,1.4vw,12px)">\(\dfrac{0{,}542\times100}{1\times100}=\dfrac{54{,}2}{100}\)</div></div>
         </div>
         <div class="hlbox">
           <div class="step-row">\(\tfrac{17}{32}\) <span class="arr">→</span> \(\tfrac{0{,}531}{1}\) <span class="arr">→</span> <span class="big-pct">53,1%</span></div>
           <div class="step-row">\(\tfrac{19}{35}\) <span class="arr">→</span> \(\tfrac{0{,}542}{1}\) <span class="arr">→</span> <span class="big-pct">54,2%</span></div>
-          <p style="margin-top:0.5rem;text-align:center;font-size:clamp(12px,1.8vw,15px)">Expresiones con denominador 100 = <strong>porcentaje (%)</strong></p>
+          <p style="margin-top:0.4rem;text-align:center;font-size:clamp(12px,1.7vw,15px)">Expresiones con denominador 100 = <strong>porcentaje (%)</strong></p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- S6: Conclusión -->
   <div class="slide s6">
     <div class="card">
       <div class="stitle">Conclusión</div>
       <div class="sbody">
         <p style="text-align:center">El % permite comparar porciones imaginando <em>qué ocurre cada 100 alumnos</em>:</p>
-        <div class="two-col" style="margin-top:0.75rem">
+        <div class="two-col" style="margin-top:0.6rem">
           <div class="col-box">
             <div class="col-label">Curso A</div>
             <div class="pct-result pct-a">53,1%</div>
             <div class="prog-wrap"><div class="prog prog-a" data-w="53.1"></div></div>
-            <div style="font-size:clamp(11px,1.5vw,13px);color:#888;margin-top:0.3rem">53 aprobados cada 100</div>
+            <div style="font-size:clamp(11px,1.4vw,13px);color:#888;margin-top:0.25rem">53 aprobados cada 100</div>
           </div>
           <div class="col-box">
             <div class="col-label">Curso B</div>
             <div class="pct-result pct-b">54,2%<span class="winner">Mayor</span></div>
             <div class="prog-wrap"><div class="prog prog-b" data-w="54.2"></div></div>
-            <div style="font-size:clamp(11px,1.5vw,13px);color:#888;margin-top:0.3rem">54 aprobados cada 100</div>
+            <div style="font-size:clamp(11px,1.4vw,13px);color:#888;margin-top:0.25rem">54 aprobados cada 100</div>
           </div>
         </div>
         <div class="hlbox" style="text-align:center">¡Mucho más claro que <em>mil ciento veinte avos</em>!</div>
@@ -268,15 +255,14 @@
     </div>
   </div>
 
-  <!-- S7: Contexto cotidiano -->
   <div class="slide s7">
     <div class="card">
       <div class="stitle">El % en la vida cotidiana</div>
       <div class="sbody">
         <div class="ital">En 2003, la desocupación argentina rondaba el <strong>24%</strong>: por cada 100 argentinos, 24 no accedían al derecho de trabajar dignamente.</div>
-        <div class="ital" style="margin-top:0.7rem">Para 2010 había bajado a menos del <strong>8%</strong>. ¿Qué porcentaje recuperó el derecho al trabajo?</div>
-        <div class="hlbox" style="margin-top:0.8rem;text-align:center">El % permite comparar situaciones <strong>sin importar el total de referencia</strong>, entendiendo qué ocurre cada 100 unidades.</div>
-        <div style="font-size:clamp(11px,1.5vw,13px);color:#a07040;margin-top:1rem;text-align:right">Prof. Nicolás Rosbaco</div>
+        <div class="ital" style="margin-top:0.6rem">Para 2010 había bajado a menos del <strong>8%</strong>. ¿Qué porcentaje recuperó el derecho al trabajo?</div>
+        <div class="hlbox" style="margin-top:0.7rem;text-align:center">El % permite comparar situaciones <strong>sin importar el total de referencia</strong>, entendiendo qué ocurre cada 100 unidades.</div>
+        <div style="font-size:clamp(11px,1.4vw,13px);color:#a07040;margin-top:0.8rem;text-align:right">Prof. Nicolás Rosbaco</div>
       </div>
     </div>
   </div>
@@ -296,7 +282,6 @@ const dotsEl=document.getElementById('dots');
 const ctrEl=document.getElementById('ctr');
 let cur=0,going=false;
 const total=slides.length;
-
 slides.forEach((_,i)=>{
   const d=document.createElement('button');
   d.className='dot'+(i===0?' on':'');
@@ -305,7 +290,6 @@ slides.forEach((_,i)=>{
   dotsEl.appendChild(d);
 });
 const dots=dotsEl.querySelectorAll('.dot');
-
 function go(next){
   if(going||next===cur||next<0||next>=total)return;
   going=true;
@@ -329,14 +313,12 @@ function go(next){
     if(window.MathJax)MathJax.typesetPromise([nw]);
   },750);
 }
-
 document.getElementById('bNext').onclick=()=>go(cur+1);
 document.getElementById('bPrev').onclick=()=>go(cur-1);
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur+1);
   if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur-1);
 });
-
 let sx=0;
 const pr=document.getElementById('pr');
 pr.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
@@ -344,6 +326,5 @@ pr.addEventListener('touchend',e=>{
   const dx=e.changedTouches[0].clientX-sx;
   if(Math.abs(dx)>45){dx<0?go(cur+1):go(cur-1)}
 },{passive:true});
-
 setTimeout(()=>{if(window.MathJax)MathJax.typesetPromise()},400);
 </script>
