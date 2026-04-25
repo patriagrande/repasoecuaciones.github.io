@@ -1,284 +1,247 @@
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-#pres-root { width: 100%; height: 520px; overflow: hidden; position: relative; background: #1a1a2e; border-radius: 16px; }
-#canvas { position: absolute; width: 4000px; height: 3200px; transform-origin: 0 0; }
-.frame { position: absolute; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2.5rem; text-align: center; }
-.f-title { width: 660px; height: 380px; background: linear-gradient(135deg, #3C3489 0%, #7F77DD 60%, #AFA9EC 100%); top: 80px; left: 80px; }
-.f-problem { width: 680px; height: 400px; background: #E6F1FB; border: 3px solid #378ADD; top: 80px; left: 900px; }
-.f-fracs { width: 680px; height: 420px; background: #EAF3DE; border: 3px solid #639922; top: 600px; left: 80px; }
-.f-equiv { width: 720px; height: 440px; background: #FAEEDA; border: 3px solid #BA7517; top: 600px; left: 900px; }
-.f-tanto { width: 680px; height: 420px; background: #FBEAF0; border: 3px solid #D4537E; top: 1160px; left: 80px; }
-.f-porcent { width: 700px; height: 460px; background: #EEEDFE; border: 3px solid #7F77DD; top: 1160px; left: 900px; }
-.f-conclusion { width: 700px; height: 440px; background: #E1F5EE; border: 3px solid #1D9E75; top: 1760px; left: 80px; }
-.f-context { width: 680px; height: 420px; background: #FAECE7; border: 3px solid #D85A30; top: 1760px; left: 900px; }
+*{box-sizing:border-box;margin:0;padding:0}
+#pr{width:100%;height:92vh;min-height:480px;overflow:hidden;position:relative;background:#12122a;border-radius:14px;touch-action:pan-y}
+#stage{position:absolute;inset:0;perspective:1200px}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(1rem,4vw,3rem);opacity:0;pointer-events:none;transform:scale(0.88) translateX(60px);transition:transform 0.75s cubic-bezier(0.77,0,0.175,1),opacity 0.75s ease}
+.slide.active{opacity:1;pointer-events:all;transform:scale(1) translateX(0)}
+.slide.exit-left{opacity:0;transform:scale(0.88) translateX(-80px)}
+.slide.exit-right{opacity:0;transform:scale(0.88) translateX(80px)}
+.slide.from-right{transform:scale(0.88) translateX(80px)}
+.slide.from-left{transform:scale(0.88) translateX(-80px)}
 
-.f-title h1 { font-size: 28px; font-weight: 600; color: #fff; margin-bottom: 0.75rem; line-height: 1.3; }
-.f-title .subtitle { font-size: 14px; color: #CECBF6; line-height: 1.6; }
-.f-title .pct-big { font-size: 80px; font-weight: 700; color: rgba(255,255,255,0.15); position: absolute; right: 24px; bottom: 10px; line-height: 1; }
-.f-title .prof { font-size: 12px; color: #AFA9EC; margin-top: 1.5rem; }
+.card{width:100%;max-width:680px;border-radius:18px;padding:clamp(1.5rem,4vw,2.5rem);position:relative;overflow:hidden}
+.s0 .card{background:linear-gradient(145deg,#26215C,#534AB7,#AFA9EC)}
+.s1 .card{background:#E6F1FB;border:3px solid #378ADD}
+.s2 .card{background:#EAF3DE;border:3px solid #639922}
+.s3 .card{background:#FAEEDA;border:3px solid #BA7517}
+.s4 .card{background:#FBEAF0;border:3px solid #D4537E}
+.s5 .card{background:#EEEDFE;border:3px solid #7F77DD}
+.s6 .card{background:#E1F5EE;border:3px solid #1D9E75}
+.s7 .card{background:#FAECE7;border:3px solid #D85A30}
 
-.stitle { font-size: 17px; font-weight: 600; margin-bottom: 0.9rem; }
-.f-problem .stitle { color: #0C447C; }
-.f-fracs .stitle { color: #27500A; }
-.f-equiv .stitle { color: #854F0B; }
-.f-tanto .stitle { color: #993556; }
-.f-porcent .stitle { color: #3C3489; }
-.f-conclusion .stitle { color: #0F6E56; }
-.f-context .stitle { color: #993C1D; }
+h1{font-size:clamp(22px,5vw,34px);font-weight:700;color:#fff;text-align:center;line-height:1.3;margin-bottom:0.75rem}
+.sub{font-size:clamp(13px,2.5vw,16px);color:#CECBF6;text-align:center;line-height:1.6}
+.prof{font-size:clamp(11px,2vw,13px);color:#AFA9EC;margin-top:1.5rem;text-align:center}
+.pct-bg{position:absolute;right:-10px;bottom:-20px;font-size:clamp(80px,18vw,140px);font-weight:900;color:rgba(255,255,255,0.07);line-height:1;user-select:none}
 
-.sbody { font-size: 13.5px; line-height: 1.7; color: #222; width: 100%; }
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
-.col-box { background: rgba(255,255,255,0.7); border-radius: 10px; padding: 0.75rem; text-align: center; }
-.col-label { font-size: 11px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
-.hlbox { background: rgba(255,255,255,0.75); border-radius: 8px; padding: 0.6rem 0.9rem; margin: 0.6rem 0; font-size: 13px; text-align: left; }
-.pct-result { font-size: 32px; font-weight: 700; margin: 0.5rem 0; }
-.pct-a { color: #185FA5; }
-.pct-b { color: #3B6D11; }
-.winner { background: #1D9E75; color: #fff; border-radius: 5px; padding: 1px 7px; font-size: 11px; font-weight: 600; vertical-align: middle; margin-left: 4px; }
-.prog-wrap { background: rgba(0,0,0,0.1); border-radius: 6px; height: 14px; overflow: hidden; margin: 4px 0; }
-.prog { height: 100%; border-radius: 6px; transition: width 1.4s cubic-bezier(.4,0,.2,1); width: 0; }
-.prog-a { background: #378ADD; }
-.prog-b { background: #639922; }
-.ital { font-style: italic; border-left: 3px solid #D85A30; padding-left: 0.75rem; margin: 0.5rem 0; font-size: 13px; color: #4A1B0C; text-align: left; }
-.step-row { display: flex; align-items: center; gap: 0.5rem; justify-content: center; flex-wrap: wrap; font-size: 13px; margin: 0.3rem 0; }
-.arr { color: #888; font-size: 16px; }
-.big-pct { font-size: 20px; font-weight: 700; color: #534AB7; }
+.stitle{font-size:clamp(16px,3.5vw,22px);font-weight:700;text-align:center;margin-bottom:1rem}
+.s1 .stitle{color:#0C447C} .s2 .stitle{color:#27500A} .s3 .stitle{color:#854F0B}
+.s4 .stitle{color:#993556} .s5 .stitle{color:#3C3489} .s6 .stitle{color:#0F6E56} .s7 .stitle{color:#993C1D}
+.sbody{font-size:clamp(13px,2.5vw,15px);line-height:1.75;color:#222;width:100%}
 
-#controls { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,30,0.85); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1rem; border-radius: 0 0 16px 16px; z-index: 20; }
-#dots-bar { display: flex; gap: 7px; }
-.cdot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.25); border: none; cursor: pointer; padding: 0; transition: background 0.3s, transform 0.2s; }
-.cdot.on { background: #AFA9EC; transform: scale(1.3); }
-.ctrl-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 8px; padding: 0.35rem 1rem; font-size: 13px; cursor: pointer; transition: background 0.2s; }
-.ctrl-btn:hover { background: rgba(255,255,255,0.22); }
-#slide-counter { color: rgba(255,255,255,0.55); font-size: 12px; min-width: 48px; text-align: center; }
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:0.75rem 0}
+@media(max-width:400px){.two-col{grid-template-columns:1fr}}
+.col-box{background:rgba(255,255,255,0.72);border-radius:10px;padding:0.75rem;text-align:center}
+.col-label{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.4rem}
+.hlbox{background:rgba(255,255,255,0.75);border-radius:9px;padding:0.65rem 0.9rem;margin:0.65rem 0;font-size:clamp(12px,2.2vw,14px)}
+.pct-result{font-size:clamp(26px,6vw,38px);font-weight:800;margin:0.4rem 0}
+.pct-a{color:#185FA5} .pct-b{color:#3B6D11}
+.winner{background:#1D9E75;color:#fff;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;vertical-align:middle;margin-left:5px}
+.prog-wrap{background:rgba(0,0,0,0.12);border-radius:6px;height:14px;overflow:hidden;margin:5px 0}
+.prog{height:100%;border-radius:6px;transition:width 1.4s cubic-bezier(.4,0,.2,1);width:0}
+.prog-a{background:#378ADD} .prog-b{background:#639922}
+.ital{font-style:italic;border-left:3px solid #D85A30;padding-left:0.75rem;margin:0.6rem 0;font-size:clamp(12px,2.2vw,14px);color:#4A1B0C}
+.step-row{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;font-size:clamp(11px,2vw,13px);margin:0.3rem 0}
+.arr{color:#888;font-size:14px}
+.big-pct{font-size:clamp(16px,3vw,20px);font-weight:800;color:#534AB7}
+
+#bar{position:absolute;bottom:0;left:0;right:0;background:rgba(8,8,28,0.9);display:flex;align-items:center;justify-content:space-between;padding:0.55rem 0.85rem;border-radius:0 0 14px 14px;z-index:30;gap:0.5rem}
+#dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.22);border:none;cursor:pointer;padding:0;transition:background .3s,transform .2s;flex-shrink:0}
+.dot.on{background:#AFA9EC;transform:scale(1.35)}
+.btn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:8px;padding:0.35rem 0.85rem;font-size:clamp(11px,2vw,13px);cursor:pointer;white-space:nowrap;flex-shrink:0}
+.btn:hover{background:rgba(255,255,255,0.2)}
+#ctr{color:rgba(255,255,255,0.5);font-size:12px;min-width:40px;text-align:center;flex-shrink:0}
 </style>
 
-<div id="pres-root">
-  <div id="canvas">
+<div id="pr">
+  <div id="stage">
 
-    <div class="frame f-title">
-      <div class="pct-big">%</div>
-      <h1>Cálculo de<br>porcentajes I</h1>
-      <div class="subtitle">¿Para qué sirve el porcentaje?<br>Una introducción desde el problema concreto</div>
-      <div class="prof">Prof. Nicolás Rosbaco</div>
-    </div>
-
-    <div class="frame f-problem">
-      <div class="stitle">El problema inicial</div>
-      <div class="sbody">
-        <p>Queremos comparar el rendimiento en matemática de dos cursos:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A</div>
-            <strong>17</strong> aprobaron<br>sobre <strong>32</strong> alumnos
-          </div>
-          <div class="col-box">
-            <div class="col-label">Curso B</div>
-            <strong>19</strong> aprobaron<br>sobre <strong>35</strong> alumnos
-          </div>
-        </div>
-        <div class="hlbox">¿Cuál curso tuvo mejor rendimiento? A simple vista… <strong>¡no es fácil saberlo!</strong></div>
+    <div class="slide s0 active">
+      <div class="card">
+        <div class="pct-bg">%</div>
+        <h1>Cálculo de<br>porcentajes I</h1>
+        <div class="sub">¿Para qué sirve el porcentaje?<br>Una introducción desde el problema concreto</div>
+        <div class="prof">Prof. Nicolás Rosbaco</div>
       </div>
     </div>
 
-    <div class="frame f-fracs">
-      <div class="stitle">Expresamos como fracciones</div>
-      <div class="sbody">
-        <p>La porción de aprobados en cada curso:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A</div>
-            <div>\(\dfrac{17}{32}\)</div>
+    <div class="slide s1">
+      <div class="card">
+        <div class="stitle">El problema inicial</div>
+        <div class="sbody">
+          <p>Queremos comparar el rendimiento en matemática de dos cursos:</p>
+          <div class="two-col">
+            <div class="col-box"><div class="col-label">Curso A</div><strong>17</strong> aprobaron<br>sobre <strong>32</strong> alumnos</div>
+            <div class="col-box"><div class="col-label">Curso B</div><strong>19</strong> aprobaron<br>sobre <strong>35</strong> alumnos</div>
           </div>
-          <div class="col-box">
-            <div class="col-label">Curso B</div>
-            <div>\(\dfrac{19}{35}\)</div>
-          </div>
-        </div>
-        <div class="hlbox">Para compararlas necesitamos <strong>fracciones equivalentes con el mismo denominador</strong>.</div>
-      </div>
-    </div>
-
-    <div class="frame f-equiv">
-      <div class="stitle">Primer intento: denominador común</div>
-      <div class="sbody">
-        <p>Multiplicamos para llegar al denominador 1120:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A × 35</div>
-            <div style="font-size:12px;">\(\dfrac{17 \times 35}{32 \times 35} = \dfrac{595}{1120}\)</div>
-          </div>
-          <div class="col-box">
-            <div class="col-label">Curso B × 32</div>
-            <div style="font-size:12px;">\(\dfrac{19 \times 32}{35 \times 32} = \dfrac{608}{1120}\)</div>
-          </div>
-        </div>
-        <div class="hlbox">608 &gt; 595 → el Curso B tiene mayor proporción.<br>
-        Pero… ¿alguien imagina fácilmente <em>mil ciento veinte avos</em>? <strong>¡Busquemos otra forma!</strong></div>
-      </div>
-    </div>
-
-    <div class="frame f-tanto">
-      <div class="stitle">El tanto por uno</div>
-      <div class="sbody">
-        <p>Dividimos cada fracción por su propio denominador → denominador <strong>1</strong>:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A ÷ 32</div>
-            <div>\(\dfrac{17}{32} \approx \dfrac{0{,}531}{1}\)</div>
-          </div>
-          <div class="col-box">
-            <div class="col-label">Curso B ÷ 35</div>
-            <div>\(\dfrac{19}{35} \approx \dfrac{0{,}542}{1}\)</div>
-          </div>
-        </div>
-        <div class="hlbox">Por cada alumno del Curso A, <strong>0,531</strong> aprobó.<br>
-        Por cada alumno del Curso B, <strong>0,542</strong> aprobó.<br>
-        Mejor… pero todavía algo raro. <strong>¡Un último esfuerzo!</strong></div>
-      </div>
-    </div>
-
-    <div class="frame f-porcent">
-      <div class="stitle">El tanto por ciento — el porcentaje</div>
-      <div class="sbody">
-        <p>Multiplicamos por 100 → denominador <strong>100</strong>:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A × 100</div>
-            <div style="font-size:12px;">\(\dfrac{0{,}531 \times 100}{1 \times 100} = \dfrac{53{,}1}{100}\)</div>
-          </div>
-          <div class="col-box">
-            <div class="col-label">Curso B × 100</div>
-            <div style="font-size:12px;">\(\dfrac{0{,}542 \times 100}{1 \times 100} = \dfrac{54{,}2}{100}\)</div>
-          </div>
-        </div>
-        <div class="hlbox">
-          <div class="step-row">\(\dfrac{17}{32}\) <span class="arr">→</span> \(\dfrac{0{,}531}{1}\) <span class="arr">→</span> <span class="big-pct">53,1%</span></div>
-          <div class="step-row">\(\dfrac{19}{35}\) <span class="arr">→</span> \(\dfrac{0{,}542}{1}\) <span class="arr">→</span> <span class="big-pct">54,2%</span></div>
-          <p style="margin-top:0.4rem; font-size:12px;">Expresiones con denominador 100 = <strong>porcentaje (%)</strong></p>
+          <div class="hlbox">¿Cuál curso tuvo mejor rendimiento? A simple vista… <strong>¡no es fácil saberlo!</strong></div>
         </div>
       </div>
     </div>
 
-    <div class="frame f-conclusion">
-      <div class="stitle">Conclusión</div>
-      <div class="sbody">
-        <p>El porcentaje permite comparar porciones imaginando <em>qué ocurre cada 100 alumnos</em>:</p>
-        <div class="two-col" style="margin-top:0.75rem;">
-          <div class="col-box">
-            <div class="col-label">Curso A</div>
-            <div class="pct-result pct-a">53,1%</div>
-            <div class="prog-wrap"><div class="prog prog-a" data-w="53.1"></div></div>
+    <div class="slide s2">
+      <div class="card">
+        <div class="stitle">Expresamos como fracciones</div>
+        <div class="sbody">
+          <p>La porción de aprobados en cada curso:</p>
+          <div class="two-col">
+            <div class="col-box"><div class="col-label">Curso A</div><div>\(\dfrac{17}{32}\)</div></div>
+            <div class="col-box"><div class="col-label">Curso B</div><div>\(\dfrac{19}{35}\)</div></div>
           </div>
-          <div class="col-box">
-            <div class="col-label">Curso B</div>
-            <div class="pct-result pct-b">54,2%<span class="winner">Mayor</span></div>
-            <div class="prog-wrap"><div class="prog prog-b" data-w="54.2"></div></div>
-          </div>
+          <div class="hlbox">Para compararlas necesitamos <strong>fracciones equivalentes con el mismo denominador</strong>.</div>
         </div>
-        <div class="hlbox">¡Mucho más claro que <em>mil ciento veinte avos</em>!</div>
       </div>
     </div>
 
-    <div class="frame f-context">
-      <div class="stitle">El % en la vida cotidiana</div>
-      <div class="sbody">
-        <div class="ital">En 2003, la desocupación argentina rondaba el <strong>24%</strong>: por cada 100 argentinos, 24 no accedían al derecho de trabajar dignamente.</div>
-        <div class="ital" style="margin-top:0.6rem;">Para 2010 había bajado a menos del <strong>8%</strong>. ¿Qué porcentaje recuperó el derecho al trabajo?</div>
-        <div class="hlbox" style="margin-top:0.75rem;">El % permite comparar situaciones <strong>sin importar el total de referencia</strong>, entendiendo qué ocurre cada 100 unidades.</div>
-        <div style="font-size:11px; color:#888; margin-top:0.75rem; text-align:right;">Prof. Nicolás Rosbaco</div>
+    <div class="slide s3">
+      <div class="card">
+        <div class="stitle">Primer intento: denominador común</div>
+        <div class="sbody">
+          <p>Multiplicamos para llegar al denominador 1120:</p>
+          <div class="two-col">
+            <div class="col-box"><div class="col-label">Curso A × 35</div><div style="font-size:12px">\(\dfrac{17\times35}{32\times35}=\dfrac{595}{1120}\)</div></div>
+            <div class="col-box"><div class="col-label">Curso B × 32</div><div style="font-size:12px">\(\dfrac{19\times32}{35\times32}=\dfrac{608}{1120}\)</div></div>
+          </div>
+          <div class="hlbox">608 &gt; 595 → el Curso B tiene mayor proporción.<br>Pero… ¿alguien imagina <em>mil ciento veinte avos</em>? <strong>¡Busquemos otra forma!</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide s4">
+      <div class="card">
+        <div class="stitle">El tanto por uno</div>
+        <div class="sbody">
+          <p>Dividimos por el propio denominador → denominador <strong>1</strong>:</p>
+          <div class="two-col">
+            <div class="col-box"><div class="col-label">Curso A ÷ 32</div><div>\(\dfrac{17}{32}\approx\dfrac{0{,}531}{1}\)</div></div>
+            <div class="col-box"><div class="col-label">Curso B ÷ 35</div><div>\(\dfrac{19}{35}\approx\dfrac{0{,}542}{1}\)</div></div>
+          </div>
+          <div class="hlbox">Por cada alumno del Curso A, <strong>0,531</strong> aprobó.<br>Por cada alumno del Curso B, <strong>0,542</strong> aprobó.<br><strong>¡Un último esfuerzo!</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide s5">
+      <div class="card">
+        <div class="stitle">El tanto por ciento — el porcentaje</div>
+        <div class="sbody">
+          <p>Multiplicamos por 100 → denominador <strong>100</strong>:</p>
+          <div class="two-col">
+            <div class="col-box"><div class="col-label">Curso A × 100</div><div style="font-size:11px">\(\dfrac{0{,}531\times100}{1\times100}=\dfrac{53{,}1}{100}\)</div></div>
+            <div class="col-box"><div class="col-label">Curso B × 100</div><div style="font-size:11px">\(\dfrac{0{,}542\times100}{1\times100}=\dfrac{54{,}2}{100}\)</div></div>
+          </div>
+          <div class="hlbox">
+            <div class="step-row">\(\tfrac{17}{32}\) <span class="arr">→</span> \(\tfrac{0{,}531}{1}\) <span class="arr">→</span> <span class="big-pct">53,1%</span></div>
+            <div class="step-row">\(\tfrac{19}{35}\) <span class="arr">→</span> \(\tfrac{0{,}542}{1}\) <span class="arr">→</span> <span class="big-pct">54,2%</span></div>
+            <p style="margin-top:0.4rem;font-size:12px">Expresiones con denominador 100 = <strong>porcentaje (%)</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide s6">
+      <div class="card">
+        <div class="stitle">Conclusión</div>
+        <div class="sbody">
+          <p>El % permite comparar porciones imaginando <em>qué ocurre cada 100 alumnos</em>:</p>
+          <div class="two-col">
+            <div class="col-box">
+              <div class="col-label">Curso A</div>
+              <div class="pct-result pct-a">53,1%</div>
+              <div class="prog-wrap"><div class="prog prog-a" data-w="53.1"></div></div>
+            </div>
+            <div class="col-box">
+              <div class="col-label">Curso B</div>
+              <div class="pct-result pct-b">54,2%<span class="winner">Mayor</span></div>
+              <div class="prog-wrap"><div class="prog prog-b" data-w="54.2"></div></div>
+            </div>
+          </div>
+          <div class="hlbox">¡Mucho más claro que <em>mil ciento veinte avos</em>!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide s7">
+      <div class="card">
+        <div class="stitle">El % en la vida cotidiana</div>
+        <div class="sbody">
+          <div class="ital">En 2003, la desocupación argentina rondaba el <strong>24%</strong>: por cada 100 argentinos, 24 no accedían al derecho de trabajar dignamente.</div>
+          <div class="ital" style="margin-top:0.6rem">Para 2010 había bajado a menos del <strong>8%</strong>. ¿Qué porcentaje recuperó el derecho al trabajo?</div>
+          <div class="hlbox" style="margin-top:0.75rem">El % permite comparar situaciones <strong>sin importar el total de referencia</strong>, entendiendo qué ocurre cada 100 unidades.</div>
+          <div style="font-size:11px;color:#888;margin-top:0.75rem;text-align:right">Prof. Nicolás Rosbaco</div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <div id="controls">
-    <button class="ctrl-btn" id="btnPrev">← Anterior</button>
-    <div id="dots-bar"></div>
-    <span id="slide-counter">1 / 8</span>
-    <button class="ctrl-btn" id="btnNext">Siguiente →</button>
+  <div id="bar">
+    <button class="btn" id="bPrev">← Ant.</button>
+    <div id="dots"></div>
+    <span id="ctr">1/8</span>
+    <button class="btn" id="bNext">Sig. →</button>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
 <script>
-const frames = [
-  { el: '.f-title',      cx: 410, cy: 270 },
-  { el: '.f-problem',    cx: 1240, cy: 280 },
-  { el: '.f-fracs',      cx: 420,  cy: 810 },
-  { el: '.f-equiv',      cx: 1260, cy: 820 },
-  { el: '.f-tanto',      cx: 420,  cy: 1370 },
-  { el: '.f-porcent',    cx: 1250, cy: 1390 },
-  { el: '.f-conclusion', cx: 430,  cy: 1980 },
-  { el: '.f-context',    cx: 1240, cy: 1970 },
-];
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const ctrEl  = document.getElementById('ctr');
+let cur = 0, going = false;
 
-let current = 0;
-let animating = false;
-
-const root = document.getElementById('pres-root');
-const canvas = document.getElementById('canvas');
-const counter = document.getElementById('slide-counter');
-const dotsBar = document.getElementById('dots-bar');
-
-frames.forEach((_, i) => {
+slides.forEach((_,i)=>{
   const d = document.createElement('button');
-  d.className = 'cdot' + (i === 0 ? ' on' : '');
-  d.setAttribute('aria-label', 'Diapositiva ' + (i+1));
-  d.onclick = () => goTo(i);
-  dotsBar.appendChild(d);
+  d.className='dot'+(i===0?' on':'');
+  d.setAttribute('aria-label','Diapositiva '+(i+1));
+  d.onclick=()=>go(i);
+  dotsEl.appendChild(d);
 });
-const dots = dotsBar.querySelectorAll('.cdot');
+const dots = dotsEl.querySelectorAll('.dot');
 
-function getViewport() {
-  return { w: root.clientWidth, h: root.clientHeight - 44 };
-}
-
-function goTo(idx) {
-  if (animating || idx === current) return;
-  animating = true;
-  current = idx;
-  applyTransform(true);
-  dots.forEach((d,i) => d.classList.toggle('on', i === idx));
-  counter.textContent = (idx+1) + ' / ' + frames.length;
-  setTimeout(() => {
-    animating = false;
-    triggerBars();
-    if (window.MathJax) MathJax.typesetPromise();
-  }, 900);
-}
-
-function applyTransform(animate) {
-  const vp = getViewport();
-  const f = frames[current];
-  const scale = Math.min(vp.w / 740, vp.h / 470);
-  const tx = vp.w/2 - f.cx * scale;
-  const ty = vp.h/2 - f.cy * scale;
-  canvas.style.transition = animate ? 'transform 0.85s cubic-bezier(0.77,0,0.175,1)' : 'none';
-  canvas.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`;
-}
-
-function triggerBars() {
-  const f = frames[current];
-  const slide = document.querySelector(f.el);
-  slide.querySelectorAll('.prog').forEach(bar => {
-    bar.style.width = bar.dataset.w + '%';
+function go(next){
+  if(going || next===cur) return;
+  going=true;
+  const dir = next>cur ? 1 : -1;
+  const old=slides[cur];
+  const nw=slides[next];
+  old.classList.remove('active');
+  old.classList.add(dir>0?'exit-left':'exit-right');
+  nw.classList.remove('exit-left','exit-right','from-left','from-right');
+  nw.classList.add(dir>0?'from-right':'from-left');
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      nw.classList.remove('from-right','from-left');
+      nw.classList.add('active');
+    });
   });
+  cur=next;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  ctrEl.textContent=(cur+1)+'/'+slides.length;
+  setTimeout(()=>{
+    old.classList.remove('exit-left','exit-right');
+    going=false;
+    nw.querySelectorAll('.prog').forEach(b=>b.style.width=b.dataset.w+'%');
+    if(window.MathJax) MathJax.typesetPromise([nw]);
+  },800);
 }
 
-document.getElementById('btnNext').onclick = () => goTo(Math.min(current+1, frames.length-1));
-document.getElementById('btnPrev').onclick = () => goTo(Math.max(current-1, 0));
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(Math.min(current+1, frames.length-1));
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(Math.max(current-1, 0));
+document.getElementById('bNext').onclick=()=>go(Math.min(cur+1,slides.length-1));
+document.getElementById('bPrev').onclick=()=>go(Math.max(cur-1,0));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(Math.min(cur+1,slides.length-1));
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')   go(Math.max(cur-1,0));
 });
 
-applyTransform(false);
-setTimeout(() => {
-  if (window.MathJax) MathJax.typesetPromise();
-}, 400);
+let tx=0,startX=0;
+const pr=document.getElementById('pr');
+pr.addEventListener('touchstart',e=>{startX=e.touches[0].clientX;tx=0},{passive:true});
+pr.addEventListener('touchend',e=>{
+  tx=e.changedTouches[0].clientX-startX;
+  if(Math.abs(tx)>50) tx<0?go(Math.min(cur+1,slides.length-1)):go(Math.max(cur-1,0));
+},{passive:true});
 
-window.addEventListener('resize', () => applyTransform(false));
+setTimeout(()=>{if(window.MathJax)MathJax.typesetPromise();},500);
 </script>
