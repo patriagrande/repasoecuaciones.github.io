@@ -12,8 +12,11 @@ Coordenadas en el plano (para Anto): https://patriagrande.github.io/repasoecuaci
 Sistema Gestión Trayectorias Escolares: https://patriagrande.github.io/repasoecuaciones.github.io/sgte/como-usar.html
 
 Porcentaje (borradores):
+
 opcione 1: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion1.html
+
 opcione 2: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion2.html
+
 opcione 3: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.html
 
 
