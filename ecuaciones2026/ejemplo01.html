@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resolución de Ecuación Paso a Paso</title>
+    <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
+      displayMath: [['$$', '$$']]
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        .equation-container {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        .step {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .step strong {
+            color: #2980b9;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+<h1>📚 Resolución de Ecuación Matemática</h1>
+<p>A continuación, se muestra la resolución paso a paso de la ecuación $7 - 3 \cdot (4 + m) = m - 1$.</p>
+
+<!-- Ecuación Inicial -->
+<h2>Ecuación inicial</h2>
+<div class="equation-container">
+    <p style="font-size: 1.5em; font-weight: bold;">$$7 - 3 \cdot (4 + m) = m - 1$$</p>
+</div>
+
+<!-- Paso 1 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 1: Aplicar la propiedad distributiva</h2>
+    <p>Multiplicamos el $-3$ por cada término dentro del paréntesis en el miembro izquierdo:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        $$7 - 3 \cdot 4 - 3 \cdot m = m - 1$$
+        <p>ahora realizamos las operaciones aritméticas ($ 3\cdot 4=12$) y obtenemos:</p>
+        $$\implies 7 - 12 - 3m = m - 1$$
+    </div>
+</div>
+
+<!-- Paso 2 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 2: "sumamos lo que podemos sumar"</h2>
+    <p>Siempre que tengamos cosas que "se pueden sumar (o restar, o multiplicar)", siempre en el mismo miembro de la ecuación (quiere decir: <i>"del mismo lado del igual"</i>), tenemos que realizar esas operaciones, obtener esos resultados, antes de continuar con el trabajo en la ecuación... es MUY importante porque nos ayuda a organizarnos:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        $$-5 - 3m = m - 1$$
+    </div>
+</div>
+
+<!-- Paso 3 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 3: Si tenemos incógnitas en ambos miemros... nos ocupamos de ese problema.</h2>
+    <p>Necesitamos realizar operaciones en ambos miembros de la ecuación para evitar el poroblema de tener incógnitas en amos miemros,
+        para ello elegimos eliminar las $3 \cdot m$ que restan en el primer miembro (a la izquierda). Como necesitamos eliminar
+    esas tres m, y estás están restándo recurrimos a la operación <b>inversa</b> de la resta, la suma. Por eso sumamos $3 \cdot m$ 
+    en cada miemro de la ecuación</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        <p>Tenemos esto:</p>
+        $$-5 - 3m  = m-1$$
+        <p>Procedemos a sumar en ambos miembros de la ecuación $3 \cdot m$:</p>
+        $$-5 - 3m +3 \cdot m = m-1+3 \cdot m $$
+        <p>$-3 \cdot m + 3 \cdot m$ se cancela; y sumamos $m+3 \cdot m=4 \cdot m$; así es que obtenemos:</p>
+        $$\implies -5  = 4 \cdot m -1$$
+    </div>
+</div>
+
+<!-- Paso 4 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 4: Aislar el término con $m$</h2>
+    <p>Necesitamos que uno de los miembros de la ecuación (en este caso el miemro de la derecha) tenga, solamente,
+        <i>incógnitas</i>. Por lo tanto <b>nos molesta</b> ese 1 que resta a las  $4 \cdot m$. Nuevamente, como
+        hicimos antes, recurrimos a la operación inversa: <i>la adición</i> y sumamos 1 en cada miembro de la ecuaicón:
+    </p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        <p>Teníamos:</p>
+        $$-5  = 4 \cdot m -1$$
+        <p>Procedemos a sumar 1 en cada miembro de la ecuación:</p>
+        $$-5  +1= 4 \cdot m -1+1$$
+        <p>Sabemos que $-1+1=0$ (se cancelan), y $-5+1=-4$, por lo tanto tenemos:</p>
+        $$\implies -4=4 \cdot m$$
+    </div>
+</div>
+
+<!-- Paso 5 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 5: Despejar $m$</h2>
+    <p>Despejar... es una especie de <i>sinónimo</i> de "correr, sacar lo que molesta".. queremos despejar, dejar <i>sola</i> a la $m$ 
+        (nuestra incógnita).</p>
+    <p>🤔 ¿Qué nos molesta?: el 4...</p>
+    <p>🤔 ¿Qué hace el cuatro?: multiplica</p>
+    <p>Recurrimos, como es habitual, a la operación inversa... la inversa de multiplicar es dividr, así es que: dividimos ambos miembros 
+        de la ecuación por $4$ para que, como nesecitamos: poder dejar $m$ sola:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #f39c12;">
+        <p>Teníamos:</p>
+        $$-4=4 \cdot m$$
+        $$\frac{-4}{4} = \frac{4 \cdot m}{4}$$
+        <p>Sabemos que $\frac{-4}{4} =-1$<span style="cursor: pointer;" title="Ojo... acordate la regla de los signos para la multiplicacion
+            y la división">❓</span>, y que $\frac{4 \cdot m}{4} =m$... así que nos queda:</p>
+        $$\implies -1=m$$
+    </div>
+</div>
+
+<!-- Verificación -->
+<div class="step" style="border-left: 5px solid #8e44ad;">
+    <h2>🔍 Verificación</h2>
+    <p>Reemplazamos $m = -1$ en la ecuación original para comprobar:</p>
+    <div class="equation-container" style="background-color: #f9f2ff; border-left-color: #8e44ad;">
+        $$7 - 3(4 + (-1)) = (-1) - 1$$
+        $$7 - 3(3) = -2$$
+        $$7 - 9 = -2$$
+        $$-2 = -2 \quad \checkmark$$
+    </div>
+</div>
+
+<!-- Resultado Final -->
+<div class="step" style="background-color: #d4edda; border: 2px solid #28a745;">
+    <h2>🎉 Resultado Final</h2>
+    <p style="font-size: 1.4em; font-weight: bold;">La solución de la ecuación es:</p>
+    <p style="font-size: 2em; color: #28a745;">$$m = -1$$</p>
+</div>
+
+</body>
+</html>
