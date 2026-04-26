@@ -3,7 +3,7 @@ Biblia de las ecuaciones: https://patriagrande.github.io/repasoecuaciones.github
 Ecuaciones 2026:
 -> ejemplo01 (7 - 3 * (4 + m) = m - 1): https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/ejemplo01.html
 
-Presentación: https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
+Presentación (IX Jornadas Investigación y Extensión del CURZAS): https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
 
 Pitágoras y Pantallas: https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
 
