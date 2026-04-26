@@ -1,5 +1,6 @@
-para acceder al sitio de ecuaciones: https://patriagrande.github.io/repasoecuaciones.github.io/
-ecuaciones 2026:
+Biblia de las ecuaciones: https://patriagrande.github.io/repasoecuaciones.github.io/
+
+Ecuaciones 2026:
 -> ejemplo01 (7 - 3 * (4 + m) = m - 1): https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/ejemplo01.html
 
 Presentación: https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
