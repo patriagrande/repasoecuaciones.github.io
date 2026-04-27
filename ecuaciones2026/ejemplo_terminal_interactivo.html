@@ -402,11 +402,47 @@
     <h2>🔍 Verificación</h2>
     <p>Reemplazamos $m = -1$ en la ecuación original para comprobar:</p>
     <div class="equation-container" style="background-color: #f9f2ff; border-left-color: #8e44ad;">
-        $$7 - 3*(4 + (-1)) = (-1) - 1$$
-        $$7 - 3*(3) = -2$$
+        $$7 - 3 \cdot (4 + (-1)) = (-1) - 1$$
+        <p>recordemos que: $4 + (-1)=4-1=3$</p>
+        $$7 - 3 \cdot (3) = -2$$
         $$7 - 9 = -2$$
         $$-2 = -2 \quad \checkmark$$
+        <p>Obtenemos una identidad verdadera, razón por la cual podemos dar por verificada la resolución de la ecuación.</p>
     </div>
+    <div class="terminal-wrapper">
+        <button id="btn6" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term6', texto_paso6)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term6">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term6', 'btn6')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+            <script>
+                const texto_paso6 = `usuario@maths:~$ verificar resolución de la ecuación
+                > nuestra ecuación:
+                7 - 3 * (4 + m) = m - 1
+
+                > solución obtenida luego de resolver la ecuación:
+                m = -1
+
+                > reemplazamos m por -1 en la ecuación original:
+                7 - 3 * (4 + (-1)) = (-1)
+
+                > recordemos que: 4 + (-1) = 4 - 1 = 3
+                7 - 3 * (3) = -1 - 1
+
+                > calculamos 3 * 3 = 9
+                7 - 9 = -2
+                -2 = -2  (identidad verdadera, verificación correcta)`;
+
+            </script>
+        </div>
+    </div>
+
+
 </div>
 
 <!-- Resultado Final -->
