@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resolución de Ecuación Paso a Paso</title>
+    <script>
+        MathJax = {
+            tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+            },
+            options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 25px;
+        }
+        .equation-container {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+        .step {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .step strong {
+            color: #2980b9;
+            font-size: 1.1em;
+        }
+
+        .terminal-wrapper {
+            margin-top: 14px;
+        }
+        .terminal-toggle {
+            background: none;
+            border: 1px solid #27ae60;
+            color: #27ae60;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-family: 'Noto Sans Mono', monospace;
+        }
+        .terminal-toggle:hover {
+            background-color: #eafaf1;
+        }
+        .terminal-window {
+            display: none;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #444;
+            font-family: 'Noto Sans Mono', monospace;
+            font-size: 0.92em;
+        }
+        .terminal-titlebar {
+            background-color: #2d2d2d;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+        }
+        .terminal-titlebar .title {
+            color: #cccccc;
+            font-size: 0.88em;
+            font-family: 'Noto Sans Mono', monospace;
+        }
+        .terminal-titlebar .btn-close {
+            background: none;
+            border: none;
+            color: #aaaaaa;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+            font-family: 'Noto Sans Mono', monospace;
+        }
+        .terminal-titlebar .btn-close:hover {
+            color: #ffffff;
+        }
+        .terminal-body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 14px 16px;
+            min-height: 60px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+        .terminal-body::after {
+            content: '█';
+            color: #ffffff;
+            animation: blink 1s step-end infinite;
+        }
+        .terminal-body.done::after {
+            display: none;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0; }
+        }
+    </style>
+
+    <script>
+        function activarTerminal(boton, idVentana, texto) {
+            boton.style.display = 'none';
+            const ventana = document.getElementById(idVentana);
+            ventana.style.display = 'block';
+            const cuerpo = ventana.querySelector('.terminal-body');
+            let i = 0;
+            const velocidad = 40;
+            function escribir() {
+                if (i < texto.length) {
+                    cuerpo.textContent += texto[i];
+                    i++;
+                    setTimeout(escribir, velocidad);
+                } else {
+                    cuerpo.classList.add('done');
+                }
+            }
+            escribir();
+        }
+
+        function cerrarTerminal(idVentana, idBoton) {
+            const ventana = document.getElementById(idVentana);
+            const cuerpo = ventana.querySelector('.terminal-body');
+            cuerpo.textContent = '';
+            cuerpo.classList.remove('done');
+            ventana.style.display = 'none';
+            document.getElementById(idBoton).style.display = 'inline-block';
+        }
+    </script>
+
+</head>
+<body>
+
+<!-- Aviso celular -->
+<div style="
+    background-color: #eaf4fb;
+    border-left: 5px solid #3498db;
+    border-radius: 0 6px 6px 0;
+    padding: 16px 24px;
+    margin: 0 0 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+">
+    <span style="font-size: 28px; flex-shrink:0;">📱</span>
+    <p style="margin:0; font-size:0.92em; color:#2c3e50; line-height:1.6;">
+        <strong style="color:#3498db;">¿Estás desde el celu?</strong>
+        Te conviene girar la pantalla en horizontal — las ecuaciones se ven mucho mejor
+        en modo paisaje y vas a poder seguir los pasos sin hacer zoom.
+    </p>
+</div>
+
+<h1>📚 Resolución de Ecuaciones</h1>
+<h2>Algunos Ejemplos... para una matemática <i>bien entendida</i></h2>
+<p>A continuación, se muestra la resolución paso a paso de la ecuación $7 - (x - 1) = x$.</p>
+
+<!-- Ecuación Inicial -->
+<h2>Ecuación inicial</h2>
+<div class="equation-container">
+    <p style="font-size: 1.5em; font-weight: bold;">$$7 - (x - 1) = x$$</p>
+</div>
+
+<!-- Paso 1 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 1: Aplicar la propiedad distributiva</h2>
+    <p>Es importante destacar un hecho, que suele pasar inadvertido. 
+    Focalicémos en el segundo término del miembro izquierdo: $-(x - 1)$. Acá está enmascarado, oculto algo muy importante:
+    una multiplicación.</p>
+    <p>Si, puede ser un poco extraño esto último, pero antes de continuar repasemos juntos algunas ideas:</p>
+    <ul>
+        <li>$5$ es lo mismo que escribir $\textcolor{red}{1} \cdot 5$ ¿no es cierto?</li>
+        <li>$8$ es lo mismo que escribir $\textcolor{red}{1} \cdot 8$</li>
+        <li>Bueno, si $5= \textcolor{red}{1} \cdot 5$, entonces tendrá bastante sentido decir que $-5$ es lo mismo que 
+        escribir $\textcolor{red}{-1} \cdot 5$</li>
+        <li>en general, cualquier expresión negativa se puede escribir como el producto de $-1$ por "la expresión sin signo". Entonces:</li>
+        <li>$-(x - 1)$ tiene que ser lo mismo que $\textcolor{red}{-1} \cdot (x - 1)$</li>
+    </ul>
+    <p>Retomemos lo que planteabamos antes de este detalle. La expresión $-(x - 1)$ ahora se puede ver claramente como una 
+    multiplicación por $-1$.</p>
+    $$-(x - 1) = \textcolor{red}{-1} \cdot (x - 1)$$
+    <p>Con lo cual nuestra ecuación original se puede reescribir como:</p>
+    $$7 + (\textcolor{red}{-1}) \cdot (x - 1) = x$$
+    <p>Ahora que "ya nos pusimos de acuerdo" en es de que un signo negativo delante de un paréntesis 
+    indica una multiplicación por -1, podemos conluír en la necesidad de distribuir el $-1$ dentro del paréntesis 
+    (hacemos uso de la <a href="https://es.wikipedia.org/wiki/Distributividad" target="_blank">propiedad distributiva</a>).</p>
+
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        $$7 + (\textcolor{red}{-1}) \cdot (x - 1) = x$$
+        <p>Como: $(-1) \cdot x = -x$ y $(-1)\cdot(-1)=+1$, y obtenemos:</p>
+        $$7 - x + 1 = x$$
+    </div>
+
+    <div class="terminal-wrapper">
+        <button id="btn1" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term1', texto_paso1)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term1">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term1', 'btn1')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+        </div>
+    </div>
+    <script>
+        const texto_paso1 =
+`usuario@maths:~$ aplicar distributiva
+> ecuacion original:
+  7 - (x - 1) = x
+
+> el signo negativo delante del parentesis equivale a multiplicar por -1:
+  7 + (-1)*(x) + (-1)*(-1) = x
+
+> calculamos cada producto:
+  (-1) * x    = -x
+  (-1) * (-1) = +1   <-- ojo con la regla de signos!
+
+> resultado:
+  7 - x + 1 = x`;
+    </script>
+</div>
+
+<!-- Paso 2 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 2: Simplificar — "sumamos lo que podemos sumar"</h2>
+    <p>Siempre que tengamos términos numéricos que se puedan combinar
+        <em>dentro del mismo miembro</em> de la ecuación, conviene hacerlo antes de seguir.
+        Esto nos ayuda a tener una expresión más simple y a no cometer errores en los pasos siguientes.</p>
+    <p>En el miembro izquierdo tenemos $7$ y $+1$, que son dos números que podemos sumar sin problema:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        <p>Teníamos:</p>
+        $$7 - x + 1 = x$$
+        <p>Sumamos $7 + 1 = 8$ en el miembro izquierdo:</p>
+        $$\implies 8 - x = x$$
+    </div>
+
+    <div class="terminal-wrapper">
+        <button id="btn2" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term2', texto_paso2)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term2">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term2', 'btn2')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+        </div>
+    </div>
+    <script>
+        const texto_paso2 =
+`usuario@maths:~$ simplificar miembro izquierdo
+> ecuacion antes de simplificar:
+  7 - x + 1 = x
+
+> en el miembro izquierdo tenemos dos numeros: 7 y +1
+  los sumamos: 7 + 1 = 8
+
+> resultado:
+  8 - x = x`;
+    </script>
+</div>
+
+<!-- Paso 3 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 3: Reunir las incógnitas en un solo miembro</h2>
+    <p>Ahora tenemos $x$ en ambos miembros de la ecuación, y eso nos complica el trabajo.
+        Necesitamos que todas las incógnitas queden de un mismo lado del igual (en el mismo miembro).</p>
+    <p>🤔 ¿Qué nos molesta en el miembro izquierdo?: el término $-x$.</p>
+    <p>🤔 ¿Qué hace esa $x$?: está <strong>restando</strong>. Sin importar lo que vale $x$, sabemos que la suma de 
+    $-x$ y $x$ se cancela (porque da cero: $x-x=-x+x=0$).</p>
+    <p>Recurrimos a la operación inversa de la resta, que es la <strong>suma</strong>.
+        Sumamos $x$ en <strong>ambos miembros</strong> de la ecuación para mantener la igualdad:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #27ae60;">
+        <p>Teníamos:</p>
+        $$8 - x = x$$
+        <p>Sumamos $x$ en ambos miembros:</p>
+        $$8 - x + x = x + x$$
+        <p>En el miembro izquierdo, $-x + x = 0$ (se cancelan). En el miembro derecho, $x + x = 2 \cdot x$. Obtenemos:</p>
+        $$\implies 8 = 2 \cdot x$$
+    </div>
+
+    <div class="terminal-wrapper">
+        <button id="btn3" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term3', texto_paso3)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term3">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term3', 'btn3')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+        </div>
+    </div>
+    <script>
+        const texto_paso3 =
+`usuario@maths:~$ reunir incognitas en un miembro
+> ecuacion actual:
+  8 - x = x
+
+> el problema: hay x en ambos miembros
+> decision: eliminar la -x del miembro izquierdo
+> como esta restando, usamos la operacion inversa: sumamos +x
+> lo hacemos en AMBOS miembros (regla de oro de las ecuaciones):
+
+  8 - x + x = x + x
+
+> miembro izquierdo: -x + x = 0  (se cancelan)
+> miembro derecho:    x + x = 2*x
+
+> resultado:
+  8 = 2*x`;
+    </script>
+</div>
+
+<!-- Paso 4 -->
+<div class="step">
+    <h2><span style="color: #e74c3c;">✅</span> Paso 4: Despejar $x$</h2>
+    <p>Despejar (limpiar, sacar lo que molesta, etc) en este caso significa dejar <em>sola</em> a la incógnita de un lado del igual
+    (en alguno de los miembros de la ecuación, el que sea). En este caso observamos que el primer miembro de la ecuación 
+    no tiene incógnitas, y el segundo miembro tiene a $x$ multiplicada por $2$. Entonces, lo que tenemos que hacer es "despejar" esa $x$
+     del segundo miembro, lograr que no este "afectada" por ninguna operación (que altere su valor).</p>
+    <p>Necesitamos eliminar el $2$ que está multiplicando a la $x$... bien podrían pensar del otro lado de la pantalla que sería
+    una buena idea que en lugar de $2 \cdot x$ tuviésemos un $1 \cdot x$, que es exactamente lo mismo que $x$.</p>
+    <p>Ya casi estamos: tenemos $8 = 2 \cdot x$, y lo único que nos "molesta" es ese $2$ que acompaña a la $x$.</p>
+    <p>🤔 ¿Qué hace el $2$?: <strong>multiplica</strong> a la $x$.</p>
+    <p>Recurrimos a la operación inversa de la multiplicación, que es la <strong>división</strong>.
+        Dividimos <strong>ambos miembros</strong> de la ecuación por $2$:</p>
+    <div class="equation-container" style="background-color: #f2f9f9; border-left-color: #f39c12;">
+        <p>Teníamos:</p>
+        $$8 = 2 \cdot x$$
+        <p>Dividimos ambos miembros por $2$:</p>
+        $$\frac{8}{2} = \frac{2 \cdot x}{2}$$
+        <p>Sabemos que $\frac{8}{2} = 4$, y que $\frac{2 \cdot x}{2} = x$ (el $2$ se cancela, ya que $\frac{2}{2} = 1$). Entonces:</p>
+        $$\implies 4 = x$$
+        <p>O lo que es equivalente: $x = 4$.</p>
+    </div>
+
+    <div class="terminal-wrapper">
+        <button id="btn4" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term4', texto_paso4)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term4">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term4', 'btn4')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+        </div>
+    </div>
+    <script>
+        const texto_paso4 =
+`usuario@maths:~$ despejar x
+> ecuacion actual:
+  8 = 2*x
+
+> el problema: el 2 esta multiplicando a la x
+> operacion inversa de multiplicar: dividir
+> dividimos AMBOS miembros por 2:
+
+  8 / 2 = (2*x) / 2
+
+> miembro izquierdo: 8 / 2 = 4
+> miembro derecho:   (2*x) / 2 = x  (el 2 se cancela, ya que 2/2 = 1)
+
+> resultado:
+  4 = x
+  --> x = 4`;
+    </script>
+</div>
+
+<!-- Verificación -->
+<div class="step" style="border-left: 5px solid #8e44ad;">
+    <h2>🔍 Verificación</h2>
+    <p>Reemplazamos $x = 4$ en la ecuación original para comprobar que la solución es correcta.
+        Si al reemplazar obtenemos una <em>identidad verdadera</em> (ambos miembros iguales),
+        entonces la resolución es correcta.</p>
+    <div class="equation-container" style="background-color: #f9f2ff; border-left-color: #8e44ad;">
+        <p>Nuestra ecuación original era:</p>
+        $$7 - (x - 1) = x$$
+        <p>Reemplazamos $x$ por $4$:</p>
+        $$7 - (4 - 1) = 4$$
+        <p>Resolvemos el paréntesis: $4 - 1 = 3$:</p>
+        $$7 - 3 = 4$$
+        $$4 = 4 \quad \checkmark$$
+        <p>Obtenemos una identidad verdadera: la resolución es correcta.</p>
+    </div>
+
+    <div class="terminal-wrapper">
+        <button id="btn5" class="terminal-toggle"
+            onclick="activarTerminal(this, 'term5', texto_paso5)">
+            $ ¿querés ver el detalle?
+        </button>
+        <div class="terminal-window" id="term5">
+            <div class="terminal-titlebar">
+                <span class="title">nicolas@nicolas-21m6000eac: ~</span>
+                <button class="btn-close" onclick="cerrarTerminal('term5', 'btn5')">✕</button>
+            </div>
+            <div class="terminal-body"></div>
+        </div>
+    </div>
+    <script>
+        const texto_paso5 =
+`usuario@maths:~$ verificar solucion
+> ecuacion original:
+  7 - (x - 1) = x
+
+> solucion obtenida:
+  x = 4
+
+> reemplazamos x por 4:
+  7 - (4 - 1) = 4
+
+> resolvemos el parentesis:
+  4 - 1 = 3
+
+> sustituimos:
+  7 - 3 = 4
+
+> calculamos el miembro izquierdo:
+  7 - 3 = 4
+
+> comparamos ambos miembros:
+  4 = 4  (identidad verdadera)
+
+verificacion correcta ✓`;
+    </script>
+</div>
+
+<!-- Resultado Final -->
+<div class="step" style="background-color: #d4edda; border: 2px solid #28a745;">
+    <h2>🎉 Resultado Final</h2>
+    <p style="font-size: 1.4em; font-weight: bold;">La solución de la ecuación es:</p>
+    <p style="font-size: 2em; color: #28a745;">$$x = 4$$</p>
+</div>
+
+<!-- Disclaimer -->
+<div style="
+    background-color: #fdf6e3;
+    border-left: 5px solid #e67e22;
+    border-radius: 0 6px 6px 0;
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+        <span style="font-size:20px;">⚠️</span>
+        <h2 style="margin:0; font-size:1em; font-weight:700; letter-spacing:0.12em;
+                   text-transform:uppercase; color:#e67e22;">Disclaimer</h2>
+    </div>
+    <p style="margin:0 0 10px; font-size:0.95em; color:#4a4a4a; line-height:1.7;">
+        Este material persigue un <strong style="color:#e67e22;">doble objetivo</strong>: por un lado,
+        ayudarte a resolver correctamente ecuaciones; pero por el otro,
+        <em style="color:#2c3e50;">romper esa inercia instalada en muchas escuelas</em> en la que se
+        propone que "las cosas pasan de un lado para el otro" en una ecuación.
+    </p>
+    <p style="margin:0 0 10px; font-size:0.95em; color:#4a4a4a; line-height:1.7;">
+        Acá vas a ver que cada paso tiene una razón: siempre recurrimos a la
+        <strong style="color:#e67e22;">operación inversa</strong>, siempre actuamos en
+        <strong style="color:#e67e22;">ambos miembros</strong> al mismo tiempo.
+        No hay magia, no hay "pases". Hay lógica.
+    </p>
+    <p style="margin:0; font-size:0.95em; color:#4a4a4a; line-height:1.7;">
+        Más adelante, cuando sigas estudiando matemática, vas a aprender que detrás de estas estrategias hay algo mucho más profundo:
+        una serie de <em style="color:#2c3e50;">propiedades de los conjuntos numéricos</em> —como la
+        existencia de neutros, inversos y la propiedad uniforme de la igualdad— que son las que realmente
+        sostienen y justifican todo lo que acá hacemos.
+    </p>
+</div>
+
+<!-- Footer -->
+<footer style="
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 24px 32px 16px;
+    border-top: 4px solid #3498db;
+    margin-top: 40px;
+">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+        <div>
+            <div style="font-size:1.05em; font-weight:700; color:#ecf0f1;">
+                Lic. Nicolás Rosbaco
+            </div>
+            <div style="margin-top:4px; font-size:0.9em;">
+                ✉ <a href="mailto:nicolasrosbaco@curza.com.ar"
+                     style="color:#3498db; text-decoration:none;">
+                    nicolasrosbaco@curza.com.ar
+                </a>
+            </div>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <span style="background:#3498db; color:#ecf0f1; font-size:0.78em; font-weight:600;
+                         padding:4px 10px; border-radius:20px; font-family:'Courier New',monospace;">
+                #claude
+            </span>
+            <span style="background:#3498db; color:#ecf0f1; font-size:0.78em; font-weight:600;
+                         padding:4px 10px; border-radius:20px; font-family:'Courier New',monospace;">
+                #mate
+            </span>
+            <span style="background:#3498db; color:#ecf0f1; font-size:0.78em; font-weight:600;
+                         padding:4px 10px; border-radius:20px; font-family:'Courier New',monospace;">
+                #fueraMilei
+            </span>
+        </div>
+    </div>
+    <hr style="border:none; border-top:1px solid #34495e; margin:0 0 12px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; align-items:center; gap:8px; font-size:0.82em; color:#bdc3c7;">
+            <span style="display:inline-flex; font-size:0.78em; font-weight:700;
+                         background:#ecf0f1; color:#2c3e50; padding:2px 7px;
+                         border-radius:4px; letter-spacing:0.05em;">
+                CC BY-NC 4.0
+            </span>
+            <span>Este material puede copiarse y compartirse libremente citando al autor, sin fines comerciales.</span>
+        </div>
+        <span style="font-size:0.82em; color:#7f8c8d;">© 2026</span>
+    </div>
+</footer>
+
+</body>
+</html>
