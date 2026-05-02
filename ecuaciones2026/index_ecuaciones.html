@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolución de Ecuaciones — Ejemplos paso a paso</title>
+
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            },
+            startup: {
+                ready() {
+                    MathJax.startup.defaultReady();
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --azul:        #2980b9;
+            --azul-oscuro: #2c3e50;
+            --azul-claro:  #3498db;
+            --verde:       #27ae60;
+            --gris-claro:  #ecf0f1;
+            --gris-medio:  #bdc3c7;
+            --blanco:      #ffffff;
+            --texto:       #2c3e50;
+            --sombra:      0 4px 18px rgba(44,62,80,0.10);
+            --sombra-hover:0 8px 32px rgba(44,62,80,0.18);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+            background-color: #f4f7fa;
+            color: var(--texto);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, var(--azul-oscuro) 0%, #1a252f 60%, #2c3e50 100%);
+            padding: 56px 32px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(52,152,219,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 10% 80%, rgba(39,174,96,0.10) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .hero h1 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: clamp(1.5rem, 4vw, 2.4rem);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            position: relative;
+        }
+        .hero h1 span {
+            color: #5dade2;
+        }
+        .hero-sub {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.05rem;
+            color: #a9cce3;
+            margin-top: 10px;
+            font-style: italic;
+            position: relative;
+        }
+        .hero-rule {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--azul-claro), var(--verde));
+            border-radius: 2px;
+            margin: 20px auto 0;
+            position: relative;
+        }
+
+        /* ── AVISO CELULAR ── */
+        .aviso-celu {
+            background-color: #eaf4fb;
+            border-left: 5px solid var(--azul-claro);
+            border-radius: 0 6px 6px 0;
+            padding: 14px 22px;
+            margin: 28px auto 0;
+            max-width: 860px;
+            width: calc(100% - 40px);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.91em;
+            color: var(--azul-oscuro);
+            line-height: 1.55;
+        }
+        .aviso-celu strong { color: var(--azul-claro); }
+
+        /* ── INTRO ── */
+        .intro {
+            max-width: 860px;
+            margin: 28px auto 8px;
+            padding: 0 20px;
+            font-size: 1.02rem;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+        .intro strong { color: var(--azul-oscuro); }
+
+        /* ── GRID DE TARJETAS ── */
+        .seccion-titulo {
+            max-width: 860px;
+            margin: 32px auto 16px;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .seccion-titulo h2 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gris-medio);
+        }
+        .seccion-titulo::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #dde3ea;
+        }
+
+        .grid {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        /* ── TARJETA ── */
+        .tarjeta {
+            background: var(--blanco);
+            border: 1.5px solid #dde3ea;
+            border-radius: 12px;
+            box-shadow: var(--sombra);
+            padding: 28px 20px 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tarjeta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--azul-claro), var(--verde));
+            opacity: 0;
+            transition: opacity 0.22s ease;
+        }
+        .tarjeta:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-hover);
+            border-color: var(--azul-claro);
+        }
+        .tarjeta:hover::before {
+            opacity: 1;
+        }
+        .tarjeta:active {
+            transform: translateY(-2px);
+        }
+
+        .tarjeta-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--gris-claro);
+            color: #7f8c8d;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-family: 'Noto Sans Mono', monospace;
+        }
+        .tarjeta-badge.nueva {
+            background: #eafaf1;
+            color: var(--verde);
+        }
+
+        .tarjeta-formula {
+            font-size: 1.15em;
+            min-height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .tarjeta-desc {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            text-align: center;
+            line-height: 1.45;
+        }
+
+        .tarjeta-btn {
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--azul-oscuro);
+            color: #ffffff;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 7px 18px;
+            border-radius: 6px;
+            letter-spacing: 0.03em;
+            transition: background 0.18s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .tarjeta:hover .tarjeta-btn {
+            background: var(--azul-claro);
+        }
+        .tarjeta-btn svg {
+            width: 13px; height: 13px;
+            fill: none; stroke: currentColor;
+            stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        /* tarjeta próximamente */
+        .tarjeta.proxima {
+            opacity: 0.55;
+            cursor: default;
+            pointer-events: none;
+        }
+        .tarjeta.proxima .tarjeta-btn {
+            background: var(--gris-medio);
+        }
+
+        /* ── DISCLAIMER ── */
+        .disclaimer {
+            max-width: 860px;
+            margin: 0 auto 8px;
+            padding: 0 20px;
+        }
+        .disclaimer > div {
+            background-color: #fdf6e3;
+            border-left: 5px solid #e67e22;
+            border-radius: 0 6px 6px 0;
+            padding: 18px 22px;
+        }
+        .disclaimer-titulo {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+        }
+        .disclaimer-titulo h3 {
+            margin: 0;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #e67e22;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .disclaimer p {
+            font-size: 0.91rem;
+            color: #4a4a4a;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .disclaimer p:last-child { margin-bottom: 0; }
+
+        /* ── FOOTER ── */
+        footer {
+            background-color: var(--azul-oscuro);
+            color: #ecf0f1;
+            font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+            padding: 24px 32px 16px;
+            border-top: 4px solid var(--azul-claro);
+            margin-top: auto;
+        }
+        .footer-top {
+            max-width: 860px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-nombre { font-size: 1.05em; font-weight: 700; color: #ecf0f1; }
+        .footer-mail { margin-top: 4px; font-size: 0.9em; }
+        .footer-mail a { color: var(--azul-claro); text-decoration: none; }
+        .footer-mail a:hover { text-decoration: underline; }
+        .footer-tags {
+            display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+        }
+        .footer-tag {
+            background: var(--azul-claro);
+            color: #ecf0f1;
+            font-size: 0.78em;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-family: 'Noto Sans Mono', monospace;
+        }
+        .footer-hr {
+            max-width: 860px;
+            margin: 0 auto 12px;
+            border: none;
+            border-top: 1px solid #34495e;
+        }
+        .footer-bottom {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer-licencia {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.82em; color: #bdc3c7;
+        }
+        .footer-cc {
+            font-size: 0.78em; font-weight: 700;
+            background: #ecf0f1; color: var(--azul-oscuro);
+            padding: 2px 7px; border-radius: 4px; letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .footer-anio { font-size: 0.82em; color: #7f8c8d; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 520px) {
+            .grid { grid-template-columns: 1fr; }
+            .hero { padding: 40px 20px 36px; }
+            footer { padding: 20px 16px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+    <span class="hero-icon">📐</span>
+    <h1>Ejemplos, paso a paso,<br>para la <span>resolución de ecuaciones</span></h1>
+    <p class="hero-sub">para una matemática bien entendida</p>
+    <div class="hero-rule"></div>
+</header>
+
+<!-- AVISO CELULAR -->
+<div class="aviso-celu">
+    <span style="font-size:24px;flex-shrink:0;">📱</span>
+    <p><strong>¿Estás desde el celu?</strong>
+    Te conviene girar la pantalla en horizontal — las ecuaciones se ven mucho mejor
+    en modo paisaje.</p>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+    <p>Cada tarjeta corresponde a un ejemplo resuelto <strong>paso a paso</strong>,
+    con explicaciones detalladas y sin reduccionismos.
+    Hacé clic en la que quieras explorar.</p>
+</div>
+
+<!-- SECCIÓN: ejemplos disponibles -->
+<div class="seccion-titulo">
+    <h2>Ejemplos disponibles</h2>
+</div>
+
+<div class="grid">
+
+    <!-- Tarjeta 1 -->
+    <a class="tarjeta" href="./ejeamplo_02_terminalanimado.html">
+        <span class="tarjeta-badge">Ec. lineal</span>
+        <div class="tarjeta-formula">
+            $7 - 3 \cdot (4 + m) = m - 1$
+        </div>
+        <p class="tarjeta-desc">Propiedad distributiva, agrupación de términos semejantes e incógnitas en ambos miembros.</p>
+        <span class="tarjeta-btn">
+            Ver resolución
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+    </a>
+
+    <!-- Tarjeta 2 -->
+    <a class="tarjeta" href="ecuacion_7_menos_x_menos_1_igual_x.html">
+        <span class="tarjeta-badge">Ec. lineal</span>
+        <div class="tarjeta-formula">
+            $7 - (x - 1) = x$
+        </div>
+        <p class="tarjeta-desc">Distributiva con signo negativo, simplificación y despeje con operación inversa.</p>
+        <span class="tarjeta-btn">
+            Ver resolución
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+    </a>
+
+    <!-- Tarjeta 3 -->
+    <a class="tarjeta" href="ecuacion_5_sobre_x_mas_3_igual_menos_1.html">
+        <span class="tarjeta-badge nueva">Con fracción</span>
+        <div class="tarjeta-formula">
+            $\dfrac{5}{x+3} = -1$
+        </div>
+        <p class="tarjeta-desc">Condición de existencia, eliminación del denominador multiplicando en ambos miembros.</p>
+        <span class="tarjeta-btn">
+            Ver resolución
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+    </a>
+
+    <!-- Tarjeta próximamente (ejemplo) -->
+    <div class="tarjeta proxima">
+        <span class="tarjeta-badge">Próximamente</span>
+        <div class="tarjeta-formula">
+            $\dfrac{2x-1}{3} = x + 2$
+        </div>
+        <p class="tarjeta-desc">Ecuación con fracción y variable en ambos miembros. En preparación.</p>
+        <span class="tarjeta-btn">
+            Próximamente
+        </span>
+    </div>
+
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+    <div>
+        <div class="disclaimer-titulo">
+            <span>⚠️</span>
+            <h3>Disclaimer</h3>
+        </div>
+        <p>
+            Este material persigue un <strong style="color:#e67e22;">doble objetivo</strong>:
+            por un lado, ayudarte a resolver correctamente ecuaciones; pero por el otro,
+            <em style="color:#2c3e50;">romper esa inercia instalada en muchas escuelas</em> en la que se
+            propone que "las cosas pasan de un lado para el otro" en una ecuación.
+        </p>
+        <p>
+            Acá cada paso tiene una razón: siempre recurrimos a la
+            <strong style="color:#e67e22;">operación inversa</strong> y actuamos en
+            <strong style="color:#e67e22;">ambos miembros</strong> al mismo tiempo.
+            No hay magia, no hay "pases". Hay lógica.
+        </p>
+        <p>
+            Más adelante vas a aprender que detrás de estas estrategias hay algo más profundo:
+            <em style="color:#2c3e50;">propiedades de los conjuntos numéricos</em> —neutros,
+            inversos, propiedad uniforme de la igualdad— que son las que realmente justifican todo esto.
+        </p>
+    </div>
+</div>
+
+<!-- ESPACIO -->
+<div style="height:32px;"></div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div>
+            <div class="footer-nombre">Lic. Nicolás Rosbaco</div>
+            <div class="footer-mail">
+                ✉ <a href="mailto:nicolasrosbaco@curza.com.ar">nicolasrosbaco@curza.com.ar</a>
+            </div>
+        </div>
+        <div class="footer-tags">
+            <span class="footer-tag">#claude</span>
+            <span class="footer-tag">#mate</span>
+            <span class="footer-tag">#fueraMilei</span>
+        </div>
+    </div>
+    <hr class="footer-hr">
+    <div class="footer-bottom">
+        <div class="footer-licencia">
+            <span class="footer-cc">CC BY-NC 4.0</span>
+            <span>Este material puede copiarse y compartirse libremente citando al autor, sin fines comerciales.</span>
+        </div>
+        <span class="footer-anio">© 2026</span>
+    </div>
+</footer>
+
+</body>
+</html>
