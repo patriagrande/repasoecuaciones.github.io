@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolución de Ecuación — Balanza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        MathJax = {
+            tex: {
+            inlineMath: [['$', '$']],
+            displayMath: [['$$', '$$']]
+            },
+            options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f4f7fa;
+            color: #2c3e50;
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 25px; }
+        .step {
+            margin-bottom: 24px;
+            padding: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .equation-container {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-left: 5px solid #3498db;
+            margin: 16px 0;
+            font-size: 1.1em;
+            font-family: 'Noto Sans Mono', monospace;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.9;
+        }
+        .balance-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0 8px;
+        }
+        .balance-label {
+            font-size: 0.82em;
+            color: #7f8c8d;
+            margin-bottom: 6px;
+            font-family: 'Noto Sans Mono', monospace;
+            letter-spacing: 0.04em;
+        }
+        .nota {
+            font-size: 0.88em;
+            color: #5d6d7e;
+            background: #f8f9fa;
+            border-left: 3px solid #3498db;
+            padding: 8px 14px;
+            margin-top: 10px;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.6;
+        }
+        .nota strong { color: #2980b9; }
+
+        @keyframes balancear {
+            0%   { transform: rotate(var(--de, 0deg)); }
+            55%  { transform: rotate(var(--a,  0deg)); }
+            75%  { transform: rotate(calc(var(--a, 0deg) * 0.88)); }
+            100% { transform: rotate(var(--a,  0deg)); }
+        }
+        .brazo {
+            transform-origin: 170px 0px;
+            animation: balancear 1.2s cubic-bezier(.35,0,.2,1) forwards;
+            animation-delay: var(--lag, 0.15s);
+        }
+    </style>
+</head>
+<body>
+
+<!-- aviso celu -->
+<div style="background-color:#eaf4fb;border-left:5px solid #3498db;border-radius:0 6px 6px 0;
+            padding:14px 22px;margin:0 0 24px;display:flex;align-items:center;gap:14px;">
+    <span style="font-size:24px;flex-shrink:0;">📱</span>
+    <p style="margin:0;font-size:0.91em;color:#2c3e50;line-height:1.6;">
+        <strong style="color:#3498db;">¿Estás desde el celu?</strong>
+        Girá la pantalla en horizontal para ver mejor las balanzas.
+    </p>
+</div>
+
+<h1>📚 Resolución de Ecuaciones</h1>
+<h2>Algunos Ejemplos... para una matemática <i>bien entendida</i></h2>
+
+<p>Resolución paso a paso de $4 \cdot m + 3 = 83$ usando la analogía de la
+<strong>balanza de dos platillos</strong>. Cada imagen de balanza muestra el estado de la ecuación
+en ese momento. Las operaciones son siempre <em>simétricas</em>: lo que se hace en un platillo
+se hace exactamente igual en el otro, para que el equilibrio se mantenga.</p>
+
+<p><strong>Referencia de colores:</strong>
+<span style="display:inline-block;background:#d6eaf8;border:2px solid #2980b9;border-radius:4px;padding:1px 8px;font-family:monospace;font-size:0.9em;color:#1a5276;margin:0 4px;">m</span> incógnita  &nbsp;|&nbsp;
+<span style="display:inline-block;background:#fdebd0;border:2px solid #e67e22;border-radius:4px;padding:1px 8px;font-family:monospace;font-size:0.9em;color:#784212;margin:0 4px;">n</span> número conocido  &nbsp;|&nbsp;
+<span style="display:inline-block;background:#f0f0f0;border:2px dashed #bbb;border-radius:4px;padding:1px 8px;font-family:monospace;font-size:0.9em;color:#999;margin:0 4px;">···</span> caja que se retira</p>
+
+
+<!-- ══════════════════════ ESTADO INICIAL ══════════════════════ -->
+<div class="step">
+    <h2>⚖️ Estado inicial</h2>
+    <p>La ecuación $4 \cdot m + 3 = 83$ se representa como una balanza en equilibrio.
+    Platillo izquierdo: 4 cajas azules (<em>m</em>) y 1 caja naranja (3).
+    Platillo derecho: 1 caja verde (83).</p>
+
+    <div class="balance-wrap">
+        <div class="balance-label">$4 \cdot m + 3 = 83$</div>
+        <svg width="340" height="220" viewBox="0 0 340 220" style="display:block;margin:0 auto;">
+            <!-- poste y base -->
+            <rect x="166" y="60" width="8" height="120" rx="3" fill="#7f8c8d"/>
+            <rect x="110" y="178" width="120" height="14" rx="6" fill="#7f8c8d"/>
+            <ellipse cx="170" cy="62" rx="9" ry="9" fill="#5d6d7e"/>
+            <!-- brazo: equilibrado → 0deg -->
+            <g class="brazo" style="--de:-4deg;--a:0deg;--lag:0.1s" transform-origin="170px 62px">
+                <rect x="40" y="58" width="260" height="8" rx="4" fill="#5d6d7e"/>
+                <!-- hilos -->
+                <line x1="72"  y1="66" x2="72"  y2="98" stroke="#7f8c8d" stroke-width="2"/>
+                <line x1="268" y1="66" x2="268" y2="98" stroke="#7f8c8d" stroke-width="2"/>
+                <!-- platillos -->
+                <rect x="36"  y="97" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="232" y="97" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <!-- izq: 4 cajas m (2×2) + caja 3 arriba -->
+                <rect x="38"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="38"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <!-- caja 3 centrada arriba del grupo izq -->
+                <rect x="54"  y="24" width="30" height="22" rx="5" fill="#fdebd0" stroke="#e67e22" stroke-width="2"/>
+                <text x="69"  y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#784212" font-family="'Noto Sans Mono',monospace">3</text>
+                <!-- der: caja 83 -->
+                <rect x="240" y="62" width="52" height="34" rx="7" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+                <text x="266" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">83</text>
+            </g>
+        </svg>
+    </div>
+    <div class="nota">
+        La balanza está en <strong>equilibrio</strong>. Ambos platillos pesan lo mismo.
+        Cada operación que hagamos debe aplicarse a los <strong>dos platillos</strong> para conservar ese equilibrio.
+    </div>
+</div>
+
+
+<!-- ══════════════════════ PASO 1 ══════════════════════ -->
+<div class="step">
+    <h2><span style="color:#e74c3c;">✅</span> Paso 1: Retiramos la caja del 3 de ambos platillos</h2>
+
+    <p>El <strong>3</strong> está sumando en el platillo izquierdo. Para eliminarlo, la operación inversa
+    es <strong>restar 3</strong>. Lo hacemos en <em>ambos</em> platillos para mantener el equilibrio.</p>
+
+    <div class="equation-container">
+        $4 \cdot m + 3 − 3 = 83 − 3$<br>
+        ⟹ $4 \cdot m = 80$
+    </div>
+
+    <!-- estado intermedio: retirando el 3 -->
+    <div class="balance-wrap" style="margin-top:20px;">
+        <div class="balance-label">retirando la caja del 3 de ambos platillos…</div>
+        <svg width="340" height="220" viewBox="0 0 340 220" style="display:block;margin:0 auto;">
+            <rect x="166" y="60" width="8" height="120" rx="3" fill="#7f8c8d"/>
+            <rect x="110" y="178" width="120" height="14" rx="6" fill="#7f8c8d"/>
+            <ellipse cx="170" cy="62" rx="9" ry="9" fill="#5d6d7e"/>
+            <!-- brazo se desestabiliza levemente y vuelve -->
+            <g class="brazo" style="--de:0deg;--a:2deg;--lag:0.1s" transform-origin="170px 62px">
+                <rect x="40" y="58" width="260" height="8" rx="4" fill="#5d6d7e"/>
+                <line x1="72"  y1="66" x2="72"  y2="98" stroke="#7f8c8d" stroke-width="2"/>
+                <line x1="268" y1="66" x2="268" y2="98" stroke="#7f8c8d" stroke-width="2"/>
+                <rect x="36"  y="97" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="232" y="97" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <!-- 4 m activos -->
+                <rect x="38"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="38"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="63" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <!-- caja 3 fantasma (saliendo) -->
+                <rect x="54"  y="24" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.35"/>
+                <text x="69"  y="38" text-anchor="middle" font-size="10" fill="#ccc" font-family="'Noto Sans Mono',monospace">3</text>
+                <!-- der: 83 + fantasma −3 -->
+                <rect x="240" y="62" width="52" height="34" rx="7" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+                <text x="266" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">83</text>
+                <rect x="246" y="26" width="40" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.35"/>
+                <text x="266" y="40" text-anchor="middle" font-size="10" fill="#ccc" font-family="'Noto Sans Mono',monospace">−3</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- resultado: 4m = 80 -->
+    <div class="balance-wrap" style="margin-top:24px;">
+        <div class="balance-label">resultado → $4 \cdot m = 80$</div>
+        <svg width="340" height="200" viewBox="0 0 340 200" style="display:block;margin:0 auto;">
+            <rect x="166" y="60" width="8" height="100" rx="3" fill="#7f8c8d"/>
+            <rect x="110" y="158" width="120" height="14" rx="6" fill="#7f8c8d"/>
+            <ellipse cx="170" cy="62" rx="9" ry="9" fill="#5d6d7e"/>
+            <g class="brazo" style="--de:2deg;--a:0deg;--lag:0.2s" transform-origin="170px 62px">
+                <rect x="40" y="58" width="260" height="8" rx="4" fill="#5d6d7e"/>
+                <line x1="72"  y1="66" x2="72"  y2="96" stroke="#7f8c8d" stroke-width="2"/>
+                <line x1="268" y1="66" x2="268" y2="96" stroke="#7f8c8d" stroke-width="2"/>
+                <rect x="36"  y="95" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="232" y="95" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="38"  y="71" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="86" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="71" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="86" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="38"  y="46" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="61" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="46" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="61" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="240" y="62" width="52" height="32" rx="7" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+                <text x="266" y="82" text-anchor="middle" font-size="13" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">80</text>
+            </g>
+        </svg>
+    </div>
+    <div class="nota">
+        Retiramos la caja del <strong>3</strong> de ambos platillos. El platillo derecho queda con
+        <strong>80</strong> (83 − 3 = 80). La balanza vuelve al equilibrio: <strong>4m = 80</strong>.
+    </div>
+</div>
+
+
+<!-- ══════════════════════ PASO 2 ══════════════════════ -->
+<div class="step">
+    <h2><span style="color:#e74c3c;">✅</span> Paso 2: Dividimos el contenido de ambos platillos por 4</h2>
+
+    <p>El platillo izquierdo tiene <strong>4 cajas iguales</strong>, cada una con el valor <em>m</em>.
+    Queremos saber cuánto pesa <em>una sola</em>.
+    La operación es <strong>dividir por 4</strong> —en <em>ambos</em> platillos.</p>
+
+    <div class="equation-container">
+    Teníamos $4 \cdot m = 80$. Dividimos ambos lados (¿ambos platillos?) por 4:<br>
+        $\frac{4 \cdot m}{4} = \frac{80}{4}$<br>
+        ⟹ $m = 20$
+    Dividir $4 \cdot m$ por 4 es como repartir las 4 cajas <em>m</em> en 4 balanzas iguales, quedándonos con 1 caja, es decir: nos queda 1 $m$.
+    </div>
+
+    <!-- estado intermedio: mostramos la división (3 cajas fantasmas) -->
+    <div class="balance-wrap" style="margin-top:20px;">
+        <div class="balance-label">dividiendo por 4 — nos quedamos con 1 cuarta parte de $4m$… en el otro platillo una cuarta parte de $80$ (la imagen es bastante clara)</div>
+        <svg width="340" height="200" viewBox="0 0 340 200" style="display:block;margin:0 auto;">
+            <rect x="166" y="60" width="8" height="100" rx="3" fill="#7f8c8d"/>
+            <rect x="110" y="158" width="120" height="14" rx="6" fill="#7f8c8d"/>
+            <ellipse cx="170" cy="62" rx="9" ry="9" fill="#5d6d7e"/>
+            <g class="brazo" style="--de:0deg;--a:-2deg;--lag:0.1s" transform-origin="170px 62px">
+                <rect x="40" y="58" width="260" height="8" rx="4" fill="#5d6d7e"/>
+                <line x1="72"  y1="66" x2="72"  y2="96" stroke="#7f8c8d" stroke-width="2"/>
+                <line x1="268" y1="66" x2="268" y2="96" stroke="#7f8c8d" stroke-width="2"/>
+                <rect x="36"  y="95" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="232" y="95" width="72" height="9" rx="4" fill="#95a5a6"/>
+                <!-- 1 caja m activa -->
+                <rect x="38"  y="68" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+                <text x="53"  y="83" text-anchor="middle" font-size="10" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <!-- 3 cajas fantasmas -->
+                <rect x="72"  y="68" width="30" height="23" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="87"  y="83" text-anchor="middle" font-size="10" fill="#ccc" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="38"  y="44" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="53"  y="58" text-anchor="middle" font-size="10" fill="#ccc" font-family="'Noto Sans Mono',monospace">m</text>
+                <rect x="72"  y="44" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="87"  y="58" text-anchor="middle" font-size="10" fill="#ccc" font-family="'Noto Sans Mono',monospace">m</text>
+                <!-- der: 4 partes de 20, 3 fantasmas -->
+                <rect x="236" y="64" width="30" height="22" rx="5" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+                <text x="251" y="78" text-anchor="middle" font-size="9" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="270" y="64" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="285" y="78" text-anchor="middle" font-size="9" fill="#ccc" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="236" y="40" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="251" y="54" text-anchor="middle" font-size="9" fill="#ccc" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="270" y="40" width="30" height="22" rx="5" fill="#f5f5f5" stroke="#ccc" stroke-width="2" stroke-dasharray="4 3" opacity="0.3"/>
+                <text x="285" y="54" text-anchor="middle" font-size="9" fill="#ccc" font-family="'Noto Sans Mono',monospace">20</text>
+            </g>
+        </svg>
+    </div>
+
+    <!-- resultado: m = 20 -->
+    <div class="balance-wrap" style="margin-top:24px;">
+        <div class="balance-label">resultado → m = 20</div>
+        <svg width="340" height="170" viewBox="0 0 340 170" style="display:block;margin:0 auto;">
+            <rect x="166" y="48" width="8" height="90" rx="3" fill="#7f8c8d"/>
+            <rect x="110" y="136" width="120" height="14" rx="6" fill="#7f8c8d"/>
+            <ellipse cx="170" cy="50" rx="9" ry="9" fill="#5d6d7e"/>
+            <g class="brazo" style="--de:-2deg;--a:0deg;--lag:0.2s" transform-origin="170px 50px">
+                <rect x="70" y="46" width="200" height="8" rx="4" fill="#5d6d7e"/>
+                <line x1="96"  y1="54" x2="96"  y2="84" stroke="#7f8c8d" stroke-width="2"/>
+                <line x1="244" y1="54" x2="244" y2="84" stroke="#7f8c8d" stroke-width="2"/>
+                <rect x="62"  y="83" width="68" height="9" rx="4" fill="#95a5a6"/>
+                <rect x="210" y="83" width="68" height="9" rx="4" fill="#95a5a6"/>
+                <!-- 1 caja m grande -->
+                <rect x="81"  y="54" width="30" height="28" rx="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+                <text x="96"  y="72" text-anchor="middle" font-size="11" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">m</text>
+                <!-- 1 caja 20 -->
+                <rect x="218" y="54" width="42" height="28" rx="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="2.5"/>
+                <text x="239" y="72" text-anchor="middle" font-size="12" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">20</text>
+            </g>
+        </svg>
+    </div>
+    <div class="nota">
+        Dividimos el contenido de <em>ambos</em> platillos por <strong>4</strong>.
+        El platillo izquierdo queda con una sola caja <em>m</em>.
+        El derecho queda con <strong>20</strong> (80 ÷ 4 = 20).
+        La balanza se equilibra: <strong>m = 20</strong>.
+    </div>
+</div>
+
+
+<!-- ══════════════════════ VERIFICACIÓN ══════════════════════ -->
+<div class="step" style="border-left:5px solid #8e44ad;">
+    <h2>🔍 Verificación</h2>
+    <p>Reemplazamos <strong>m = 20</strong> en la ecuación original y comprobamos que la balanza
+    vuelva al estado inicial en equilibrio.</p>
+
+    <div class="equation-container" style="background:#f9f2ff;border-left-color:#8e44ad;">
+        4 × 20 + 3 = 83<br>
+        80 + 3 = 83<br>
+        83 = 83 ✓
+    </div>
+
+    <div class="balance-wrap" style="margin-top:20px;">
+        <div class="balance-label">verificación: 4×20 + 3 = 83</div>
+        <svg width="340" height="220" viewBox="0 0 340 220" style="display:block;margin:0 auto;">
+            <rect x="166" y="60" width="8" height="120" rx="3" fill="#27ae60"/>
+            <rect x="110" y="178" width="120" height="14" rx="6" fill="#27ae60"/>
+            <ellipse cx="170" cy="62" rx="9" ry="9" fill="#1e8449"/>
+            <g class="brazo" style="--de:5deg;--a:0deg;--lag:0.1s" transform-origin="170px 62px">
+                <rect x="40" y="58" width="260" height="8" rx="4" fill="#27ae60"/>
+                <line x1="72"  y1="66" x2="72"  y2="98" stroke="#27ae60" stroke-width="2"/>
+                <line x1="268" y1="66" x2="268" y2="98" stroke="#27ae60" stroke-width="2"/>
+                <rect x="36"  y="97" width="72" height="9" rx="4" fill="#27ae60"/>
+                <rect x="232" y="97" width="72" height="9" rx="4" fill="#27ae60"/>
+                <!-- 4 cajas 20 -->
+                <rect x="38"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="72"  y="73" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="88" text-anchor="middle" font-size="9" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="38"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="53"  y="63" text-anchor="middle" font-size="9" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">20</text>
+                <rect x="72"  y="48" width="30" height="23" rx="5" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+                <text x="87"  y="63" text-anchor="middle" font-size="9" font-weight="700" fill="#1a5276" font-family="'Noto Sans Mono',monospace">20</text>
+                <!-- caja 3 -->
+                <rect x="54"  y="24" width="30" height="22" rx="5" fill="#fdebd0" stroke="#e67e22" stroke-width="2"/>
+                <text x="69"  y="38" text-anchor="middle" font-size="10" font-weight="700" fill="#784212" font-family="'Noto Sans Mono',monospace">3</text>
+                <!-- der: 83 -->
+                <rect x="240" y="62" width="52" height="34" rx="7" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+                <text x="266" y="83" text-anchor="middle" font-size="13" font-weight="700" fill="#145a32" font-family="'Noto Sans Mono',monospace">83</text>
+                <!-- check verde grande -->
+                <text x="170" y="42" text-anchor="middle" font-size="22" fill="#1e8449" font-weight="700">✓</text>
+            </g>
+        </svg>
+    </div>
+    <div class="nota">
+        Ambos platillos pesan <strong>83</strong>. La balanza está en perfecto equilibrio.
+        La solución es correcta.
+    </div>
+</div>
+
+
+<!-- Resultado final -->
+<div class="step" style="background:#d4edda;border:2px solid #28a745;">
+    <h2>🎉 Resultado Final</h2>
+    <p style="font-size:1.4em;font-weight:bold;margin-bottom:4px;">La solución de la ecuación es:</p>
+    <p style="font-size:2.2em;color:#28a745;font-family:'Noto Sans Mono',monospace;margin-top:4px;font-weight:700;">m = 20</p>
+</div>
+
+
+<!-- Disclaimer -->
+<div style="background-color:#fdf6e3;border-left:5px solid #e67e22;border-radius:0 6px 6px 0;padding:20px 24px;margin:32px 0;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <span style="font-size:20px;">⚠️</span>
+        <h2 style="margin:0;font-size:1em;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#e67e22;">Disclaimer</h2>
+    </div>
+    <p style="margin:0 0 10px;font-size:0.95em;color:#4a4a4a;line-height:1.7;">
+        Este material persigue un <strong style="color:#e67e22;">doble objetivo</strong>: por un lado,
+        ayudarte a resolver correctamente ecuaciones; pero por el otro,
+        <em style="color:#2c3e50;">romper esa inercia instalada en muchas escuelas</em> en la que se
+        propone que "las cosas pasan de un lado para el otro" en una ecuación.
+    </p>
+    <p style="margin:0 0 10px;font-size:0.95em;color:#4a4a4a;line-height:1.7;">
+        La analogía de la balanza lo hace visible de forma concreta:
+        <strong style="color:#e67e22;">toda operación se realiza en ambos platillos</strong>.
+        No hay magia, no hay "pases". Hay simetría.
+    </p>
+    <p style="margin:0;font-size:0.95em;color:#4a4a4a;line-height:1.7;">
+        Más adelante vas a aprender que detrás de esta analogía hay algo más profundo:
+        las <em style="color:#2c3e50;">propiedades de los conjuntos numéricos</em> —neutros,
+        inversos, propiedad uniforme de la igualdad— que son las que realmente justifican todo esto.
+    </p>
+</div>
+
+<!-- Footer -->
+<footer style="background-color:#2c3e50;color:#ecf0f1;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+               padding:24px 32px 16px;border-top:4px solid #3498db;margin-top:40px;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;">
+        <div>
+            <div style="font-size:1.05em;font-weight:700;color:#ecf0f1;">Lic. Nicolás Rosbaco</div>
+            <div style="margin-top:4px;font-size:0.9em;">
+                ✉ <a href="mailto:nicolasrosbaco@curza.com.ar" style="color:#3498db;text-decoration:none;">nicolasrosbaco@curza.com.ar</a>
+            </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <span style="background:#3498db;color:#ecf0f1;font-size:0.78em;font-weight:600;padding:4px 10px;border-radius:20px;font-family:'Courier New',monospace;">#claude</span>
+            <span style="background:#3498db;color:#ecf0f1;font-size:0.78em;font-weight:600;padding:4px 10px;border-radius:20px;font-family:'Courier New',monospace;">#mate</span>
+            <span style="background:#3498db;color:#ecf0f1;font-size:0.78em;font-weight:600;padding:4px 10px;border-radius:20px;font-family:'Courier New',monospace;">#fueraMilei</span>
+        </div>
+    </div>
+    <hr style="border:none;border-top:1px solid #34495e;margin:0 0 12px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.82em;color:#bdc3c7;">
+            <span style="font-size:0.78em;font-weight:700;background:#ecf0f1;color:#2c3e50;padding:2px 7px;border-radius:4px;letter-spacing:0.05em;">CC BY-NC 4.0</span>
+            <span>Este material puede copiarse y compartirse libremente citando al autor, sin fines comerciales.</span>
+        </div>
+        <span style="font-size:0.82em;color:#7f8c8d;">© 2026</span>
+    </div>
+</footer>
+
+</body>
+</html>
