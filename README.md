@@ -2,6 +2,13 @@ Biblia de las ecuaciones: https://patriagrande.github.io/repasoecuaciones.github
 
 Ecuaciones 2026: https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/index_ecuaciones.html
 
+# Ecuaciones CURZA
+
+## Clase 01
+
+https://patriagrande.github.io/repasoecuaciones.github.io/ecuacionescurza/clase01/index.html
+
+
 Presentación (IX Jornadas Investigación y Extensión del CURZAS): https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
 
 Pitágoras y Pantallas: https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
