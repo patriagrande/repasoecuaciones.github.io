@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ecuaciones — Matemática 1 | UNCo</title>
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- MathJax config (antes de cargar la librería) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath:  [['$', '$']],
+        displayMath: [['$$', '$$']],
+        tags: 'none'
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre']
+      },
+      startup: { typeset: true }
+    };
+  </script>
+
+  <!-- MathJax CDN -->
+  <script defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js">
+  </script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     CABECERA FIJA
+════════════════════════════════════════════════════ -->
+<header id="header">
+  <div class="brand">
+    <span class="uni">Universidad Nacional del Comahue</span>
+    <span class="materia">Matemática 1</span>
+  </div>
+  <div class="slide-counter">
+    <span id="slide-current">1</span> / <span id="slide-total">1</span>
+  </div>
+</header>
+
+<!-- Barra de progreso -->
+<div id="progress-bar">
+  <div id="progress-fill" style="width:0%"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     ZONA DE DIAPOSITIVAS
+     ─────────────────────────────────────────────────
+     Para AGREGAR una diapositiva:
+       Copiá cualquier bloque <div class="slide"> … </div>
+       y pegalo justo antes del cierre de </div id="stage">
+       Modificá su contenido y listo.
+
+     Para ELIMINAR una diapositiva:
+       Borrá el bloque <div class="slide"> … </div> completo.
+
+     El archivo slides.js numera todo automáticamente.
+════════════════════════════════════════════════════ -->
+<main id="stage">
+
+
+  <!-- ╔════════════════════════════════════════╗
+       ║  DIAPOSITIVA 1 — PORTADA               ║
+       ╚════════════════════════════════════════╝ -->
+  <div class="slide cover">
+    <p class="cover-eyebrow">Matemática 1 · Matemática y Estadística</p>
+    <h1 class="cover-title">
+      <span>Ecuaciones:</span><br>
+      Definición, Propiedades<br>y Casos de Resolución
+    </h1>
+    <p class="cover-subtitle">Lic. Nicolás Rosbaco &mdash; Universidad Nacional del Comahue</p>
+    <div class="cover-meta">
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        2026
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Presentación 1 de Ecuaciones
+      </div>
+      <div class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        Matemática I | Matemática y Estadística | CURZAS
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ╔═════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.1 — DEFINICIÓN   de ecuación         ║
+       ╚═══════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Definición</span>Ecuaciones e Incógnitas
+    </h2>
+
+    <div class="def-box">
+      <span class="def-label">Ecuación</span>
+      <p>
+        Una <strong>ecuación</strong> es una expresión de igualdad $ (=)$  que contiene, al menos,
+        una <strong>variable</strong> o <strong>incógnita</strong>. Cada lado de la igualdad
+        recibe el nombre de <strong>miembro</strong> de la ecuación. Por convención el miembro
+        izquierdo se llamará <strong>primer miembro</strong> y el derecho <strong>segundo miembro</strong>.
+      </p>
+    </div>
+
+    <div class="def-box">
+      <span class="def-label">¿Qué no es una ecuación?</span>
+      <p>
+        Por ejemplo: 
+        <ul>
+          <li>
+          $ 3x + 6$ No es una ecuación... si bien es una expresión algebraica, no observamos
+          ninguna identidad o igualdad.</li>
+          <li>
+          $3+2=5$ Si bien es una identidad (verdadera) no contiene ninguna variable o incógnita.
+          </li>
+          <li>
+          $4=4+5$ Este es otro ejemplo de identidad numérica (falsa en este caso) que, al no contener
+          ninguna incógnita, no es una ecuación.
+          </li>
+        </ul>
+      </p>
+    </div>
+
+    <div class="note-box">
+      <p class="note-label">Ejemplos de ecuaciones</p>
+      <ul>
+      <li>$m+3=8$ es una ecuación, cuya incógnita o variable es $m$</li>
+      <li>$x+y=-3$ es una ecuación, con dos incógnitas o variables $x$ e $y$</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ╔════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.2 — ANATOMÍA DE ECUACIÓN  ║
+       ╚════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Retomemos</span>La ecuación
+    </h2>
+
+    <p>Recordemos la definición de ecuación:</p>
+
+    <div class="eq-display">
+      $$  \underbrace{5-m}_{\text{Primer miembro}} \;=\; \underbrace{4 \cdot m + 10}_{\text{Segundo miembro}} $$ 
+    </div>
+
+    <div class="members-diagram">
+      <div class="member-box">
+        <span class="label">Primer miembro</span>
+        <div class="content">$ 5 - m$ </div>
+      </div>
+      <div class="eq-sign">=</div>
+      <div class="member-box">
+        <span class="label">Segundo miembro</span>
+        <div class="content">$ 4 \cdot m + 10$ </div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <p class="note-label">Incógnita</p>
+      <p>La variable de la ecuación es $ m $ . La elección del símbolo que representa la incógnita
+      de la ecuación es <strong>completamente caprichosa</strong>.</p>
+    </div>
+  </div>
+
+
+<!-- ╔════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.3 — SOLUCIONES DE LA ECUACIÓN         ║
+       ╚══════════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Definición</span>SOLUCIONES de la ECUACIÓN
+    </h2>
+
+    <div class="def-box">
+      <span class="def-label">Ecuación</span>
+      <p>
+        La o las <strong>soluciones</strong> de una ecuación son los valores que, al sustituirse en la 
+        variable o incógnita, hacen que la identidad sea <strong>verdadera</strong>.
+      </p>
+    </div>
+
+    <div class="def-box">
+      <span class="def-label">Ejemplos</span>
+      <p>
+        Consideremos la ecuación: $3 \cdot x+1=7$.
+      </p>
+      <p>Una solución de esta ecuación (la única, esto lo veremos más adelante) es $x=2$.</p>
+      <p>El conjunto solución de la ecuación se denota como $S = \{2\}$.</p>
+      <p>Si deseamos verificar esto es muy simple:</p>
+      <p>sostituímos la incógnita que es: $x$ por $2$ en la ecuación original.</p>
+      $$ 3 \cdot x + 1 = 7$$
+      <p>como $x=2$, tenemos:</p>
+      $$ 3 \cdot 2 + 1 = 7$$
+      $$ 6 + 1 = 7$$
+      $$ 7 = 7 \checkmark$$
+    </div>
+
+  </div>
+
+<!-- ╔════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.4 — CONJUNTO SOLUCIÓN                 ║
+       ╚══════════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Definición</span>Conjunto Solución de la Ecuación
+    </h2>
+
+    <div class="def-box">
+      <span class="def-label">Conjunto Solución</span>
+      <p>
+        Es el conjunto que contiene a todas las soluciones de la ecuación. Se suele expresar del siguiente
+        modo: Sea la ecuación cuyas soluciónes (únicas son) $x_0,x_1,...,x_n$ el conjunto solución será.
+      </p>
+       $$S = \{x_0, x_1, ..., x_n\}$$
+    </div>
+
+    <div class="def-box">
+      <span class="def-label">Ejemplo</span>
+      <p>
+        Una ecuación muy conocida para nosotros: $(x-1)^2 \cdot (x+3)=0$. Su conjunto solución es:
+      </p>
+      $$ S=\{1, -3\} $$
+    </div>
+
+  </div>
+
+
+<!-- ╔════════════════════════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.5 — tarea, indicar si se trata de ecuacion y justificar       ║
+       ╚══════════════════════════════════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">tarea</span>✍🏼 es tu turno
+    </h2>
+
+    <div class="def-box">
+      <span class="def-label">Responder</span>
+      <p>
+        ¿Cuál de las siguientes expresiones son ecuaciones? JUSTIFICÁ las afirmaciones.
+      </p>
+    </div>
+
+    <div class="def-box">
+      <ul>
+      <li>$4+5=9$</li>
+      <li>$3 \cdot x+2=7$</li>
+      <li>$m^2+1=0$</li>
+      <li>$2y-3=y$</li>
+      <li>$7=7$</li>
+      </ul>
+    </div>
+  </div>
+
+
+<!-- ╔═════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 2.6 — Verificar soluciones       ║
+       ╚═══════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">tarea</span>✍🏼 es tu turno
+    </h2>
+
+    <div class="def-box">
+      <span class="def-label">Verificar</span>
+      <p>
+        A continuación se presentan ecuaciones y posibles soluciones, indicar en cada caso
+       si las soluciones propuestas para las ecuaciones son correctas, JUSTIFICÁ tu respuesta
+      </p>
+    </div>
+
+    <div class="def-box">
+      <ul>
+      <li>$4+m=9$;   y el conjunto solución es: $S=\{ 1 \}$</li>
+      <li>$3 \cdot x+2=7$;   y el conjunto solución es: $S=\{ 2 \}$</li>
+      <li>$m^2+1=0$;   y el conjunto solución es: $S=\{ 0 \}$</li>
+      <li>$2y-3=y$;   y el conjunto solución es: $S=\{ 3 \}$</li>
+      <li> $a^2-1=0$;   y el conjunto solución es: $S=\{ 1\}$</li>
+      <li> $a^2-1=0$;   y el conjunto solución es: $S=\{ -1\}$</li>
+      <li> $a^2-1=0$;   y el conjunto solución es: $S=\{ 1, -1\}$</li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <!-- ╔══════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 3.1 — PROPIEDADES: elementos especiales           ║
+       ╚═════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Propiedades</span>Elementos especiales
+    </h2>
+
+    <p>Vamos a destacar, en el conjunto de números reales, algunas propiedades fundamentales que nos 
+    permiten transformar ecuaciones manteniendo su conjunto solución.</p>
+    <p>Esto es muy <strong>importante</strong>: vamos a realizar operaciones en una ecuación, que si
+    bien la van a modificar, la van a transformar, mantienen <strong>el mismo conjunto solución</strong>.</p>
+    <div class="prop-grid">
+      <div class="prop-card">
+        <span class="prop-num">Neutro (adición)</span>
+        <div class="eq-display">En lo números Reales, para la operación adición, existe un elemento
+        <i>especial</i> llamado <b>neutro</b> (aditivo): $a+0=0+a=a$
+        </div>
+        <p>Sumar 0 no cambia el valor de un número.</p>
+      </div>
+      <div class="prop-card">
+        <span class="prop-num">Neutro (multiplicación)</span>
+        <div class="eq-display">En lo números Reales, para la operación multiplicación, existe un elemento
+        <i>especial</i> llamado <b>neutro</b> (multiplicativo): $a \cdot 1 = 1 \cdot a = a$
+        </div>
+        <p>Multiplicar por 1 no cambia el valor de un número.</p>
+      </div>      
+      <div class="prop-card">
+        <span class="prop-num">Inverso (aditivo), u opuesto</span>
+        <div class="eq-display">En lo números Reales, para <strong>cualquier real que se considere</strong>
+        existirá su <strong>opuesto</strong>, de modo que: $a + (-a) = (-a) + a = 0$
+        </div>
+        <p>Sumar a un número su opuesto da por resultado el neutro de la operación adición (en este caso 0).</p>
+      </div>
+      <div class="prop-card">
+        <span class="prop-num">Inverso (multiplicativo), o simplemente: inverso</span>
+        <div class="eq-display">En lo números Reales, para <strong>cualquier real <strong>no nulo</strong> 
+        que se considere</strong> existirá su <strong>inverso</strong>, de modo que: 
+        $a \cdot a^{-1} = a^{-1} \cdot a = 1$
+        </div>
+        <p>Multiplicar a un número por su inverso da por resultado el neutro de la operación multiplicación (en este caso 1).</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ╔════════════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 3.1.1 — elementos especiales para practicar           ║
+       ╚════════════════════════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">tarea</span>✍🏼 es tu turno
+    </h2>
+    <div class="note-box">
+      <p class="note-label">✍🏼 Pensemos</p>
+      <ul>
+        <li>El inverso de $2$ es $\frac{1}{2}$.</li>
+        <li>El inverso de $-5$ es ............</li>
+        <li>El inverso de $0$ es ............ </li>
+        <li>El opuesto de $3$ es ............  </li>
+        <li>El opuesto de $-7$ es ............  </li>
+        <li>El opuesto de $0$ es ............  </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+
+  <!-- ╔══════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 3.2 — PROPIEDADES: CANCELATIVA, UNIFORME          ║
+       ╚══════════════════════════════════════════════════════════════╝ -->
+  <div class="slide">
+    <h2 class="slide-title">
+      <span class="tag">Propiedades</span>Cancelativas, Uniformidad
+    </h2>
+
+    <p>Vamos a destacar, en el conjunto de números reales, algunas propiedades fundamentales que nos 
+    permiten transformar ecuaciones manteniendo su conjunto solución.</p>
+    <p>Esto es muy <strong>importante</strong>: vamos a realizar operaciones en una ecuación, que si
+    bien la van a modificar, la van a transformar, mantienen <strong>el mismo conjunto solución</strong>.</p>
+    <div class="prop-grid">
+      <div class="prop-card">
+        <span class="prop-num">Uniforme (adición)</span>
+        <div class="eq-display">$ a = b \;\Rightarrow\; a + c = b + c$ </div>
+        <p>Se puede sumar el mismo número en ambos miembros.</p>
+      </div>
+      <div class="prop-card">
+        <span class="prop-num">Uniforme (multiplicación)</span>
+        <div class="eq-display">$ a = b \;\Rightarrow\; a \cdot c = b \cdot c$ </div>
+        <p>Se puede multiplicar por el mismo número en ambos miembros.</p>
+      </div>
+      <div class="prop-card">
+        <span class="prop-num">Cancelativa (adición)</span>
+        <div class="eq-display">$ a + c = b + c \;\Rightarrow\; a = b$ </div>
+        <p>Se puede cancelar el mismo sumando en ambos miembros.</p>
+      </div>
+      <div class="prop-card">
+        <span class="prop-num">Cancelativa (multiplicación)</span>
+        <div class="eq-display">$ c \neq 0,\; a \cdot c = b \cdot c \;\Rightarrow\; a = b$ </div>
+        <p>Se puede cancelar el mismo factor (no nulo) en ambos miembros.</p>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <p class="note-label">Nota importante</p>
+      <p>
+        Estas propiedades permiten transformar una ecuación en otra
+        <strong>equivalente</strong> (mismo conjunto solución $ S$ ).
+        La resta y la división son casos particulares de suma y multiplicación.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ╔══════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 4.1 — COMO RESOLVER UNA ECUACIÓN                  ║
+       ╚══════════════════════════════════════════════════════════════╝ -->
+    <div class="slide">
+      <h2 class="slide-title">
+        <span class="tag">DISCLAIMER</span> Cómo resolver una ecuación
+      </h2>
+
+      <div class="def-box">
+          <span class="def-label">PREMISA FUNDAMENTAL</span>  
+
+        <p>
+        Antes que nada nos vamos a poner de acuerdo en que <strong>los números no caminan</strong>
+        y <strong>no hay "nadie" que los mueva de un lado a otro de la ecuación</strong> 
+        (de un miembro hacia el otro). 
+        </p>
+        <p>
+          Lo que sí podemos hacer es aplicar las propiedades que analizamos anteriormente, 
+          para transformar una ecuación <i>compleja (¿?)</i> en otra ecuación más simple, pero
+          <strong>con el mismo conjunto solución</strong>.
+        </p>
+        <p>
+        Esto es <strong>fundamental</strong>: si modificamos el conjunto solución... de nada sirve lo que hacemos.
+        </p>
+      </div>
+    </div>
+  
+  <!-- ╔══════════════════════════════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 4.2.1 — COMO RESOLVER UNA ECUACIÓN: operaciones elementales             ║
+       ╚══════════════════════════════════════════════════════════════════════════════════════╝ -->
+    <div class="slide">
+      <h2 class="slide-title">
+        <span class="tag">Ecuaciones Equivalentes</span> Aplicamos operaciones elementales
+      </h2>
+
+      <div class="def-box">
+          <span class="def-label">DEFINICIÓN</span>  
+          <p>Dos ecuaciones serán equivalentes si tienen el mismo conjunto solución.</p>
+      </div>
+
+      <div class="def-box">
+          <span class="def-label">Ejemplo 1</span>  
+          <p>Consideremos la ecuación: $x = 7$.</p>
+          <p>Ya les estamos leyendo la mente... ¿para que vamos a considerar esta ecuación si la 
+          solución es <strong>obvia</strong>?. Es verdad, pero la idea es ir aplicando 
+          operaciones elementales para encontrar otras, diferentes, ecuaciones pero <strong>equivalentes</strong>.
+          </p>
+          <p>Partimos de:</p>
+          $$ x = 7 \;\;\;\; \text{(Ecuación 1)}$$
+          <p>Si sumamos $-3$ en ambos miembros (aplicamos la <strong>propiedad uniforme de la adición</strong>), 
+          obtenemos:</p>
+          $$ x + (-3) = 7 + (-3)$$
+          $$ x-3= 4 \;\;\;\; \text{(Ecuación 2)}$$
+          <p>Es decir... teníamos <i>ecuación 1</i>, le aplicamos propiedades elementales, convirtiéndola
+          en otra ecuación (diferente: <i>ecuación 2</i>) pero <strong>equivalente</strong>; ya que 
+          lo hemos dicho: las propiedades estudiadas conservan invariante el conjunto solución de la ecuación.</p>
+      </div>
+    </div>
+  
+  
+  <!-- ╔══════════════════════════════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 4.2.2 — COMO RESOLVER UNA ECUACIÓN: operaciones elementales             ║
+       ╚══════════════════════════════════════════════════════════════════════════════════════╝ -->
+    <div class="slide">
+      <h2 class="slide-title">
+        <span class="tag">Ecuaciones Equivalentes</span> Aplicamos operaciones elementales
+      </h2>
+
+      <div class="def-box">
+          <span class="def-label">Ejemplo 1</span>  
+          <p>Haber convertido a ecuación 1: $x = 7$.</p>
+          <p>En ecuación 2: $x - 3 = 4$ no parecería tener ningún valor práctico... es cierto. NO lo tiene</p>
+          <p>
+            Pero podría ser diferente... necesitamos resolver esta ecuación:
+          </p>
+          $$  5+m = 3 $$
+          <p>Podemos, ahora si, usar operaciones elementales para suprimir el término $5$, que sumando a $m$ 
+          <i> molesta, impide</i> la comparación directa de la incógnita con su valor.</p>
+          <p>$5$ suma a la $m$, con lo cual podemos sumar el opuesto de $5$ en ambos miembros de la ecuación:</p>
+          $$ 5 + m + (-5) = 3 + (-5)$$
+          $$ m = -2 \;\;\;\; \text{(Ecuación 2)}$$
+          <p>Hemos obtenido la ecuación 2, que es equivalente a la ecuación 1, pero que nos permite 
+          leer directamente el valor de la incógnita $m$.</p>
+      </div>
+    </div>
+  
+  <!-- ╔══════════════════════════════════════════════════════════════════════════════════════╗
+       ║  DIAPOSITIVA 4.3 — COMO RESOLVER UNA ECUACIÓN             ║
+       ╚══════════════════════════════════════════════════════════════════════════════════════╝ -->
+    <div class="slide">
+      <h2 class="slide-title">
+        <span class="tag">RESOLUCIÓN DE UNA ECUACIÓN</span> Aplicando propiedades elementales
+      </h2>
+
+      <div class="def-box">
+          <span class="def-label">¿cómo?</span>  
+          <p>El proceso de resolución de una ecuación se puede sintetizar en la siguiente secuencia
+          de pasos:</p>
+          <ul>
+            <li>Aplicar alguna de las operaciones elementales para transformar la ecuación dada en otra 
+            ecuación equivalente, pero más simple.</li>
+            <li>Repetir el paso 1 hasta obtener una ecuación que permita leer directamente el valor de 
+            la incógnita o las incógnitas.</li>
+          </ul>
+          </p>
+      </div>
+
+      <div class="def-box">
+          <span class="def-label">Ejemplo 1</span>  
+          $$5+ 3 \cdot m=3 \;\;\;\; \text{(Ecuación 2)}$$
+          <p>Aplicamos la propiedad uniforme de la adición, sumando el opuesto de $5$ en ambos miembros:</p>
+          $$ 5 + 3 \cdot m -5 = 3 -5$$
+          $$ 3 \cdot m = -2 \;\;\;\; \text{(Ecuación 2)}$$
+          <p>Ahora aplicamos la <i>propiedad uniforme de la multiplicación</i>, dividiendo ambos 
+          miembros por $3$ (esto es lo mismo que multiplicar por el inverso de $3$, que es $\frac{1}{3}$):</p>
+          $$ \frac{3 \cdot m}{3} = \frac{-2}{3} $$
+          <p>Sabemos que: $\frac{3 \cdot m}{3} = \frac{3}{3} \cdot m = m$</p>
+          $$ m = -\frac{2}{3} \;\;\;\; \text{(Ecuación 3)}$$
+          <p><i>Ecuación 3</i> emerge de aplicar operaciones elementales sobre <i>Ecuación 2</i>. Esta última
+          la obtuvimos, también aplicando propiedades elementales, pero sobre <i>Ecuación 1</i>. Con lo cual
+          las tres ecuaciones son equivalentes, es decir: <strong>tienen el mismo conjunto solución.</strong>.
+          Así es que la solución de nuestra ecuación es: $m=-\frac{2}{3}$ o también el conjunto solución 
+          de nuestra ecuación es: $S=\{-\frac{2}{3}\}$.</p>
+
+      </div>
+
+
+    </div>
+
+</main>
+<!-- ── FIN DE DIAPOSITIVAS ── -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     CONTROLES DE NAVEGACIÓN
+════════════════════════════════════════════════════ -->
+<footer id="controls">
+  <button class="ctrl-btn" id="btn-prev" disabled aria-label="Anterior">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+    Anterior
+  </button>
+
+  <nav id="dots" aria-label="Navegación por diapositivas"></nav>
+
+  <button class="ctrl-btn primary" id="btn-next" aria-label="Siguiente">
+    Siguiente
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+</footer>
+
+<!-- JS propio (al final del body para mejor performance) -->
+<script src="slides.js"></script>
+</body>
+</html>
