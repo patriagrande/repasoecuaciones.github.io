@@ -1,29 +1,50 @@
-Biblia de las ecuaciones: https://patriagrande.github.io/repasoecuaciones.github.io/
+# Ecuaciones
 
-Ecuaciones 2026: https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/index_ecuaciones.html
+## La Biblia de las ecuaciones
+
+https://patriagrande.github.io/repasoecuaciones.github.io/
+
+## 2026 - secundaria
+
+https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/index_ecuaciones.html
 
 # Ecuaciones CURZA
 
-## Clase 01
+## Matemática I - Clase 01
 
 https://patriagrande.github.io/repasoecuaciones.github.io/ecuacionescurza/clase01/index.html
 
+# Presentaciones
 
-Presentación (IX Jornadas Investigación y Extensión del CURZAS): https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
+## IX Jornadas Investigación y Extensión del CURZAS
 
-Pitágoras y Pantallas: https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
+https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentacion.html
 
-Coordenadas en el plano (para Anto): https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
+# Pitágoras y las Pantallas
 
-Sistema Gestión Trayectorias Escolares: https://patriagrande.github.io/repasoecuaciones.github.io/sgte/como-usar.html
+https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
 
-Porcentaje (borradores):
+# Coordenadas en el plano (inclusión)
 
-opcione 1: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion1.html
+https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
 
-opcione 2: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion2.html
+# Sistema Gestión Trayectorias Escolares
 
-opcione 3: https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.html
+https://patriagrande.github.io/repasoecuaciones.github.io/sgte/como-usar.html
+
+# Porcentaje (borradores):
+
+## opción 1
+
+https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion1.html
+
+ ## Opción 2
+ 
+ https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion2.html
+
+# Opción 3
+
+https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.html
 
 
 Charlas con Valeria:
