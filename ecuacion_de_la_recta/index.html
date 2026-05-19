@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construyendo la recta</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Construyendo la recta</h1>
+        <h2>La recta como una sucesión infinita de puntos alineados</h2>
+    </header>
 
+    <main>
+        <section id="instrucciones">
+            <h3>¿Qué te propongo pensar?</h3>
+            <p>Es muy común pensar que una recta es simplemente un "trazo continuo" que hacemos con una regla. 
+            Sin embargo, en matemática, una recta es en realidad <strong>una colección infinita de puntos</strong> 
+            que están perfectamente alineados siguiendo una misma regla o patrón.</p>
+
+            <h3>¿Cómo usar este interactivo?</h3>
+            <p>En el gráfico de abajo vas a ver algunos puntos aislados, pero <strong>alineados</strong>. Presioná el botón 
+            <strong>"Agregar más puntos"</strong> varias veces. 
+            Observá cómo, al ir rellenando los espacios vacíos con nuevos puntos que respetan la misma alineación, 
+            el "trazo continuo" de la recta empieza a aparecer por sí solo.</p>
+        </section>
+
+        <div id="grafico"></div>
+        <button id="btn-agregar">Agregar más puntos</button>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
