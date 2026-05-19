@@ -1,0 +1,72 @@
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+header {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1.5rem;
+    overflow: hidden;
+}
+
+#grafico {
+width: 100%;
+max-width: 1200px; /* Limita el ancho en pantallas ultra anchas */
+flex-grow: 1;
+background-color: #ffffff;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+#btn-agregar {
+padding: 1rem 2rem;
+font-size: 1.2rem;
+background-color: #2980b9;
+color: white;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+transition: background-color 0.2s, transform 0.1s;
+font-weight: bold;
+}
+
+#btn-agregar:hover {
+background-color: #3498db;
+}
+
+#btn-agregar:active {
+transform: scale(0.98);
+}
