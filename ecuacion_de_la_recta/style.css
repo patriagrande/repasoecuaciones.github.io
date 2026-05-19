@@ -70,3 +70,12 @@ background-color: #3498db;
 #btn-agregar:active {
 transform: scale(0.98);
 }
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
