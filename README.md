@@ -24,6 +24,10 @@ https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentac
 
 https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
 
+# Construyendo la recta
+
+https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/index.html
+
 # Coordenadas en el plano (inclusión)
 
 https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
