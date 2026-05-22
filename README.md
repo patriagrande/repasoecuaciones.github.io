@@ -46,7 +46,7 @@ https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion1.htm
  
  https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion2.html
 
-# Opción 3
+## Opción 3
 
 https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.html
 
