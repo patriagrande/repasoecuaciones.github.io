@@ -8,6 +8,15 @@ https://patriagrande.github.io/repasoecuaciones.github.io/
 
 https://patriagrande.github.io/repasoecuaciones.github.io/ecuaciones2026/index_ecuaciones.html
 
+# Función Lineal
+
+Estudio de las funciones lineales en tercer año escuela secundaria.
+
+## calculadora interactiva para la ecuación implícita de la recta
+
+https://patriagrande.github.io/repasoecuaciones.github.io/funcionlineal/index.html
+
+
 # Ecuaciones CURZA
 
 ## Matemática I - Clase 01
