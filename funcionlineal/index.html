@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolución de Ecuación de la Recta</title>
+
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --border: #E5E7EB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .controls {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .resolution-steps {
+            padding: 1rem;
+        }
+
+        .step {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .math-block {
+            font-size: 1.2rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .highlight {
+            background-color: #FEF3C7;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #B45309;
+        }
+
+        .alert {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .site-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .site-footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .site-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .site-footer a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Resolución de la Ecuación Implícita</h1>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="x-slider">Valor de la variable independiente (x):</label>
+            <div class="slider-container">
+                <input type="range" id="x-slider" min="0" max="500" step="1" value="175">
+                <input type="number" id="x-input" min="0" max="500" value="175">
+            </div>
+            <small style="color: var(--text-muted);">Representa la duración de la pista en segundos.</small>
+        </div>
+
+        <div class="control-group">
+            <label>Nivel de Precisión:</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="precision" value="truncated" checked>
+                    Truncado (3 decimales)
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="precision" value="full">
+                    Precisión Completa (GeoGebra)
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="resolution-steps" id="steps-container">
+        </div>
+
+    <div class="alert">
+        <strong>Nota para el estudiante:</strong> Observá cómo cambiar de la precisión completa al método truncado modifica ligeramente el resultado final de <strong>y</strong>. ¡Por eso es importante saber cuándo es conveniente simplificar!
+    </div>
+</div>
+
+<footer class="site-footer">
+    <p>Esta página interactiva fue desarrollada por <a href="mailto:TU_EMAIL_AQUI@ejemplo.com">Lic. Nicolas Rosbaco</a>
+     | Viedma, Río Negro | Patagonia Argentina</p>
+    <p>Es parte de una propuesta de enseñanza de funciones lineales en tercer año de la escuela secundaria. Particularmente
+    esta página es una "calculadora interactiva, en modo paso a paso" que permite a las/os estudiantes verificar y
+    revisar el proceso de resolución en una ecuación implícita en la situación que se propone en el apunte de traajo .</p>
+    <p>
+        <a href="URL_DE_TU_PDF_AQUI" target="_blank" rel="noopener noreferrer">
+            📄 Descargar el apunte teórico práctico: Sobre la Expresión Algebraica de la Recta
+        </a>
+    </p>
+</footer>
+
+<script>
+    const xSlider = document.getElementById('x-slider');
+    const xInput = document.getElementById('x-input');
+    const precisionRadios = document.querySelectorAll('input[name="precision"]');
+    const stepsContainer = document.getElementById('steps-container');
+
+    const COEFFS_FULL = { a: -3.8437592363593, b: 257.456400560512, c: 18.1111136180065 };
+    const COEFFS_TRUNC = { a: -3.843, b: 257.456, c: 18.111 };
+
+    xSlider.addEventListener('input', (e) => {
+        xInput.value = e.target.value;
+        updateResolution();
+    });
+
+    xInput.addEventListener('input', (e) => {
+        xSlider.value = e.target.value;
+        updateResolution();
+    });
+
+    precisionRadios.forEach(radio => {
+        radio.addEventListener('change', updateResolution);
+    });
+
+    function formatNumber(num, isTruncated) {
+        if (isTruncated) {
+            return Number(num.toFixed(3)).toString();
+        }
+        return num.toString();
+    }
+
+    function updateResolution() {
+        const xVal = parseFloat(xInput.value) || 0;
+        const isTruncated = document.querySelector('input[name="precision"]:checked').value === 'truncated';
+        const coeffs = isTruncated ? COEFFS_TRUNC : COEFFS_FULL;
+
+        const a = coeffs.a;
+        const b = coeffs.b;
+        const c = coeffs.c;
+
+        const term1 = a * xVal;
+        const term1Str = formatNumber(term1, isTruncated);
+        const term1AbsStr = formatNumber(Math.abs(term1), isTruncated);
+        
+        const rhs = c - term1;
+        const rhsStr = formatNumber(rhs, isTruncated);
+        
+        const yVal = rhs / b;
+        const yStr = formatNumber(yVal, isTruncated);
+
+        let html = `
+            <div class="step">
+                <h3>Paso 0: La ecuación implícita de nuestra recta</h3>
+                <p>Recordemos que estámos trabajando con una situación particular, en la cual
+                la recta en estudio (que hemos obtenido con GeoGebra) tiene la siguiente ecuación implícita:</p>
+                <div class="math-block">
+                $$ ${a} \\cdot x + ${b} \\cdot y = ${c} $$
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Paso 1: Sustitución en la ecuación implícita original</h3>
+                <p> Deseamos determinar <i>cuánto pesa</i> (el tamaño en MB) de una pista de audio que dura ${xVal} segundos. 
+                Para eso, necesitamos conocer el valor de $y$ (el peso) que corresponde a ese valor de $x$ (la duración).
+                </p>
+                <p>Reemplazamos la variable $x$ por el valor seleccionado (${xVal}).</p>
+                <div class="math-block">$$ ${a} \\cdot (${xVal}) + ${b} \\cdot y = ${c} $$</div>
+            </div>
+
+            <div class="step">
+                <h3>Paso 2: Resolver el primer término</h3>
+                <p>Multiplicamos el coeficiente de $x$ por el valor asignado.</p>
+                <div class="math-block">$$ ${term1Str} + ${b} \\cdot y = ${c} $$</div>
+            </div>
+
+            <div class="step">
+                <h3>Paso 3: Despejar el término con "y" (Propiedad Uniforme)</h3>
+                <p>Sumamos ${term1AbsStr} en ambos miembros para cancelar el primer término.</p>
+                <div class="math-block">$$ ${term1Str} + ${b} \\cdot y + {\\color{blue}{${term1AbsStr}}} = ${c} + \\color{blue}{${term1AbsStr}} $$</div>
+                <div class="math-block">$$ ${b} \\cdot y = ${rhsStr} $$</div>
+            </div>
+
+            <div class="step">
+                <h3>Paso 4: Dividir para despejar "y"</h3>
+                <p>Dividimos ambos miembros por el coeficiente que multiplica a $y$.</p>
+                <div class="math-block">$$ \\frac{${b} \\cdot y}{\\color{blue}{${b}}} = \\frac{${rhsStr}}{\\color{blue}{${b}}} $$</div>
+            </div>
+
+            <div class="step">
+                <h3>Resultado Final</h3>
+                <div class="math-block"><span class="highlight">$$ y \\simeq ${yStr} $$</span></div>
+            </div>
+        `;
+
+        stepsContainer.innerHTML = html;
+
+        // Re-renderizar KaTeX
+        if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise([stepsContainer]).catch((err) => console.log('Error de MathJax: ' + err.message));
+        }
+    }
+
+    // Inicializar al cargar
+    updateResolution();
+</script>
+</body>
+</html>
