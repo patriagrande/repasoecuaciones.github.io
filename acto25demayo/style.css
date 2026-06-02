@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+    overflow: hidden; /* Evita el scroll durante la presentación */
+}
+
+.presentation-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Base para todas las diapositivas */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    
+    /* Configuración de la transición elegante */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 0.8s ease, visibility 0.8s;
+}
+
+/* Diapositiva activa */
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Diapositivas anteriores (para el efecto de salida hacia arriba) */
+.slide.prev {
+    transform: translateY(-30px);
+}
+
+/* Estilos de los Destacados */
+.destacado {
+    font-size: 5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    max-width: 80%;
+}
+
+.placeholder-img {
+    font-size: 2rem;
+    border: 2px dashed #666;
+    padding: 3rem;
+    border-radius: 12px;
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* Panel de Voz en Off (Notas) */
+.notas {
+    position: absolute;
+    bottom: 30px;
+    width: 80%;
+    max-width: 900px;
+    background: rgba(0, 0, 0, 0.85);
+    color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    border-left: 5px solid #4a90e2;
+    transition: opacity 0.3s ease;
+}
+
+/* Clase para ocultar dinámicamente las notas con el teclado */
+.notas.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- ANIMACIÓN DE CONCEPTOS APILADOS --- */
+
+.conceptos-container {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    pointer-events: none; /* Evita que las palabras interfieran con los clics */
+}
+
+.concepto {
+    position: absolute;
+    /* Forzamos una tipografía bien pesada e impactante */
+    font-family: 'Impact', 'Arial Black', sans-serif; 
+    font-size: 6rem; /* Aumentamos el tamaño base muchísimo */
+    font-weight: 900; /* El peso máximo posible */
+    color: #f5f5f5;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+    
+    /* Le damos un borde negro (stroke) y una sombra más profunda para que resalte sí o sí */
+    -webkit-text-stroke: 2px #000; 
+    text-shadow: 5px 5px 15px rgba(0,0,0,1), -2px -2px 5px rgba(0,0,0,0.8);
+    
+    /* Estado inicial: invisibles y muy grandes */
+    opacity: 0;
+    transform: scale(2.5);
+    /* Transición con rebote */
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+}
+
+/* Estado visible: tamaño normal y opacidad total */
+.concepto.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Distribución en la pantalla */
+.pos-1 { top: 15%; left: 5%; }
+.pos-2 { top: 25%; right: 0%; max-width: 40%; } 
+.pos-3 { top: 35%; left: 8%; }
+.pos-4 { top: 60%; right: 8%; }
+.pos-5 { bottom: 25%; left: 10%; }
+.pos-6 { bottom: 15%; right: 5%; }
+.pos-7 { top: 10%; right: 25%; }
+
+/* --- LA PALABRA CULTURA --- */
+.concepto.cultura {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(3); 
+    font-size: 12rem; /* Una bestialidad de tamaño para el centro */
+    color: #e2b714; /* Tono dorado */
+    -webkit-text-stroke: 3px #000; /* Borde negro más grueso */
+    text-shadow: 8px 8px 20px rgba(0,0,0,1), -3px -3px 10px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.concepto.cultura.visible {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- LA PALABRA DEUDA --- */
+.concepto.deuda {
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(3); 
+    font-size: 16rem; /* Una bestialidad de tamaño para el centro */
+    color: #e2b714; /* Tono dorado */
+    -webkit-text-stroke: 3px #000; /* Borde negro más grueso */
+    text-shadow: 8px 8px 20px rgba(0,0,0,1), -3px -3px 10px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.concepto.deuda.visible {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+
+/* --- LA PALABRA CUIDEMOS LA PATRIA --- */
+.concepto.cuidemosla {
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(3); 
+    font-size: 10rem; /* Una bestialidad de tamaño para el centro */
+    color: #e2b714; /* Tono dorado */
+    -webkit-text-stroke: 3px #000; /* Borde negro más grueso */
+    text-shadow: 8px 8px 20px rgba(0,0,0,1), -3px -3px 10px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.concepto.cuidemosla.visible {
+    transform: translate(-50%, -50%) scale(1);
+}
