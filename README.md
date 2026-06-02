@@ -60,5 +60,9 @@ https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion1.htm
 https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.html
 
 
-Charlas con Valeria:
+# Charlas con Valeria:
 [1] : limites, discontinuidades, algo de matrices y espacios vectoriales, te todo un pco (https://patriagrande.github.io/repasoecuaciones.github.io/matematik/limite_ejercicio01.html)
+
+# Acto 25 de Mayo
+
+https://patriagrande.github.io/repasoecuaciones.github.io/acto25demayo/index.html
