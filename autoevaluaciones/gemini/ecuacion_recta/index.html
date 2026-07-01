@@ -118,7 +118,7 @@
                 text: "Tenés la ecuación implícita $x + y = 8$. ¿Pertenece el punto $A=(5, 3)$ a esta recta?",
                 options: ["Sí, porque $5 + 3 = 8$", "No, porque $5 - 3 \\neq 8$", "Sí, porque $5 \\cdot 3 = 15$"],
                 correctIndex: 0,
-                hint: "Recordá que si el punto pertenece a la recta, al sustituír las coordendadas del punto (abscisa por $x$ y ordenada por $y$) en la ecuación, haces las cuentas y deberías obtener una identidad verdadera.",
+                hint: "Recordá que si el punto pertenece a la recta, al sustituír sus coordendadas (abscisa por $x$ y ordenada por $y$) en la ecuación, haces las cuentas y deberías obtener una identidad verdadera.",
                 explanation: "Al sustituir la abscisa $x=5$ y la ordenada $y=3$ directamente en $x + y = 8$, obtenemos $5 + 3 = 8$. Como se verifica la igualdad, el punto pertenece.",
                 corroboration: "¡Muy bien! Las ecuaciones implícitas son muy nobles: nos permiten validar puntos rápidamente mediante operaciones aritméticas directas."
             },
@@ -194,7 +194,7 @@
             },
             {
                 id: 17,
-                text: "El gráfico muestra una recta. Si realizamos una inferencia (proyección) extendiendo el dibujo, ¿qué valor tomaría la $y$ cuando $x = 10$?",
+                text: "El gráfico muestra una recta. Si realizamos una inferencia (proyección) extendiendo el dibujo, ¿qué valor tomaría la $y$ cuando $x = 10$? (RECOMENDACIÓN: pensalo en la carpeta)",
                 graph: { a: 1, b: 1, minX: -1, maxX: 6, minY: -1, maxY: 6, points: [{x:0, y:1}, {x:4, y:5}] },
                 options: ["$11$", "$10$", "$9$"],
                 correctIndex: 0,
@@ -337,6 +337,11 @@
             const [feedback, setFeedback] = React.useState(null);
             const [selectedOption, setSelectedOption] = React.useState(null);
 
+            // Nuevos estados para las estadísticas
+            const [firstTryCount, setFirstTryCount] = React.useState(0);
+            const [secondTryCount, setSecondTryCount] = React.useState(0);
+            const [failedCount, setFailedCount] = React.useState(0);
+
             const startGame = () => {
                 const randomizedQuestions = shuffleArray(questionBank).map(q => {
                     const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
@@ -349,6 +354,9 @@
                 setAttempts(0);
                 setFeedback(null);
                 setSelectedOption(null);
+                setFirstTryCount(0);
+                setSecondTryCount(0);
+                setFailedCount(0);
                 setGameState('playing');
             };
 
@@ -362,9 +370,11 @@
                 if (isCorrect) {
                     if (attempts === 0) {
                         setScore(prev => prev + 10);
+                        setFirstTryCount(prev => prev + 1);
                         setFeedback({ type: 'success', text: currentQ.corroboration });
                     } else {
                         setScore(prev => prev + 5);
+                        setSecondTryCount(prev => prev + 1);
                         setFeedback({ type: 'success', text: currentQ.corroboration });
                     }
                 } else {
@@ -372,6 +382,7 @@
                         setAttempts(1);
                         setFeedback({ type: 'hint', text: currentQ.hint });
                     } else {
+                        setFailedCount(prev => prev + 1);
                         setFeedback({ type: 'explanation', text: currentQ.explanation });
                     }
                 }
@@ -428,6 +439,12 @@
                             <h2 className="text-3xl font-bold text-gray-800 mb-2">Evaluación Finalizada</h2>
                             <p className="text-xl text-gray-600 mb-6">Tu puntaje: <span className="font-bold text-blue-600">{score} / {questions.length * 10}</span></p>
                             
+                            <div className="flex flex-col gap-3 mb-6 text-left bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-inner">
+                                <p className="text-gray-700 text-lg"><i className="fa-solid fa-check text-green-500 w-8 text-center"></i> Contestaste <strong>{firstTryCount}</strong> en el primer intento.</p>
+                                <p className="text-gray-700 text-lg"><i className="fa-solid fa-lightbulb text-blue-500 w-8 text-center"></i> En <strong>{secondTryCount}</strong> necesitaste una ayudita.</p>
+                                <p className="text-gray-700 text-lg"><i className="fa-solid fa-xmark text-red-500 w-8 text-center"></i> <strong>{failedCount}</strong> quedaron mal respondidas.</p>
+                            </div>
+
                             <div className={`p-4 rounded-lg mb-8 ${percentage >= 60 ? 'bg-green-50 text-green-800' : 'bg-orange-50 text-orange-800'}`}>
                                 <p className="font-medium text-lg">{finalMessage}</p>
                             </div>
