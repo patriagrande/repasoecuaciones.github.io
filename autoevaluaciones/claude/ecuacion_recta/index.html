@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Modelando la Realidad · Autoevaluación de Función Lineal</title>
+<meta name="description" content="Autoevaluación interactiva sobre la ecuación de la recta, para 3er año de Matemática. Material complementario del cuadernillo 'Modelando la Realidad'.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<style>
+  :root{
+    --paper:#F6F5EF;
+    --paper-deep:#EEECE3;
+    --grid:#D9DFE1;
+    --grid-soft:#E6EAEA;
+    --ink:#1E2A35;
+    --muted:#5B6B72;
+    --line-fainter:#c9d2d6;
+    --lila:#8C5FB5;
+    --lila-soft:#F1EAF8;
+    --teal:#1F7A6C;
+    --teal-soft:#E3F1EE;
+    --amber:#C97A2B;
+    --amber-soft:#FBF0E1;
+    --coral:#C1483F;
+    --coral-soft:#FBEAE8;
+    --radius:16px;
+    --radius-sm:10px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Source Sans 3', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+    --shadow: 0 3px 14px rgba(30,42,53,.08), 0 1px 3px rgba(30,42,53,.06);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    line-height:1.5;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  a{color:var(--teal);}
+
+  .shell{
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 18px 10px;
+  }
+
+  header.top{
+    text-align:left;
+    margin-bottom:22px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:26px;height:3px;
+    background:var(--coral);
+    border-radius:2px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(28px,6vw,38px);
+    margin:10px 0 4px;
+    line-height:1.08;
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--lila);
+  }
+  .subtitle{
+    font-size:16px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 22px 24px;
+    margin-bottom:18px;
+  }
+
+  /* ---------- Intro ---------- */
+  .intro-text p{margin:0 0 12px;}
+  .rules{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:18px 0;
+  }
+  @media(min-width:560px){ .rules{grid-template-columns:1fr 1fr 1fr;} }
+  .rule-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    background:var(--paper-deep);
+  }
+  .rule-item .n{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:13px;
+  }
+  .rule-item.ok .n{color:var(--teal);}
+  .rule-item.help .n{color:var(--amber);}
+  .rule-item.no .n{color:var(--coral);}
+  .rule-item p{margin:4px 0 0; font-size:14px; color:var(--muted);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:16px;
+    padding:13px 22px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--teal); color:#fff;}
+  .btn-primary:hover{background:#186358;}
+  .btn-primary:disabled{background:#a9b8b4; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--grid);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-block{width:100%; justify-content:center;}
+
+  /* ---------- Progress ---------- */
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .dots{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    max-width:70%;
+  }
+  .dot{
+    width:9px;height:9px;
+    border-radius:50%;
+    background:var(--grid);
+    border:1px solid var(--line-fainter);
+  }
+  .dot.current{background:var(--lila); border-color:var(--lila); transform:scale(1.3);}
+  .dot.done-ok{background:var(--teal); border-color:var(--teal);}
+  .dot.done-help{background:var(--amber); border-color:var(--amber);}
+  .dot.done-no{background:var(--coral); border-color:var(--coral);}
+  .qcount{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  .badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--lila);
+    background:var(--lila-soft);
+    border:1px solid #e0d2ef;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .prompt{
+    font-size:19px;
+    line-height:1.45;
+    margin:0 0 16px;
+  }
+
+  .graph-wrap{
+    display:flex;
+    justify-content:center;
+    margin:6px 0 18px;
+  }
+  .graph-svg{
+    width:100%;
+    max-width:320px;
+    height:auto;
+    background:#fff;
+    border:1px solid var(--grid);
+    border-radius:12px;
+  }
+  .grid-lines line{stroke:var(--grid-soft); stroke-width:1;}
+  .axes line{stroke:var(--ink); stroke-width:1.4;}
+  .axis-labels text{font-family:var(--font-mono); font-size:8.6px; fill:var(--muted);}
+  .axis-labels .origin-label{fill:var(--muted);}
+  .ajuste-line{stroke:var(--lila); stroke-width:3; stroke-linecap:round;}
+  .ref-point circle{fill:var(--ink); stroke:#fff; stroke-width:1.5;}
+  .ref-point text{font-family:var(--font-mono); font-weight:600; font-size:11px; fill:var(--ink);}
+  .opt-point circle{fill:#fff; stroke:var(--teal); stroke-width:2.2;}
+  .opt-point text{font-family:var(--font-mono); font-weight:700; font-size:12px; fill:var(--teal);}
+  .eq-label rect{fill:#fff; stroke:var(--coral); stroke-width:1.2;}
+  .eq-label text{font-family:var(--font-mono); font-size:11px; fill:var(--coral); font-weight:600;}
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.6px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:16px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .option:hover:not(:disabled){border-color:var(--lila);}
+  .option .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:7px;
+    border:1.6px solid var(--grid);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .option .otext{flex:1 1 auto;}
+  .option.selected{border-color:var(--lila); background:var(--lila-soft);}
+  .option.selected .letter{background:var(--lila); border-color:var(--lila); color:#fff;}
+  .option.correct{border-color:var(--teal); background:var(--teal-soft);}
+  .option.correct .letter{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .option.wrong{border-color:var(--coral); background:var(--coral-soft);}
+  .option.wrong .letter{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .option.tried{opacity:.5; text-decoration:line-through; cursor:not-allowed;}
+  .option:disabled{cursor:default;}
+
+  .feedback{
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:15px;
+    line-height:1.5;
+    border-left:4px solid transparent;
+  }
+  .feedback .ftitle{
+    font-weight:700;
+    display:block;
+    margin-bottom:4px;
+  }
+  .feedback.hint{background:var(--amber-soft); border-left-color:var(--amber);}
+  .feedback.hint .ftitle{color:var(--amber);}
+  .feedback.success{background:var(--teal-soft); border-left-color:var(--teal);}
+  .feedback.success .ftitle{color:var(--teal);}
+  .feedback.explain{background:var(--coral-soft); border-left-color:var(--coral);}
+  .feedback.explain .ftitle{color:var(--coral);}
+
+  .quiz-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  /* ---------- Results ---------- */
+  .score-hero{
+    text-align:center;
+    padding:10px 0 6px;
+  }
+  .score-num{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(46px,12vw,64px);
+    color:var(--ink);
+    line-height:1;
+  }
+  .score-num span{font-size:0.4em; color:var(--muted); font-family:var(--font-mono); font-weight:500;}
+  .score-msg{font-size:16px; color:var(--muted); max-width:46ch; margin:10px auto 0;}
+
+  .result-section{margin-top:20px;}
+  .result-section h3{
+    font-family:var(--font-mono);
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    display:flex;align-items:center;gap:8px;
+    margin:0 0 10px;
+  }
+  .dotmark{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dotmark.ok{background:var(--teal);}
+  .dotmark.help{background:var(--amber);}
+  .dotmark.no{background:var(--coral);}
+
+  .result-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    margin-bottom:8px;
+    background:#fff;
+  }
+  .result-item .rtag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .result-item .rprompt{font-size:15px; margin:4px 0 0;}
+  .result-item .rexplain{font-size:13.5px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--grid);}
+  .empty-note{font-size:14px; color:var(--muted); font-style:italic;}
+
+  /* ---------- Footer ---------- */
+  footer.site{
+    max-width:720px;
+    margin:26px auto 0;
+    padding:20px 18px 4px;
+    border-top:1px solid var(--grid);
+  }
+  footer.site .rule{
+    width:26px;height:3px;background:var(--coral); border-radius:2px; margin-bottom:12px;
+  }
+  footer.site p{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:0 0 10px;
+  }
+  footer.site strong{color:var(--ink);}
+  footer.site .credit{
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .option{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <span class="eyebrow">Matemática · 3er año · ESRN Paulo VI</span>
+    <h1 class="title">Modelando <em>la realidad</em></h1>
+    <p class="subtitle">Autoevaluación — Modelar la realidad, las rectas y sus ecuaciones</p>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+</div>
+
+<footer class="site">
+  <div class="rule"></div>
+  <p><strong>Sobre este recurso.</strong> Esta aplicación fue programada con la asistencia de Claude (Anthropic) a partir de una consigna del autor; las decisiones didácticas, las correcciones, la selección de preguntas y los criterios de corrección son responsabilidad exclusiva del <strong>Lic. Nicolás Rosbaco</strong> (ESRN Paulo VI — Viedma, Río Negro). Es un material complementario del cuadernillo <em>«Modelando la Realidad: Función Lineal»</em> (2026), publicado bajo licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0.</p>
+  <p><strong>Por qué autoevaluarte.</strong> Este puntaje no es una nota ni un veredicto: es tuyo. La idea no es que dependas de lo que un profesor te diga que sabés, sino que vayas construyendo tus propios criterios de lo que significa entender un tema — y que aprendas a notar, con honestidad y sin culpa, qué te falta repasar. Usá este resultado como una brújula para vos mismo/a, no como una sentencia. Esa es, quizás, la habilidad más importante de todas.</p>
+  <p class="credit">nicolasrosbaco@curza.com.ar</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   MODELANDO LA REALIDAD — Autoevaluación de Función Lineal
+   Lic. Nicolás Rosbaco · ESRN Paulo VI · Viedma, Río Negro
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   1) UTILIDADES DE GRÁFICO (SVG generado dinámicamente)
+   --------------------------------------------------------------------- */
+
+function clipLine(a, b, xMin, xMax, yMin, yMax){
+  const eps = 1e-9;
+  const cands = [];
+  const pushIfIn = (x, y) => {
+    if (x >= xMin - eps && x <= xMax + eps && y >= yMin - eps && y <= yMax + eps){
+      cands.push([x, y]);
+    }
+  };
+  pushIfIn(xMin, a * xMin + b);
+  pushIfIn(xMax, a * xMax + b);
+  if (Math.abs(a) > eps){
+    pushIfIn((yMin - b) / a, yMin);
+    pushIfIn((yMax - b) / a, yMax);
+  }
+  // quitar duplicados cercanos
+  const uniq = [];
+  cands.forEach(p => {
+    if (!uniq.some(q => Math.abs(q[0]-p[0]) < 1e-6 && Math.abs(q[1]-p[1]) < 1e-6)){
+      uniq.push(p);
+    }
+  });
+  if (uniq.length < 2) return null;
+  uniq.sort((p, q) => p[0] - q[0] || p[1] - q[1]);
+  return [uniq[0], uniq[uniq.length - 1]];
+}
+
+function buildGraphSVG(cfg){
+  const range = Object.assign({ xMin:-6, xMax:6, yMin:-6, yMax:6 }, cfg.range || {});
+  const W = 320, H = 320, padL = 30, padR = 12, padT = 12, padB = 30;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const toPx = (x, y) => ([
+    padL + (x - range.xMin) / (range.xMax - range.xMin) * plotW,
+    padT + (range.yMax - y) / (range.yMax - range.yMin) * plotH
+  ]);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" class="graph-svg" role="img" aria-label="${cfg.ariaLabel || 'Gráfico de una recta en el plano cartesiano'}">`;
+
+  // grilla
+  svg += '<g class="grid-lines">';
+  for (let gx = Math.ceil(range.xMin); gx <= Math.floor(range.xMax); gx++){
+    const [x1,y1] = toPx(gx, range.yMin), [x2,y2] = toPx(gx, range.yMax);
+    svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }
+  for (let gy = Math.ceil(range.yMin); gy <= Math.floor(range.yMax); gy++){
+    const [x1,y1] = toPx(range.xMin, gy), [x2,y2] = toPx(range.xMax, gy);
+    svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }
+  svg += '</g>';
+
+  // ejes
+  const [ax1,ay1] = toPx(range.xMin, 0), [ax2,ay2] = toPx(range.xMax, 0);
+  const [bx1,by1] = toPx(0, range.yMin), [bx2,by2] = toPx(0, range.yMax);
+  svg += `<g class="axes">
+    <line x1="${ax1.toFixed(1)}" y1="${ay1.toFixed(1)}" x2="${ax2.toFixed(1)}" y2="${ay2.toFixed(1)}"/>
+    <line x1="${bx1.toFixed(1)}" y1="${by1.toFixed(1)}" x2="${bx2.toFixed(1)}" y2="${by2.toFixed(1)}"/>
+  </g>`;
+
+  // etiquetas cada 2 unidades
+  svg += '<g class="axis-labels">';
+  for (let gx = range.xMin; gx <= range.xMax; gx += 2){
+    if (gx === 0) continue;
+    const [x,y] = toPx(gx, 0);
+    svg += `<text x="${x.toFixed(1)}" y="${(y+11).toFixed(1)}" text-anchor="middle">${gx}</text>`;
+  }
+  for (let gy = range.yMin; gy <= range.yMax; gy += 2){
+    if (gy === 0) continue;
+    const [x,y] = toPx(0, gy);
+    svg += `<text x="${(x-5).toFixed(1)}" y="${(y+3).toFixed(1)}" text-anchor="end">${gy}</text>`;
+  }
+  const [ox,oy] = toPx(0,0);
+  svg += `<text x="${(ox-5).toFixed(1)}" y="${(oy+11).toFixed(1)}" text-anchor="end" class="origin-label">0</text>`;
+  svg += '</g>';
+
+  // recta
+  if (cfg.line){
+    const seg = clipLine(cfg.line.a, cfg.line.b, range.xMin, range.xMax, range.yMin, range.yMax);
+    if (seg){
+      const [x1,y1] = toPx(seg[0][0], seg[0][1]);
+      const [x2,y2] = toPx(seg[1][0], seg[1][1]);
+      svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" class="ajuste-line"/>`;
+    }
+  }
+
+  // etiqueta de ecuación (texto plano, no LaTeX, dentro del SVG)
+  if (cfg.equationLabel){
+    const [x,y] = toPx(cfg.equationLabel.x, cfg.equationLabel.y);
+    const text = cfg.equationLabel.text;
+    const w = text.length * 6.3 + 10;
+    svg += `<g class="eq-label">
+      <rect x="${(x - w/2).toFixed(1)}" y="${(y-12).toFixed(1)}" width="${w.toFixed(1)}" height="18" rx="4"/>
+      <text x="${x.toFixed(1)}" y="${(y+1.5).toFixed(1)}" text-anchor="middle">${text}</text>
+    </g>`;
+  }
+
+  // puntos de referencia (tiradores / puntos que definen la recta)
+  (cfg.refPoints || []).forEach(p => {
+    const [x,y] = toPx(p.x, p.y);
+    svg += `<g class="ref-point">
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5"/>
+      <text x="${(x + (p.dx||8)).toFixed(1)}" y="${(y + (p.dy||-8)).toFixed(1)}">${p.label}</text>
+    </g>`;
+  });
+
+  // puntos de opción (A, B, C, D)
+  (cfg.optPoints || []).forEach(p => {
+    const [x,y] = toPx(p.x, p.y);
+    svg += `<g class="opt-point">
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6"/>
+      <text x="${(x + (p.dx||9)).toFixed(1)}" y="${(y + (p.dy||-9)).toFixed(1)}">${p.label}</text>
+    </g>`;
+  });
+
+  svg += '</svg>';
+  return svg;
+}
+
+/* ---------------------------------------------------------------------
+   2) BANCO DE 20 PREGUNTAS
+   categorías: forma | conversion | pertenencia | parametros
+   --------------------------------------------------------------------- */
+
+const CATEGORY_LABELS = {
+  forma: "Identificar la ecuación",
+  conversion: "Convertir de forma",
+  pertenencia: "Pertenencia a la recta",
+  parametros: "Parámetros desde el gráfico"
+};
+
+const QUESTIONS = [
+
+  // ---------- N1, N2: identificar forma (conceptual) ----------
+  {
+    id:"N1", category:"forma", visual:false,
+    prompt:"¿Cuál de las siguientes ecuaciones está escrita en su <strong>forma explícita</strong>?",
+    options:[ "$y = 3 \\cdot x - 2$", "$3 \\cdot x - y = 2$", "$x + y = 5$", "$2 \\cdot x + 3 \\cdot y = 6$" ],
+    correct:0,
+    hint:"En la forma explícita, la variable $y$ aparece sola, despejada, en un miembro de la ecuación: $y = a \\cdot x + b$.",
+    explanation:"Solo en <em>$y = 3 \\cdot x - 2$</em> la variable $y$ está sola de un lado de la igualdad. En las otras tres, $x$ e $y$ aparecen juntas del mismo lado: son formas implícitas."
+  },
+  {
+    id:"N2", category:"forma", visual:false,
+    prompt:"¿Cuál de las siguientes ecuaciones está escrita en su <strong>forma implícita</strong>?",
+    options:[ "$x + y = 7$", "$y = -x + 7$", "$y = 2 \\cdot x + 1$", "$y = 5$" ],
+    correct:0,
+    hint:"En la forma implícita, $x$ e $y$ aparecen juntas, del mismo lado de la ecuación: $m \\cdot x + n \\cdot y = k$.",
+    explanation:"Solo <em>$x + y = 7$</em> tiene $x$ e $y$ juntas en el mismo miembro. En las demás, $y$ ya está despejada: son formas explícitas."
+  },
+
+  // ---------- N3, N4, N5, N6, N10: conversión ----------
+  {
+    id:"N3", category:"conversion", visual:false,
+    prompt:"La recta tiene ecuación explícita $y = 2 \\cdot x - 3$. ¿Cuál es su forma implícita equivalente?",
+    options:[ "$2 \\cdot x - y = 3$", "$2 \\cdot x + y = 3$", "$x - 2 \\cdot y = 3$", "$2 \\cdot x - y = -3$" ],
+    correct:0,
+    hint:"Restá $2 \\cdot x$ en ambos miembros de la igualdad, para que $x$ e $y$ queden juntas del mismo lado.",
+    explanation:"De $y = 2 \\cdot x - 3$ restamos $2 \\cdot x$ en ambos miembros: $-2 \\cdot x + y = -3$. Multiplicando ambos miembros por $-1$ (para que el coeficiente de $x$ quede positivo) obtenemos $2 \\cdot x - y = 3$."
+  },
+  {
+    id:"N4", category:"conversion", visual:false,
+    prompt:"La recta tiene ecuación implícita $3 \\cdot x + y = 6$. ¿Cuál es su forma explícita?",
+    options:[ "$y = -3 \\cdot x + 6$", "$y = 3 \\cdot x + 6$", "$y = 3 \\cdot x - 6$", "$y = -3 \\cdot x - 6$" ],
+    correct:0,
+    hint:"Despejá $y$: restá $3 \\cdot x$ en ambos miembros de la igualdad para dejarla sola en un miembro.",
+    explanation:"De $3 \\cdot x + y = 6$ restamos $3 \\cdot x$ en ambos miembros: $y = 6 - 3 \\cdot x$, que es lo mismo que $y = -3 \\cdot x + 6$."
+  },
+  {
+    id:"N5", category:"conversion", visual:false,
+    prompt:"La recta tiene ecuación implícita $2 \\cdot x + 4 \\cdot y = 8$. ¿Cuál es su forma explícita?",
+    options:[ "$y = -\\dfrac{1}{2} \\cdot x + 2$", "$y = \\dfrac{1}{2} \\cdot x + 2$", "$y = -2 \\cdot x + 2$", "$y = -\\dfrac{1}{2} \\cdot x - 2$" ],
+    correct:0,
+    hint:"Restá $2 \\cdot x$ en ambos miembros para despejar el término con $y$: $4 \\cdot y = 8 - 2 \\cdot x$. Después dividí toda la ecuación entre $4$ (podés simplificar la fracción).",
+    explanation:"De $2 \\cdot x + 4 \\cdot y = 8$ restamos $2 \\cdot x$ en ambos miembros: $4 \\cdot y = -2 \\cdot x + 8$. Dividiendo ambos miembros entre $4$: $y = -\\dfrac{2}{4} \\cdot x + \\dfrac{8}{4} = -\\dfrac{1}{2} \\cdot x + 2$."
+  },
+  {
+    id:"N6", category:"conversion", visual:false,
+    prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?",
+    options:[ "$x - 3 \\cdot y = 3$", "$x + 3 \\cdot y = 3$", "$3 \\cdot x - y = 3$", "$x - 3 \\cdot y = -3$" ],
+    correct:0,
+    hint:"Para evitar trabajar con la fracción, multiplicá ambos miembros de la ecuación por el denominador (en este caso, por $3$).",
+    explanation:"Multiplicando ambos miembros de la ecuación por $3$: $3 \\cdot y = x - 3$. Restando $x$ en ambos miembros: $-x + 3 \\cdot y = -3$; multiplicando ambos miembros por $-1$ y ordenando: $x - 3 \\cdot y = 3$."
+  },
+  {
+    id:"N10", category:"conversion", visual:false,
+    prompt:"La recta tiene ecuación implícita $4 \\cdot x - 2 \\cdot y = 8$. ¿Cuál es su forma explícita?",
+    options:[ "$y = 2 \\cdot x - 4$", "$y = 2 \\cdot x + 4$", "$y = -2 \\cdot x + 4$", "$y = 4 \\cdot x - 2$" ],
+    correct:0,
+    hint:"Restá $4 \\cdot x$ en ambos miembros para despejar el término con $y$, y después dividí toda la ecuación entre su coeficiente.",
+    explanation:"De $4 \\cdot x - 2 \\cdot y = 8$ restamos $4 \\cdot x$ en ambos miembros: $-2 \\cdot y = -4 \\cdot x + 8$. Dividiendo ambos miembros entre $-2$: $y = 2 \\cdot x - 4$."
+  },
+
+  // ---------- N7, N8, N9: pertenencia (algebraico) ----------
+  {
+    id:"N7", category:"pertenencia", visual:false,
+    prompt:"¿Cuál de los siguientes puntos pertenece a la recta $y = 2 \\cdot x + 1$?",
+    options:[ "$(3,\\,7)$", "$(3,\\,6)$", "$(2,\\,4)$", "$(-1,\\,0)$" ],
+    correct:0,
+    hint:"Reemplazá el valor de $x$ de cada punto en la ecuación y fijate si el resultado coincide con el valor de $y$ del punto.",
+    explanation:"Para $(3,7)$: $y = 2 \\cdot 3 + 1 = 7$, coincide exactamente. En los demás puntos, el valor que da la ecuación no coincide con la ordenada indicada."
+  },
+  {
+    id:"N8", category:"pertenencia", visual:false,
+    prompt:"¿Cuál de los siguientes puntos pertenece a la recta $3 \\cdot x - y = 5$?",
+    options:[ "$(2,\\,1)$", "$(2,\\,-1)$", "$(1,\\,3)$", "$(0,\\,5)$" ],
+    correct:0,
+    hint:"Reemplazá los valores de $x$ e $y$ de cada punto en la ecuación implícita y comprobá si se cumple la igualdad.",
+    explanation:"Para $(2,1)$: $3 \\cdot 2 - 1 = 5$. La igualdad se cumple, así que el punto pertenece a la recta. En los demás casos, no se verifica."
+  },
+  {
+    id:"N9", category:"pertenencia", visual:false,
+    prompt:"Dada la recta $y = -x + 4$, ¿cuál de los siguientes puntos <strong>NO</strong> pertenece a ella?",
+    options:[ "$(1,\\,3)$", "$(0,\\,4)$", "$(2,\\,2)$", "$(5,\\,0)$" ],
+    correct:3,
+    hint:"Probá reemplazar la $x$ de cada punto en la ecuación: el punto cuyo resultado no coincida con su $y$ es el que no pertenece.",
+    explanation:"Para $(5,0)$: $y = -5+4 = -1$, no $0$. Por eso ese punto no pertenece a la recta. Los otros tres sí verifican la ecuación."
+  },
+
+  // ---------- V1–V4, V9: parámetros desde el gráfico ----------
+  {
+    id:"V1", category:"parametros", visual:true,
+    prompt:"Observá la recta representada en el gráfico. ¿Cuál es su ecuación explícita?",
+    graph:{
+      line:{a:2,b:1},
+      refPoints:[
+        {x:0,y:1,label:"P1",dx:-20,dy:-6},
+        {x:2,y:5,label:"P2",dx:8,dy:-6}
+      ]
+    },
+    options:[ "$y = 2 \\cdot x + 1$", "$y = x + 2$", "$y = 2 \\cdot x - 1$", "$y = \\dfrac{1}{2} \\cdot x + 1$" ],
+    correct:0,
+    hint:"Fijate en qué punto la recta corta al eje Y: ese valor es la ordenada al origen ($b$). Después contá cuánto sube $y$ cuando $x$ avanza $1$ unidad: esa es la pendiente ($a$).",
+    explanation:"La recta corta al eje Y en $(0,1)$, entonces $b=1$. Entre P1 y P2, $x$ avanza $2$ unidades y $y$ sube $4$, es decir $2$ unidades de $y$ por cada $1$ de $x$: $a=2$. Ecuación: $y = 2 \\cdot x + 1$."
+  },
+  {
+    id:"V2", category:"parametros", visual:true,
+    prompt:"¿Cuál es la ecuación explícita de la recta representada en el gráfico?",
+    graph:{
+      line:{a:-1,b:4},
+      refPoints:[
+        {x:0,y:4,label:"P1",dx:-20,dy:-6},
+        {x:4,y:0,label:"P2",dx:8,dy:14}
+      ]
+    },
+    options:[ "$y = -x + 4$", "$y = x + 4$", "$y = -x - 4$", "$y = -4 \\cdot x + 1$" ],
+    correct:0,
+    hint:"La recta corta al eje Y en un valor positivo: ese es $b$. Como la recta desciende de izquierda a derecha, la pendiente $a$ es negativa.",
+    explanation:"La recta corta al eje Y en $(0,4)$, entonces $b=4$. Entre P1 y P2, $x$ avanza $4$ unidades y $y$ baja $4$, es decir $-1$ unidad de $y$ por cada $1$ de $x$: $a=-1$. Ecuación: $y = -x + 4$."
+  },
+  {
+    id:"V3", category:"parametros", visual:true,
+    prompt:"¿Cuáles son la pendiente ($a$) y la ordenada al origen ($b$) de la recta representada?",
+    graph:{
+      line:{a:0.5,b:-1},
+      refPoints:[
+        {x:0,y:-1,label:"P1",dx:-20,dy:14},
+        {x:2,y:0,label:"P2",dx:10,dy:-6}
+      ]
+    },
+    options:[ "$a = \\dfrac{1}{2},\\ b = -1$", "$a = 2,\\ b = -1$", "$a = \\dfrac{1}{2},\\ b = 1$", "$a = -\\dfrac{1}{2},\\ b = -1$" ],
+    correct:0,
+    hint:"Entre P1 y P2 contá cuánto avanza $x$ y cuánto sube $y$: la pendiente es esa razón (no hace falta que $x$ avance de a $1$ para calcularla).",
+    explanation:"Entre P1 y P2, $x$ avanza $2$ unidades e $y$ avanza $1$: la pendiente es $a = \\dfrac{1}{2}$. La recta corta al eje Y en $-1$, entonces $b=-1$."
+  },
+  {
+    id:"V4", category:"parametros", visual:true,
+    prompt:"¿Cuál es la ecuación explícita de la recta representada en el gráfico?",
+    graph:{
+      line:{a:-3,b:2},
+      refPoints:[
+        {x:0,y:2,label:"P1",dx:-20,dy:-6},
+        {x:1,y:-1,label:"P2",dx:10,dy:10}
+      ]
+    },
+    options:[ "$y = -3 \\cdot x + 2$", "$y = 3 \\cdot x + 2$", "$y = -3 \\cdot x - 2$", "$y = -2 \\cdot x + 3$" ],
+    correct:0,
+    hint:"La recta desciende muy rápido: contá cuánto baja $y$ cuando $x$ avanza apenas $1$ unidad. Y fijate dónde corta al eje Y para obtener $b$.",
+    explanation:"La recta corta al eje Y en $(0,2)$, entonces $b=2$. De P1 a P2, $x$ avanza $1$ unidad e $y$ baja $3$: $a=-3$. Ecuación: $y = -3 \\cdot x + 2$."
+  },
+  {
+    id:"V9", category:"parametros", visual:true,
+    prompt:"Los puntos T1 y T2 son los «tiradores» que determinan la recta en GeoGebra. A partir de sus coordenadas, ¿cuál es la pendiente de la recta?",
+    graph:{
+      line:{a:1.5,b:0},
+      refPoints:[
+        {x:-2,y:-3,label:"T1",dx:-22,dy:6},
+        {x:2,y:3,label:"T2",dx:10,dy:-8}
+      ]
+    },
+    options:[ "$a = \\dfrac{3}{2}$", "$a = \\dfrac{2}{3}$", "$a = \\dfrac{4}{3}$", "$a = 3$" ],
+    correct:0,
+    hint:"Calculá la pendiente como el cociente entre cuánto cambia $y$ y cuánto cambia $x$ entre los dos tiradores: $a = \\dfrac{y_2-y_1}{x_2-x_1}$.",
+    explanation:"Entre T1$=(-2,-3)$ y T2$=(2,3)$: el cambio en $y$ es $3-(-3)=6$ y el cambio en $x$ es $2-(-2)=4$. Entonces $a = \\dfrac{6}{4} = \\dfrac{3}{2}$."
+  },
+
+  // ---------- V5, V6: ¿la ecuación mostrada corresponde al gráfico? ----------
+  {
+    id:"V5", category:"forma", visual:true,
+    prompt:"En el gráfico aparece escrita la ecuación $y = x - 3$ junto a la recta. ¿Corresponde correctamente a la recta representada?",
+    graph:{
+      line:{a:-1,b:3},
+      refPoints:[
+        {x:0,y:3,label:"A",dx:-18,dy:-6},
+        {x:3,y:0,label:"B",dx:8,dy:14}
+      ],
+      equationLabel:{text:"y = x − 3", x:-3, y:5}
+    },
+    options:[
+      "Sí, la ecuación es correcta.",
+      "No; la ecuación correcta es $y = -x + 3$.",
+      "No; la ecuación correcta es $y = x + 3$.",
+      "No; la ecuación correcta es $y = -x - 3$."
+    ],
+    correct:1,
+    hint:"Fijate el signo de la pendiente observando si la recta sube o baja de izquierda a derecha, y comprobá el resultado reemplazando alguno de los puntos marcados.",
+    explanation:"La recta es decreciente (baja de izquierda a derecha) y corta al eje Y en $3$, por lo tanto su ecuación es $y = -x + 3$. Podés comprobarlo con el punto B$=(3,0)$: $-3+3=0$. La ecuación escrita en el gráfico tiene el signo de la pendiente cambiado."
+  },
+  {
+    id:"V6", category:"forma", visual:true,
+    prompt:"En el gráfico aparece la ecuación implícita $2 \\cdot x + y = 4$. ¿Corresponde a la recta representada?",
+    graph:{
+      line:{a:-2,b:4},
+      refPoints:[
+        {x:0,y:4,label:"A",dx:-18,dy:-6},
+        {x:2,y:0,label:"B",dx:10,dy:14}
+      ],
+      equationLabel:{text:"2 · x + y = 4", x:-3, y:5.4}
+    },
+    options:[
+      "Sí, corresponde.",
+      "No, la correcta es $x + 2 \\cdot y = 4$.",
+      "No, la correcta es $2 \\cdot x - y = 4$.",
+      "No, la correcta es $2 \\cdot x + y = -4$."
+    ],
+    correct:0,
+    hint:"Convertí la ecuación implícita a su forma explícita (restando $2 \\cdot x$ en ambos miembros para despejar $y$) y compará la pendiente y la ordenada al origen con lo que ves en el gráfico.",
+    explanation:"Restando $2 \\cdot x$ en ambos miembros de $2 \\cdot x + y = 4$ se obtiene $y = -2 \\cdot x + 4$, que coincide exactamente con la recta graficada: ordenada al origen $4$ y pendiente $-2$. Por eso sí corresponde."
+  },
+
+  // ---------- V7, V8: pertenencia leída del gráfico ----------
+  {
+    id:"V7", category:"pertenencia", visual:true,
+    prompt:"¿Cuál de los puntos marcados pertenece a la recta graficada?",
+    graph:{
+      line:{a:1,b:-1},
+      optPoints:[
+        {x:2,y:1,label:"A",dx:9,dy:-8},
+        {x:1,y:3,label:"B",dx:9,dy:-8},
+        {x:-2,y:-2,label:"C",dx:-9,dy:12},
+        {x:0,y:2,label:"D",dx:9,dy:-8}
+      ]
+    },
+    options:[ "$A = (2,\\,1)$", "$B = (1,\\,3)$", "$C = (-2,\\,-2)$", "$D = (0,\\,2)$" ],
+    correct:0,
+    hint:"Para cada punto marcado, fijate si está exactamente sobre la línea dibujada (no solo cerca de ella).",
+    explanation:"El punto A$=(2,1)$ está sobre la recta $y = x - 1$: reemplazando $x=2$ se obtiene $y=1$, que coincide. Los demás puntos están dibujados fuera de la recta."
+  },
+  {
+    id:"V8", category:"pertenencia", visual:true,
+    prompt:"¿Cuál de los puntos marcados <strong>NO</strong> pertenece a la recta graficada?",
+    graph:{
+      line:{a:-0.5,b:2},
+      optPoints:[
+        {x:2,y:1,label:"A",dx:9,dy:14},
+        {x:-2,y:3,label:"B",dx:-10,dy:-8},
+        {x:4,y:0,label:"C",dx:9,dy:14},
+        {x:1,y:0,label:"D",dx:9,dy:14}
+      ]
+    },
+    options:[ "$A = (2,\\,1)$", "$B = (-2,\\,3)$", "$C = (4,\\,0)$", "$D = (1,\\,0)$" ],
+    correct:3,
+    hint:"Fijate cuál de los puntos está apartado, aunque sea un poco, de la línea dibujada.",
+    explanation:"Los puntos A, B y C están exactamente sobre la recta $y = -\\dfrac{1}{2} \\cdot x + 2$. El punto D$=(1,0)$ no: para $x=1$ la recta pasa por $y = \\dfrac{3}{2}$, no por $y=0$."
+  },
+
+  // ---------- V10: forma implícita desde el gráfico ----------
+  {
+    id:"V10", category:"conversion", visual:true,
+    prompt:"Observando el gráfico, ¿cuál es la forma implícita de la ecuación de esta recta?",
+    graph:{
+      line:{a:-1,b:5},
+      refPoints:[
+        {x:0,y:5,label:"A",dx:-18,dy:-6},
+        {x:5,y:0,label:"B",dx:8,dy:14}
+      ]
+    },
+    options:[ "$x + y = 5$", "$x - y = 5$", "$2 \\cdot x + y = 5$", "$x + y = -5$" ],
+    correct:0,
+    hint:"Primero identificá la forma explícita (fijándote dónde corta cada eje) y después convertila a la forma implícita, sumando o restando en ambos miembros hasta que $x$ e $y$ queden juntas de un mismo lado.",
+    explanation:"La recta corta al eje Y en $5$ y al eje X en $5$, por lo que su pendiente es $-1$ y su ecuación explícita es $y = -x + 5$. Sumando $x$ en ambos miembros: $x + y = 5$."
+  }
+];
+
+/* ---------------------------------------------------------------------
+   3) ESTADO DE LA APLICACIÓN
+   --------------------------------------------------------------------- */
+
+let order = [];        // preguntas ya barajadas
+let state = [];         // estado por pregunta: {attempts, status, points, selected}
+let currentIndex = 0;
+let selectedOption = null;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function shuffleQuestionOptions(q){
+  const idxs = q.options.map((_, i) => i);
+  const shuffled = shuffle(idxs);
+  const newOptions = shuffled.map(i => q.options[i]);
+  const newCorrect = shuffled.indexOf(q.correct);
+  return Object.assign({}, q, { options:newOptions, correct:newCorrect });
+}
+
+function resetState(){
+  order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+  state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
+  currentIndex = 0;
+  selectedOption = null;
+}
+
+function renderMath(container){
+  if (window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters:[
+        {left:"$", right:"$", display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4) PANTALLA DE INICIO
+   --------------------------------------------------------------------- */
+
+function renderIntro(){
+  const app = document.getElementById("app");
+  app.innerHTML = `
+    <div class="card intro-text">
+      <p>Esta autoevaluación tiene <strong>20 preguntas</strong> sobre la ecuación de la recta: identificarla en su forma explícita e implícita, convertir de una forma a la otra, decidir si un punto pertenece a una recta y leer parámetros a partir de un gráfico. El orden de las preguntas se sortea cada vez que abrís la página.</p>
+      <p>No hace falta usar GeoGebra ni la calculadora: todos los números fueron elegidos para poder resolverse con cuentas simples, con enteros o fracciones fáciles.</p>
+      <div class="rules">
+        <div class="rule-item ok">
+          <span class="n">✓ Bien a la primera</span>
+          <p>Sumás <strong>5 puntos</strong> y recibís una confirmación de tu razonamiento.</p>
+        </div>
+        <div class="rule-item help">
+          <span class="n">◐ Un error + ayuda</span>
+          <p>Si te equivocás una vez, aparece una pista. Si después acertás, sumás <strong>3 puntos</strong>.</p>
+        </div>
+        <div class="rule-item no">
+          <span class="n">✕ Segundo error</span>
+          <p>No sumás puntos, pero vas a ver la explicación completa de la respuesta correcta.</p>
+        </div>
+      </div>
+      <p>Al terminar vas a ver tu puntaje y un detalle de qué respondiste bien sin ayuda, qué respondiste bien con ayuda, y qué te conviene repasar.</p>
+      <button class="btn btn-primary btn-block" id="btnStart">Empezar la autoevaluación</button>
+    </div>
+  `;
+  document.getElementById("btnStart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   5) PANTALLA DE PREGUNTA
+   --------------------------------------------------------------------- */
+
+function dotsHTML(){
+  return order.map((q, i) => {
+    let cls = "dot";
+    if (i === currentIndex) cls += " current";
+    else if (state[i].status === "correct-first") cls += " done-ok";
+    else if (state[i].status === "correct-help") cls += " done-help";
+    else if (state[i].status === "incorrect") cls += " done-no";
+    return `<span class="${cls}"></span>`;
+  }).join("");
+}
+
+function renderQuestion(){
+  selectedOption = null;
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  const app = document.getElementById("app");
+
+  const graphHTML = q.visual
+    ? `<div class="graph-wrap">${buildGraphSVG(q.graph)}</div>`
+    : "";
+
+  const optionsHTML = q.options.map((opt, i) => `
+    <button class="option" data-idx="${i}">
+      <span class="letter">${String.fromCharCode(65 + i)}</span>
+      <span class="otext">${opt}</span>
+    </button>
+  `).join("");
+
+  app.innerHTML = `
+    <div class="progress-row">
+      <div class="dots" aria-hidden="true">${dotsHTML()}</div>
+      <span class="qcount">Pregunta ${currentIndex + 1} / ${order.length}</span>
+    </div>
+    <div class="card">
+      <span class="badge">${CATEGORY_LABELS[q.category]}</span>
+      <p class="prompt">${q.prompt}</p>
+      ${graphHTML}
+      <div class="options" id="optionsWrap">${optionsHTML}</div>
+      <div id="feedbackWrap"></div>
+      <div class="quiz-actions" id="actionsWrap">
+        <button class="btn btn-primary" id="btnVerify" disabled>Verificar respuesta</button>
+      </div>
+    </div>
+  `;
+
+  renderMath(app);
+
+  document.querySelectorAll(".option").forEach(btn => {
+    btn.addEventListener("click", () => selectOption(parseInt(btn.dataset.idx, 10)));
+  });
+  document.getElementById("btnVerify").addEventListener("click", verifyAnswer);
+
+  // si la pregunta ya fue resuelta antes (por ejemplo, al volver), mostrar su estado final
+  if (st.status === "correct-first" || st.status === "correct-help" || st.status === "incorrect"){
+    lockOptionsVisual(q, st.selectedFirst);
+    showFinalFeedback(q, st);
+    showNextButton();
+  }
+}
+
+function selectOption(idx){
+  const st = state[currentIndex];
+  if (st.status !== "pending" && st.status !== "retry") return;
+  const buttons = document.querySelectorAll(".option");
+  if (buttons[idx].classList.contains("tried")) return;
+  buttons.forEach(b => b.classList.remove("selected"));
+  buttons[idx].classList.add("selected");
+  selectedOption = idx;
+  document.getElementById("btnVerify").disabled = false;
+}
+
+function verifyAnswer(){
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  if (selectedOption === null) return;
+
+  st.attempts++;
+  const isCorrect = selectedOption === q.correct;
+
+  if (st.attempts === 1) st.selectedFirst = selectedOption;
+
+  if (isCorrect){
+    st.status = st.attempts === 1 ? "correct-first" : "correct-help";
+    st.points = st.attempts === 1 ? 5 : 3;
+    lockOptionsVisual(q, selectedOption);
+    showFinalFeedback(q, st);
+    showNextButton();
+  } else {
+    if (st.attempts === 1){
+      st.status = "retry";
+      document.querySelectorAll(".option")[selectedOption].classList.add("tried");
+      document.querySelectorAll(".option")[selectedOption].classList.remove("selected");
+      selectedOption = null;
+      document.getElementById("btnVerify").disabled = true;
+      document.getElementById("btnVerify").textContent = "Verificar de nuevo";
+      renderFeedback("hint", "Pista", q.hint);
+    } else {
+      st.status = "incorrect";
+      st.points = 0;
+      lockOptionsVisual(q, selectedOption);
+      showFinalFeedback(q, st);
+      showNextButton();
+    }
+  }
+  renderMath(document.getElementById("app"));
+}
+
+function lockOptionsVisual(q, chosenWrong){
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    b.classList.remove("selected", "tried");
+    if (i === q.correct) b.classList.add("correct");
+    else if (i === chosenWrong) b.classList.add("wrong");
+  });
+}
+
+function showFinalFeedback(q, st){
+  if (st.status === "correct-first"){
+    renderFeedback("success", "¡Correcto! (+5 puntos)", q.explanation);
+  } else if (st.status === "correct-help"){
+    renderFeedback("success", "¡Muy bien, lo lograste con la ayuda! (+3 puntos)", q.explanation);
+  } else if (st.status === "incorrect"){
+    renderFeedback("explain", "La respuesta correcta era otra (+0 puntos)", q.explanation);
+  }
+}
+
+function renderFeedback(type, title, body){
+  const wrap = document.getElementById("feedbackWrap");
+  wrap.innerHTML = `
+    <div class="feedback ${type}">
+      <span class="ftitle">${title}</span>
+      <span>${body}</span>
+    </div>
+  `;
+  renderMath(wrap);
+}
+
+function showNextButton(){
+  const actions = document.getElementById("actionsWrap");
+  const isLast = currentIndex === order.length - 1;
+  actions.innerHTML = `<button class="btn btn-primary" id="btnNext">${isLast ? "Ver resultados" : "Siguiente pregunta"}</button>`;
+  document.getElementById("btnNext").addEventListener("click", () => {
+    if (isLast){
+      renderResults();
+    } else {
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+
+/* ---------------------------------------------------------------------
+   6) PANTALLA DE RESULTADOS
+   --------------------------------------------------------------------- */
+
+function renderResults(){
+  const app = document.getElementById("app");
+  const total = state.reduce((sum, s) => sum + s.points, 0);
+  const max = order.length * 5;
+
+  const okFirst = [];
+  const okHelp = [];
+  const wrong = [];
+  order.forEach((q, i) => {
+    const s = state[i];
+    if (s.status === "correct-first") okFirst.push(q);
+    else if (s.status === "correct-help") okHelp.push(q);
+    else wrong.push(q);
+  });
+
+  let msg;
+  const pct = total / max;
+  if (pct >= 0.9) msg = "Excelente dominio de la ecuación de la recta. Aun así, mirá con atención lo que te haya costado: siempre hay algo para afinar.";
+  else if (pct >= 0.7) msg = "Buen manejo del tema, con algunos puntos concretos para repasar. Fijate en el detalle de abajo antes de seguir avanzando.";
+  else if (pct >= 0.5) msg = "Vas por buen camino, pero conviene repasar varios conceptos antes de seguir. Usá el detalle de abajo como guía de estudio.";
+  else msg = "Este resultado es un buen punto de partida, no un diagnóstico definitivo. Repasá con calma las explicaciones de abajo, y volvé a intentarlo cuando te sientas listo/a.";
+
+  const section = (title, dotClass, list, showAnswer) => {
+    if (list.length === 0){
+      return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (0)</h3><p class="empty-note">No hubo preguntas en este grupo.</p></div>`;
+    }
+    const items = list.map(q => `
+      <div class="result-item">
+        <span class="rtag">${CATEGORY_LABELS[q.category]}</span>
+        <p class="rprompt">${q.prompt}</p>
+        ${showAnswer ? `<div class="rexplain"><strong>Respuesta correcta:</strong> ${q.options[q.correct]}. ${q.explanation}</div>` : ""}
+      </div>
+    `).join("");
+    return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (${list.length})</h3>${items}</div>`;
+  };
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="score-hero">
+        <div class="score-num">${total}<span>/${max}</span></div>
+        <p class="score-msg">${msg}</p>
+      </div>
+      ${section("Respondiste bien sin ayuda", "ok", okFirst, false)}
+      ${section("Respondiste bien con ayuda", "help", okHelp, false)}
+      ${section("Para repasar", "no", wrong, true)}
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btnRestart">Volver a intentar (nuevo orden)</button>
+      </div>
+    </div>
+  `;
+  renderMath(app);
+  document.getElementById("btnRestart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------------------------------------------------------------------
+   7) INICIO
+   --------------------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderIntro();
+});
+</script>
+</body>
+</html>
