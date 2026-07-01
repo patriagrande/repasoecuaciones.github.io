@@ -35,4 +35,4 @@ Luego de este experimento, iremos puliendo mejoras. Si considerás que deberías
 
 Faltó indicar que todo lo relativo a texto matemático (expresiones aritméticas y algebraicas) debe estar formateado en LaTeX.
 
-Vuelvo a olvidarme algo: al pedirle que use alguna librería para LaTeX, omití pedirle que las fórmulas queden expresadas explícitamente entre $ o $$. Necesito que sea así porque, de lo contrario, el código se hace ilegible y muy difícil de intervenir o modificar a mano.
+Vuelvo a olvidarme algo: al pedirle que use alguna librería para LaTeX, omití pedirle que las fórmulas queden expresadas explícitamente entre $ o $$. Necesito que sea así porque, de lo contrario, el código se hace ilegible y muy difícil de intervenir o modificar a mano [anotación: esto no hizo falta, ya estaba así el LaTeX].
