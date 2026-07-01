@@ -37,6 +37,10 @@ https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
 
 https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/index.html
 
+## Autoevaluaciones
+
+* https://patriagrande.github.io/autoevaluaciones/gemini/ecuacion_recta/index.html
+
 # Coordenadas en el plano (inclusión)
 
 https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
