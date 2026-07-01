@@ -39,7 +39,7 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 
 ## Autoevaluaciones
 
-* GEMINI, intento de autoevaluación para medir lo relativo a ecuación de la recta: https://patriagrande.github.io/autoevaluaciones/gemini/ecuacion_recta/index.html
+* GEMINI, intento de autoevaluación para medir lo relativo a ecuación de la recta: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/gemini/ecuacion_recta/index.html
 
 # Coordenadas en el plano (inclusión)
 
