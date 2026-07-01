@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autoevaluación: Ecuación de la Recta</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome para Íconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel para compilar JSX en el navegador -->
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- KaTeX para LaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .katex {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Banco de Preguntas (10 algebraicas + 10 gráficas)
+        const questionBank = [
+            // --- PREGUNTAS ALGEBRAICAS (1 AL 10) ---
+            {
+                id: 1,
+                text: "¿Cuál de las siguientes ecuaciones está expresada en su forma explícita?",
+                options: ["$y = 3x - 5$", "$2x + y = 4$", "$x - y = 0$"],
+                correctIndex: 0,
+                hint: "Recordá que en la forma explícita, la variable $y$ está completamente despejada, mostrando directamente su dependencia.",
+                explanation: "La forma explícita tiene la estructura $y = a \\cdot x + b$. En este caso, $y = 3x - 5$ es la única que tiene a la $y$ despejada en uno de sus miembros.",
+                corroboration: "¡Excelente! La forma explícita ($y = a \\cdot x + b$) es súper útil porque nos permite visualizar directamente la pendiente y la ordenada al origen."
+            },
+            {
+                id: 2,
+                text: "¿Cuál de estas ecuaciones representa la forma implícita de una recta?",
+                options: ["$3x - 2y = 6$", "$y = 4x + 1$", "$y = 5$"],
+                correctIndex: 0,
+                hint: "En la forma implícita, las variables $x$ e $y$ suelen estar agrupadas en un mismo miembro de la igualdad.",
+                explanation: "La forma implícita se escribe de manera general como $m \\cdot x + n \\cdot y = k$. Por lo tanto, $3x - 2y = 6$ es la respuesta correcta.",
+                corroboration: "¡Muy bien! Como vimos al usar GeoGebra, la forma implícita nos da la relación matemática sin tener la necesidad operativa de despejar previamente."
+            },
+            {
+                id: 3,
+                text: "Dada la ecuación implícita $2x + y = 5$, ¿cuál es su forma explícita?",
+                options: ["$y = -2x + 5$", "$y = 2x - 5$", "$y = 2x + 5$"],
+                correctIndex: 0,
+                hint: "Tenés que despejar la $y$. Fijate qué operación matemática tenés que aplicar en ambos miembros de la ecuación para anular el término $2x$ del primer miembro.",
+                explanation: "Para despejar $y$, restamos $2x$ en ambos miembros de la igualdad. Nos queda: $2x - 2x + y = 5 - 2x$, que es equivalente a $y = -2x + 5$.",
+                corroboration: "¡Exacto! Al operar correctamente en ambos miembros, pasamos de la forma implícita a la explícita dándole sentido al cálculo algebraico."
+            },
+            {
+                id: 4,
+                text: "Si tenemos el modelo lineal $y = 4x - 1$, ¿cuál de las siguientes es una forma implícita equivalente?",
+                options: ["$-4x + y = -1$", "$4x + y = 1$", "$x - 4y = -1$"],
+                correctIndex: 0,
+                hint: "Fijate qué operación debés aplicar en ambos miembros para que los términos con $x$ e $y$ queden agrupados en el primer miembro de la igualdad.",
+                explanation: "Para llegar a la forma implícita, restamos $4x$ en ambos miembros de la ecuación, obteniendo: $y - 4x = -1$, que ordenado es $-4x + y = -1$.",
+                corroboration: "¡Perfecto! Aplicando la misma operación en ambos miembros lograste reconstruir la forma implícita sin recurrir a reglas mecánicas."
+            },
+            {
+                id: 5,
+                text: "¿El punto $P=(2, 7)$ pertenece a la recta definida por $y = 3x + 1$?",
+                options: ["Sí", "No", "Solo si $y = 0$"],
+                correctIndex: 0,
+                hint: "Reemplazá la abscisa $x$ por $2$ en la ecuación y fijate si el resultado de la operación coincide con el $7$ (la ordenada del punto).",
+                explanation: "Si reemplazamos $x=2$, nos queda $y = 3 \\cdot (2) + 1 = 6 + 1 = 7$. Como coincide perfectamente con la ordenada del punto, la respuesta es afirmativa.",
+                corroboration: "¡Genial! Recordá siempre que la ecuación de la recta es la 'prueba de fuego' para validar algebraicamente si un punto pertenece a ella."
+            },
+            {
+                id: 6,
+                text: "¿Cuál de los siguientes puntos pertenece a la recta $y = -2x + 4$?",
+                options: ["$A=(1, 2)$", "$B=(2, 2)$", "$C=(0, -4)$"],
+                correctIndex: 0,
+                hint: "Probá reemplazando la $x$ y la $y$ de cada punto en la ecuación para verificar en cuál caso la igualdad matemática se sostiene.",
+                explanation: "Probamos el primer punto $A=(1, 2)$: reemplazamos $y=2$, $x=1 \\Rightarrow 2 = -2 \\cdot (1) + 4 \\Rightarrow 2 = 2$. ¡Se verifica la identidad! Ese es el punto correcto.",
+                corroboration: "¡Bien hecho! Si la identidad matemática se cumple al sustituir las coordenadas, el punto es indiscutiblemente parte del modelo lineal."
+            },
+            {
+                id: 7,
+                text: "Mirando el gráfico de la temperatura del agua, notás que la recta corta al eje $Y$ en $15$ (temperatura inicial). Si además ves que la temperatura aumenta $2$ grados por cada minuto, ¿cuál es su ecuación explícita?",
+                options: ["$y = 2x + 15$", "$y = 15x + 2$", "$y = 2x - 15$"],
+                correctIndex: 0,
+                hint: "Acordate que en $y = a \\cdot x + b$, el parámetro $a$ es la velocidad de crecimiento (pendiente) y $b$ es el valor de la ordenada al origen.",
+                explanation: "La velocidad de crecimiento (pendiente) es $2$. El valor inicial (ordenada al origen) es $15$. Reemplazando esos parámetros, la ecuación es $y = 2x + 15$.",
+                corroboration: "¡Espectacular! Extraer la tasa de crecimiento y el valor inicial desde la situación descrita nos permite armar la ecuación al instante."
+            },
+            {
+                id: 8,
+                text: "En el experimento de la vela, notás que por cada $1$ minuto ($x$) que pasa, la altura decrece $1\\text{ cm}$. Si al momento de encenderla (minuto $0$) medía $18\\text{ cm}$, ¿qué ecuación modela su altura?",
+                options: ["$y = -1x + 18$", "$y = 18x - 1$", "$y = 1x + 18$"],
+                correctIndex: 0,
+                hint: "Recordá que si la magnitud decrece, el ritmo de crecimiento (la pendiente) debe reflejar esa pérdida mediante su signo.",
+                explanation: "Como la altura de la vela decrece a razón de $1\\text{ cm}$ por minuto, la pendiente es $-1$. Como arrancó en $18\\text{ cm}$, la ordenada al origen es $18$. Por ende: $y = -1x + 18$.",
+                corroboration: "¡Excelente deducción! Un modelo que decrece siempre tendrá una pendiente negativa, mostrando claramente la direccionalidad del fenómeno modelado."
+            },
+            {
+                id: 9,
+                text: "Tenés la ecuación implícita $x + y = 8$. ¿Pertenece el punto $A=(5, 3)$ a esta recta?",
+                options: ["Sí, porque $5 + 3 = 8$", "No, porque $5 - 3 \\neq 8$", "Sí, porque $5 \\cdot 3 = 15$"],
+                correctIndex: 0,
+                hint: "Recordá que si el punto pertenece a la recta, al sustituír las coordendadas del punto (abscisa por $x$ y ordenada por $y$) en la ecuación, haces las cuentas y deberías obtener una identidad verdadera.",
+                explanation: "Al sustituir la abscisa $x=5$ y la ordenada $y=3$ directamente en $x + y = 8$, obtenemos $5 + 3 = 8$. Como se verifica la igualdad, el punto pertenece.",
+                corroboration: "¡Muy bien! Las ecuaciones implícitas son muy nobles: nos permiten validar puntos rápidamente mediante operaciones aritméticas directas."
+            },
+            {
+                id: 10,
+                text: "En el modelo $y = -3x + 12$, ¿qué significado tiene el número $12$?",
+                options: ["Es la ordenada al origen y marca el cruce con el eje vertical (eje $Y$).", "Es la pendiente e indica la velocidad de crecimiento de la recta.", "Es la raíz y marca el cruce con el eje horizontal (eje $X$)."],
+                correctIndex: 0,
+                hint: "Pensá en qué valor toma la variable dependiente $y$ si evaluamos el modelo en el instante cero (es decir, sustituyendo $x = 0$).",
+                explanation: "El término independiente $b$ se llama ordenada al origen. Físicamente representa el estado inicial de la variable dependiente y gráficamente es la intersección con el eje $Y$.",
+                corroboration: "¡Perfecto! Como vimos con las pistas de audio o la vela, la ordenada al origen le da un punto de anclaje inicial a nuestro modelo en la realidad."
+            },
+            // --- PREGUNTAS GRÁFICAS (11 AL 20) ---
+            {
+                id: 11,
+                text: "Observando este gráfico, ¿cómo es la pendiente ($a$) de la recta?",
+                graph: { a: -1, b: 4, minX: -2, maxX: 6, minY: -2, maxY: 6, points: [{x:0, y:4}, {x:4, y:0}] },
+                options: ["Negativa, porque la recta decrece de izquierda a derecha.", "Positiva, porque corta los ejes en valores positivos.", "Cero, porque es una línea recta."],
+                correctIndex: 0,
+                hint: "Fijate qué ocurre con los valores de $y$ a medida que avanzamos hacia la derecha en el eje $X$.",
+                explanation: "Como los valores de $y$ disminuyen al avanzar en el eje $X$, el crecimiento es negativo. Por lo tanto, la pendiente es menor a cero.",
+                corroboration: "¡Excelente! La inclinación visual nos da información directa sobre el signo de la pendiente."
+            },
+            {
+                id: 12,
+                text: "Según el gráfico, ¿cuál es el valor de la ordenada al origen ($b$)?",
+                graph: { a: 1, b: -2, minX: -2, maxX: 5, minY: -4, maxY: 4, points: [{x:0, y:-2}] },
+                options: ["$b = -2$", "$b = 2$", "$b = 0$"],
+                correctIndex: 0,
+                hint: "Buscá en qué coordenada exacta la recta intersecta al eje vertical ($Y$).",
+                explanation: "La recta corta al eje $Y$ exactamente en la coordenada $-2$. Ese valor inicial es lo que llamamos ordenada al origen ($b$).",
+                corroboration: "¡Muy bien! Identificar el punto de intersección con el eje $Y$ es clave para armar la ecuación explícita."
+            },
+            {
+                id: 13,
+                text: "El gráfico muestra una recta que pasa por los puntos $(0, 3)$ y $(2, 7)$. ¿Cuál es su ecuación explícita?",
+                graph: { a: 2, b: 3, minX: -2, maxX: 4, minY: -1, maxY: 9, points: [{x:0, y:3}, {x:2, y:7}] },
+                options: ["$y = 2x + 3$", "$y = 3x + 2$", "$y = 4x + 3$"],
+                correctIndex: 0,
+                hint: "La ordenada al origen se ve a simple vista. Para la pendiente, fijate cuánto sube en $Y$ cuando avanza $2$ unidades en $X$, y calculá el crecimiento por unidad.",
+                explanation: "Corta al eje $Y$ en $3$, así que $b=3$. Al pasar de $x=0$ a $x=2$, la $y$ sube de $3$ a $7$ (aumentó $4$). Por tanto, por cada unidad en $X$, aumenta $2$ en $Y$ ($a=2$). La ecuación es $y = 2x + 3$.",
+                corroboration: "¡Impecable! Calcular la pendiente usando el cociente de las diferencias y sumarle la ordenada al origen es el método definitivo."
+            },
+            {
+                id: 14,
+                text: "El gráfico representa la altura de una vela a lo largo de los minutos. ¿Qué significa el punto donde la recta corta al eje $X$?",
+                graph: { a: -2, b: 10, minX: -1, maxX: 7, minY: -2, maxY: 12, points: [{x:5, y:0}], xAxisLabel: "Tiempo (min)", yAxisLabel: "Altura (cm)" },
+                options: ["El momento en el que la vela se consume por completo (alcanza $0\\text{ cm}$ de altura).", "La altura inicial de la vela al encenderla.", "La velocidad a la que la vela se derrite."],
+                correctIndex: 0,
+                hint: "Mirá el valor que toma la variable dependiente (eje vertical) en ese punto exacto.",
+                explanation: "En ese punto, la coordenada es $(5, 0)$. Significa que a los $5$ minutos, la altura ($Y$) es $0$. Es decir, la vela se terminó.",
+                corroboration: "¡Gran lectura de gráfico! Ese punto límite suele marcar el final del 'campo de validez' del modelo en el mundo físico."
+            },
+            {
+                id: 15,
+                text: "Al observar esta recta horizontal, ¿cuál es su ecuación explícita?",
+                graph: { a: 0, b: 4, minX: -2, maxX: 6, minY: -1, maxY: 6, points: [{x:0, y:4}, {x:3, y:4}] },
+                options: ["$y = 0x + 4$ (o simplemente $y = 4$)", "$x = 4$", "$y = 4x$"],
+                correctIndex: 0,
+                hint: "Pensá cuál es su velocidad de crecimiento (pendiente). ¿Aumenta o disminuye al avanzar en $X$?",
+                explanation: "La recta no sube ni baja, su pendiente es $0$ ($a=0$). Como corta el eje $Y$ en $4$, su ecuación queda $y = 0x + 4$, que se simplifica a $y = 4$.",
+                corroboration: "¡Exacto! Las rectas horizontales son un caso especial donde la variable dependiente siempre se mantiene constante."
+            },
+            {
+                id: 16,
+                text: "Sabiendo que la recta contiene a los puntos rojos que ves en la ilustración, ¿cuál de los puntos que aparecen abajo en las opciones pertenece a esta misma recta?",
+                graph: { a: 2, b: 0, minX: -1, maxX: 5, minY: -1, maxY: 9, points: [{x:1, y:2}, {x:2, y:4}, {x:3, y:6}] },
+                options: ["$(2, 4)$", "$(4, 2)$", "$(0, 2)$"],
+                correctIndex: 0,
+                hint: "Ubicá el valor $2$ en el eje horizontal ($X$) y subí hasta chocar con la recta para leer su correspondiente valor en $Y$.",
+                explanation: "Al ubicarnos en $x=2$ sobre el eje horizontal y proyectar hacia la recta, chocamos exactamente a la altura de $y=4$. El punto es $(2, 4)$.",
+                corroboration: "¡Bien hecho! Leer pares ordenados correctamente sobre el plano cartesiano es la base de las inferencias visuales."
+            },
+            {
+                id: 17,
+                text: "El gráfico muestra una recta. Si realizamos una inferencia (proyección) extendiendo el dibujo, ¿qué valor tomaría la $y$ cuando $x = 10$?",
+                graph: { a: 1, b: 1, minX: -1, maxX: 6, minY: -1, maxY: 6, points: [{x:0, y:1}, {x:4, y:5}] },
+                options: ["$11$", "$10$", "$9$"],
+                correctIndex: 0,
+                hint: "Determiná primero la ecuación. Corta en $b=1$ y por cada $1$ que avanza en $X$, sube $1$ en $Y$ ($a=1$).",
+                explanation: "La ecuación es $y = 1x + 1$. Para inferir el valor cuando $x=10$, sustituimos algebraicamente: $y = 1 \\cdot (10) + 1 = 11$.",
+                corroboration: "¡Impecable! Este ejercicio demuestra por qué el álgebra es tan útil: nos permite superar las limitaciones de espacio de un gráfico en papel."
+            },
+            {
+                id: 18,
+                text: "Este gráfico modela el crecimiento de un cultivo. Si no se riega nada (instante $0$), el gráfico indica que la recta corta el eje $Y$ en $2$. ¿Qué representa ese valor?",
+                graph: { a: 1.5, b: 2, minX: -1, maxX: 5, minY: -1, maxY: 10, points: [{x:0, y:2}], xAxisLabel: "Horas riego", yAxisLabel: "Crec. (cm)" },
+                options: ["El crecimiento base (inicial) del cultivo antes de iniciar el riego.", "Las horas de riego necesarias para que empiece a crecer.", "La velocidad a la que crece el cultivo."],
+                correctIndex: 0,
+                hint: "Situarte en $x=0$ significa evaluar la situación en su punto de partida, antes de aplicar la variable que analizamos.",
+                explanation: "La ordenada al origen representa físicamente el estado inicial del modelo. Aquí, son los $2\\text{ cm}$ que el cultivo ya tenía antes de regarlo.",
+                corroboration: "¡Excelente conexión! Interpretar los parámetros algebraicos con su significado real en el problema es lo que llamamos modelización."
+            },
+            {
+                id: 19,
+                text: "Observando la recta del gráfico, vemos que pasa por $(0, 5)$ y $(5, 0)$. ¿Cuál de las siguientes es su ecuación implícita?",
+                graph: { a: -1, b: 5, minX: -1, maxX: 7, minY: -1, maxY: 7, points: [{x:0, y:5}, {x:5, y:0}] },
+                options: ["$x + y = 5$", "$x - y = 5$", "$-x + y = 5$"],
+                correctIndex: 0,
+                hint: "Probá sustituyendo las coordenadas de ambos puntos $(0,5)$ y $(5,0)$ en las opciones para ver cuál igualdad se cumple siempre.",
+                explanation: "Si probamos en $x + y = 5$: con el punto $(0, 5)$ da $0 + 5 = 5$ (cumple). Con el punto $(5, 0)$ da $5 + 0 = 5$ (cumple). Esa es la ecuación.",
+                corroboration: "¡Genial! Validar ecuaciones mediante los puntos de la gráfica es una estrategia de comprobación súper robusta."
+            },
+            {
+                id: 20,
+                text: "Un estudiante dibujó esta recta que pasa por $(0, 0)$ y $(2, 6)$ e indicó que su ecuación explícita es $y = 2x$. ¿Es correcto su análisis?",
+                graph: { a: 3, b: 0, minX: -1, maxX: 5, minY: -1, maxY: 9, points: [{x:0, y:0}, {x:2, y:6}] },
+                options: ["No, porque al avanzar $2$ unidades en $X$, la $Y$ aumenta $6$, por lo que la pendiente real es $3$ ($y = 3x$).", "Sí, porque pasa por la coordenada $2$ del eje $X$ y eso define su pendiente.", "No, porque la ordenada al origen ($b$) debería ser $2$."],
+                correctIndex: 0,
+                hint: "Revisá el cálculo de la pendiente: es la relación entre cuánto varía $Y$ dividido cuánto varía $X$.",
+                explanation: "La pendiente es la tasa de cambio. Si avanzamos desde $x=0$ hasta $x=2$ (cambio de $2$), la altura sube desde $0$ hasta $6$ (cambio de $6$). Calculando: $6 \\div 2 = 3$. La ecuación correcta es $y = 3x$.",
+                corroboration: "¡Perfecto! Detectar errores calculando la pendiente a partir de las coordenadas es señal de que dominás el método analítico."
+            }
+        ];
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        const LatexText = ({ text }) => {
+            if (!text) return null;
+            const parts = text.split(/(\$.*?\$)/g);
+            return (
+                <span>
+                    {parts.map((part, index) => {
+                        if (part.startsWith('$') && part.endsWith('$')) {
+                            const math = part.slice(1, -1);
+                            try {
+                                const html = window.katex.renderToString(math, { throwOnError: false });
+                                return <span key={index} dangerouslySetInnerHTML={{ __html: html }} />;
+                            } catch (e) {
+                                return <span key={index}>{part}</span>;
+                            }
+                        }
+                        return <span key={index}>{part}</span>;
+                    })}
+                </span>
+            );
+        };
+
+        // COMPONENTE PARA GENERAR GRÁFICOS DINÁMICOS
+        const CartesianGraph = ({ graphDef }) => {
+            if (!graphDef) return null;
+            const { a, b, minX, maxX, minY, maxY, points, xAxisLabel, yAxisLabel } = graphDef;
+            const width = 400;
+            const height = 300;
+
+            const scaleX = (x) => ((x - minX) / (maxX - minX)) * width;
+            const scaleY = (y) => height - ((y - minY) / (maxY - minY)) * height;
+
+            const xTicks = [];
+            for(let i = Math.ceil(minX); i <= Math.floor(maxX); i++) xTicks.push(i);
+            const yTicks = [];
+            for(let i = Math.ceil(minY); i <= Math.floor(maxY); i++) yTicks.push(i);
+
+            // Coordenadas de los bordes de la línea
+            const lineStartX = minX;
+            const lineStartY = a * minX + b;
+            const lineEndX = maxX;
+            const lineEndY = a * maxX + b;
+
+            return (
+                <div className="flex justify-center mb-6">
+                    <svg viewBox={`0 0 ${width} ${height}`} className="w-full max-w-sm bg-white border-2 border-gray-300 rounded-lg shadow-sm">
+                        {/* Cuadrícula */}
+                        {xTicks.map(x => (
+                            <line key={`gx-${x}`} x1={scaleX(x)} y1={0} x2={scaleX(x)} y2={height} stroke="#e5e7eb" strokeWidth={x === 0 ? 2 : 1} />
+                        ))}
+                        {yTicks.map(y => (
+                            <line key={`gy-${y}`} x1={0} y1={scaleY(y)} x2={width} y2={scaleY(y)} stroke="#e5e7eb" strokeWidth={y === 0 ? 2 : 1} />
+                        ))}
+
+                        {/* Ejes X e Y gruesos */}
+                        {minX <= 0 && maxX >= 0 && <line x1={scaleX(0)} y1={0} x2={scaleX(0)} y2={height} stroke="#374151" strokeWidth="2" />}
+                        {minY <= 0 && maxY >= 0 && <line x1={0} y1={scaleY(0)} x2={width} y2={scaleY(0)} stroke="#374151" strokeWidth="2" />}
+
+                        {/* Números en los ejes */}
+                        {xTicks.map(x => x !== 0 && (
+                            <text key={`tx-${x}`} x={scaleX(x)} y={scaleY(0) + 15} fontSize="11" textAnchor="middle" fill="#6b7280" fontWeight="bold">{x}</text>
+                        ))}
+                        {yTicks.map(y => y !== 0 && (
+                            <text key={`ty-${y}`} x={scaleX(0) - 10} y={scaleY(y) + 4} fontSize="11" textAnchor="end" fill="#6b7280" fontWeight="bold">{y}</text>
+                        ))}
+                        <text x={scaleX(0) - 10} y={scaleY(0) + 15} fontSize="11" textAnchor="end" fill="#6b7280" fontWeight="bold">0</text>
+
+                        {/* Recta del modelo */}
+                        <line x1={scaleX(lineStartX)} y1={scaleY(lineStartY)} x2={scaleX(lineEndX)} y2={scaleY(lineEndY)} stroke="#2563eb" strokeWidth="3" />
+
+                        {/* Puntos de interés */}
+                        {points && points.map((p, i) => (
+                            <g key={`p-${i}`}>
+                                <circle cx={scaleX(p.x)} cy={scaleY(p.y)} r="5" fill="#ef4444" />
+                                <text x={scaleX(p.x) + 8} y={scaleY(p.y) - 8} fontSize="13" fill="#ef4444" fontWeight="bold">({p.x}, {p.y})</text>
+                            </g>
+                        ))}
+
+                        {/* Rótulos de magnitudes (si existen) */}
+                        {xAxisLabel && <text x={width - 5} y={scaleY(0) - 10} fontSize="12" textAnchor="end" fill="#111827" fontWeight="bold">{xAxisLabel}</text>}
+                        {yAxisLabel && <text x={scaleX(0) + 10} y={15} fontSize="12" textAnchor="start" fill="#111827" fontWeight="bold">{yAxisLabel}</text>}
+                    </svg>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [gameState, setGameState] = React.useState('start');
+            const [questions, setQuestions] = React.useState([]);
+            const [currentQIndex, setCurrentQIndex] = React.useState(0);
+            const [score, setScore] = React.useState(0);
+            const [attempts, setAttempts] = React.useState(0);
+            const [feedback, setFeedback] = React.useState(null);
+            const [selectedOption, setSelectedOption] = React.useState(null);
+
+            const startGame = () => {
+                const randomizedQuestions = shuffleArray(questionBank).map(q => {
+                    const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                    const shuffledOptions = shuffleArray(optionsWithIndex);
+                    return { ...q, shuffledOptions };
+                });
+                setQuestions(randomizedQuestions);
+                setCurrentQIndex(0);
+                setScore(0);
+                setAttempts(0);
+                setFeedback(null);
+                setSelectedOption(null);
+                setGameState('playing');
+            };
+
+            const handleOptionClick = (optionIdx, originalIdx) => {
+                if (feedback && (feedback.type === 'success' || feedback.type === 'explanation')) return;
+
+                setSelectedOption(optionIdx);
+                const currentQ = questions[currentQIndex];
+                const isCorrect = originalIdx === currentQ.correctIndex;
+
+                if (isCorrect) {
+                    if (attempts === 0) {
+                        setScore(prev => prev + 10);
+                        setFeedback({ type: 'success', text: currentQ.corroboration });
+                    } else {
+                        setScore(prev => prev + 5);
+                        setFeedback({ type: 'success', text: currentQ.corroboration });
+                    }
+                } else {
+                    if (attempts === 0) {
+                        setAttempts(1);
+                        setFeedback({ type: 'hint', text: currentQ.hint });
+                    } else {
+                        setFeedback({ type: 'explanation', text: currentQ.explanation });
+                    }
+                }
+            };
+
+            const nextQuestion = () => {
+                if (currentQIndex + 1 < questions.length) {
+                    setCurrentQIndex(prev => prev + 1);
+                    setAttempts(0);
+                    setFeedback(null);
+                    setSelectedOption(null);
+                } else {
+                    setGameState('finished');
+                }
+            };
+
+            if (gameState === 'start') {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center fade-in border-t-8 border-blue-600">
+                            <h1 className="text-3xl font-bold text-gray-800 mb-4">Autoevaluación: Ecuación de la Recta</h1>
+                            <p className="text-gray-600 mb-6 text-lg">
+                                Poné a prueba lo que construimos en clase. Verificá cuánto comprendiste sobre las formas de representar algebraicamente una recta, cómo leer parámetros de un gráfico y cómo realizar inferencias.
+                            </p>
+                            <div className="bg-blue-50 text-blue-800 p-4 rounded-lg text-left mb-8 text-sm">
+                                <ul className="list-disc pl-5 space-y-2">
+                                    <li>Son 20 preguntas aleatorias.</li>
+                                    <li>Al primer intento correcto sumás <strong>10 puntos</strong>.</li>
+                                    <li>Si te equivocás, recibirás una pista, pero el puntaje bajará a <strong>5 puntos</strong> en el segundo intento.</li>
+                                    <li>Si te equivocás dos veces, recibirás la explicación completa (0 pts).</li>
+                                </ul>
+                            </div>
+                            <button 
+                                onClick={startGame}
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 w-full shadow-md text-lg">
+                                ¡Comenzar ahora!
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (gameState === 'finished') {
+                const percentage = (score / (questions.length * 10)) * 100;
+                let finalMessage = "";
+                if (percentage >= 90) finalMessage = "¡Impecable! Entendiste a la perfección el comportamiento algebraico y gráfico de la recta.";
+                else if (percentage >= 60) finalMessage = "¡Muy bien! Estás dominando el tema. Repasá los errores para pulir los detalles finales.";
+                else finalMessage = "Hay conceptos que aún necesitan un empujoncito. Te sugiero releer los apuntes sobre cómo operar con igualdades y ubicar puntos.";
+
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center fade-in">
+                            <i className="fa-solid fa-trophy text-6xl text-yellow-500 mb-4"></i>
+                            <h2 className="text-3xl font-bold text-gray-800 mb-2">Evaluación Finalizada</h2>
+                            <p className="text-xl text-gray-600 mb-6">Tu puntaje: <span className="font-bold text-blue-600">{score} / {questions.length * 10}</span></p>
+                            
+                            <div className={`p-4 rounded-lg mb-8 ${percentage >= 60 ? 'bg-green-50 text-green-800' : 'bg-orange-50 text-orange-800'}`}>
+                                <p className="font-medium text-lg">{finalMessage}</p>
+                            </div>
+
+                            <button 
+                                onClick={startGame}
+                                className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-full transition duration-300 w-full">
+                                <i className="fa-solid fa-rotate-right mr-2"></i> Volver a intentar
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            const currentQ = questions[currentQIndex];
+            const isAnswerLocked = feedback && (feedback.type === 'success' || feedback.type === 'explanation');
+
+            return (
+                <div className="min-h-screen py-8 px-4 flex flex-col items-center">
+                    <div className="max-w-2xl w-full flex justify-between items-center mb-6 bg-white p-4 rounded-xl shadow-sm">
+                        <div className="text-gray-600 font-semibold">
+                            Pregunta <span className="text-blue-600 text-xl">{currentQIndex + 1}</span> / {questions.length}
+                        </div>
+                        <div className="text-gray-600 font-semibold">
+                            Puntos: <span className="text-blue-600 text-xl">{score}</span>
+                        </div>
+                    </div>
+
+                    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg max-w-2xl w-full fade-in">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
+                            <LatexText text={currentQ.text} />
+                        </h2>
+
+                        {/* RENDER DEL GRÁFICO (si la pregunta lo tiene) */}
+                        <CartesianGraph graphDef={currentQ.graph} />
+
+                        <div className="space-y-3">
+                            {currentQ.shuffledOptions.map((option, idx) => {
+                                let buttonClass = "w-full text-left p-4 rounded-xl border-2 transition duration-200 text-lg font-medium ";
+                                
+                                if (isAnswerLocked) {
+                                    if (option.originalIndex === currentQ.correctIndex) {
+                                        buttonClass += "bg-green-50 border-green-500 text-green-800";
+                                    } else if (idx === selectedOption) {
+                                        buttonClass += "bg-red-50 border-red-400 text-red-700 opacity-70";
+                                    } else {
+                                        buttonClass += "border-gray-200 text-gray-400 bg-gray-50 opacity-50";
+                                    }
+                                } else {
+                                    if (feedback && feedback.type === 'hint' && idx === selectedOption) {
+                                        buttonClass += "bg-orange-50 border-orange-400 text-orange-700";
+                                    } else {
+                                        buttonClass += "border-gray-200 text-gray-700 hover:border-blue-400 hover:bg-blue-50 cursor-pointer";
+                                    }
+                                }
+
+                                return (
+                                    <button 
+                                        key={idx}
+                                        onClick={() => handleOptionClick(idx, option.originalIndex)}
+                                        disabled={isAnswerLocked}
+                                        className={buttonClass}
+                                    >
+                                        <div className="flex items-center">
+                                            <span className="w-8 h-8 rounded-full bg-white border border-current flex items-center justify-center mr-4 shrink-0">
+                                                {String.fromCharCode(65 + idx)}
+                                            </span>
+                                            <LatexText text={option.text} />
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {feedback && (
+                            <div className={`mt-6 p-4 rounded-xl flex items-start fade-in ${
+                                feedback.type === 'success' ? 'bg-green-100 text-green-800' :
+                                feedback.type === 'hint' ? 'bg-orange-100 text-orange-800' :
+                                'bg-red-100 text-red-800'
+                            }`}>
+                                <div className="mt-1 mr-3 shrink-0">
+                                    {feedback.type === 'success' && <i className="fa-solid fa-circle-check text-xl"></i>}
+                                    {feedback.type === 'hint' && <i className="fa-solid fa-circle-exclamation text-xl"></i>}
+                                    {feedback.type === 'explanation' && <i className="fa-solid fa-circle-xmark text-xl"></i>}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold mb-1">
+                                        {feedback.type === 'success' ? '¡Correcto!' : 
+                                         feedback.type === 'hint' ? 'Pista...' : 
+                                         'Respuesta Incorrecta'}
+                                    </h4>
+                                    <p className="text-sm md:text-base">
+                                        <LatexText text={feedback.text} />
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {isAnswerLocked && (
+                            <div className="mt-8 flex justify-end fade-in">
+                                <button 
+                                    onClick={nextQuestion}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition duration-300 flex items-center shadow-md">
+                                    {currentQIndex + 1 === questions.length ? 'Ver Resultados' : 'Siguiente Pregunta'}
+                                    <i className="fa-solid fa-arrow-right ml-2"></i>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
