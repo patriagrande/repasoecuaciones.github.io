@@ -591,7 +591,7 @@ const QUESTIONS = [
     prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?",
     options:[ "$x - 3 \\cdot y = 3$", "$x + 3 \\cdot y = 3$", "$3 \\cdot x - y = 3$", "$x - 3 \\cdot y = -3$" ],
     correct:0,
-    hint:"Para evitar trabajar con la fracción, multiplicá ambos miembros de la ecuación por el denominador (en este caso, por $3$).",
+    hint:"Si te molesta las fracciones con los despejes, si querés podes multiplicar ambos miembros de la ecuación por $3$; creo que ahí el despeje se simplifica.",
     explanation:"Multiplicando ambos miembros de la ecuación por $3$: $3 \\cdot y = x - 3$. Restando $x$ en ambos miembros: $-x + 3 \\cdot y = -3$; multiplicando ambos miembros por $-1$ y ordenando: $x - 3 \\cdot y = 3$."
   },
   {
@@ -642,7 +642,7 @@ const QUESTIONS = [
     },
     options:[ "$y = 2 \\cdot x + 1$", "$y = x + 2$", "$y = 2 \\cdot x - 1$", "$y = \\dfrac{1}{2} \\cdot x + 1$" ],
     correct:0,
-    hint:"Fijate en qué punto la recta corta al eje Y: ese valor es la ordenada al origen ($b$). Después contá cuánto sube $y$ cuando $x$ avanza $1$ unidad: esa es la pendiente ($a$).",
+    hint:"Podrías concentrarte en lo más fácil primero: la ordenada al origen. Luego recordá que la pendiente: es la velocidad con la que cambia, recordá los desplazamientos",
     explanation:"La recta corta al eje Y en $(0,1)$, entonces $b=1$. Entre P1 y P2, $x$ avanza $2$ unidades y $y$ sube $4$, es decir $2$ unidades de $y$ por cada $1$ de $x$: $a=2$. Ecuación: $y = 2 \\cdot x + 1$."
   },
   {
@@ -651,13 +651,13 @@ const QUESTIONS = [
     graph:{
       line:{a:-1,b:4},
       refPoints:[
-        {x:0,y:4,label:"P1",dx:-20,dy:-6},
-        {x:4,y:0,label:"P2",dx:8,dy:14}
+        {x:0,y:4,label:"P1",dx:10,dy:-6},
+        {x:4,y:0,label:"P2",dx:8,dy:-10}
       ]
     },
     options:[ "$y = -x + 4$", "$y = x + 4$", "$y = -x - 4$", "$y = -4 \\cdot x + 1$" ],
     correct:0,
-    hint:"La recta corta al eje Y en un valor positivo: ese es $b$. Como la recta desciende de izquierda a derecha, la pendiente $a$ es negativa.",
+    hint:"La recta corta al eje Y en un valor positivo: ese es $b$. Como la recta desciende de izquierda a derecha, la pendiente $a$ es negativa, con poco esfuerzo sabés cuánto vale.",
     explanation:"La recta corta al eje Y en $(0,4)$, entonces $b=4$. Entre P1 y P2, $x$ avanza $4$ unidades y $y$ baja $4$, es decir $-1$ unidad de $y$ por cada $1$ de $x$: $a=-1$. Ecuación: $y = -x + 4$."
   },
   {
@@ -666,8 +666,8 @@ const QUESTIONS = [
     graph:{
       line:{a:0.5,b:-1},
       refPoints:[
-        {x:0,y:-1,label:"P1",dx:-20,dy:14},
-        {x:2,y:0,label:"P2",dx:10,dy:-6}
+        {x:0,y:-1,label:"P1",dx:10,dy:14},
+        {x:2,y:0,label:"P2",dx:-10,dy:-10}
       ]
     },
     options:[ "$a = \\dfrac{1}{2},\\ b = -1$", "$a = 2,\\ b = -1$", "$a = \\dfrac{1}{2},\\ b = 1$", "$a = -\\dfrac{1}{2},\\ b = -1$" ],
@@ -681,13 +681,13 @@ const QUESTIONS = [
     graph:{
       line:{a:-3,b:2},
       refPoints:[
-        {x:0,y:2,label:"P1",dx:-20,dy:-6},
+        {x:0,y:2,label:"P1",dx:10,dy:5},
         {x:1,y:-1,label:"P2",dx:10,dy:10}
       ]
     },
     options:[ "$y = -3 \\cdot x + 2$", "$y = 3 \\cdot x + 2$", "$y = -3 \\cdot x - 2$", "$y = -2 \\cdot x + 3$" ],
     correct:0,
-    hint:"La recta desciende muy rápido: contá cuánto baja $y$ cuando $x$ avanza apenas $1$ unidad. Y fijate dónde corta al eje Y para obtener $b$.",
+    hint:"La recta desciende muy rápido: contá cuánto baja $y$ cuando $x$ avanza apenas $1$ unidad. Y fijate dónde corta al eje Y para obtener el valor de la ordenada al origen.",
     explanation:"La recta corta al eje Y en $(0,2)$, entonces $b=2$. De P1 a P2, $x$ avanza $1$ unidad e $y$ baja $3$: $a=-3$. Ecuación: $y = -3 \\cdot x + 2$."
   },
   {
@@ -697,7 +697,7 @@ const QUESTIONS = [
       line:{a:1.5,b:0},
       refPoints:[
         {x:-2,y:-3,label:"T1",dx:-22,dy:6},
-        {x:2,y:3,label:"T2",dx:10,dy:-8}
+        {x:2,y:3,label:"T2",dx:10,dy:8}
       ]
     },
     options:[ "$a = \\dfrac{3}{2}$", "$a = \\dfrac{2}{3}$", "$a = \\dfrac{4}{3}$", "$a = 3$" ],
@@ -713,8 +713,8 @@ const QUESTIONS = [
     graph:{
       line:{a:-1,b:3},
       refPoints:[
-        {x:0,y:3,label:"A",dx:-18,dy:-6},
-        {x:3,y:0,label:"B",dx:8,dy:14}
+        {x:0,y:3,label:"A",dx:5,dy:-6},
+        {x:3,y:0,label:"B",dx:-8,dy:14}
       ],
       equationLabel:{text:"y = x − 3", x:-3, y:5}
     },
@@ -725,7 +725,7 @@ const QUESTIONS = [
       "No; la ecuación correcta es $y = -x - 3$."
     ],
     correct:1,
-    hint:"Fijate el signo de la pendiente observando si la recta sube o baja de izquierda a derecha, y comprobá el resultado reemplazando alguno de los puntos marcados.",
+    hint:"Fijate el signo de la pendiente observando si la recta sube o baja de izquierda a derecha, y comprobá el resultado reemplazando alguno de los puntos marcados. En este caso la ordenada al origen no te aporta información: no ayuda a elegir, ¿no es cierto?.",
     explanation:"La recta es decreciente (baja de izquierda a derecha) y corta al eje Y en $3$, por lo tanto su ecuación es $y = -x + 3$. Podés comprobarlo con el punto B$=(3,0)$: $-3+3=0$. La ecuación escrita en el gráfico tiene el signo de la pendiente cambiado."
   },
   {
@@ -734,8 +734,8 @@ const QUESTIONS = [
     graph:{
       line:{a:-2,b:4},
       refPoints:[
-        {x:0,y:4,label:"A",dx:-18,dy:-6},
-        {x:2,y:0,label:"B",dx:10,dy:14}
+        {x:0,y:4,label:"A",dx:15,dy:6},
+        {x:2,y:0,label:"B",dx:10,dy:-5}
       ],
       equationLabel:{text:"2 · x + y = 4", x:-3, y:5.4}
     },
@@ -793,13 +793,13 @@ const QUESTIONS = [
     graph:{
       line:{a:-1,b:5},
       refPoints:[
-        {x:0,y:5,label:"A",dx:-18,dy:-6},
-        {x:5,y:0,label:"B",dx:8,dy:14}
+        {x:0,y:5,label:"A",dx:10,dy:-6},
+        {x:5,y:0,label:"B",dx:8,dy:-5}
       ]
     },
     options:[ "$x + y = 5$", "$x - y = 5$", "$2 \\cdot x + y = 5$", "$x + y = -5$" ],
     correct:0,
-    hint:"Primero identificá la forma explícita (fijándote dónde corta cada eje) y después convertila a la forma implícita, sumando o restando en ambos miembros hasta que $x$ e $y$ queden juntas de un mismo lado.",
+    hint:"Tenés varias opciones... podrías preguntarte por si los puntos pertenecen a la recta (sustituyendo sus coordenadas en las ecuaciones). También podrías tener una pista de la forma explícita (fijándote dónde corta al eje Y), pensar en la pendiente y luego convertir a implícita.",
     explanation:"La recta corta al eje Y en $5$ y al eje X en $5$, por lo que su pendiente es $-1$ y su ecuación explícita es $y = -x + 5$. Sumando $x$ en ambos miembros: $x + y = 5$."
   }
 ];
@@ -831,7 +831,10 @@ function shuffleQuestionOptions(q){
 }
 
 function resetState(){
+  // esta linea baraja todas las preguntas y sus opciones
   order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+  // esta linea pone la pregunta V10 al principio y baraja el resto
+  //order = [QUESTIONS.find(q => q.id === "V10"), ...shuffle(QUESTIONS.filter(q => q.id !== "V10"))].map(shuffleQuestionOptions);
   state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
   currentIndex = 0;
   selectedOption = null;
