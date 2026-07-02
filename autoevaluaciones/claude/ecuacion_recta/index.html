@@ -830,11 +830,35 @@ function shuffleQuestionOptions(q){
   return Object.assign({}, q, { options:newOptions, correct:newCorrect });
 }
 
+// Parámetro opcional en la URL: ?ask=N
+// Si N es un entero válido entre 1 y la cantidad total de preguntas, se usa para
+// recortar el cuestionario a N preguntas (elegidas al azar entre las 20). Si el
+// parámetro no está, o no es un entero válido en ese rango, se ignora sin más:
+// la app sigue funcionando con las 20 preguntas de siempre.
+function getAskParam(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("ask")) return null;
+  const n = Number(params.get("ask"));
+  if (!Number.isInteger(n) || n < 1 || n > QUESTIONS.length) return null;
+  return n;
+}
+
+function questionCount(){
+  const ask = getAskParam();
+  return ask === null ? QUESTIONS.length : ask;
+}
+
 function resetState(){
   // esta linea baraja todas las preguntas y sus opciones
   order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
   // esta linea pone la pregunta V10 al principio y baraja el resto
   //order = [QUESTIONS.find(q => q.id === "V10"), ...shuffle(QUESTIONS.filter(q => q.id !== "V10"))].map(shuffleQuestionOptions);
+
+  // si llegó un ?ask=N válido, nos quedamos con las primeras N del array ya barajado
+  // (que, al estar barajado, equivale a N preguntas tomadas al azar de las 20)
+  const ask = getAskParam();
+  if (ask !== null) order = order.slice(0, ask);
+
   state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
   currentIndex = 0;
   selectedOption = null;
@@ -859,7 +883,7 @@ function renderIntro(){
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="card intro-text">
-      <p>Esta autoevaluación tiene <strong>20 preguntas</strong> sobre la ecuación de la recta: identificarla en su forma explícita e implícita, convertir de una forma a la otra, decidir si un punto pertenece a una recta y leer parámetros a partir de un gráfico. El orden de las preguntas se sortea cada vez que abrís la página.</p>
+      <p>Esta autoevaluación tiene <strong>${questionCount()} pregunta${questionCount() === 1 ? "" : "s"}</strong> sobre la ecuación de la recta: identificarla en su forma explícita e implícita, convertir de una forma a la otra, decidir si un punto pertenece a una recta y leer parámetros a partir de un gráfico. El orden de las preguntas se sortea cada vez que abrís la página.</p>
       <p>No hace falta usar GeoGebra ni la calculadora: todos los números fueron elegidos para poder resolverse con cuentas simples, con enteros o fracciones fáciles.</p>
       <div class="rules">
         <div class="rule-item ok">
