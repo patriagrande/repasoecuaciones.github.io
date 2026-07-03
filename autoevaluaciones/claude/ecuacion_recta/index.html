@@ -588,7 +588,7 @@ const QUESTIONS = [
   },
   {
     id:"N6", category:"conversion", visual:false,
-    prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?",
+    prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?... OJO, a veces esta bueno pensar en multiplicar ambos miembros por algún número que simplifique las fracciones ;-), sabemos que $\\frac{1}{4} \\cdot 4=1$ y $\\frac{1}{5} \\cdot 5=1$... ¿no?",
     options:[ "$x - 3 \\cdot y = 3$", "$x + 3 \\cdot y = 3$", "$3 \\cdot x - y = 3$", "$x - 3 \\cdot y = -3$" ],
     correct:0,
     hint:"Si te molesta las fracciones con los despejes, si querés podes multiplicar ambos miembros de la ecuación por $3$; creo que ahí el despeje se simplifica.",
@@ -757,10 +757,10 @@ const QUESTIONS = [
     graph:{
       line:{a:1,b:-1},
       optPoints:[
-        {x:2,y:1,label:"A",dx:9,dy:-8},
+        {x:2,y:1,label:"A",dx:12,dy:8},
         {x:1,y:3,label:"B",dx:9,dy:-8},
-        {x:-2,y:-2,label:"C",dx:-9,dy:12},
-        {x:0,y:2,label:"D",dx:9,dy:-8}
+        {x:-2,y:-2,label:"C",dx:-15,dy:12},
+        {x:0,y:2,label:"D",dx:9,dy:-2}
       ]
     },
     options:[ "$A = (2,\\,1)$", "$B = (1,\\,3)$", "$C = (-2,\\,-2)$", "$D = (0,\\,2)$" ],
@@ -774,9 +774,9 @@ const QUESTIONS = [
     graph:{
       line:{a:-0.5,b:2},
       optPoints:[
-        {x:2,y:1,label:"A",dx:9,dy:14},
+        {x:2,y:1,label:"A",dx:9,dy:0},
         {x:-2,y:3,label:"B",dx:-10,dy:-8},
-        {x:4,y:0,label:"C",dx:9,dy:14},
+        {x:4,y:0,label:"C",dx:9,dy:-2},
         {x:1,y:0,label:"D",dx:9,dy:14}
       ]
     },
