@@ -43,6 +43,8 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 
 * CLAUDE intento de autoevaluación para medir lo relativo a ecuación de la recta https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html
 
+* SEGUNDO AÑO, Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
+
 # Coordenadas en el plano (inclusión)
 
 https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
