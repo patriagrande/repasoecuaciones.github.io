@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Balanzas de dos platillos · Autoevaluación</title>
+<meta name="description" content="Autoevaluación interactiva sobre el modelo de la balanza de dos platillos. Apuntes de clases, capítulo 3 — 2.º año de Matemática, ESRN Paulo VI.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<style>
+  :root{
+    --paper:#F6F5EF;
+    --paper-deep:#EEECE3;
+    --grid:#D9DFE1;
+    --grid-soft:#E6EAEA;
+    --ink:#1E2A35;
+    --muted:#5B6B72;
+    --line-fainter:#c9d2d6;
+    --lila:#8C5FB5;
+    --lila-soft:#F1EAF8;
+    --teal:#1F7A6C;
+    --teal-soft:#E3F1EE;
+    --amber:#C97A2B;
+    --amber-soft:#FBF0E1;
+    --coral:#C1483F;
+    --coral-soft:#FBEAE8;
+    --radius:16px;
+    --radius-sm:10px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Source Sans 3', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+    --shadow: 0 3px 14px rgba(30,42,53,.08), 0 1px 3px rgba(30,42,53,.06);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    line-height:1.5;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  a{color:var(--teal);}
+
+  .shell{
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 18px 10px;
+  }
+
+  header.top{
+    text-align:left;
+    margin-bottom:22px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:26px;height:3px;
+    background:var(--coral);
+    border-radius:2px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px,6vw,36px);
+    margin:10px 0 4px;
+    line-height:1.08;
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--lila);
+  }
+  .subtitle{
+    font-size:16px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 22px 24px;
+    margin-bottom:18px;
+  }
+
+  .intro-text p{margin:0 0 12px;}
+  .rules{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:18px 0;
+  }
+  @media(min-width:560px){ .rules{grid-template-columns:1fr 1fr 1fr;} }
+  .rule-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    background:var(--paper-deep);
+  }
+  .rule-item .n{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:13px;
+  }
+  .rule-item.ok .n{color:var(--teal);}
+  .rule-item.help .n{color:var(--amber);}
+  .rule-item.no .n{color:var(--coral);}
+  .rule-item p{margin:4px 0 0; font-size:14px; color:var(--muted);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:16px;
+    padding:13px 22px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--teal); color:#fff;}
+  .btn-primary:hover{background:#186358;}
+  .btn-primary:disabled{background:#a9b8b4; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--grid);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-block{width:100%; justify-content:center;}
+
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .dots{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    max-width:70%;
+  }
+  .dot{
+    width:9px;height:9px;
+    border-radius:50%;
+    background:var(--grid);
+    border:1px solid var(--line-fainter);
+  }
+  .dot.current{background:var(--lila); border-color:var(--lila); transform:scale(1.3);}
+  .dot.done-ok{background:var(--teal); border-color:var(--teal);}
+  .dot.done-help{background:var(--amber); border-color:var(--amber);}
+  .dot.done-no{background:var(--coral); border-color:var(--coral);}
+  .qcount{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  /* ID de la pregunta — visible pero discreto */
+  .qid-label{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    color:var(--line-fainter);
+    margin-left:8px;
+    vertical-align:middle;
+    letter-spacing:.04em;
+    user-select:all;
+  }
+
+  .badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--lila);
+    background:var(--lila-soft);
+    border:1px solid #e0d2ef;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .prompt{
+    font-size:19px;
+    line-height:1.45;
+    margin:0 0 16px;
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.6px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:16px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .option:hover:not(:disabled){border-color:var(--lila);}
+  .option .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:7px;
+    border:1.6px solid var(--grid);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .option .otext{flex:1 1 auto;}
+  .option.selected{border-color:var(--lila); background:var(--lila-soft);}
+  .option.selected .letter{background:var(--lila); border-color:var(--lila); color:#fff;}
+  .option.correct{border-color:var(--teal); background:var(--teal-soft);}
+  .option.correct .letter{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .option.wrong{border-color:var(--coral); background:var(--coral-soft);}
+  .option.wrong .letter{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .option.tried{opacity:.5; text-decoration:line-through; cursor:not-allowed;}
+  .option:disabled{cursor:default;}
+
+  .feedback{
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:15px;
+    line-height:1.5;
+    border-left:4px solid transparent;
+  }
+  .feedback .ftitle{
+    font-weight:700;
+    display:block;
+    margin-bottom:4px;
+  }
+  .feedback.hint{background:var(--amber-soft); border-left-color:var(--amber);}
+  .feedback.hint .ftitle{color:var(--amber);}
+  .feedback.success{background:var(--teal-soft); border-left-color:var(--teal);}
+  .feedback.success .ftitle{color:var(--teal);}
+  .feedback.explain{background:var(--coral-soft); border-left-color:var(--coral);}
+  .feedback.explain .ftitle{color:var(--coral);}
+
+  .quiz-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  .score-hero{
+    text-align:center;
+    padding:10px 0 6px;
+  }
+  .score-num{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(46px,12vw,64px);
+    color:var(--ink);
+    line-height:1;
+  }
+  .score-num span{font-size:0.4em; color:var(--muted); font-family:var(--font-mono); font-weight:500;}
+  .score-msg{font-size:16px; color:var(--muted); max-width:46ch; margin:10px auto 0;}
+
+  .result-section{margin-top:20px;}
+  .result-section h3{
+    font-family:var(--font-mono);
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    display:flex;align-items:center;gap:8px;
+    margin:0 0 10px;
+  }
+  .dotmark{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dotmark.ok{background:var(--teal);}
+  .dotmark.help{background:var(--amber);}
+  .dotmark.no{background:var(--coral);}
+
+  .result-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    margin-bottom:8px;
+    background:#fff;
+  }
+  .result-item .rtag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .result-item .rprompt{font-size:15px; margin:4px 0 0;}
+  .result-item .rexplain{font-size:13.5px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--grid);}
+  .empty-note{font-size:14px; color:var(--muted); font-style:italic;}
+
+  footer.site{
+    max-width:720px;
+    margin:26px auto 0;
+    padding:20px 18px 4px;
+    border-top:1px solid var(--grid);
+  }
+  footer.site .rule{
+    width:26px;height:3px;background:var(--coral); border-radius:2px; margin-bottom:12px;
+  }
+  footer.site p{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:0 0 10px;
+  }
+  footer.site strong{color:var(--ink);}
+  footer.site .credit{
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .option{transition:none;}
+  }
+
+  /* ---- Balanzas SVG generadas por código ---- */
+  .balanza-wrap{
+    display:flex;
+    justify-content:center;
+    margin:14px 0 4px;
+  }
+  .balanza-wrap svg{
+    max-width:100%;
+    height:auto;
+  }
+  /* opciones que contienen una balanza: la letra arriba, el dibujo debajo */
+  .option.opt-visual{
+    flex-direction:column;
+    align-items:stretch;
+    gap:6px;
+  }
+  .option.opt-visual .letter{align-self:flex-start;}
+  .option.opt-visual .otext{width:100%;}
+  .option.opt-visual .balanza-wrap{margin:2px 0 0;}
+  .balanza-caption{
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-top:2px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <span class="eyebrow">Matemática · 2.º año · ESRN Paulo VI</span>
+    <h1 class="title">La balanza <em>de dos platillos</em></h1>
+    <p class="subtitle">Autoevaluación — Capítulo 3: resolver expresiones algebraicas con el modelo de la balanza</p>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+</div>
+
+<footer class="site">
+  <div class="rule"></div>
+  <p><strong>Sobre este recurso.</strong> Esta aplicación fue programada con la asistencia de Claude (Anthropic) a partir de una consigna del autor. Las balanzas se dibujan por código (gráficos vectoriales), no son fotografías ni imágenes previas. Las decisiones didácticas, la selección de preguntas y los criterios de corrección son responsabilidad exclusiva del <strong>Lic. Nicolás Rosbaco</strong> (ESRN Paulo VI — Viedma, Río Negro). Es un material complementario del Capítulo 3 del apunte de 2.º año (2026), publicado bajo licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0.</p>
+  <p><strong>Por qué autoevaluarte.</strong> Este puntaje no es una nota ni un veredicto: es tuyo. La idea es que vayas construyendo tus propios criterios sobre qué significa entender un tema, y que aprendas a notar, con honestidad y sin culpa, qué te falta repasar. Usá este resultado como una brújula para vos mismo/a, no como una sentencia.</p>
+  <p class="credit">nicolasrosbaco@curza.com.ar</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   Capítulo 3 — Autoevaluación: Balanzas de dos platillos
+   Lic. Nicolás Rosbaco · ESRN Paulo VI · Viedma, Río Negro
+
+   NOTA DE CONTENIDO (coherente con el material teórico):
+   - En este punto del recorrido NO se habla de "ecuaciones": se dice
+     "expresión algebraica" o "igualdad".
+   - NUNCA se "pasa algo de un lado al otro": SIEMPRE se aplica la misma
+     operación en AMBOS platillos.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   0) GENERADOR DE BALANZAS SVG
+   Cada platillo es un array de objetos { t, v }:
+     t: "m" (incógnita, azul) | "n" (número conocido, naranja) | "r" (resultado, verde)
+     v: texto interior (ej. "w", "6", "36")
+   tilt: "eq" (equilibrio) | "izq" (baja izquierda) | "der" (baja derecha)
+   --------------------------------------------------------------------- */
+function balanza(left, right, tilt, size){
+  tilt = tilt || "eq";
+  const S = size || 1;
+  const W = 420*S, H = 250*S, cx = W/2, beamY = 60*S, half = 150*S, baseY = 220*S;
+  let ang = 0;
+  if (tilt === "izq") ang = 6;
+  if (tilt === "der") ang = -6;
+  const rad = ang*Math.PI/180;
+  const lx = cx - half*Math.cos(rad), ly = beamY - half*Math.sin(rad);
+  const rx = cx + half*Math.cos(rad), ry = beamY + half*Math.sin(rad);
+  const box = 32*S, gap = 6*S;
+
+  function platillo(px, py, items){
+      let s = "";
+      const dishY = py + 66*S;
+      // Los hilos NACEN en el extremo mismo de la viga (px,py) y se abren
+      // hacia los bordes del platillo. Se dibujan ANTES que las cajas, por lo
+      // que quedan en un plano posterior: si una caja tapa un tramo, no molesta.
+      s += `<line x1="${px}" y1="${py}" x2="${px-40*S}" y2="${dishY}" class="bz-hilo"/>`;
+      s += `<line x1="${px}" y1="${py}" x2="${px+40*S}" y2="${dishY}" class="bz-hilo"/>`;
+      // platillo (cuenco + borde elíptico)
+      s += `<path d="M ${px-46*S} ${dishY} Q ${px} ${dishY+22*S} ${px+46*S} ${dishY} Z" class="bz-dish"/>`;
+      s += `<ellipse cx="${px}" cy="${dishY}" rx="${46*S}" ry="${8*S}" class="bz-dishtop"/>`;
+      // cajas apiladas sobre el platillo (plano anterior)
+      // Hasta 3 cajas: una sola fila (comportamiento original).
+      // 4 o más: se reparten en 2 filas para no desbordar el platillo. En ese
+      // caso las cajas se achican un poco para que las dos filas entren en el
+      // espacio disponible sin tocar la viga.
+      const n = items.length;
+      const twoRows = n > 3;
+      const rows = twoRows ? [items.slice(0, Math.ceil(n/2)), items.slice(Math.ceil(n/2))] : [items];
+      const bx = twoRows ? 26*S : box;      // ancho/alto de caja
+      const gp = twoRows ? 5*S  : gap;      // separación horizontal
+      const rowH = bx + 3*S;                // separación vertical entre filas
+      const fs = twoRows ? 12*S : 15*S;     // tamaño de fuente
+      const baseBy = dishY - bx - 5*S - (rows.length - 1)*rowH;
+      rows.forEach((row, ri)=>{
+        const rn = row.length;
+        const totalW = rn*bx + (rn-1)*gp;
+        let x0 = px - totalW/2;
+        const by = baseBy + ri*rowH;
+        row.forEach(it=>{
+          const cls = it.t==="m"?"bz-m":it.t==="n"?"bz-n":"bz-r";
+          const tcl = it.t==="m"?"bz-mt":it.t==="n"?"bz-nt":"bz-rt";
+          s += `<rect x="${x0}" y="${by}" width="${bx}" height="${bx}" rx="5" class="${cls}"/>`;
+          s += `<text x="${x0+bx/2}" y="${by+bx/2+5*S}" class="bz-txt ${tcl}" font-size="${fs}">${it.v}</text>`;
+          x0 += bx+gp;
+        });
+      });
+      return s;
+    }
+
+
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" role="img" class="bz-svg">
+    <defs>
+      <filter id="bzsh" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1E2A35" flood-opacity="0.18"/>
+      </filter>
+      <linearGradient id="bzM" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf4fa"/><stop offset="1" stop-color="#d3e8f3"/></linearGradient>
+      <linearGradient id="bzN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fef2e6"/><stop offset="1" stop-color="#f9ddc4"/></linearGradient>
+      <linearGradient id="bzR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9f6ea"/><stop offset="1" stop-color="#cfe9d1"/></linearGradient>
+    </defs>
+    <path d="M ${cx-36*S} ${baseY} L ${cx+36*S} ${baseY} L ${cx+20*S} ${baseY-9*S} L ${cx-20*S} ${baseY-9*S} Z" class="bz-base"/>
+    <line class="bz-frame" x1="${cx}" y1="${baseY-9*S}" x2="${cx}" y2="${beamY}"/>
+    <line class="bz-beam" x1="${lx}" y1="${ly}" x2="${rx}" y2="${ry}"/>
+    <circle class="bz-pivot" cx="${cx}" cy="${beamY}" r="${5*S}"/>
+    ${platillo(lx, ly, left)}
+    ${platillo(rx, ry, right)}
+  </svg>`;
+}
+
+/* estilos de balanza inyectados una vez */
+(function injectBalanzaCSS(){
+  const css = `
+    .bz-svg{display:block;}
+    .bz-hilo{stroke:#7a848a;stroke-width:1.4;}
+    .bz-dish{fill:#c9ccc4;stroke:#8a8f86;stroke-width:1.4;}
+    .bz-dishtop{fill:#dfe2da;stroke:#8a8f86;stroke-width:1.4;}
+    .bz-base{fill:#b9bdb2;stroke:#8a8f86;stroke-width:1.4;}
+    .bz-frame{stroke:#5a6169;stroke-width:3;stroke-linecap:round;}
+    .bz-beam{stroke:#5a6169;stroke-width:5;stroke-linecap:round;}
+    .bz-pivot{fill:#7a848a;stroke:#5a6169;stroke-width:1.4;}
+    .bz-m{fill:url(#bzM);stroke:#15658E;stroke-width:1.6;filter:url(#bzsh);}
+    .bz-n{fill:url(#bzN);stroke:#C46210;stroke-width:1.6;filter:url(#bzsh);}
+    .bz-r{fill:url(#bzR);stroke:#2E7D32;stroke-width:1.6;filter:url(#bzsh);}
+    .bz-txt{font-family:'Fraunces',Georgia,serif;font-style:italic;text-anchor:middle;font-weight:600;}
+    .bz-mt{fill:#0f4a6b;} .bz-nt{fill:#8f4a0c;} .bz-rt{fill:#1f5a22;}`;
+  const st = document.createElement("style");
+  st.textContent = css;
+  document.head.appendChild(st);
+})();
+
+function bzWrap(left, right, tilt, size){
+  return `<div class="balanza-wrap">${balanza(left,right,tilt,size)}</div>`;
+}
+
+/* ---------------------------------------------------------------------
+   1) CATEGORÍAS
+   --------------------------------------------------------------------- */
+const CATEGORY_LABELS = {
+  lectura:      "Leer la balanza",
+  ambos:        "Incógnitas en ambos platillos",
+  operacion:    "¿Qué operación aplico?",
+  siguiente:    "El paso siguiente",
+  error:        "Analizar un razonamiento",
+  verificacion: "Verificar un valor",
+  concepto:     "Para pensar"
+};
+
+/* Atajos para armar balanzas dentro de las preguntas.
+   m()=incógnita azul · n()=número naranja · r()=resultado verde */
+const m = v => ({t:"m", v:String(v)});
+const n = v => ({t:"n", v:String(v)});
+const r = v => ({t:"r", v:String(v)});
+
+/* ---------------------------------------------------------------------
+   2) BANCO DE 23 PREGUNTAS
+   --------------------------------------------------------------------- */
+const QUESTIONS = [
+
+  /* ===== LECTURA: balanza -> expresión algebraica (un lado con incógnitas) ===== */
+  {
+    id:"L1", category:"lectura", visual:true,
+    balanza:{ left:[m("w"),m("w"),n("6")], right:[r("36")], tilt:"eq" },
+    prompt: String.raw`Observá la balanza en equilibrio. Si cada caja azul representa la incógnita $w$, ¿qué expresión algebraica la describe?`,
+    options:[
+      String.raw`$2 \cdot w + 6 = 36$`,
+      String.raw`$2 \cdot w - 6 = 36$`,
+      String.raw`$w + 6 = 36$`,
+      String.raw`$2 \cdot (w + 6) = 36$`
+    ],
+    correct:0,
+    hint: String.raw`Contá las cajas azules: hay dos $w$, o sea $2 \cdot w$. La caja naranja del $6$ está sumando en el mismo platillo. El equilibrio se traduce con el signo $=$.`,
+    explanation: String.raw`En el platillo izquierdo hay dos cajas $w$ ($2 \cdot w$) y una caja con $6$ que suma ($+6$). El otro platillo tiene $36$. El equilibrio se escribe $2 \cdot w + 6 = 36$.`
+  },
+  {
+    id:"L2", category:"lectura", visual:true,
+    balanza:{ left:[m("e"),m("e"),m("e")], right:[r("15")], tilt:"eq" },
+    prompt: String.raw`La balanza está equilibrada. Cada caja azul es la incógnita $e$. ¿Qué expresión algebraica corresponde?`,
+    options:[
+      String.raw`$3 \cdot e = 15$`,
+      String.raw`$e + 3 = 15$`,
+      String.raw`$3 + e = 15$`,
+      String.raw`$e - 3 = 15$`
+    ],
+    correct:0,
+    hint: String.raw`Hay tres cajas iguales, todas valen $e$. Tres veces $e$ se escribe $3 \cdot e$.`,
+    explanation: String.raw`Tres cajas $e$ en un platillo son $3 \cdot e$; el otro platillo tiene $15$. La expresión es $3 \cdot e = 15$. Cuidado con $e+3$: eso sería una sola caja $e$ más otra de $3$.`
+  },
+  {
+    id:"L3", category:"lectura", visual:true,
+    balanza:{ left:[m("m"),n("4")], right:[r("9")], tilt:"eq" },
+    prompt: String.raw`¿Qué expresión algebraica describe esta balanza en equilibrio? La caja azul es la incógnita $m$.`,
+    options:[
+      String.raw`$m + 4 = 9$`,
+      String.raw`$4 \cdot m = 9$`,
+      String.raw`$m - 4 = 9$`,
+      String.raw`$m + 9 = 4$`
+    ],
+    correct:0,
+    hint: String.raw`Una caja $m$ y una caja $4$ en el mismo platillo se suman. El otro platillo tiene $9$.`,
+    explanation: String.raw`Una caja $m$ más una caja $4$ dan $m+4$, y eso equilibra con $9$: $m + 4 = 9$.`
+  },
+  {
+    id:"L4", category:"lectura", visual:true,
+    balanza:{ left:[m("x"),m("x"),m("x"),m("x")], right:[r("20")], tilt:"eq" },
+    prompt: String.raw`Cada caja azul vale $x$ y la balanza está equilibrada. ¿Qué expresión la representa?`,
+    options:[
+      String.raw`$4 \cdot x = 20$`,
+      String.raw`$x + 4 = 20$`,
+      String.raw`$x + 20 = 4$`,
+      String.raw`$20 \cdot x = 4$`
+    ],
+    correct:0,
+    hint: String.raw`Contá las cajas azules iguales: son cuatro, cada una vale $x$.`,
+    explanation: String.raw`Cuatro cajas $x$ son $4 \cdot x$, y equilibran con $20$: $4 \cdot x = 20$.`
+  },
+
+  /* ===== INCÓGNITAS EN AMBOS PLATILLOS ===== */
+  {
+    id:"A1", category:"ambos", visual:true,
+    balanza:{ left:[m("t"),m("t"),n("3")], right:[m("t"),n("9")], tilt:"eq" },
+    prompt: String.raw`Ahora hay cajas azules ($t$) en los DOS platillos. La balanza está en equilibrio. ¿Qué expresión algebraica la describe?`,
+    options:[
+      String.raw`$2 \cdot t + 3 = t + 9$`,
+      String.raw`$2 \cdot t + 3 = 9$`,
+      String.raw`$3 \cdot t + 3 = t + 9$`,
+      String.raw`$2 \cdot t + 3 = t - 9$`
+    ],
+    correct:0,
+    hint: String.raw`Mirá cada platillo por separado. Izquierda: dos cajas $t$ y una de $3$. Derecha: una caja $t$ y una de $9$.`,
+    explanation: String.raw`Izquierda: $2 \cdot t + 3$. Derecha: $t + 9$. En equilibrio: $2 \cdot t + 3 = t + 9$. La incógnita aparece en ambos platillos, y eso está perfectamente permitido.`
+  },
+  {
+    id:"A2", category:"ambos", visual:true,
+    balanza:{ left:[m("c"),m("c"),m("c")], right:[m("c"),n("8")], tilt:"eq" },
+    prompt: String.raw`Cada caja azul vale $c$. La balanza está equilibrada. ¿Qué expresión algebraica corresponde?`,
+    options:[
+      String.raw`$3 \cdot c = c + 8$`,
+      String.raw`$3 \cdot c = 8$`,
+      String.raw`$3 \cdot c + c = 8$`,
+      String.raw`$c \cdot 3 = c \cdot 8$`
+    ],
+    correct:0,
+    hint: String.raw`Izquierda: tres cajas $c$. Derecha: una caja $c$ y una caja de $8$.`,
+    explanation: String.raw`Izquierda $3 \cdot c$, derecha $c + 8$. En equilibrio: $3 \cdot c = c + 8$.`
+  },
+  {
+    id:"A3", category:"ambos", visual:true,
+    balanza:{ left:[m("f"),m("f"),n("1")], right:[m("f"),n("5")], tilt:"eq" },
+    prompt: String.raw`Con cajas $f$ en ambos platillos y la balanza equilibrada, ¿qué expresión la representa?`,
+    options:[
+      String.raw`$2 \cdot f + 1 = f + 5$`,
+      String.raw`$2 \cdot f + 1 = 5$`,
+      String.raw`$2 \cdot f = f + 5 + 1$`,
+      String.raw`$2 \cdot f + 1 = f - 5$`
+    ],
+    correct:0,
+    hint: String.raw`Izquierda: dos cajas $f$ más una de $1$. Derecha: una caja $f$ más una de $5$.`,
+    explanation: String.raw`Izquierda $2 \cdot f + 1$, derecha $f + 5$. En equilibrio: $2 \cdot f + 1 = f + 5$.`
+  },
+  {
+    id:"A4", category:"ambos", visual:true,
+    balanza:{ left:[m("p"),m("p"),m("p"),m("p")], right:[m("p"),n("6")], tilt:"eq" },
+    prompt: String.raw`Cada caja azul vale $p$ y la balanza está en equilibrio. ¿Qué expresión algebraica corresponde?`,
+    options:[
+      String.raw`$4 \cdot p = p + 6$`,
+      String.raw`$4 \cdot p = 6$`,
+      String.raw`$4 \cdot p + p = 6$`,
+      String.raw`$4 \cdot p = p - 6$`
+    ],
+    correct:0,
+    hint: String.raw`Izquierda: cuatro cajas $p$. Derecha: una caja $p$ y una caja de $6$. La incógnita aparece en los dos platillos.`,
+    explanation: String.raw`Izquierda $4 \cdot p$, derecha $p + 6$. En equilibrio: $4 \cdot p = p + 6$.`
+  },
+
+  /* ===== ¿QUÉ OPERACIÓN APLICO? (en ambos platillos) ===== */
+  {
+    id:"O1", category:"operacion", visual:true,
+    balanza:{ left:[m("w"),m("w"),n("6")], right:[r("36")], tilt:"eq" },
+    prompt: String.raw`Tenés $2 \cdot w + 6 = 36$. Para empezar a despejar la incógnita, ¿qué conviene hacer primero?`,
+    options:[
+      String.raw`Restar $6$ en ambos platillos.`,
+      String.raw`Restar $6$ solo en el platillo izquierdo.`,
+      String.raw`Dividir por $2$ ambos platillos.`,
+      String.raw`Sumar $6$ en ambos platillos.`
+    ],
+    correct:0,
+    hint: String.raw`El $6$ está sumando junto a las cajas $w$. Para "sacarlo" de ese platillo se hace la operación inversa (restar $6$), pero para no perder el equilibrio hay que hacerlo en LOS DOS platillos.`,
+    explanation: String.raw`El $6$ suma, así que aplicamos la operación inversa: restar $6$. Y para conservar el equilibrio, se resta $6$ en ambos platillos a la vez. Queda $2 \cdot w = 30$. Restarlo de un solo lado rompería el equilibrio.`
+  },
+  {
+    id:"O2", category:"operacion", visual:true,
+    balanza:{ left:[m("e"),m("e"),m("e")], right:[r("15")], tilt:"eq" },
+    prompt: String.raw`Llegaste a $3 \cdot e = 15$. ¿Qué operación deja una sola caja $e$ de un lado?`,
+    options:[
+      String.raw`Dividir por $3$ ambos platillos.`,
+      String.raw`Restar $3$ en ambos platillos.`,
+      String.raw`Dividir por $2$ ambos platillos.`,
+      String.raw`Restar $15$ en ambos platillos.`
+    ],
+    correct:0,
+    hint: String.raw`Hay tres cajas iguales repartidas equitativamente. Para quedarte con el valor de UNA, repartís el contenido de cada platillo en $3$ partes iguales.`,
+    explanation: String.raw`Como hay $3$ cajas iguales, dividimos por $3$ el contenido de ambos platillos. Así $\frac{3 \cdot e}{3} = \frac{15}{3}$, es decir $e = 5$.`
+  },
+  {
+    id:"O3", category:"operacion", visual:false,
+    prompt: String.raw`Para la igualdad $5 + m = 8$, ¿qué operación aplicás para descubrir el valor de $m$?`,
+    options:[
+      String.raw`Restar $5$ en ambos miembros.`,
+      String.raw`Sumar $5$ en ambos miembros.`,
+      String.raw`Dividir por $5$ ambos miembros.`,
+      String.raw`Restar $8$ en ambos miembros.`
+    ],
+    correct:0,
+    hint: String.raw`El $5$ está sumando junto a $m$. La operación inversa de sumar $5$ es restar $5$, aplicada en los dos miembros por igual.`,
+    explanation: String.raw`Restamos $5$ en ambos miembros: $5 + m - 5 = 8 - 5$. Como $5 - 5 = 0$, queda $m = 3$.`
+  },
+  {
+    id:"O4", category:"operacion", visual:false,
+    prompt: String.raw`Para $4 \cdot m = 7$, un compañero quiere restar $4$ en ambos miembros. ¿Es lo más conveniente para despejar $m$?`,
+    options:[
+      String.raw`No: como el $4$ está multiplicando a $m$, hay que dividir por $4$ (no restar).`,
+      String.raw`Sí: restar $4$ deja sola la $m$.`,
+      String.raw`Sí, pero solo si $m$ es un número entero.`,
+      String.raw`No: primero hay que sumar $4$ en ambos miembros.`
+    ],
+    correct:0,
+    hint: String.raw`Fijate qué le está pasando a $m$: no tiene un número sumándole, tiene un número multiplicándolo. La operación inversa de multiplicar por $4$ es dividir por $4$.`,
+    explanation: String.raw`El $4$ multiplica a $m$, así que la operación inversa es dividir por $4$ en ambos miembros: $\frac{4 \cdot m}{4} = \frac{7}{4}$, o sea $m = \frac{7}{4}$. Restar $4$ no ayudaría, porque el $4$ no está sumando.`
+  },
+
+  /* ===== EL PASO SIGUIENTE (opciones con SVG) ===== */
+  {
+    id:"S1", category:"siguiente", visual:true,
+    balanza:{ left:[m("w"),m("w"),n("6")], right:[r("36")], tilt:"eq" },
+    prompt: String.raw`Partís de esta balanza ($2 \cdot w + 6 = 36$) y restás $6$ en ambos platillos. ¿Cuál de estas balanzas muestra el resultado?`,
+    optionsVisual:[
+      { left:[m("w"),m("w")], right:[r("30")], tilt:"eq" },
+      { left:[m("w"),m("w"),n("6")], right:[r("30")], tilt:"eq" },
+      { left:[m("w"),m("w")], right:[r("42")], tilt:"eq" },
+      { left:[m("w")], right:[r("30")], tilt:"eq" }
+    ],
+    correct:0,
+    hint: String.raw`Restar $6$ saca la caja naranja del $6$ del platillo izquierdo, y en el derecho $36 - 6 = 30$. Las cajas $w$ no se tocan.`,
+    explanation: String.raw`Al restar $6$ en ambos platillos, desaparece la caja del $6$ y el $36$ pasa a $30$. Quedan las dos cajas $w$ frente a $30$: $2 \cdot w = 30$.`
+  },
+  {
+    id:"S2", category:"siguiente", visual:true,
+    balanza:{ left:[m("e"),m("e"),m("e")], right:[r("15")], tilt:"eq" },
+    prompt: String.raw`Partís de $3 \cdot e = 15$ y repartís el contenido de cada platillo en $3$ partes iguales (dividís por $3$). ¿Qué balanza queda?`,
+    optionsVisual:[
+      { left:[m("e")], right:[r("5")], tilt:"eq" },
+      { left:[m("e")], right:[r("15")], tilt:"eq" },
+      { left:[m("e"),m("e"),m("e")], right:[r("5")], tilt:"eq" },
+      { left:[m("e")], right:[r("12")], tilt:"eq" }
+    ],
+    correct:0,
+    hint: String.raw`Repartir en $3$ deja una sola caja $e$ de un lado; del otro, $15 \div 3$.`,
+    explanation: String.raw`Dividir por $3$ deja una caja $e$ frente a $15 \div 3 = 5$: $e = 5$.`
+  },
+  {
+    id:"S3", category:"siguiente", visual:true,
+    balanza:{ left:[m("t"),m("t"),n("3")], right:[m("t"),n("9")], tilt:"eq" },
+    prompt: String.raw`Esta balanza tiene cajas $t$ en los dos platillos ($2 \cdot t + 3 = t + 9$). Si quitás una caja $t$ de cada platillo, ¿qué queda?`,
+    optionsVisual:[
+      { left:[m("t"),n("3")], right:[n("9")], tilt:"eq" },
+      { left:[m("t"),m("t"),n("3")], right:[n("9")], tilt:"eq" },
+      { left:[m("t"),n("3")], right:[m("t"),n("9")], tilt:"eq" },
+      { left:[n("3")], right:[m("t"),n("9")], tilt:"eq" }
+    ],
+    correct:0,
+    hint: String.raw`Quitar una caja $t$ de CADA lado mantiene el equilibrio. Izquierda pasa de dos $t$ a una $t$; derecha se queda sin su caja $t$.`,
+    explanation: String.raw`Al quitar una $t$ de cada platillo, la izquierda queda con una caja $t$ y el $3$; la derecha queda solo con el $9$: $t + 3 = 9$. Sacar la misma cantidad de ambos lados conserva el equilibrio.`
+  },
+
+  /* ===== ANALIZAR UN RAZONAMIENTO (nunca "pasar de lado") ===== */
+  {
+    id:"E1", category:"error", visual:false,
+    prompt: String.raw`Un compañero resuelve $2 \cdot w + 6 = 36$ y dice: <em>"el $6$ pasa restando al otro lado y queda $2 \cdot w = 36 - 6$"</em>. ¿Cuál es la mejor manera de entender lo que ocurre?`,
+    options:[
+      String.raw`Lo correcto es pensar que restamos $6$ en AMBOS platillos a la vez; nada "viaja" de un lado al otro.`,
+      String.raw`Está perfecto: los números pasan de un lado al otro cambiando de signo.`,
+      String.raw`Se puede, pero solo con los números, nunca con las letras.`,
+      String.raw`Es un error: el $6$ debería pasar sumando, no restando.`
+    ],
+    correct:0,
+    hint: String.raw`En el modelo de la balanza nunca movemos objetos de un platillo al otro. Repasá qué hicimos realmente: aplicar una misma operación en los dos platillos.`,
+    explanation: String.raw`El resultado numérico coincide, pero la idea de que "algo pasa de lado" no describe lo que hacemos. Lo que hacemos es restar $6$ en ambos platillos simultáneamente, para no romper el equilibrio. Pensarlo así evita errores más adelante.`
+  },
+  {
+    id:"E2", category:"error", visual:false,
+    prompt: String.raw`¿Cuál de estas afirmaciones sobre el método de la balanza es <strong>INCORRECTA</strong>?`,
+    options:[
+      String.raw`Para avanzar, alcanza con operar en uno solo de los platillos.`,
+      String.raw`Hay que aplicar la misma operación en los dos platillos a la vez.`,
+      String.raw`El objetivo es dejar la incógnita sola en un platillo.`,
+      String.raw`Restar $6$ en ambos platillos de $2 \cdot w + 6 = 36$ conserva el equilibrio.`
+    ],
+    correct:0,
+    hint: String.raw`Pensá en una balanza real: si tocás un solo platillo, ¿qué le pasa al equilibrio?`,
+    explanation: String.raw`Operar en un solo platillo rompe el equilibrio: esa afirmación es incorrecta. La regla de oro es aplicar exactamente la misma operación en AMBOS platillos.`
+  },
+  {
+    id:"E3", category:"error", visual:false,
+    prompt: String.raw`Para resolver $m + 4 = 9$, alguien resta $4$ solamente en el platillo donde está la incógnita. ¿Qué pasa?`,
+    options:[
+      String.raw`Rompe el equilibrio: si resta $4$ de un lado, debe restar $4$ también del otro.`,
+      String.raw`Está bien, porque la incógnita queda sola de un lado.`,
+      String.raw`Está bien solo si $m$ es mayor que $4$.`,
+      String.raw`No cambia nada, porque el $4$ es un número chico.`
+    ],
+    correct:0,
+    hint: String.raw`La igualdad se sostiene porque los dos platillos pesan lo mismo. Si sacás peso de uno solo, ese lado se aliviana.`,
+    explanation: String.raw`Restar $4$ de un solo platillo desequilibra la balanza. Para conservar la igualdad hay que restar $4$ en ambos: $m + 4 - 4 = 9 - 4$, o sea $m = 5$.`
+  },
+
+  /* ===== VERIFICAR UN VALOR ===== */
+  {
+    id:"V1", category:"verificacion", visual:false,
+    prompt: String.raw`En $2 \cdot w + 6 = 36$, ¿el valor $w = 15$ hace que la balanza quede equilibrada?`,
+    options:[
+      String.raw`Sí: $2 \cdot 15 + 6 = 36$, y $36 = 36$.`,
+      String.raw`No: da $2 \cdot 15 + 6 = 30$.`,
+      String.raw`No: da $2 \cdot 15 + 6 = 42$.`,
+      String.raw`No se puede verificar sin resolver primero.`
+    ],
+    correct:0,
+    hint: String.raw`Reemplazá $w$ por $15$ y hacé las cuentas: primero $2 \cdot 15$, después sumale $6$.`,
+    explanation: String.raw`$2 \cdot 15 = 30$, y $30 + 6 = 36$. Como $36 = 36$, el valor $w = 15$ equilibra la balanza: es la solución.`
+  },
+  {
+    id:"V2", category:"verificacion", visual:false,
+    prompt: String.raw`En $3 \cdot e = 15$, ¿el valor $e = 6$ deja la balanza equilibrada?`,
+    options:[
+      String.raw`No: $3 \cdot 6 = 18$, y $18 \neq 15$.`,
+      String.raw`Sí: $3 \cdot 6 = 15$.`,
+      String.raw`Sí, porque $6$ es menor que $15$.`,
+      String.raw`No: $3 \cdot 6 = 9$.`
+    ],
+    correct:0,
+    hint: String.raw`Reemplazá $e$ por $6$ y calculá $3 \cdot 6$. ¿Coincide con el otro platillo, que vale $15$?`,
+    explanation: String.raw`$3 \cdot 6 = 18$, que no es $15$. La balanza no queda equilibrada, así que $e = 6$ no es la solución. (De hecho, la solución es $e = 5$.)`
+  },
+
+  /* ===== PARA PENSAR / CONCEPTUAL ===== */
+  {
+    id:"C1", category:"concepto", visual:false,
+    prompt: String.raw`En un platillo hay $3$ cajas iguales con la incógnita, y ya quitamos todos los números conocidos. Para saber cuánto vale UNA caja, ¿por qué dividimos por $3$ y no por $2$?`,
+    options:[
+      String.raw`Porque hay $3$ cajas iguales: repartimos el contenido en tantas partes como cajas haya.`,
+      String.raw`Porque dividir por $3$ siempre da números más chicos.`,
+      String.raw`Porque el $3$ aparece en el otro platillo.`,
+      String.raw`Porque siempre se divide por $3$ en el segundo paso.`
+    ],
+    correct:0,
+    hint: String.raw`El número por el que dividís depende de cuántas cajas iguales tengas en el platillo de la incógnita.`,
+    explanation: String.raw`El número por el que dividimos es exactamente la cantidad de cajas iguales. Con $2$ cajas se divide por $2$; con $3$, por $3$. Repartimos el contenido de ambos platillos en esa cantidad de partes iguales.`
+  },
+  {
+    id:"C2", category:"concepto", visual:false,
+    prompt: String.raw`¿Qué es lo único que garantiza que la balanza siga equilibrada mientras trabajamos?`,
+    options:[
+      String.raw`Aplicar exactamente la misma operación en los dos platillos a la vez.`,
+      String.raw`Que los números sean siempre positivos.`,
+      String.raw`Que la incógnita quede siempre a la izquierda.`,
+      String.raw`Mover las cajas de a una hacia el platillo más liviano.`
+    ],
+    correct:0,
+    hint: String.raw`Repasá la "regla de oro" del capítulo: ¿qué hacíamos en cada paso para no romper el equilibrio?`,
+    explanation: String.raw`El equilibrio se conserva solo si hacemos lo mismo en ambos platillos al mismo tiempo. Esa es la regla de oro: nada se mueve de lado, se opera igual en los dos.`
+  },
+  {
+    id:"C3", category:"concepto", visual:false,
+    prompt: String.raw`En el modelo de la balanza, ¿qué representa el hecho de que esté en equilibrio?`,
+    options:[
+      String.raw`Que lo que hay en un platillo "pesa" lo mismo que lo que hay en el otro.`,
+      String.raw`Que la incógnita vale cero.`,
+      String.raw`Que los dos platillos tienen la misma cantidad de cajas.`,
+      String.raw`Que ya encontramos la solución.`
+    ],
+    correct:0,
+    hint: String.raw`Una igualdad afirma que dos cosas valen lo mismo. ¿Cómo se ve eso en una balanza?`,
+    explanation: String.raw`El equilibrio significa que ambos platillos "pesan" lo mismo: una igualdad afirma justamente que lo de un lado vale lo mismo que lo del otro. No hace falta que haya igual cantidad de cajas de cada lado.`
+  }
+
+];
+
+/* ---------------------------------------------------------------------
+   3) ESTADO DE LA APLICACIÓN
+   --------------------------------------------------------------------- */
+let order = [];
+let state = [];
+let currentIndex = 0;
+let selectedOption = null;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* Baraja las opciones de una pregunta, sean de texto (options) o
+   balanzas (optionsVisual), manteniendo la coherencia de "correct". */
+function shuffleQuestionOptions(q){
+  const list = q.optionsVisual ? q.optionsVisual : q.options;
+  const idxs = list.map((_, i) => i);
+  const shuffled = shuffle(idxs);
+  const newList = shuffled.map(i => list[i]);
+  const newCorrect = shuffled.indexOf(q.correct);
+  if (q.optionsVisual){
+    return Object.assign({}, q, { optionsVisual:newList, correct:newCorrect });
+  }
+  return Object.assign({}, q, { options:newList, correct:newCorrect });
+}
+
+/* ?ask=N  -> limita la cantidad de preguntas (entero válido). */
+function getAskParam(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("ask")) return null;
+  const n = Number(params.get("ask"));
+  if (!Number.isInteger(n) || n < 1 || n > QUESTIONS.length) return null;
+  return n;
+}
+
+/* ?debug=1 -> preguntas y opciones SIN barajar (orden fijo). Por defecto 0. */
+function getDebugParam(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1";
+}
+
+function questionCount(){
+  const ask = getAskParam();
+  return ask === null ? QUESTIONS.length : ask;
+}
+
+function resetState(){
+  if (getDebugParam()){
+    // modo debug (?debug=1): orden fijo, sin barajar preguntas ni opciones.
+    order = QUESTIONS.slice();
+  } else {
+    // por defecto: baraja todas las preguntas y sus opciones
+    order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+    // para edición: descomentar para saltar directo a una pregunta puntual (por id)
+    //order = [QUESTIONS.find(q => q.id === "S3"), ...shuffle(QUESTIONS.filter(q => q.id !== "S3"))].map(shuffleQuestionOptions);
+  }
+
+  const ask = getAskParam();
+  if (ask !== null) order = order.slice(0, ask);
+
+  state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
+  currentIndex = 0;
+  selectedOption = null;
+}
+
+function renderMath(container){
+  if (window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters:[{ left:"$", right:"$", display:false }],
+      throwOnError:false
+    });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4) PANTALLA DE INICIO
+   --------------------------------------------------------------------- */
+function renderIntro(){
+  const app = document.getElementById("app");
+  app.innerHTML = `
+    <div class="card intro-text">
+      <p>Esta autoevaluación tiene <strong>${questionCount()} pregunta${questionCount() === 1 ? "" : "s"}</strong> sobre el modelo de la <strong>balanza de dos platillos</strong>: leer una balanza y escribir la expresión algebraica que la describe, decidir qué operación aplicar en ambos platillos, anticipar el paso siguiente, y analizar razonamientos. Las balanzas se dibujan por código: no son fotos. El orden de las preguntas —y el de las opciones— se sortea cada vez que abrís la página.</p>
+      <p>Ojo con una idea clave del capítulo: en la balanza <strong>nunca movemos cosas de un platillo al otro</strong>. Lo que hacemos, siempre, es aplicar la misma operación en los dos platillos a la vez.</p>
+      <div class="rules">
+        <div class="rule-item ok">
+          <span class="n">✓ Bien a la primera</span>
+          <p>Sumás <strong>5 puntos</strong> y recibís una confirmación de tu razonamiento.</p>
+        </div>
+        <div class="rule-item help">
+          <span class="n">◐ Un error + ayuda</span>
+          <p>Si te equivocás una vez, aparece una pista. Si después acertás, sumás <strong>3 puntos</strong>.</p>
+        </div>
+        <div class="rule-item no">
+          <span class="n">✕ Segundo error</span>
+          <p>No sumás puntos, pero vas a ver la explicación completa de la respuesta correcta.</p>
+        </div>
+      </div>
+      <p>Al terminar vas a ver tu puntaje y un detalle de qué respondiste bien sin ayuda, qué con ayuda, y qué te conviene repasar.</p>
+      <button class="btn btn-primary btn-block" id="btnStart">Empezar la autoevaluación</button>
+    </div>
+  `;
+  document.getElementById("btnStart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   5) PANTALLA DE PREGUNTA
+   --------------------------------------------------------------------- */
+function dotsHTML(){
+  return order.map((q, i) => {
+    let cls = "dot";
+    if (i === currentIndex) cls += " current";
+    else if (state[i].status === "correct-first") cls += " done-ok";
+    else if (state[i].status === "correct-help") cls += " done-help";
+    else if (state[i].status === "incorrect") cls += " done-no";
+    return `<span class="${cls}"></span>`;
+  }).join("");
+}
+
+/* Devuelve el HTML interno de una opción (texto o balanza). */
+function optionInner(q, i){
+  if (q.optionsVisual){
+    const b = q.optionsVisual[i];
+    return `<span class="otext">${bzWrap(b.left, b.right, b.tilt, 0.72)}</span>`;
+  }
+  return `<span class="otext">${q.options[i]}</span>`;
+}
+
+function optionCount(q){
+  return q.optionsVisual ? q.optionsVisual.length : q.options.length;
+}
+
+function renderQuestion(){
+  selectedOption = null;
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  const app = document.getElementById("app");
+  const isVisualOpts = !!q.optionsVisual;
+
+  let optionsHTML = "";
+  for (let i = 0; i < optionCount(q); i++){
+    optionsHTML += `
+      <button class="option ${isVisualOpts ? "opt-visual" : ""}" data-idx="${i}">
+        <span class="letter">${String.fromCharCode(65 + i)}</span>
+        ${optionInner(q, i)}
+      </button>`;
+  }
+
+  const balanzaHTML = q.balanza
+    ? bzWrap(q.balanza.left, q.balanza.right, q.balanza.tilt, 1)
+    : "";
+
+  app.innerHTML = `
+    <div class="progress-row">
+      <div class="dots" aria-hidden="true">${dotsHTML()}</div>
+      <span class="qcount">Pregunta ${currentIndex + 1} / ${order.length}</span>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;margin-bottom:14px;">
+        <span class="badge">${CATEGORY_LABELS[q.category]}</span>
+        <span class="qid-label">${q.id}</span>
+      </div>
+      <p class="prompt">${q.prompt}</p>
+      ${balanzaHTML}
+      <div class="options" id="optionsWrap">${optionsHTML}</div>
+      <div id="feedbackWrap"></div>
+      <div class="quiz-actions" id="actionsWrap">
+        <button class="btn btn-primary" id="btnVerify" disabled>Verificar respuesta</button>
+      </div>
+    </div>
+  `;
+
+  renderMath(app);
+
+  document.querySelectorAll(".option").forEach(btn => {
+    btn.addEventListener("click", () => selectOption(parseInt(btn.dataset.idx, 10)));
+  });
+  document.getElementById("btnVerify").addEventListener("click", verifyAnswer);
+
+  if (st.status === "correct-first" || st.status === "correct-help" || st.status === "incorrect"){
+    lockOptionsVisual(q, st.selectedFirst);
+    showFinalFeedback(q, st);
+    showNextButton();
+  }
+}
+
+function selectOption(idx){
+  const st = state[currentIndex];
+  if (st.status !== "pending" && st.status !== "retry") return;
+  const buttons = document.querySelectorAll(".option");
+  if (buttons[idx].classList.contains("tried")) return;
+  buttons.forEach(b => b.classList.remove("selected"));
+  buttons[idx].classList.add("selected");
+  selectedOption = idx;
+  document.getElementById("btnVerify").disabled = false;
+}
+
+function verifyAnswer(){
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  if (selectedOption === null) return;
+
+  st.attempts++;
+  const isCorrect = selectedOption === q.correct;
+  if (st.attempts === 1) st.selectedFirst = selectedOption;
+
+  if (isCorrect){
+    st.status = st.attempts === 1 ? "correct-first" : "correct-help";
+    st.points = st.attempts === 1 ? 5 : 3;
+    lockOptionsVisual(q, selectedOption);
+    showFinalFeedback(q, st);
+    showNextButton();
+  } else {
+    if (st.attempts === 1){
+      st.status = "retry";
+      document.querySelectorAll(".option")[selectedOption].classList.add("tried");
+      document.querySelectorAll(".option")[selectedOption].classList.remove("selected");
+      selectedOption = null;
+      document.getElementById("btnVerify").disabled = true;
+      document.getElementById("btnVerify").textContent = "Verificar de nuevo";
+      renderFeedback("hint", "Pista", q.hint);
+    } else {
+      st.status = "incorrect";
+      st.points = 0;
+      lockOptionsVisual(q, selectedOption);
+      showFinalFeedback(q, st);
+      showNextButton();
+    }
+  }
+  renderMath(document.getElementById("app"));
+}
+
+function lockOptionsVisual(q, chosenWrong){
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    b.classList.remove("selected", "tried");
+    if (i === q.correct) b.classList.add("correct");
+    else if (i === chosenWrong) b.classList.add("wrong");
+  });
+}
+
+function showFinalFeedback(q, st){
+  if (st.status === "correct-first"){
+    renderFeedback("success", "¡Correcto! (+5 puntos)", q.explanation);
+  } else if (st.status === "correct-help"){
+    renderFeedback("success", "¡Muy bien, lo lograste con la ayuda! (+3 puntos)", q.explanation);
+  } else if (st.status === "incorrect"){
+    renderFeedback("explain", "La respuesta correcta era otra (+0 puntos)", q.explanation);
+  }
+}
+
+function renderFeedback(type, title, body){
+  const wrap = document.getElementById("feedbackWrap");
+  wrap.innerHTML = `
+    <div class="feedback ${type}">
+      <span class="ftitle">${title}</span>
+      <span>${body}</span>
+    </div>
+  `;
+  renderMath(wrap);
+}
+
+function showNextButton(){
+  const actions = document.getElementById("actionsWrap");
+  const isLast = currentIndex === order.length - 1;
+  actions.innerHTML = `<button class="btn btn-primary" id="btnNext">${isLast ? "Ver resultados" : "Siguiente pregunta"}</button>`;
+  document.getElementById("btnNext").addEventListener("click", () => {
+    if (isLast){
+      renderResults();
+    } else {
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+
+/* ---------------------------------------------------------------------
+   6) PANTALLA DE RESULTADOS
+   --------------------------------------------------------------------- */
+function renderResults(){
+  const app = document.getElementById("app");
+  const total = state.reduce((sum, s) => sum + s.points, 0);
+  const max = order.length * 5;
+
+  const okFirst = [], okHelp = [], wrong = [];
+  order.forEach((q, i) => {
+    const s = state[i];
+    if (s.status === "correct-first") okFirst.push(q);
+    else if (s.status === "correct-help") okHelp.push(q);
+    else wrong.push(q);
+  });
+
+  let msg;
+  const pct = max === 0 ? 0 : total / max;
+  if (pct >= 0.9) msg = "Muy buen dominio del modelo de la balanza. Revisá igual lo que te haya costado: siempre hay algo para afinar.";
+  else if (pct >= 0.7) msg = "Buen manejo de la idea de equilibrio, con algunos puntos concretos para repasar. Fijate en el detalle de abajo antes de seguir.";
+  else if (pct >= 0.5) msg = "Vas por buen camino, pero conviene volver sobre algunos temas antes de avanzar. Usá el detalle de abajo como guía.";
+  else msg = "Este resultado es un punto de partida, no un diagnóstico definitivo. Repasá las explicaciones de abajo con calma y volvé a intentarlo cuando te sientas listo/a.";
+
+  const promptPreview = q => q.prompt;
+
+  const section = (title, dotClass, list, showAnswer) => {
+    if (list.length === 0){
+      return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (0)</h3><p class="empty-note">No hubo preguntas en este grupo.</p></div>`;
+    }
+    const items = list.map(q => {
+      const correctText = q.optionsVisual
+        ? "ver la balanza correcta en la pregunta"
+        : q.options[q.correct];
+      return `
+      <div class="result-item">
+        <span class="rtag">${CATEGORY_LABELS[q.category]} &middot; ${q.id}</span>
+        <p class="rprompt">${promptPreview(q)}</p>
+        ${showAnswer ? `<div class="rexplain"><strong>Respuesta correcta:</strong> ${correctText}.<br>${q.explanation}</div>` : ""}
+      </div>`;
+    }).join("");
+    return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (${list.length})</h3>${items}</div>`;
+  };
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="score-hero">
+        <div class="score-num">${total}<span>/${max}</span></div>
+        <p class="score-msg">${msg}</p>
+      </div>
+      ${section("Respondiste bien sin ayuda", "ok", okFirst, false)}
+      ${section("Respondiste bien con ayuda", "help", okHelp, false)}
+      ${section("Para repasar", "no", wrong, true)}
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btnRestart">Volver a intentar (nuevo orden)</button>
+      </div>
+    </div>
+  `;
+  renderMath(app);
+  document.getElementById("btnRestart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------------------------------------------------------------------
+   7) INICIO
+   --------------------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderIntro();
+});
+</script>
+</body>
+</html>
