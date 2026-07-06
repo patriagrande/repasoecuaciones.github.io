@@ -772,16 +772,30 @@ function getAskParam(){
   return n;
 }
 
+// Parámetro opcional en la URL: ?debug=1
+// Si debug=1, las preguntas (y sus opciones) se presentan SIEMPRE en el mismo
+// orden, sin barajar: útil para revisar o depurar. Cualquier otro valor, o su
+// omisión, equivale a debug=0 (orden aleatorio, comportamiento por defecto).
+function getDebugParam(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1";
+}
+
 function questionCount(){
   const ask = getAskParam();
   return ask === null ? QUESTIONS.length : ask;
 }
 
 function resetState(){
-  // esta línea baraja todas las preguntas y sus opciones
-  order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
-  // para edición: poner una sola pregunta al principio (comentar la línea anterior y descomentar la siguiente)
-  //order = [QUESTIONS.find(q => q.id === "B3"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
+  if (getDebugParam()){
+    // modo debug (?debug=1): preguntas y opciones SIN barajar, orden fijo.
+    order = QUESTIONS.slice();
+  } else {
+    // por defecto (?debug=0 o ausente): esta línea baraja todas las preguntas y sus opciones
+    order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+    // para edición: poner una sola pregunta al principio (comentar la línea anterior y descomentar la siguiente)
+    //order = [QUESTIONS.find(q => q.id === "B3"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
+  }
 
   const ask = getAskParam();
   if (ask !== null) order = order.slice(0, ask);
