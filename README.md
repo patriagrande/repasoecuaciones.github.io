@@ -45,6 +45,8 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 
 * SEGUNDO AÑO, Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
 
+* SEGUNDO AÑO: Balanzas de dos platillos y Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/balanzas/index.html
+
 # Coordenadas en el plano (inclusión)
 
 https://patriagrande.github.io/repasoecuaciones.github.io/coordenadas
