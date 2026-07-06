@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Expresiones Algebraicas · Autoevaluación</title>
+<meta name="description" content="Autoevaluación interactiva sobre: Lenguaje coloquial y lenguaje algebraico. Apuntes de clases, capítulo 3 — 2.º año de Matemática, ESRN Paulo VI.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<style>
+  :root{
+    --paper:#F6F5EF;
+    --paper-deep:#EEECE3;
+    --grid:#D9DFE1;
+    --grid-soft:#E6EAEA;
+    --ink:#1E2A35;
+    --muted:#5B6B72;
+    --line-fainter:#c9d2d6;
+    --lila:#8C5FB5;
+    --lila-soft:#F1EAF8;
+    --teal:#1F7A6C;
+    --teal-soft:#E3F1EE;
+    --amber:#C97A2B;
+    --amber-soft:#FBF0E1;
+    --coral:#C1483F;
+    --coral-soft:#FBEAE8;
+    --radius:16px;
+    --radius-sm:10px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Source Sans 3', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+    --shadow: 0 3px 14px rgba(30,42,53,.08), 0 1px 3px rgba(30,42,53,.06);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    line-height:1.5;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  a{color:var(--teal);}
+
+  .shell{
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 18px 10px;
+  }
+
+  header.top{
+    text-align:left;
+    margin-bottom:22px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:26px;height:3px;
+    background:var(--coral);
+    border-radius:2px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px,6vw,36px);
+    margin:10px 0 4px;
+    line-height:1.08;
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--lila);
+  }
+  .subtitle{
+    font-size:16px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 22px 24px;
+    margin-bottom:18px;
+  }
+
+  .intro-text p{margin:0 0 12px;}
+  .rules{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:18px 0;
+  }
+  @media(min-width:560px){ .rules{grid-template-columns:1fr 1fr 1fr;} }
+  .rule-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    background:var(--paper-deep);
+  }
+  .rule-item .n{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:13px;
+  }
+  .rule-item.ok .n{color:var(--teal);}
+  .rule-item.help .n{color:var(--amber);}
+  .rule-item.no .n{color:var(--coral);}
+  .rule-item p{margin:4px 0 0; font-size:14px; color:var(--muted);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:16px;
+    padding:13px 22px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--teal); color:#fff;}
+  .btn-primary:hover{background:#186358;}
+  .btn-primary:disabled{background:#a9b8b4; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--grid);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-block{width:100%; justify-content:center;}
+
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .dots{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    max-width:70%;
+  }
+  .dot{
+    width:9px;height:9px;
+    border-radius:50%;
+    background:var(--grid);
+    border:1px solid var(--line-fainter);
+  }
+  .dot.current{background:var(--lila); border-color:var(--lila); transform:scale(1.3);}
+  .dot.done-ok{background:var(--teal); border-color:var(--teal);}
+  .dot.done-help{background:var(--amber); border-color:var(--amber);}
+  .dot.done-no{background:var(--coral); border-color:var(--coral);}
+  .qcount{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  /* ID de la pregunta — visible pero discreto */
+  .qid-label{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    color:var(--line-fainter);
+    margin-left:8px;
+    vertical-align:middle;
+    letter-spacing:.04em;
+    user-select:all;
+  }
+
+  .badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--lila);
+    background:var(--lila-soft);
+    border:1px solid #e0d2ef;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .prompt{
+    font-size:19px;
+    line-height:1.45;
+    margin:0 0 16px;
+  }
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.6px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:16px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .option:hover:not(:disabled){border-color:var(--lila);}
+  .option .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:7px;
+    border:1.6px solid var(--grid);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .option .otext{flex:1 1 auto;}
+  .option.selected{border-color:var(--lila); background:var(--lila-soft);}
+  .option.selected .letter{background:var(--lila); border-color:var(--lila); color:#fff;}
+  .option.correct{border-color:var(--teal); background:var(--teal-soft);}
+  .option.correct .letter{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .option.wrong{border-color:var(--coral); background:var(--coral-soft);}
+  .option.wrong .letter{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .option.tried{opacity:.5; text-decoration:line-through; cursor:not-allowed;}
+  .option:disabled{cursor:default;}
+
+  .feedback{
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:15px;
+    line-height:1.5;
+    border-left:4px solid transparent;
+  }
+  .feedback .ftitle{
+    font-weight:700;
+    display:block;
+    margin-bottom:4px;
+  }
+  .feedback.hint{background:var(--amber-soft); border-left-color:var(--amber);}
+  .feedback.hint .ftitle{color:var(--amber);}
+  .feedback.success{background:var(--teal-soft); border-left-color:var(--teal);}
+  .feedback.success .ftitle{color:var(--teal);}
+  .feedback.explain{background:var(--coral-soft); border-left-color:var(--coral);}
+  .feedback.explain .ftitle{color:var(--coral);}
+
+  .quiz-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  .score-hero{
+    text-align:center;
+    padding:10px 0 6px;
+  }
+  .score-num{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(46px,12vw,64px);
+    color:var(--ink);
+    line-height:1;
+  }
+  .score-num span{font-size:0.4em; color:var(--muted); font-family:var(--font-mono); font-weight:500;}
+  .score-msg{font-size:16px; color:var(--muted); max-width:46ch; margin:10px auto 0;}
+
+  .result-section{margin-top:20px;}
+  .result-section h3{
+    font-family:var(--font-mono);
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    display:flex;align-items:center;gap:8px;
+    margin:0 0 10px;
+  }
+  .dotmark{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dotmark.ok{background:var(--teal);}
+  .dotmark.help{background:var(--amber);}
+  .dotmark.no{background:var(--coral);}
+
+  .result-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    margin-bottom:8px;
+    background:#fff;
+  }
+  .result-item .rtag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .result-item .rprompt{font-size:15px; margin:4px 0 0;}
+  .result-item .rexplain{font-size:13.5px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--grid);}
+  .empty-note{font-size:14px; color:var(--muted); font-style:italic;}
+
+  footer.site{
+    max-width:720px;
+    margin:26px auto 0;
+    padding:20px 18px 4px;
+    border-top:1px solid var(--grid);
+  }
+  footer.site .rule{
+    width:26px;height:3px;background:var(--coral); border-radius:2px; margin-bottom:12px;
+  }
+  footer.site p{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:0 0 10px;
+  }
+  footer.site strong{color:var(--ink);}
+  footer.site .credit{
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .option{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <span class="eyebrow">Matemática · 2.º año · ESRN Paulo VI</span>
+    <h1 class="title">Del lenguaje coloquial <em>al álgebra</em></h1>
+    <p class="subtitle">Autoevaluación — Capítulo 3: Lenguaje Coloquial y Expresiones Algebraicas</p>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+</div>
+
+<footer class="site">
+  <div class="rule"></div>
+  <p><strong>Sobre este recurso.</strong> Esta aplicación fue programada con la asistencia de Claude (Anthropic) a partir de una consigna del autor; las ilustraciones de los enunciados fueron generadas con 
+  Gemini (Google); las decisiones didácticas, la selección de preguntas y los criterios de corrección son responsabilidad exclusiva del <strong>Lic. Nicolás Rosbaco</strong> (ESRN Paulo VI — Viedma, Río Negro). Es un material complementario del Capítulo 3 del apunte de 2.º año (2026), publicado bajo licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0.</p>
+  <p><strong>Por qué autoevaluarte.</strong> Este puntaje no es una nota ni un veredicto: es tuyo. La idea es que vayas construyendo tus propios criterios sobre qué significa entender un tema, y que aprendas a notar, con honestidad y sin culpa, qué te falta repasar. Usá este resultado como una brújula para vos mismo/a, no como una sentencia.</p>
+  <p class="credit">nicolasrosbaco@curza.com.ar</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   Capítulo 3 — Autoevaluación: expresiones algebraicas y balanza
+   Lic. Nicolás Rosbaco · ESRN Paulo VI · Viedma, Río Negro
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   1) CATEGORÍAS
+   --------------------------------------------------------------------- */
+
+const CATEGORY_LABELS = {
+  traduccion:   "Coloquial → algebraico",
+  inversa:      "Algebraico → coloquial",
+  incognita:    "La incógnita",
+  balanza:      "Balanza de dos platillos",
+  concepto:     "Para pensar",
+  razonamiento: "Analizar un razonamiento"
+};
+
+/* ---------------------------------------------------------------------
+   2) BANCO DE 25 PREGUNTAS
+   --------------------------------------------------------------------- */
+
+const QUESTIONS = [
+
+  // ── TRADUCCIÓN (coloquial → algebraico) ─────────────────────────────
+  {
+    id:"T1", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"El doble de la edad de Marcela es 40 años.\"</em><br>¿Cuál de las siguientes expresiones algebraicas la traduce correctamente?",
+    options:[
+      "$2 \\cdot m = 40$",
+      "$m + 2 = 40$",
+      "$\\dfrac{m}{2} = 40$",
+      "$m - 2 = 40$"
+    ],
+    correct:0,
+    hint:"Identificá primero la incógnita: la edad de Marcela (la llamamos $m$). \"El doble de\" indica multiplicar por $2$. \"Es\" indica el signo $=$.",
+    explanation:"Llamamos $m$ a la edad de Marcela. \"El doble de $m$\" es $2 \\cdot m$; \"es 40\" da el igual. Traducción correcta: $2 \\cdot m = 40$."
+  },
+  {
+    id:"T2", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"La cuarta parte de los alfajores que vendió el kiosco es 12.\"</em><br>¿Cuál de las siguientes expresiones algebraicas la traduce correctamente?",
+    options:[
+      "$\\dfrac{k}{4} = 12$",
+      "$4 \\cdot k = 12$",
+      "$k - 4 = 12$",
+      "$k + 4 = 12$"
+    ],
+    correct:0,
+    hint:"\"La cuarta parte de algo\" significa dividirlo entre $4$. Llamá $k$ a la cantidad desconocida de alfajores.",
+    explanation:"Llamamos $k$ a la cantidad de alfajores. La cuarta parte de $k$ es $\\dfrac{k}{4}$; \"es 12\" da el igual. Traducción: $\\dfrac{k}{4} = 12$."
+  },
+  {
+    id:"T3", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"Un número aumentado en 9 es igual a 21.\"</em><br>¿Cuál es su traducción algebraica correcta?",
+    options:[
+      "$n + 9 = 21$",
+      "$9 \\cdot n = 21$",
+      "$n - 9 = 21$",
+      "$n + 21 = 9$"
+    ],
+    correct:0,
+    hint:"\"Aumentado en 9\" indica que se le suma $9$ a la cantidad desconocida. \"Es igual a\" da el signo $=$.",
+    explanation:"Llamamos $n$ al número desconocido. \"Aumentado en $9$\" se traduce como $n + 9$; \"es igual a $21$\" da el $= 21$. Traducción: $n + 9 = 21$."
+  },
+  {
+    id:"T4", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"Si al triple de un número le restamos 7, obtenemos 11.\"</em><br>¿Cuál es su traducción algebraica correcta?",
+    options:[
+      "$3 \\cdot n - 7 = 11$",
+      "$7 - 3 \\cdot n = 11$",
+      "$3 \\cdot n + 7 = 11$",
+      "$3 \\cdot (n - 7) = 11$"
+    ],
+    correct:0,
+    hint:"La frase tiene un orden: primero \"el triple de $n$\" ($3 \\cdot n$), después \"le restamos $7$\" ($-7$), después \"obtenemos $11$\" ($=11$). El orden del enunciado es el orden de la expresión.",
+    explanation:"Llamamos $n$ al número. \"El triple de $n$\" es $3 \\cdot n$; \"le restamos $7$\" da el $-7$; \"obtenemos $11$\" da el $=11$. Traducción: $3 \\cdot n - 7 = 11$. La opción $3 \\cdot (n-7)=11$ significaría que primero se resta $7$ al número y después se triplica el resultado: eso es una situación distinta."
+  },
+  {
+    id:"T5", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"La suma de un número natural y el siguiente número natural es 23.\"</em><br>¿Cuál es su traducción algebraica correcta?",
+    options:[
+      "$n + (n+1) = 23$",
+      "$n + (n+2) = 23$",
+      "$2 \\cdot n = 23$",
+      "$n \\cdot (n+1) = 23$"
+    ],
+    correct:0,
+    hint:"Si el primer número natural es $n$, su sucesor (el siguiente) es siempre $n + 1$. \"La suma\" de ambos es la adición.",
+    explanation:"Llamamos $n$ al primer número natural. El siguiente es $n + 1$ (los naturales van de uno en uno). La suma de ambos es $n + (n+1) = 23$. La opción $2 \\cdot n = 23$ olvida el $+1$ del sucesor."
+  },
+  {
+    id:"T6", category:"traduccion", visual:false,
+    prompt:"La frase dice: <em>\"Valentina preparó empanadas: hizo 3 veces la misma cantidad en el horno y además tenía 4 guardadas de ayer. En total tiene 19.\"</em><br>¿Cuál es su traducción algebraica correcta?",
+    options:[
+      "$3 \\cdot e + 4 = 19$",
+      "$e + 3 \\cdot 4 = 19$",
+      "$3 \\cdot (e + 4) = 19$",
+      "$4 \\cdot e + 3 = 19$"
+    ],
+    correct:0,
+    hint:"La incógnita es la cantidad que hizo hoy (llamala $e$). \"3 veces esa cantidad\" es $3 \\cdot e$; \"más 4 guardadas\" agrega $+4$; \"en total 19\" da el igual.",
+    explanation:"Llamamos $e$ a las empanadas de hoy. $3 \\cdot e$ son las del horno; $+4$ son las de ayer; $=19$ es el total. La opción $3 \\cdot (e+4)=19$ significaría que las 4 guardadas también se triplican: eso es otra situación diferente."
+  },
+  {
+    id:"T7", category:"traduccion", visual:false,
+    prompt:"El enunciado dice dos cosas: <em>\"Entre Sofía y su hermana ahorraron $35.000. Sofía ahorró $9.000 más que su hermana.\"</em><br>¿Cuál de los siguientes pares de expresiones traduce correctamente las DOS frases?",
+    options:[
+      "$s + h = 35000$ &nbsp; y &nbsp; $s = h + 9000$",
+      "$s + h = 35000$ &nbsp; y &nbsp; $h = s + 9000$",
+      "$s \\cdot h = 35000$ &nbsp; y &nbsp; $s = h + 9000$",
+      "$s + h = 9000$ &nbsp; y &nbsp; $s = h + 35000$"
+    ],
+    correct:0,
+    hint:"Usamos $s$ para el ahorro de Sofía y $h$ para el de la hermana. Primera frase: la suma total es $35.000$. Segunda frase: Sofía tiene $9.000$ MÁS que la hermana, entonces $s = h + 9000$ (no al revés).",
+    explanation:"\"Entre las dos ahorraron $35.000$\" es $s + h = 35000$. \"Sofía ahorró $9.000$ más que su hermana\" es $s = h + 9000$ (porque al ahorro de la hermana le sumamos $9.000$ para llegar al de Sofía, no al revés)."
+  },
+
+  // ── INVERSA (algebraico → coloquial) ────────────────────────────────
+  {
+    id:"I1", category:"inversa", visual:false,
+    prompt:"¿Qué situación podría haber dado origen a la expresión algebraica $x - 8 = 15$?",
+    options:[
+      "Un número disminuido en 8 es igual a 15.",
+      "Un número aumentado en 8 es igual a 15.",
+      "8 menos un número es igual a 15.",
+      "La mitad de un número, menos 8, es 15."
+    ],
+    correct:0,
+    hint:"La expresión tiene una letra $x$ (cantidad desconocida), le resta $8$, y el resultado es $15$. Buscá la opción que diga exactamente eso.",
+    explanation:"$x - 8 = 15$ se lee: un número ($x$) al que le quitamos $8$ ($-8$) da $15$ ($=15$). Eso es \"un número disminuido en 8 es 15\". La opción \"8 menos un número\" daría $8 - x$, que es una expresión distinta."
+  },
+  {
+    id:"I2", category:"inversa", visual:false,
+    prompt:"¿Qué situación podría haber dado origen a la expresión $4 \\cdot p + 3 = 19$?",
+    options:[
+      "El cuádruple de un número, más 3, es 19.",
+      "Un número más 3, y todo eso multiplicado por 4, es 19.",
+      "4 más el triple de un número es 19.",
+      "La cuarta parte de un número más 3 es 19."
+    ],
+    correct:0,
+    hint:"Fijate en el orden de la expresión: primero $4 \\cdot p$ (cuatro veces la incógnita), después $+3$ (sumar 3), después $=19$. Buscá la opción que respete ese orden.",
+    explanation:"$4 \\cdot p$ es \"el cuádruple de $p$\"; $+3$ es \"más 3\"; $=19$ es \"es 19\". La segunda opción daría $4 \\cdot (p+3) = 19$, que es diferente porque primero se suma y luego se multiplica todo el paréntesis."
+  },
+  {
+    id:"I3", category:"inversa", visual:false,
+    prompt:"¿Cuál de las siguientes situaciones podría dar origen a la expresión $\\dfrac{t}{2} = 51$?",
+    options:[
+      "La mitad de cierto tiempo $t$ es 51.",
+      "El doble de cierto tiempo $t$ es 51.",
+      "Un tiempo $t$ dividido en 51 partes iguales da 2.",
+      "Cierto tiempo $t$ menos 2 es igual a 51."
+    ],
+    correct:0,
+    hint:"La barra de fracción indica división. $\\dfrac{t}{2}$ significa \"$t$ dividido 2\", es decir, la mitad de $t$.",
+    explanation:"$\\dfrac{t}{2}$ es la mitad de $t$; $= 51$ dice que esa mitad vale 51. La traducción correcta es \"la mitad de $t$ es 51\". El doble de $t$ se escribiría $2 \\cdot t$, no $\\dfrac{t}{2}$."
+  },
+
+  // ── INCÓGNITA ────────────────────────────────────────────────────────
+  {
+    id:"K1", category:"incognita", visual:false,
+    prompt:"Para resolver <em>\"el doble de la edad de Walter, aumentada en 6 años, es 36 años\"</em>, ¿cuál de estas afirmaciones sobre la incógnita es correcta?",
+    options:[
+      "La incógnita es la edad de Walter, representada con la letra $w$.",
+      "La incógnita es 36, porque es el valor que aparece explícito en el problema.",
+      "La incógnita es el 6, porque es lo que se le suma al doble.",
+      "No hay incógnita: el problema ya tiene todos los datos."
+    ],
+    correct:0,
+    hint:"La incógnita es la cantidad que NO sabemos y queremos encontrar. ¿Qué es lo que el problema nos pide calcular?",
+    explanation:"El problema nos pregunta cuántos años tiene Walter: eso es lo que no sabemos. Esa cantidad desconocida es la incógnita, y la representamos con $w$. Los valores 36 y 6 son datos conocidos que el enunciado ya nos da."
+  },
+  {
+    id:"K2", category:"incognita", visual:false,
+    prompt:"Para traducir <em>\"la cuarta parte de los alfajores del kiosco es 12\"</em>, ¿cuál es la mejor elección para la letra que representa la incógnita?",
+    options:[
+      "$k$ (de <em>kiosco</em>), porque la letra recuerda qué cantidad representa.",
+      "$x$, porque en matemática siempre se usa $x$ para lo desconocido.",
+      "$4$, porque la cuarta parte involucra el número 4.",
+      "$12$, porque es el valor conocido del problema."
+    ],
+    correct:0,
+    hint:"En matemática no hay una única letra obligatoria para la incógnita. La elección más útil es la que te ayuda a recordar qué cantidad representa.",
+    explanation:"Cualquier letra sirve, pero elegir $k$ (de kiosco) o $a$ (de alfajores) es más útil porque te recuerda qué representa. Los números 4 y 12 son datos del problema, no incógnitas: no se usan como letras."
+  },
+
+// ── BALANZA ──────────────────────────────────────────────────────────
+  {
+    id:"B1", category:"balanza", visual:true,
+    prompt:"<img src=\"./imagenes/01.jpg\" alt=\"Balanza con sandías y pesas\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    options:[
+      "$3 \\cdot s + 2 = 17$",
+      "$3 \\cdot (s + 2) = 17$",
+      "$s + 3 \\cdot 2 = 17$",
+      "$3 \\cdot s = 17 + 2$"
+    ],
+    correct:0,
+    hint:"Llamá $s$ al peso de una sandía. «3 sandías» significa multiplicar ese peso por 3. Luego se le suma la pesa de 2 kg. Todo eso se equilibra (es igual) a 17 kg.",
+    explanation:"Llamamos $s$ al peso de una sandía. En el primer platillo hay 3 sandías ($3 \\cdot s$) y una pesa de 2 kg ($+ 2$). Esto se equilibra ($=$) con los 17 kg del otro platillo. Por lo tanto, la expresión es $3 \\cdot s + 2 = 17$."
+  },
+  {
+    id:"B2", category:"balanza", visual:true,
+    prompt:"<b>IMPORTANTE:</b> Es importante asumir que todos los ladrillos pesas lo mismo.<img src=\"./imagenes/02.jpg\" alt=\"Balanza con ladrillos y bolsa de cemento\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    options:[
+      "$7 \\cdot L = 2 \\cdot L + 6$",
+      "$ 6 \\cdot L +1= 2 \\cdot L + 6$",
+      "$5 \\cdot L + 6 = 2 \\cdot L$",
+      "$5 \\cdot L = 2 \\cdot (L + 6)$"
+    ],
+    correct:0,
+    hint:"Usá $L$ para identificar el peso de un ladrillo. Fijate cuántos ladrillos hay en cada platillo. Ojo... no te olvides que además hay 6 kg (no importa de qué son esos 6 kg).",
+    explanation:"Si $L$ es el peso del ladrillo, 7 ladrillos pesan $7 \\cdot L$. Esto equivale ($=$) a 2 ladrillos ($2 \\cdot L$) más los 6 kg de cemento ($+ 6$). La igualdad es $7 \\cdot L = 2 \\cdot L + 6$."
+  },
+  {
+    id:"B3", category:"balanza", visual:true,
+    prompt:"<b>IMPORTANTE:</b> debemos suponer que todas las cajas son iguales (pesan lo mismo)<img src=\"./imagenes/03.jpg\" alt=\"Balanza con cajas y sobre\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    options:[
+      "$2 \\cdot c + 1,5 = 6 \\cdot c$",
+      "$2 \\cdot c = 6 \\cdot c + 1,5$",
+      "$c + 4 + 1,5 = c + 7$",
+      "$2 \\cdot (c + 1,5) = 6 \\cdot c$"
+    ],
+    correct:0,
+    hint:"Llamemos $c$ al peso de una caja. RECORDÁ que asumimos que <b>son todas iguales</b>. Fijate bien cuántas hay en cada platillo de la balanza.",
+    explanation:"Sea $c$ el peso de cada caja. De un lado tenemos 2 cajas ($2 \\cdot c$) más un sobre de 1,5 kg ($+ 1,5$). Del otro lado tenemos 6 cajas iguales ($6 \\cdot c$). El equilibrio se representa con la expresión $2 \\cdot c + 1,5 = 6 \\cdot c$."
+  },
+  {
+    id:"B4", category:"balanza", visual:true,
+    prompt:"<b>IMPORTANTE:</b> Podes observar que los frascos tienen tapas diferentes. Más allá de eso debemos suponer que todos los frascos son iguales (pesan lo mismo). El paquete de Harina pesa 1 kg.<img src=\"./imagenes/04.jpg\" alt=\"Balanza con frascos y paquetes de harina\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    options:[
+      "$5 \\cdot f = 2 \\cdot f + 2$",
+      "$5 \\cdot f = 2 \\cdot f + 1$",
+      "$4 \\cdot f +1 = 2 \\cdot f + 2$",
+      "$3 \\cdot f + 2 \\cdot f + 2 = 2 \\cdot f$"
+    ],
+    correct:0,
+    hint:"Llamá $f$ al peso de un frasco; recordá que cada paquete de harina pesa 1 kg (los dos paquetes son idénticos). Contá cuántas cosas de que tipo hay de cada lado de la balanza.",
+    explanation:"Llamando $f$ al peso de un frasco, el primer platillo tiene 5 frascos ($5 \\cdot f$). Este peso «es exactamente igual» ($=$) a 2 frascos ($2 \\cdot f$) más los 2 kilos de harina. La expresión que lo representa es $5 \\cdot f = 2 \\cdot f + 2$."
+  },
+
+  // ── CONCEPTO ─────────────────────────────────────────────────────────
+  {
+    id:"C1", category:"concepto", visual:false,
+    prompt:"¿Cuál de las siguientes afirmaciones sobre el método de la balanza es <strong>INCORRECTA</strong>?",
+    options:[
+      "Al resolver, las cosas \"pasan de un lado al otro cambiando de signo\".",
+      "Hay que aplicar la misma operación en los dos platillos simultáneamente.",
+      "Restar 6 en ambos lados de $2 \\cdot w + 6 = 36$ mantiene el equilibrio.",
+      "El objetivo es dejar la incógnita sola en un platillo."
+    ],
+    correct:0,
+    hint:"Una de estas afirmaciones describe algo que el capítulo dice explícitamente que NO ocurre, aunque sea una idea muy difundida.",
+    explanation:"\"Las cosas pasan de un lado al otro cambiando de signo\" es un error muy frecuente, pero NO es lo que ocurre. Lo correcto es aplicar la misma operación en AMBOS platillos. Nada se traslada: se opera en los dos lados a la vez."
+  },
+  {
+    id:"C2", category:"concepto", visual:false,
+    prompt:"En la expresión $2 \\cdot e = 40$, ¿qué diferencia hay entre la letra $e$ y el número $40$?",
+    options:[
+      "$e$ representa una cantidad desconocida; el $40$ es un dato conocido del problema.",
+      "$e$ es siempre mayor que $40$ por ser una variable.",
+      "$e$ y el $40$ representan lo mismo, solo con distinta notación.",
+      "$e$ es un número real y el $40$ es un número natural, pero en álgebra son equivalentes."
+    ],
+    correct:0,
+    hint:"¿Para qué sirve usar una letra en matemática? ¿Qué sabemos sobre $e$ al plantear la expresión, y qué sabemos sobre el $40$?",
+    explanation:"La letra $e$ es un símbolo que \"ocupa el lugar\" de una cantidad que todavía no conocemos. El $40$, en cambio, es un dato explícito que el enunciado ya nos da. Esa es la diferencia fundamental entre una incógnita y un dato conocido."
+  },
+  {
+    id:"C3", category:"concepto", visual:false,
+    prompt:"Dos compañeros traducen la misma situación: <em>\"el triple de un número, menos 7, es 11\"</em>. El compañero A escribe $3 \\cdot n - 7 = 11$. El compañero B escribe $7 - 3 \\cdot n = 11$. ¿Quién tiene razón?",
+    options:[
+      "El compañero A, porque respetó el orden de la frase.",
+      "El compañero B, porque la resta siempre va primero.",
+      "Los dos están bien, porque la resta es conmutativa.",
+      "Ninguno; la expresión correcta es $3 \\cdot (n - 7) = 11$."
+    ],
+    correct:0,
+    hint:"¿La resta es conmutativa? Probá con números concretos: ¿$7 - 3$ es lo mismo que $3 - 7$?",
+    explanation:"El compañero A tiene razón. La frase dice \"el triple de $n$\" primero ($3 \\cdot n$) y \"le restamos $7$\" después ($-7$). La resta NO es conmutativa: $3 \\cdot n - 7 \\neq 7 - 3 \\cdot n$."
+  },
+
+  // ── RAZONAMIENTO ─────────────────────────────────────────────────────
+  {
+    id:"R1", category:"razonamiento", visual:false,
+    prompt:"Marcela dice: <em>\"Sumarle 8 a un número y después multiplicar el resultado por 3 es lo mismo que multiplicar por 3 y después sumarle 8, porque el orden de los factores no altera el producto.\"</em> ¿Tiene razón?",
+    options:[
+      "No. Marcela confunde una propiedad de la multiplicación con el orden de prioridades entre operaciones distintas.",
+      "Sí. La propiedad conmutativa garantiza que el resultado es el mismo.",
+      "Sí, pero solo si el número es positivo.",
+      "No, porque en álgebra no se puede cambiar el orden de ninguna operación."
+    ],
+    correct:0,
+    hint:"Probá con un número concreto, por ejemplo $n = 2$: calculá $(2 + 8) \\cdot 3$ y después $2 \\cdot 3 + 8$. ¿Dan lo mismo?",
+    explanation:"Con $n = 2$: $(2+8) \\cdot 3 = 30$, pero $2 \\cdot 3 + 8 = 14$. No son iguales. La conmutatividad dice que $a \\cdot b = b \\cdot a$ (cambiar el orden de los factores de una única multiplicación). Pero acá hay dos operaciones distintas (suma y multiplicación), y el orden en que se aplican cambia completamente el resultado."
+  },
+  {
+    id:"R2", category:"razonamiento", visual:false,
+    prompt:"Tomás dice: <em>\"En la expresión algebraica $n + (n+1)$, el $+1$ es tan chico que se puede ignorar, así que queda igual a $2 \\cdot n$.\"</em> ¿Tiene razón?",
+    options:[
+      "No. En álgebra no hay aproximaciones: $n + (n+1) = 2 \\cdot n + 1$, y esa unidad importa.",
+      "Sí. En álgebra los números pequeños se desprecian para simplificar.",
+      "Depende del valor de $n$: si $n$ es grande, el $+1$ sí se puede ignorar.",
+      "Sí, porque $n + n = 2n$ y el $1$ aislado no cambia la expresión algebraica."
+    ],
+    correct:0,
+    hint:"Hacé la cuenta: $n + (n+1)$ es $n + n + 1$. ¿Es lo mismo que $2 \\cdot n$?",
+    explanation:"$n + (n+1) = n + n + 1 = 2 \\cdot n + 1$. Eso es distinto de $2 \\cdot n$. En álgebra no se \"desprecia\" nada: ese $+1$ puede cambiar completamente el sentido de la expresión."
+  },
+  {
+    id:"R3", category:"razonamiento", visual:false,
+    prompt:"Juliana dice: <em>\"Las expresiones $3 \\cdot n - 7$ y $7 - 3 \\cdot n$ son la misma cosa escrita de dos maneras distintas, porque la resta es conmutativa.\"</em> ¿Tiene razón?",
+    options:[
+      "No. La resta NO es conmutativa: $3 \\cdot n - 7$ y $7 - 3 \\cdot n$ son expresiones algebraicas distintas.",
+      "Sí. Como involucran los mismos números y la misma letra, representan lo mismo.",
+      "Sí, pero solo cuando $n = 0$.",
+      "No, porque en álgebra la conmutatividad solo aplica a letras, no a números."
+    ],
+    correct:0,
+    hint:"Probá con $n = 4$: calculá $3 \\cdot 4 - 7$ y $7 - 3 \\cdot 4$. ¿Dan el mismo resultado?",
+    explanation:"Con $n = 4$: $3 \\cdot 4 - 7 = 5$ y $7 - 3 \\cdot 4 = -5$. Son opuestos, no iguales. La suma sí es conmutativa ($a + b = b + a$), pero la resta no: $a - b \\neq b - a$ en general."
+  },
+  {
+    id:"RA4", category:"razonamiento", visual:false,
+    prompt:"Valentina traduce <em>'la suma de tres cantidades iguales a $f$ es 21'</em> y escribe $f + f + f = 21$. Su compañero dice que está mal, que la única forma correcta es $3 \\cdot f = 21$, porque <em>'el triple significa multiplicar, no sumar'</em>. Valentina responde que $f + f + f$ y $3 \\cdot f$ no son lo mismo. ¿Quién tiene razón?",
+    options:[
+      "Los dos están en parte equivocados: las dos expresiones son equivalentes. La multiplicación es una suma repetida: $f + f + f = 3 \\cdot f$ para cualquier valor de $f$.",
+      "El compañero tiene razón: $3 \\cdot f$ es la única forma correcta de escribir el triple.",
+      "Valentina tiene razón: $f + f + f$ y $3 \\cdot f$ son expresiones distintas porque una tiene sumas y la otra tiene una multiplicación.",
+      "Los dos están mal: la forma correcta es $f^3$, que significa '$f$ al cubo'."
+    ],
+    correct:0,
+    hint:"Probá con un número concreto. Si $f = 4$: ¿cuánto vale $f + f + f$? ¿Y cuánto vale $3 \\cdot f$? ¿Coinciden?",
+    explanation:"Con $f = 4$: $f + f + f = 4 + 4 + 4 = 12$, y $3 \\cdot f = 3 \\cdot 4 = 12$. Coinciden, y eso ocurre para cualquier valor de $f$: sumar tres veces la misma cantidad es lo mismo que multiplicarla por 3. Las dos traducciones son correctas. La opción D ($f^3$) significaría '$f$ elevado al cubo' ($f \\cdot f \\cdot f$), que es algo completamente distinto."
+  },
+  {
+    id:"R5", category:"razonamiento", visual:false,
+    prompt:"Para traducir <em>\"Al triple de un número, lo disminuímos en 5 unidades y da como resultado 10\"</em>, Sofía escribe $3 \\cdot n - 5 = 10$. Pero Walter tiene otra idea, él escribe: $3 \\cdot (n-5) = 10$. ¿Quién tiene razón?",
+    options:[
+      "Los dos pueden tener razón: la frase es ambigua y admite las dos interpretaciones.",
+      "Solo Sofía, porque es al triple que se disminuye en 5 unidades y da como resultado 10.",
+      "Solo Walter, porque primero hay que disminuir en 5 unidades al número y por último calcular el triple.",
+      "Ninguno; la frase no se puede traducir porque le faltan datos."
+    ],
+    correct:0,
+    hint:"Leé la frase con cuidado: ¿\"disminuido en 5\" se aplica al número antes de triplicarlo, o al triple ya calculado? Las dos lecturas son posibles.",
+    explanation:"La frase es genuinamente ambigua. Si \"disminuido en 5\" se refiere al número, es $3 \\cdot (n-5) = 10$ (Walter). Si se refiere al triple, es $3 \\cdot n - 5 = 10$ (Sofía). Esto muestra por qué el lenguaje algebraico es más preciso que el coloquial: el paréntesis resuelve la ambigüedad que la palabra no puede."
+  }
+
+];
+
+/* ---------------------------------------------------------------------
+   3) ESTADO DE LA APLICACIÓN
+   --------------------------------------------------------------------- */
+
+let order = [];
+let state = [];
+let currentIndex = 0;
+let selectedOption = null;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function shuffleQuestionOptions(q){
+  const idxs = q.options.map((_, i) => i);
+  const shuffled = shuffle(idxs);
+  const newOptions = shuffled.map(i => q.options[i]);
+  const newCorrect = shuffled.indexOf(q.correct);
+  return Object.assign({}, q, { options:newOptions, correct:newCorrect });
+}
+
+// Parámetro opcional en la URL: ?ask=N
+// Si N es un entero válido entre 1 y la cantidad total de preguntas, se usa para
+// recortar el cuestionario a N preguntas (elegidas al azar). Si no, se ignora.
+function getAskParam(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("ask")) return null;
+  const n = Number(params.get("ask"));
+  if (!Number.isInteger(n) || n < 1 || n > QUESTIONS.length) return null;
+  return n;
+}
+
+function questionCount(){
+  const ask = getAskParam();
+  return ask === null ? QUESTIONS.length : ask;
+}
+
+function resetState(){
+  // esta línea baraja todas las preguntas y sus opciones
+  order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+  // para edición: poner una sola pregunta al principio (comentar la línea anterior y descomentar la siguiente)
+  //order = [QUESTIONS.find(q => q.id === "B3"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
+
+  const ask = getAskParam();
+  if (ask !== null) order = order.slice(0, ask);
+
+  state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
+  currentIndex = 0;
+  selectedOption = null;
+}
+
+function renderMath(container){
+  if (window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters:[{ left:"$", right:"$", display:false }],
+      throwOnError:false
+    });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4) PANTALLA DE INICIO
+   --------------------------------------------------------------------- */
+
+function renderIntro(){
+  const app = document.getElementById("app");
+  app.innerHTML = `
+    <div class="card intro-text">
+      <p>Esta autoevaluación tiene <strong>${questionCount()} pregunta${questionCount() === 1 ? "" : "s"}</strong> sobre los temas del Capítulo 3: traducir situaciones del lenguaje cotidiano al algebraico, interpretar una expresión algebraica, identificar incógnitas, y trabajar con el método de la balanza de dos platillos. El orden de las preguntas —y el orden de las opciones dentro de cada una— se sortea cada vez que abrís la página.</p>
+      <p>Algunos ítems no te piden calcular: te piden analizar si un razonamiento es correcto o incorrecto. Esas son, quizás, las preguntas más interesantes.</p>
+      <div class="rules">
+        <div class="rule-item ok">
+          <span class="n">✓ Bien a la primera</span>
+          <p>Sumás <strong>5 puntos</strong> y recibís una confirmación de tu razonamiento.</p>
+        </div>
+        <div class="rule-item help">
+          <span class="n">◐ Un error + ayuda</span>
+          <p>Si te equivocás una vez, aparece una pista. Si después acertás, sumás <strong>3 puntos</strong>.</p>
+        </div>
+        <div class="rule-item no">
+          <span class="n">✕ Segundo error</span>
+          <p>No sumás puntos, pero vas a ver la explicación completa de la respuesta correcta.</p>
+        </div>
+      </div>
+      <p>Al terminar vas a ver tu puntaje y un detalle de qué respondiste bien sin ayuda, qué respondiste bien con ayuda, y qué te conviene repasar.</p>
+      <button class="btn btn-primary btn-block" id="btnStart">Empezar la autoevaluación</button>
+    </div>
+  `;
+  document.getElementById("btnStart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   5) PANTALLA DE PREGUNTA
+   --------------------------------------------------------------------- */
+
+function dotsHTML(){
+  return order.map((q, i) => {
+    let cls = "dot";
+    if (i === currentIndex) cls += " current";
+    else if (state[i].status === "correct-first") cls += " done-ok";
+    else if (state[i].status === "correct-help") cls += " done-help";
+    else if (state[i].status === "incorrect") cls += " done-no";
+    return `<span class="${cls}"></span>`;
+  }).join("");
+}
+
+function renderQuestion(){
+  selectedOption = null;
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  const app = document.getElementById("app");
+
+  const optionsHTML = q.options.map((opt, i) => `
+    <button class="option" data-idx="${i}">
+      <span class="letter">${String.fromCharCode(65 + i)}</span>
+      <span class="otext">${opt}</span>
+    </button>
+  `).join("");
+
+  app.innerHTML = `
+    <div class="progress-row">
+      <div class="dots" aria-hidden="true">${dotsHTML()}</div>
+      <span class="qcount">Pregunta ${currentIndex + 1} / ${order.length}</span>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;margin-bottom:14px;">
+        <span class="badge">${CATEGORY_LABELS[q.category]}</span>
+        <span class="qid-label">${q.id}</span>
+      </div>
+      <p class="prompt">${q.prompt}</p>
+      <div class="options" id="optionsWrap">${optionsHTML}</div>
+      <div id="feedbackWrap"></div>
+      <div class="quiz-actions" id="actionsWrap">
+        <button class="btn btn-primary" id="btnVerify" disabled>Verificar respuesta</button>
+      </div>
+    </div>
+  `;
+
+  renderMath(app);
+
+  document.querySelectorAll(".option").forEach(btn => {
+    btn.addEventListener("click", () => selectOption(parseInt(btn.dataset.idx, 10)));
+  });
+  document.getElementById("btnVerify").addEventListener("click", verifyAnswer);
+
+  if (st.status === "correct-first" || st.status === "correct-help" || st.status === "incorrect"){
+    lockOptionsVisual(q, st.selectedFirst);
+    showFinalFeedback(q, st);
+    showNextButton();
+  }
+}
+
+function selectOption(idx){
+  const st = state[currentIndex];
+  if (st.status !== "pending" && st.status !== "retry") return;
+  const buttons = document.querySelectorAll(".option");
+  if (buttons[idx].classList.contains("tried")) return;
+  buttons.forEach(b => b.classList.remove("selected"));
+  buttons[idx].classList.add("selected");
+  selectedOption = idx;
+  document.getElementById("btnVerify").disabled = false;
+}
+
+function verifyAnswer(){
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  if (selectedOption === null) return;
+
+  st.attempts++;
+  const isCorrect = selectedOption === q.correct;
+  if (st.attempts === 1) st.selectedFirst = selectedOption;
+
+  if (isCorrect){
+    st.status = st.attempts === 1 ? "correct-first" : "correct-help";
+    st.points = st.attempts === 1 ? 5 : 3;
+    lockOptionsVisual(q, selectedOption);
+    showFinalFeedback(q, st);
+    showNextButton();
+  } else {
+    if (st.attempts === 1){
+      st.status = "retry";
+      document.querySelectorAll(".option")[selectedOption].classList.add("tried");
+      document.querySelectorAll(".option")[selectedOption].classList.remove("selected");
+      selectedOption = null;
+      document.getElementById("btnVerify").disabled = true;
+      document.getElementById("btnVerify").textContent = "Verificar de nuevo";
+      renderFeedback("hint", "Pista", q.hint);
+    } else {
+      st.status = "incorrect";
+      st.points = 0;
+      lockOptionsVisual(q, selectedOption);
+      showFinalFeedback(q, st);
+      showNextButton();
+    }
+  }
+  renderMath(document.getElementById("app"));
+}
+
+function lockOptionsVisual(q, chosenWrong){
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    b.classList.remove("selected", "tried");
+    if (i === q.correct) b.classList.add("correct");
+    else if (i === chosenWrong) b.classList.add("wrong");
+  });
+}
+
+function showFinalFeedback(q, st){
+  if (st.status === "correct-first"){
+    renderFeedback("success", "¡Correcto! (+5 puntos)", q.explanation);
+  } else if (st.status === "correct-help"){
+    renderFeedback("success", "¡Muy bien, lo lograste con la ayuda! (+3 puntos)", q.explanation);
+  } else if (st.status === "incorrect"){
+    renderFeedback("explain", "La respuesta correcta era otra (+0 puntos)", q.explanation);
+  }
+}
+
+function renderFeedback(type, title, body){
+  const wrap = document.getElementById("feedbackWrap");
+  wrap.innerHTML = `
+    <div class="feedback ${type}">
+      <span class="ftitle">${title}</span>
+      <span>${body}</span>
+    </div>
+  `;
+  renderMath(wrap);
+}
+
+function showNextButton(){
+  const actions = document.getElementById("actionsWrap");
+  const isLast = currentIndex === order.length - 1;
+  actions.innerHTML = `<button class="btn btn-primary" id="btnNext">${isLast ? "Ver resultados" : "Siguiente pregunta"}</button>`;
+  document.getElementById("btnNext").addEventListener("click", () => {
+    if (isLast){
+      renderResults();
+    } else {
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+
+/* ---------------------------------------------------------------------
+   6) PANTALLA DE RESULTADOS
+   --------------------------------------------------------------------- */
+
+function renderResults(){
+  const app = document.getElementById("app");
+  const total = state.reduce((sum, s) => sum + s.points, 0);
+  const max = order.length * 5;
+
+  const okFirst = [], okHelp = [], wrong = [];
+  order.forEach((q, i) => {
+    const s = state[i];
+    if (s.status === "correct-first") okFirst.push(q);
+    else if (s.status === "correct-help") okHelp.push(q);
+    else wrong.push(q);
+  });
+
+  let msg;
+  const pct = total / max;
+  if (pct >= 0.9) msg = "Muy buen dominio del tema. Revisá igual lo que te haya costado: siempre hay algo para afinar.";
+  else if (pct >= 0.7) msg = "Buen manejo de los conceptos, con algunos puntos concretos para repasar. Fijate en el detalle de abajo antes de seguir.";
+  else if (pct >= 0.5) msg = "Vas por buen camino, pero conviene volver sobre algunos temas antes de avanzar. Usá el detalle de abajo como guía.";
+  else msg = "Este resultado es un punto de partida, no un diagnóstico definitivo. Repasá las explicaciones de abajo con calma y volvé a intentarlo cuando te sientas listo/a.";
+
+  const section = (title, dotClass, list, showAnswer) => {
+    if (list.length === 0){
+      return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (0)</h3><p class="empty-note">No hubo preguntas en este grupo.</p></div>`;
+    }
+    const items = list.map(q => `
+      <div class="result-item">
+        <span class="rtag">${CATEGORY_LABELS[q.category]} &middot; ${q.id}</span>
+        <p class="rprompt">${q.prompt}</p>
+        ${showAnswer ? `<div class="rexplain"><strong>Respuesta correcta:</strong> ${q.options[q.correct]}.<br>${q.explanation}</div>` : ""}
+      </div>
+    `).join("");
+    return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (${list.length})</h3>${items}</div>`;
+  };
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="score-hero">
+        <div class="score-num">${total}<span>/${max}</span></div>
+        <p class="score-msg">${msg}</p>
+      </div>
+      ${section("Respondiste bien sin ayuda", "ok", okFirst, false)}
+      ${section("Respondiste bien con ayuda", "help", okHelp, false)}
+      ${section("Para repasar", "no", wrong, true)}
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btnRestart">Volver a intentar (nuevo orden)</button>
+      </div>
+    </div>
+  `;
+  renderMath(app);
+  document.getElementById("btnRestart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------------------------------------------------------------------
+   7) INICIO
+   --------------------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderIntro();
+});
+</script>
+</body>
+</html>
