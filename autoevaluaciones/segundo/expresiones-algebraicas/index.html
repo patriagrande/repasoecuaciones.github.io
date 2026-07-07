@@ -400,7 +400,10 @@ const CATEGORY_LABELS = {
   incognita:    "La incógnita",
   balanza:      "Balanza de dos platillos",
   concepto:     "Para pensar",
-  razonamiento: "Analizar un razonamiento"
+  razonamiento: "Analizar un razonamiento",
+  distributiva: "Propiedad distributiva",
+  simplificar: "Ordenar / simplificar expresiones"
+
 };
 
 /* ---------------------------------------------------------------------
@@ -408,6 +411,148 @@ const CATEGORY_LABELS = {
    --------------------------------------------------------------------- */
 
 const QUESTIONS = [
+
+  /* ─────────────────────────────────────────────────────────────────────
+   AÑADIR a CATEGORY_LABELS (para que el badge y los resultados tengan texto):
+
+     simplificar:  "Ordenar / simplificar",
+     distributiva: "Propiedad distributiva"
+   ───────────────────────────────────────────────────────────────────── */
+
+
+  // ── SIMPLIFICAR (juntar lo igual con lo igual) ──────────────────────
+  {
+    id:"S1", category:"simplificar", visual:false,
+    prompt:"Ordená (simplificá) la expresión $t + t + t + 2 + 4$, juntando lo igual con lo igual. ¿Cuál es el resultado?",
+    options:[
+      "$3 \\cdot t + 6$",
+      "$3 \\cdot t + 2 + 4$",
+      "$t + 6$",
+      "$9 \\cdot t$"
+    ],
+    correct:0,
+    hint:"Las tres $t$ son cosas iguales entre sí: se juntan. Los números conocidos ($2$ y $4$) son cosas iguales entre sí: se suman. Pero una $t$ y un número NO se pueden juntar.",
+    explanation:"Juntamos las tres $t$: $t + t + t = 3 \\cdot t$. Sumamos aparte los números conocidos: $2 + 4 = 6$. Como una incógnita y un número son cosas distintas, quedan separados: $3 \\cdot t + 6$. La opción $9 \\cdot t$ está mal porque mezcla las $t$ con los números, que son cosas de distinto tipo."
+  },
+  {
+    id:"S2", category:"simplificar", visual:false,
+    prompt:"Ordená (simplificá) la expresión $w + 3 \\cdot w + 4 + 2$. ¿Cuál es el resultado?",
+    options:[
+      "$4 \\cdot w + 6$",
+      "$3 \\cdot w + 6$",
+      "$4 \\cdot w + 4 + 2$",
+      "$10 \\cdot w$"
+    ],
+    correct:0,
+    hint:"Una $w$ sola cuenta como \"una vez $w$\". Entonces $w + 3 \\cdot w$ es $(1 + 3)$ veces $w$. Los números conocidos ($4$ y $2$) se suman por separado.",
+    explanation:"Una $w$ sola es $1 \\cdot w$, así que $w + 3 \\cdot w = (1+3) \\cdot w = 4 \\cdot w$. Los números conocidos se juntan entre sí: $4 + 2 = 6$. El resultado ordenado es $4 \\cdot w + 6$."
+  },
+  {
+    id:"S3", category:"simplificar", visual:false,
+    prompt:"Recordá la frutería: las manzanas van con las manzanas y las peras con las peras. Ordená (simplificá) $3 \\cdot a + b + 2 \\cdot a + 4 \\cdot b$. ¿Cuál es el resultado?",
+    options:[
+      "$5 \\cdot a + 5 \\cdot b$",
+      "$10 \\cdot a \\cdot b$",
+      "$5 \\cdot a + 4 \\cdot b$",
+      "$6 \\cdot a + 4 \\cdot b$"
+    ],
+    correct:0,
+    hint:"Las $a$ solo se juntan con las $a$; las $b$ solo con las $b$. Contá cuántas veces aparece cada una: $3 \\cdot a$ y $2 \\cdot a$ por un lado; $b$ (que es $1 \\cdot b$) y $4 \\cdot b$ por el otro.",
+    explanation:"Juntamos las $a$: $3 \\cdot a + 2 \\cdot a = 5 \\cdot a$. Juntamos las $b$, recordando que $b$ sola es $1 \\cdot b$: $1 \\cdot b + 4 \\cdot b = 5 \\cdot b$. Como $a$ y $b$ son cosas distintas, quedan separadas: $5 \\cdot a + 5 \\cdot b$."
+  },
+  {
+    id:"S4", category:"simplificar", visual:true,
+    prompt:"Este rectángulo tiene dos lados que miden $a + 3$ (arriba y abajo) y otros dos que miden $1 + a$ (izquierda y derecha).<br>Escribí la expresión del <strong>perímetro</strong> (la suma de sus cuatro lados) y ordenala juntando lo igual con lo igual. ¿Cuál es el resultado?",
+    options:[
+      "$4 \\cdot a + 8$",
+      "$2 \\cdot a + 4$",
+      "$4 \\cdot a + 4$",
+      "$a + 4$"
+    ],
+    correct:0,
+    hint:"El perímetro es la suma de los cuatro lados: $(a+3) + (a+3) + (1+a) + (1+a)$. También podes escribirlo así (mucho más simple): $2 \\cdot (a+3) + 2 \\cdot (1+a)$.",
+    explanation:"El perímetro es $2 \\cdot (a+3) +2  \\cdot (1+a)=2 \\cdot a + 6 + 2 \\cdot a + 2 = 4 \\cdot a + 8$. Juntamos las $a$: hay cuatro, así que $4 \\cdot a$. Sumamos los números conocidos: $3 + 3 + 1 + 1 = 8$. El perímetro ordenado es $4 \\cdot a + 8$."
+  },
+  {
+    id:"S5", category:"simplificar", visual:true,
+    prompt:"Un triángulo tiene sus tres lados de longitudes $2 \\cdot m$, $m$ y $m + 4$. Primero dibujalo!!!, luego: escribí la expresión del <strong>perímetro</strong> (la suma de sus tres lados) y ordenala juntando lo igual con lo igual. ¿Cuál es el resultado?",
+    options:[
+      "$4 \\cdot m + 4$",
+      "$3 \\cdot m + 4$",
+      "$4 \\cdot m$",
+      "$2 \\cdot m + 4$"
+    ],
+    correct:0,
+    hint:"Sumá los tres lados: $2 \\cdot m + m + (m + 4)$. Recordá que $m$ sola cuenta como $1 \\cdot m$. Los números conocidos van aparte.",
+    explanation:"El perímetro es $2 \\cdot m + m + (m + 4)$. Juntamos las $m$, recordando que $m$ sola es $1 \\cdot m$: $2 \\cdot m + 1 \\cdot m + 1 \\cdot m = 4 \\cdot m$. El número conocido queda aparte: $+4$. El perímetro ordenado es $4 \\cdot m + 4$."
+  },
+
+  // ── DISTRIBUTIVA ─────────────────────────────────────────────────────
+  {
+    id:"D1", category:"distributiva", visual:false,
+    prompt:"Julieta compra $3$ bolsas idénticas y en cada una hay lo mismo: $3$ manzanas ($m$) y $2$ peras ($p$). El total se escribe $3 \\cdot (3 \\cdot m + 2 \\cdot p)$.<br>Aplicando la propiedad distributiva, ¿cuál es la expresión equivalente?",
+    options:[
+      "$9 \\cdot m + 6 \\cdot p$",
+      "$3 \\cdot m + 2 \\cdot p$",
+      "$9 \\cdot m + 2 \\cdot p$",
+      "$5 \\cdot m + 5 \\cdot p$"
+    ],
+    correct:0,
+    hint:"El número de afuera ($3$) le pega a CADA término de adentro, sin saltearse ninguno: multiplica al $3 \\cdot m$ y también al $2 \\cdot p$.",
+    explanation:"Distribuimos el $3$ en cada término: $3 \\cdot 3 \\cdot m + 3 \\cdot 2 \\cdot p$. Resolviendo los productos de números conocidos: $3 \\cdot 3 = 9$ y $3 \\cdot 2 = 6$, queda $9 \\cdot m + 6 \\cdot p$: nueve manzanas y seis peras, tal como esperábamos con las tres bolsas."
+  },
+  {
+    id:"D2", category:"distributiva", visual:false,
+    prompt:"Aplicá la propiedad distributiva a la expresión $4 \\cdot (x + 5)$. ¿Cuál es la expresión equivalente?",
+    options:[
+      "$4 \\cdot x + 20$",
+      "$4 \\cdot x + 5$",
+      "$x + 20$",
+      "$4 \\cdot x + 9$"
+    ],
+    correct:0,
+    hint:"El $4$ de afuera multiplica a cada término de adentro: al $x$ y también al $5$. No se saltea ninguno.",
+    explanation:"Distribuimos el $4$: $4 \\cdot x + 4 \\cdot 5$. Como $4 \\cdot 5 = 20$, la expresión equivalente es $4 \\cdot x + 20$. La opción $4 \\cdot x + 5$ está mal porque se saltea la multiplicación del $4$ con el $5$."
+  },
+  {
+    id:"D3", category:"distributiva", visual:false,
+    prompt:"La distributiva también vale cuando adentro del paréntesis hay una resta. Aplicala a $5 \\cdot (a - 3)$. ¿Cuál es la expresión equivalente?",
+    options:[
+      "$5 \\cdot a - 15$",
+      "$5 \\cdot a - 3$",
+      "$5 \\cdot a - 8$",
+      "$a - 15$"
+    ],
+    correct:0,
+    hint:"El $5$ le pega a cada término de adentro, respetando el signo: multiplica al $a$ y también al $3$ que se resta.",
+    explanation:"Distribuimos el $5$ en cada término: $5 \\cdot a - 5 \\cdot 3$. Como $5 \\cdot 3 = 15$, la expresión equivalente es $5 \\cdot a - 15$."
+  },
+  {
+    id:"D4", category:"distributiva", visual:true,
+    prompt:"Un rectángulo tiene altura $3$ y base $n + 2$. Su <strong>área</strong> se calcula como base por altura.<br>¿Cuál es una expresión equivalente del área?",
+    options:[
+      "$3 \\cdot n + 6$",
+      "$3 \\cdot n + 2$",
+      "$3 \\cdot n + 5$",
+      "$n + 6$"
+    ],
+    correct:0,
+    hint:"El $3$ de afuera multiplica a cada término de adentro del paréntesis: al $n$ y también al $2$.",
+    explanation:"En el rectángulo, $altura=3$ y $base=n + 2$. Su <strong>área</strong> se calcula como: $3 \\cdot (n + 2)=3 \\cdot n + 3 \\cdot 2=3 \\cdot n + 6$."
+  },
+  {
+    id:"D5", category:"distributiva", visual:true,
+    prompt:"En un rectángulo de base $b$ y altura $h$, el perímetro se puede pensar como dos mitades iguales de $b + h$ cada una, o sea $2 \\cdot (b + h)$. Antonella dice que eso es lo mismo que $2 \\cdot b + 2 \\cdot h$. ¿Tiene razón?",
+    options:[
+      "Sí. La distributiva es el puente entre las dos formas: $2 \\cdot (b + h) = 2 \\cdot b + 2 \\cdot h$.",
+      "No, porque el $2$ solo multiplica al primer término, entonces sería $2 \\cdot b + h$.",
+      "No: $2 \\cdot (b + h)$ es siempre mayor que $2 \\cdot b + 2 \\cdot h$.",
+      "Sí, pero solo cuando $b$ y $h$ valen lo mismo."
+    ],
+    correct:0,
+    hint:"Distribuí el $2$ en cada término de adentro del paréntesis, sin saltearte ninguno: multiplica al $b$ y también al $h$.",
+    explanation:"Antonella tiene razón. Al distribuir el $2$ en cada término: $2 \\cdot b + 2 \\cdot h$. Las dos expresiones, $2 \\cdot (b+h)$ y $2 \\cdot b + 2 \\cdot h$, dicen lo mismo: son la misma cantidad (el perímetro) escrita de dos maneras. La opción $2 \\cdot b + h$ está mal porque se saltea la multiplicación del $2$ con el $h$."
+  },
 
   // ── TRADUCCIÓN (coloquial → algebraico) ─────────────────────────────
   {
@@ -794,7 +939,7 @@ function resetState(){
     // por defecto (?debug=0 o ausente): esta línea baraja todas las preguntas y sus opciones
     order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
     // para edición: poner una sola pregunta al principio (comentar la línea anterior y descomentar la siguiente)
-    //order = [QUESTIONS.find(q => q.id === "B3"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
+    //order = [QUESTIONS.find(q => q.id === "D5"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
   }
 
   const ask = getAskParam();
