@@ -562,7 +562,7 @@ const QUESTIONS = [
       String.raw`$2 \cdot (w + 6) = 36$`
     ],
     correct:0,
-    hint: String.raw`Contá las cajas azules: hay dos $w$, o sea $2 \cdot w$. La caja naranja del $6$ está sumando en el mismo platillo. El equilibrio se traduce con el signo $=$.`,
+    hint: String.raw`Contá las cajas azules: hay dos $w$, o sea $2 \cdot w$. La caja naranja del $6$ está <i>agregada</i> en el mismo platillo. El equilibrio, lo conversamos mucho, se traduce con el signo $=$ (es eso, una igualdad después de todo).`,
     explanation: String.raw`En el platillo izquierdo hay dos cajas $w$ ($2 \cdot w$) y una caja con $6$ que suma ($+6$). El otro platillo tiene $36$. El equilibrio se escribe $2 \cdot w + 6 = 36$.`
   },
   {
@@ -591,7 +591,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint: String.raw`Una caja $m$ y una caja $4$ en el mismo platillo se suman. El otro platillo tiene $9$.`,
-    explanation: String.raw`Una caja $m$ más una caja $4$ dan $m+4$, y eso equilibra con $9$: $m + 4 = 9$.`
+    explanation: String.raw`Una caja $m$ junto con otra caja $4$ podría expresarse como una suma... $m + 4$. Como esta equilibrado con $9$, la expresión es $m + 4 = 9$.`
   },
   {
     id:"L4", category:"lectura", visual:true,
@@ -605,7 +605,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint: String.raw`Contá las cajas azules iguales: son cuatro, cada una vale $x$.`,
-    explanation: String.raw`Cuatro cajas $x$ son $4 \cdot x$, y equilibran con $20$: $4 \cdot x = 20$.`
+    explanation: String.raw`Cuatro cajas $x$ son $4 \cdot x$, y equilibran con $20$, resulta $4 \cdot x = 20$.`
   },
 
   /* ===== INCÓGNITAS EN AMBOS PLATILLOS ===== */
@@ -670,11 +670,11 @@ const QUESTIONS = [
   {
     id:"O1", category:"operacion", visual:true,
     balanza:{ left:[m("w"),m("w"),n("6")], right:[r("36")], tilt:"eq" },
-    prompt: String.raw`Tenés $2 \cdot w + 6 = 36$. Para empezar a despejar la incógnita, ¿qué conviene hacer primero?`,
+    prompt: String.raw`Tenés $2 \cdot w + 6 = 36$. Queremos "pesar" el objeto desconocido (el que vale $w$). Para empezar, ¿qué conviene hacer primero?`,
     options:[
       String.raw`Restar $6$ en ambos platillos.`,
       String.raw`Restar $6$ solo en el platillo izquierdo.`,
-      String.raw`Dividir por $2$ ambos platillos.`,
+      String.raw`Dividir por $3$ ambos platillos.`,
       String.raw`Sumar $6$ en ambos platillos.`
     ],
     correct:0,
@@ -697,7 +697,7 @@ const QUESTIONS = [
   },
   {
     id:"O3", category:"operacion", visual:false,
-    prompt: String.raw`Para la igualdad $5 + m = 8$, ¿qué operación aplicás para descubrir el valor de $m$?`,
+    prompt: String.raw`Para la igualdad $5 + m = 8$, antes que nada: dibujá en tu carpeta la balanza de dos platillos que representa la situación. Ahora: ¿qué operación aplicás para descubrir el valor de $m$?`,
     options:[
       String.raw`Restar $5$ en ambos miembros.`,
       String.raw`Sumar $5$ en ambos miembros.`,
@@ -710,7 +710,7 @@ const QUESTIONS = [
   },
   {
     id:"O4", category:"operacion", visual:false,
-    prompt: String.raw`Para $4 \cdot m = 7$, un compañero quiere restar $4$ en ambos miembros. ¿Es lo más conveniente para despejar $m$?`,
+    prompt: String.raw`Para $4 \cdot m = 7$, antes que nada: dibujá en tu carpeta la balanza de dos platillos que representa la situación. Ahora: un compañero quiere restar $4$ en ambos miembros, ¿es lo más conveniente para despejar $m$?`,
     options:[
       String.raw`No: como el $4$ está multiplicando a $m$, hay que dividir por $4$ (no restar).`,
       String.raw`Sí: restar $4$ deja sola la $m$.`,
@@ -735,7 +735,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint: String.raw`Restar $6$ saca la caja naranja del $6$ del platillo izquierdo, y en el derecho $36 - 6 = 30$. Las cajas $w$ no se tocan.`,
-    explanation: String.raw`Al restar $6$ en ambos platillos, desaparece la caja del $6$ y el $36$ pasa a $30$. Quedan las dos cajas $w$ frente a $30$: $2 \cdot w = 30$.`
+    explanation: String.raw`Al restar $6$ en ambos platillos, desaparece la caja del $6$ y el $36$ pasa a $30$. Quedan las dos cajas $w$ frente a $30$, resulta: $2 \cdot w = 30$.`
   },
   {
     id:"S2", category:"siguiente", visual:true,
@@ -765,48 +765,6 @@ const QUESTIONS = [
     hint: String.raw`Quitar una caja $t$ de CADA lado mantiene el equilibrio. Izquierda pasa de dos $t$ a una $t$; derecha se queda sin su caja $t$.`,
     explanation: String.raw`Al quitar una $t$ de cada platillo, la izquierda queda con una caja $t$ y el $3$; la derecha queda solo con el $9$: $t + 3 = 9$. Sacar la misma cantidad de ambos lados conserva el equilibrio.`
   },
-
-  /* ===== ANALIZAR UN RAZONAMIENTO (nunca "pasar de lado") ===== */
-  {
-    id:"E1", category:"error", visual:false,
-    prompt: String.raw`Un compañero resuelve $2 \cdot w + 6 = 36$ y dice: <em>"el $6$ pasa restando al otro lado y queda $2 \cdot w = 36 - 6$"</em>. ¿Cuál es la mejor manera de entender lo que ocurre?`,
-    options:[
-      String.raw`Lo correcto es pensar que restamos $6$ en AMBOS platillos a la vez; nada "viaja" de un lado al otro.`,
-      String.raw`Está perfecto: los números pasan de un lado al otro cambiando de signo.`,
-      String.raw`Se puede, pero solo con los números, nunca con las letras.`,
-      String.raw`Es un error: el $6$ debería pasar sumando, no restando.`
-    ],
-    correct:0,
-    hint: String.raw`En el modelo de la balanza nunca movemos objetos de un platillo al otro. Repasá qué hicimos realmente: aplicar una misma operación en los dos platillos.`,
-    explanation: String.raw`El resultado numérico coincide, pero la idea de que "algo pasa de lado" no describe lo que hacemos. Lo que hacemos es restar $6$ en ambos platillos simultáneamente, para no romper el equilibrio. Pensarlo así evita errores más adelante.`
-  },
-  {
-    id:"E2", category:"error", visual:false,
-    prompt: String.raw`¿Cuál de estas afirmaciones sobre el método de la balanza es <strong>INCORRECTA</strong>?`,
-    options:[
-      String.raw`Para avanzar, alcanza con operar en uno solo de los platillos.`,
-      String.raw`Hay que aplicar la misma operación en los dos platillos a la vez.`,
-      String.raw`El objetivo es dejar la incógnita sola en un platillo.`,
-      String.raw`Restar $6$ en ambos platillos de $2 \cdot w + 6 = 36$ conserva el equilibrio.`
-    ],
-    correct:0,
-    hint: String.raw`Pensá en una balanza real: si tocás un solo platillo, ¿qué le pasa al equilibrio?`,
-    explanation: String.raw`Operar en un solo platillo rompe el equilibrio: esa afirmación es incorrecta. La regla de oro es aplicar exactamente la misma operación en AMBOS platillos.`
-  },
-  {
-    id:"E3", category:"error", visual:false,
-    prompt: String.raw`Para resolver $m + 4 = 9$, alguien resta $4$ solamente en el platillo donde está la incógnita. ¿Qué pasa?`,
-    options:[
-      String.raw`Rompe el equilibrio: si resta $4$ de un lado, debe restar $4$ también del otro.`,
-      String.raw`Está bien, porque la incógnita queda sola de un lado.`,
-      String.raw`Está bien solo si $m$ es mayor que $4$.`,
-      String.raw`No cambia nada, porque el $4$ es un número chico.`
-    ],
-    correct:0,
-    hint: String.raw`La igualdad se sostiene porque los dos platillos pesan lo mismo. Si sacás peso de uno solo, ese lado se aliviana.`,
-    explanation: String.raw`Restar $4$ de un solo platillo desequilibra la balanza. Para conservar la igualdad hay que restar $4$ en ambos: $m + 4 - 4 = 9 - 4$, o sea $m = 5$.`
-  },
-
   /* ===== VERIFICAR UN VALOR ===== */
   {
     id:"V1", category:"verificacion", visual:false,
@@ -838,7 +796,7 @@ const QUESTIONS = [
   /* ===== PARA PENSAR / CONCEPTUAL ===== */
   {
     id:"C1", category:"concepto", visual:false,
-    prompt: String.raw`En un platillo hay $3$ cajas iguales con la incógnita, y ya quitamos todos los números conocidos. Para saber cuánto vale UNA caja, ¿por qué dividimos por $3$ y no por $2$?`,
+    prompt: String.raw`En el platillo derecho solo quedan $3$ cajas iguales entre si, pero de un peso desconocido. En el otro platillo hay una caja que pesa 33 kilos. Para determinar el valor de UNA de esas cajas del platillo derecho, ¿por qué dividimos por $3$ y no por $2$?`,
     options:[
       String.raw`Porque hay $3$ cajas iguales: repartimos el contenido en tantas partes como cajas haya.`,
       String.raw`Porque dividir por $3$ siempre da números más chicos.`,
@@ -846,7 +804,7 @@ const QUESTIONS = [
       String.raw`Porque siempre se divide por $3$ en el segundo paso.`
     ],
     correct:0,
-    hint: String.raw`El número por el que dividís depende de cuántas cajas iguales tengas en el platillo de la incógnita.`,
+    hint: String.raw`El número por el que dividís depende de cuántas cajas iguales tengas en el platillo de la incógnita. Si tenés 40 cajas iguales, repartís el contenido en 40 partes iguales. Si tenés 2 cajas iguales, repartís en 2 partes iguales.`,
     explanation: String.raw`El número por el que dividimos es exactamente la cantidad de cajas iguales. Con $2$ cajas se divide por $2$; con $3$, por $3$. Repartimos el contenido de ambos platillos en esa cantidad de partes iguales.`
   },
   {
@@ -937,7 +895,7 @@ function resetState(){
     // por defecto: baraja todas las preguntas y sus opciones
     order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
     // para edición: descomentar para saltar directo a una pregunta puntual (por id)
-    //order = [QUESTIONS.find(q => q.id === "S3"), ...shuffle(QUESTIONS.filter(q => q.id !== "S3"))].map(shuffleQuestionOptions);
+    //order = [QUESTIONS.find(q => q.id === "C1"), ...shuffle(QUESTIONS.filter(q => q.id !== "S3"))].map(shuffleQuestionOptions);
   }
 
   const ask = getAskParam();
