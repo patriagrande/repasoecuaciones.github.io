@@ -185,6 +185,17 @@
     white-space:nowrap;
   }
 
+  /* ID de la pregunta — visible pero discreto, para revisión docente */
+  .qid-label{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    color:var(--line-fainter);
+    margin-left:8px;
+    vertical-align:middle;
+    letter-spacing:.04em;
+    user-select:all;
+  }
+
   .badge{
     display:inline-block;
     font-family:var(--font-mono);
@@ -588,7 +599,7 @@ const QUESTIONS = [
   },
   {
     id:"N6", category:"conversion", visual:false,
-    prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?... OJO, a veces esta bueno pensar en multiplicar ambos miembros por algún número que simplifique las fracciones ;-), sabemos que $\\frac{1}{4} \\cdot 4=1$ y $\\frac{1}{5} \\cdot 5=1$... ¿no?",
+    prompt:"La recta tiene ecuación explícita $y = \\dfrac{1}{3} \\cdot x - 1$. ¿Cuál es su forma implícita?... OJO, a veces esta bueno pensar en multiplicar ambos miembros por algún número que simplifique las fracciones 😎, sabemos que $\\frac{1}{4} \\cdot 4=1$ y $\\frac{1}{5} \\cdot 5=1$... ¿no?",
     options:[ "$x - 3 \\cdot y = 3$", "$x + 3 \\cdot y = 3$", "$3 \\cdot x - y = 3$", "$x - 3 \\cdot y = -3$" ],
     correct:0,
     hint:"Si te molesta las fracciones con los despejes, si querés podes multiplicar ambos miembros de la ecuación por $3$; creo que ahí el despeje se simplifica.",
@@ -843,19 +854,33 @@ function getAskParam(){
   return n;
 }
 
+// Parámetro opcional en la URL: ?debug=N
+// Por defecto debug=0: las preguntas (y sus opciones) se presentan al azar.
+// Con debug=1: se presentan en el mismo orden en que están escritas en el
+// documento, y sin barajar las opciones. Facilita la revisión docente.
+function getDebugParam(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1";
+}
+
 function questionCount(){
   const ask = getAskParam();
   return ask === null ? QUESTIONS.length : ask;
 }
 
 function resetState(){
-  // esta linea baraja todas las preguntas y sus opciones
-  order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
-  // esta linea pone la pregunta V10 al principio y baraja el resto
-  //order = [QUESTIONS.find(q => q.id === "V10"), ...shuffle(QUESTIONS.filter(q => q.id !== "V10"))].map(shuffleQuestionOptions);
+  if (getDebugParam()){
+    // modo debug (?debug=1): orden fijo del documento, sin barajar preguntas ni opciones.
+    order = QUESTIONS.slice();
+  } else {
+    // por defecto (?debug=0): baraja todas las preguntas y sus opciones
+    order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
+    // para edición: descomentar para poner una pregunta puntual al principio (por id)
+    //order = [QUESTIONS.find(q => q.id === "V10"), ...shuffle(QUESTIONS.filter(q => q.id !== "V10"))].map(shuffleQuestionOptions);
+  }
 
-  // si llegó un ?ask=N válido, nos quedamos con las primeras N del array ya barajado
-  // (que, al estar barajado, equivale a N preguntas tomadas al azar de las 20)
+  // si llegó un ?ask=N válido, nos quedamos con las primeras N del array
+  // (barajado -> N al azar; en debug -> las primeras N del documento)
   const ask = getAskParam();
   if (ask !== null) order = order.slice(0, ask);
 
@@ -947,7 +972,10 @@ function renderQuestion(){
       <span class="qcount">Pregunta ${currentIndex + 1} / ${order.length}</span>
     </div>
     <div class="card">
-      <span class="badge">${CATEGORY_LABELS[q.category]}</span>
+      <div style="display:flex;align-items:center;margin-bottom:14px;">
+        <span class="badge" style="margin-bottom:0;">${CATEGORY_LABELS[q.category]}</span>
+        <span class="qid-label">${q.id}</span>
+      </div>
       <p class="prompt">${q.prompt}</p>
       ${graphHTML}
       <div class="options" id="optionsWrap">${optionsHTML}</div>
