@@ -43,6 +43,9 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 
 * CLAUDE intento de autoevaluación para medir lo relativo a ecuación de la recta https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html
 
+* * CLAUDE intento de autoevaluación para medir lo relativo a DOMINIO y FUNCIÓN LINEAL [https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html](https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/evalua_funcion/index.html)
+
+
 * SEGUNDO AÑO, Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
 
 * SEGUNDO AÑO: Balanzas de dos platillos y Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/balanzas/index.html
