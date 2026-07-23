@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Modelando la Realidad · Autoevaluación de Función y Dominio</title>
+<meta name="description" content="Autoevaluación interactiva sobre función y dominio, para 3er año de Matemática. Material complementario del libro 'Modelando la Realidad'.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<style>
+  :root{
+    --paper:#F6F5EF;
+    --paper-deep:#EEECE3;
+    --grid:#D9DFE1;
+    --grid-soft:#E6EAEA;
+    --ink:#1E2A35;
+    --muted:#5B6B72;
+    --line-fainter:#c9d2d6;
+    --lila:#8C5FB5;
+    --lila-soft:#F1EAF8;
+    --teal:#1F7A6C;
+    --teal-soft:#E3F1EE;
+    --amber:#C97A2B;
+    --amber-soft:#FBF0E1;
+    --coral:#C1483F;
+    --coral-soft:#FBEAE8;
+    --radius:16px;
+    --radius-sm:10px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Source Sans 3', system-ui, -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'Courier New', monospace;
+    --shadow: 0 3px 14px rgba(30,42,53,.08), 0 1px 3px rgba(30,42,53,.06);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(var(--grid-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-soft) 1px, transparent 1px);
+    background-size: 26px 26px;
+    line-height:1.5;
+    min-height:100vh;
+    padding-bottom:40px;
+  }
+  a{color:var(--teal);}
+
+  .shell{
+    max-width:720px;
+    margin:0 auto;
+    padding:28px 18px 10px;
+  }
+
+  header.top{
+    text-align:left;
+    margin-bottom:22px;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .eyebrow::before{
+    content:"";
+    display:inline-block;
+    width:26px;height:3px;
+    background:var(--coral);
+    border-radius:2px;
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(28px,6vw,38px);
+    margin:10px 0 4px;
+    line-height:1.08;
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--lila);
+  }
+  .subtitle{
+    font-size:16px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px 22px 24px;
+    margin-bottom:18px;
+  }
+
+  /* ---------- Intro ---------- */
+  .intro-text p{margin:0 0 12px;}
+  .rules{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:10px;
+    margin:18px 0;
+  }
+  @media(min-width:560px){ .rules{grid-template-columns:1fr 1fr 1fr;} }
+  .rule-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    background:var(--paper-deep);
+  }
+  .rule-item .n{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:13px;
+  }
+  .rule-item.ok .n{color:var(--teal);}
+  .rule-item.help .n{color:var(--amber);}
+  .rule-item.no .n{color:var(--coral);}
+  .rule-item p{margin:4px 0 0; font-size:14px; color:var(--muted);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:16px;
+    padding:13px 22px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--teal); color:#fff;}
+  .btn-primary:hover{background:#186358;}
+  .btn-primary:disabled{background:#a9b8b4; cursor:not-allowed;}
+  .btn-ghost{background:transparent; color:var(--ink); border:1.5px solid var(--grid);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-block{width:100%; justify-content:center;}
+
+  /* ---------- Progress ---------- */
+  .progress-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .dots{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    max-width:70%;
+  }
+  .dot{
+    width:9px;height:9px;
+    border-radius:50%;
+    background:var(--grid);
+    border:1px solid var(--line-fainter);
+  }
+  .dot.current{background:var(--lila); border-color:var(--lila); transform:scale(1.3);}
+  .dot.done-ok{background:var(--teal); border-color:var(--teal);}
+  .dot.done-help{background:var(--amber); border-color:var(--amber);}
+  .dot.done-no{background:var(--coral); border-color:var(--coral);}
+  .qcount{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  /* ID de la pregunta — visible pero discreto, para revisión docente */
+  .qid-label{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    color:var(--line-fainter);
+    margin-left:8px;
+    vertical-align:middle;
+    letter-spacing:.04em;
+    user-select:all;
+  }
+
+  .badge{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.03em;
+    text-transform:uppercase;
+    color:var(--lila);
+    background:var(--lila-soft);
+    border:1px solid #e0d2ef;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .prompt{
+    font-size:19px;
+    line-height:1.45;
+    margin:0 0 16px;
+  }
+
+  .graph-wrap{
+    display:flex;
+    justify-content:center;
+    margin:6px 0 18px;
+  }
+  .graph-svg{
+    width:100%;
+    max-width:320px;
+    height:auto;
+    background:#fff;
+    border:1px solid var(--grid);
+    border-radius:12px;
+  }
+  .grid-lines line{stroke:var(--grid-soft); stroke-width:1;}
+  .axes line{stroke:var(--ink); stroke-width:1.4;}
+  .axis-labels text{font-family:var(--font-mono); font-size:8.6px; fill:var(--muted);}
+  .axis-labels .origin-label{fill:var(--muted);}
+  .ajuste-line{stroke:var(--lila); stroke-width:3; stroke-linecap:round;}
+  .ref-point circle{fill:var(--ink); stroke:#fff; stroke-width:1.5;}
+  .ref-point text{font-family:var(--font-mono); font-weight:600; font-size:11px; fill:var(--ink);}
+  .opt-point circle{fill:#fff; stroke:var(--teal); stroke-width:2.2;}
+  .opt-point text{font-family:var(--font-mono); font-weight:700; font-size:12px; fill:var(--teal);}
+  .eq-label rect{fill:#fff; stroke:var(--coral); stroke-width:1.2;}
+  .eq-label text{font-family:var(--font-mono); font-size:11px; fill:var(--coral); font-weight:600;}
+
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.6px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    font-family:var(--font-body);
+    font-size:16px;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .option:hover:not(:disabled){border-color:var(--lila);}
+  .option .letter{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:7px;
+    border:1.6px solid var(--grid);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+  }
+  .option .otext{flex:1 1 auto;}
+  .option.selected{border-color:var(--lila); background:var(--lila-soft);}
+  .option.selected .letter{background:var(--lila); border-color:var(--lila); color:#fff;}
+  .option.correct{border-color:var(--teal); background:var(--teal-soft);}
+  .option.correct .letter{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .option.wrong{border-color:var(--coral); background:var(--coral-soft);}
+  .option.wrong .letter{background:var(--coral); border-color:var(--coral); color:#fff;}
+  .option.tried{opacity:.5; text-decoration:line-through; cursor:not-allowed;}
+  .option:disabled{cursor:default;}
+
+  .feedback{
+    border-radius:var(--radius-sm);
+    padding:14px 16px;
+    margin-bottom:16px;
+    font-size:15px;
+    line-height:1.5;
+    border-left:4px solid transparent;
+  }
+  .feedback .ftitle{
+    font-weight:700;
+    display:block;
+    margin-bottom:4px;
+  }
+  .feedback.hint{background:var(--amber-soft); border-left-color:var(--amber);}
+  .feedback.hint .ftitle{color:var(--amber);}
+  .feedback.success{background:var(--teal-soft); border-left-color:var(--teal);}
+  .feedback.success .ftitle{color:var(--teal);}
+  .feedback.explain{background:var(--coral-soft); border-left-color:var(--coral);}
+  .feedback.explain .ftitle{color:var(--coral);}
+
+  .quiz-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+  }
+
+  /* ---------- Results ---------- */
+  .score-hero{
+    text-align:center;
+    padding:10px 0 6px;
+  }
+  .score-num{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(46px,12vw,64px);
+    color:var(--ink);
+    line-height:1;
+  }
+  .score-num span{font-size:0.4em; color:var(--muted); font-family:var(--font-mono); font-weight:500;}
+  .score-msg{font-size:16px; color:var(--muted); max-width:46ch; margin:10px auto 0;}
+
+  .result-section{margin-top:20px;}
+  .result-section h3{
+    font-family:var(--font-mono);
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    display:flex;align-items:center;gap:8px;
+    margin:0 0 10px;
+  }
+  .dotmark{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .dotmark.ok{background:var(--teal);}
+  .dotmark.help{background:var(--amber);}
+  .dotmark.no{background:var(--coral);}
+
+  .result-item{
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+    padding:12px 14px;
+    margin-bottom:8px;
+    background:#fff;
+  }
+  .result-item .rtag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .result-item .rprompt{font-size:15px; margin:4px 0 0;}
+  .result-item .rexplain{font-size:13.5px; color:var(--muted); margin-top:8px; padding-top:8px; border-top:1px dashed var(--grid);}
+  .empty-note{font-size:14px; color:var(--muted); font-style:italic;}
+
+  /* ---------- Footer ---------- */
+  footer.site{
+    max-width:720px;
+    margin:26px auto 0;
+    padding:20px 18px 4px;
+    border-top:1px solid var(--grid);
+  }
+  footer.site .rule{
+    width:26px;height:3px;background:var(--coral); border-radius:2px; margin-bottom:12px;
+  }
+  footer.site p{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:0 0 10px;
+  }
+  footer.site strong{color:var(--ink);}
+  footer.site .credit{
+    font-family:var(--font-mono);
+    font-size:12px;
+  }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn, .option{transition:none;}
+  }
+
+  /* ---------- Agregados de esta autoevaluación ---------- */
+
+  /* Trazo libre (curvas del bloque "¿el gráfico es función?") y segmentos
+     acotados: comparten el color de la recta, pero el trazo libre no se
+     cierra ni se rellena. */
+  .free-curve{
+    fill:none;
+    stroke:var(--lila);
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  /* Extremos llenos de un segmento: marcan visualmente dónde empieza y
+     termina el dominio. Es la marca de la que depende toda la lectura
+     del bloque "del gráfico a la función". */
+  .endpoint circle{fill:var(--lila); stroke:#fff; stroke-width:1.6;}
+  /* Flechas de recta infinita */
+  .arrow-head{fill:var(--lila);}
+
+  /* ---------- Panel de revisión (?debug=1) ---------- */
+  .debug-bar{
+    background:var(--paper-deep);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:18px;
+  }
+  .debug-bar h2{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--coral);
+    margin:0 0 4px;
+  }
+  .debug-bar p{font-size:13.5px; color:var(--muted); margin:0 0 12px;}
+  .cat-toggles{display:flex; flex-wrap:wrap; gap:8px;}
+  .cat-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    background:#fff;
+    border:1.5px solid var(--grid);
+    border-radius:999px;
+    padding:6px 12px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .cat-toggle input{margin:0; cursor:pointer; accent-color:var(--lila);}
+  .cat-toggle.off{opacity:.45;}
+  .debug-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .btn-mini{
+    font-family:var(--font-mono);
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:999px;
+    border:1.5px solid var(--grid);
+    background:#fff;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .btn-mini:hover{border-color:var(--ink);}
+
+  .cat-group{margin-bottom:26px;}
+  .cat-group.hidden{display:none;}
+  .cat-group > h3{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--lila);
+    border-bottom:2px solid var(--lila-soft);
+    padding-bottom:6px;
+    margin:0 0 12px;
+  }
+  .debug-card{position:relative;}
+  .debug-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .btn-try{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:600;
+    padding:7px 14px;
+    border-radius:999px;
+    border:1.5px solid var(--teal);
+    background:var(--teal-soft);
+    color:var(--teal);
+    cursor:pointer;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .btn-try:hover{background:var(--teal); color:#fff;}
+  /* En revisión las opciones se ven, pero no se responden */
+  .debug-card .option{cursor:default;}
+  .debug-card .option:hover{border-color:var(--grid);}
+  .debug-note{
+    font-size:13.5px;
+    line-height:1.55;
+    margin:0 0 8px;
+    padding-left:12px;
+    border-left:3px solid var(--grid);
+    color:var(--muted);
+  }
+  .debug-note strong{color:var(--ink);}
+
+  /* Aviso de modo de una sola pregunta (?q=ID) */
+  .single-note{
+    background:var(--amber-soft);
+    border:1px solid #ecd9bb;
+    border-radius:var(--radius-sm);
+    padding:10px 14px;
+    font-size:13.5px;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .single-note strong{color:var(--amber);}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <span class="eyebrow">Matemática · 3er año · ESRN Paulo VI</span>
+    <h1 class="title">Modelando <em>la realidad</em></h1>
+    <p class="subtitle">Autoevaluación — La noción de función y su dominio</p>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+</div>
+
+<footer class="site">
+  <div class="rule"></div>
+  <p><strong>Sobre este recurso.</strong> Esta aplicación fue programada con la asistencia de Claude (Anthropic) a partir de una consigna del autor; las decisiones didácticas, las correcciones, la selección de preguntas y los criterios de corrección son responsabilidad exclusiva del <strong>Lic. Nicolás Rosbaco</strong> (ESRN Paulo VI — Viedma, Río Negro). Es un material complementario del libro <em>«Modelando la Realidad: Función Lineal»</em> (2026), publicado bajo licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0.</p>
+  <p><strong>Por qué autoevaluarte.</strong> Este puntaje no es una nota ni un veredicto: es tuyo. La idea no es que dependas de lo que un profesor te diga que sabés, sino que vayas construyendo tus propios criterios de lo que significa entender un tema — y que aprendas a notar, con honestidad y sin culpa, qué te falta repasar. Usá este resultado como una brújula para vos mismo/a, no como una sentencia. Esa es, quizás, la habilidad más importante de todas.</p>
+  <p class="credit">nicolasrosbaco@curza.com.ar</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   MODELANDO LA REALIDAD — Autoevaluación de Función y Dominio
+   Lic. Nicolás Rosbaco · ESRN Paulo VI · Viedma, Río Negro
+
+   Parámetros de URL admitidos:
+     (ninguno)      cuestionario completo, preguntas y opciones al azar
+     ?ask=N         sortea N preguntas DE CADA categoría; el orden final
+                    igual es completamente aleatorio
+     ?debug=1       vista de revisión: todas las preguntas listadas por
+                    categoría, con panel para mostrar/ocultar bloques
+     ?q=ID          ejecuta una sola pregunta (por ejemplo ?q=F5)
+     ?q=ID&debug=1  esa pregunta, con las opciones sin barajar
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------
+   1) UTILIDADES DE GRÁFICO (SVG generado dinámicamente)
+
+   Respecto de la autoevaluación de la ecuación de la recta, este motor
+   agrega tres capacidades:
+     · cfg.infinite  → dibuja flechas en los extremos (recta que sigue de largo)
+     · cfg.segment   → dibuja un SEGMENTO acotado, con extremos llenos.
+                       Es la marca visual del dominio recortado.
+     · cfg.curve     → dibuja un trazo libre (path SVG en coordenadas
+                       matemáticas escaladas), para las curvas que no tienen
+                       fórmula: la S acostada, el lazo, la loma.
+   --------------------------------------------------------------------- */
+
+function clipLine(a, b, xMin, xMax, yMin, yMax){
+  const eps = 1e-9;
+  const cands = [];
+  const pushIfIn = (x, y) => {
+    if (x >= xMin - eps && x <= xMax + eps && y >= yMin - eps && y <= yMax + eps){
+      cands.push([x, y]);
+    }
+  };
+  pushIfIn(xMin, a * xMin + b);
+  pushIfIn(xMax, a * xMax + b);
+  if (Math.abs(a) > eps){
+    pushIfIn((yMin - b) / a, yMin);
+    pushIfIn((yMax - b) / a, yMax);
+  }
+  // quitar duplicados cercanos
+  const uniq = [];
+  cands.forEach(p => {
+    if (!uniq.some(q => Math.abs(q[0]-p[0]) < 1e-6 && Math.abs(q[1]-p[1]) < 1e-6)){
+      uniq.push(p);
+    }
+  });
+  if (uniq.length < 2) return null;
+  uniq.sort((p, q) => p[0] - q[0] || p[1] - q[1]);
+  return [uniq[0], uniq[uniq.length - 1]];
+}
+
+// Punta de flecha triangular en (x,y), orientada según el vector (dx,dy).
+function arrowHead(x, y, dx, dy){
+  const len = Math.hypot(dx, dy) || 1;
+  const ux = dx / len, uy = dy / len;
+  const px = -uy, py = ux;          // perpendicular
+  const L = 9, W = 4.5;             // largo y medio ancho de la punta
+  const p1 = [x, y];
+  const p2 = [x - ux*L + px*W, y - uy*L + py*W];
+  const p3 = [x - ux*L - px*W, y - uy*L - py*W];
+  return `<polygon class="arrow-head" points="${p1[0].toFixed(1)},${p1[1].toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)} ${p3[0].toFixed(1)},${p3[1].toFixed(1)}"/>`;
+}
+
+function buildGraphSVG(cfg){
+  const range = Object.assign({ xMin:-6, xMax:6, yMin:-6, yMax:6 }, cfg.range || {});
+  const W = 320, H = 320, padL = 30, padR = 12, padT = 12, padB = 30;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+
+  const toPx = (x, y) => ([
+    padL + (x - range.xMin) / (range.xMax - range.xMin) * plotW,
+    padT + (range.yMax - y) / (range.yMax - range.yMin) * plotH
+  ]);
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" class="graph-svg" role="img" aria-label="${cfg.ariaLabel || 'Gráfico en el plano cartesiano'}">`;
+
+  // grilla
+  svg += '<g class="grid-lines">';
+  for (let gx = Math.ceil(range.xMin); gx <= Math.floor(range.xMax); gx++){
+    const [x1,y1] = toPx(gx, range.yMin), [x2,y2] = toPx(gx, range.yMax);
+    svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }
+  for (let gy = Math.ceil(range.yMin); gy <= Math.floor(range.yMax); gy++){
+    const [x1,y1] = toPx(range.xMin, gy), [x2,y2] = toPx(range.xMax, gy);
+    svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;
+  }
+  svg += '</g>';
+
+  // ejes
+  const [ax1,ay1] = toPx(range.xMin, 0), [ax2,ay2] = toPx(range.xMax, 0);
+  const [bx1,by1] = toPx(0, range.yMin), [bx2,by2] = toPx(0, range.yMax);
+  svg += `<g class="axes">
+    <line x1="${ax1.toFixed(1)}" y1="${ay1.toFixed(1)}" x2="${ax2.toFixed(1)}" y2="${ay2.toFixed(1)}"/>
+    <line x1="${bx1.toFixed(1)}" y1="${by1.toFixed(1)}" x2="${bx2.toFixed(1)}" y2="${by2.toFixed(1)}"/>
+  </g>`;
+
+  // etiquetas cada 2 unidades
+  svg += '<g class="axis-labels">';
+  for (let gx = Math.ceil(range.xMin/2)*2; gx <= range.xMax; gx += 2){
+    if (gx === 0) continue;
+    const [x,y] = toPx(gx, 0);
+    svg += `<text x="${x.toFixed(1)}" y="${(y+11).toFixed(1)}" text-anchor="middle">${gx}</text>`;
+  }
+  for (let gy = Math.ceil(range.yMin/2)*2; gy <= range.yMax; gy += 2){
+    if (gy === 0) continue;
+    const [x,y] = toPx(0, gy);
+    svg += `<text x="${(x-5).toFixed(1)}" y="${(y+3).toFixed(1)}" text-anchor="end">${gy}</text>`;
+  }
+  const [ox,oy] = toPx(0,0);
+  svg += `<text x="${(ox-5).toFixed(1)}" y="${(oy+11).toFixed(1)}" text-anchor="end" class="origin-label">0</text>`;
+  svg += '</g>';
+
+  // recta completa (opcionalmente con flechas si cfg.infinite)
+  if (cfg.line){
+    const seg = clipLine(cfg.line.a, cfg.line.b, range.xMin, range.xMax, range.yMin, range.yMax);
+    if (seg){
+      const [x1,y1] = toPx(seg[0][0], seg[0][1]);
+      const [x2,y2] = toPx(seg[1][0], seg[1][1]);
+      svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" class="ajuste-line"/>`;
+      if (cfg.infinite){
+        svg += arrowHead(x2, y2, x2-x1, y2-y1);
+        svg += arrowHead(x1, y1, x1-x2, y1-y2);
+      }
+    }
+  }
+
+  // SEGMENTO acotado: el trazo se interrumpe y los extremos van llenos.
+  // Es lo que distingue visualmente una función con dominio recortado.
+  if (cfg.segment){
+    const s = cfg.segment;
+    const yFrom = s.a * s.xFrom + s.b;
+    const yTo   = s.a * s.xTo   + s.b;
+    const [x1,y1] = toPx(s.xFrom, yFrom);
+    const [x2,y2] = toPx(s.xTo,   yTo);
+    svg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" class="ajuste-line"/>`;
+    svg += `<g class="endpoint">
+      <circle cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="5"/>
+      <circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="5"/>
+    </g>`;
+  }
+
+  // TRAZO LIBRE: path escrito en un sistema centrado en el origen y en
+  // escala -100..100, que acá se traslada a píxeles. Permite dibujar curvas
+  // que no responden a ninguna fórmula.
+  if (cfg.curve){
+    const cx = padL + plotW/2, cy = padT + plotH/2;
+    const sx = plotW/200, sy = plotH/200;
+    const d = cfg.curve.replace(/(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)/g,
+      (m, a, b) => `${(cx + parseFloat(a)*sx).toFixed(1)} ${(cy + parseFloat(b)*sy).toFixed(1)}`);
+    svg += `<path d="${d}" class="free-curve"/>`;
+  }
+
+  // etiqueta de ecuación (texto plano, no LaTeX, dentro del SVG)
+  if (cfg.equationLabel){
+    const [x,y] = toPx(cfg.equationLabel.x, cfg.equationLabel.y);
+    const text = cfg.equationLabel.text;
+    const w = text.length * 6.3 + 10;
+    svg += `<g class="eq-label">
+      <rect x="${(x - w/2).toFixed(1)}" y="${(y-12).toFixed(1)}" width="${w.toFixed(1)}" height="18" rx="4"/>
+      <text x="${x.toFixed(1)}" y="${(y+1.5).toFixed(1)}" text-anchor="middle">${text}</text>
+    </g>`;
+  }
+
+  // puntos de referencia
+  (cfg.refPoints || []).forEach(p => {
+    const [x,y] = toPx(p.x, p.y);
+    svg += `<g class="ref-point">
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5"/>
+      ${p.label ? `<text x="${(x + (p.dx||8)).toFixed(1)}" y="${(y + (p.dy||-8)).toFixed(1)}">${p.label}</text>` : ""}
+    </g>`;
+  });
+
+  // puntos de opción (A, B, C, D)
+  (cfg.optPoints || []).forEach(p => {
+    const [x,y] = toPx(p.x, p.y);
+    svg += `<g class="opt-point">
+      <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6"/>
+      <text x="${(x + (p.dx||9)).toFixed(1)}" y="${(y + (p.dy||-9)).toFixed(1)}">${p.label}</text>
+    </g>`;
+  });
+
+  svg += '</svg>';
+  return svg;
+}
+/* ---------------------------------------------------------------------
+   2) BANCO DE 30 PREGUNTAS
+   categorías: concepto | dominio | modelo | evaluacion | lectura | grafico
+   Cada categoría tiene 5 preguntas. El parámetro ?ask=N sortea N de CADA
+   categoría (ver el bloque de parámetros más abajo).
+   --------------------------------------------------------------------- */
+
+const CATEGORY_LABELS = {
+  concepto:   "¿Es o no es función?",
+  dominio:    "Determinar el dominio",
+  modelo:     "Expresión y dominio",
+  evaluacion: "Evaluar la función",
+  lectura:    "Del gráfico a la función",
+  grafico:    "¿El gráfico es función?"
+};
+
+const QUESTIONS = [
+
+  /* ================= A) ¿ES O NO ES FUNCIÓN? ================= */
+  {
+    id:"A1", category:"concepto", visual:false,
+    prompt:"Una máquina recibe un número y le devuelve otro. Se prueba varias veces y se registra lo siguiente: si entra $2$ sale $7$; si entra $5$ sale $13$; si entra $2$ sale $9$. ¿Esta correspondencia es una función?",
+    options:[
+      "No, porque a la entrada $2$ le corresponden dos salidas distintas ($7$ y $9$).",
+      "No, porque las salidas no crecen de manera constante.",
+      "Sí, porque a cada salida le corresponde una sola entrada.",
+      "Sí, porque todas las entradas tienen al menos una salida."
+    ],
+    correct:0,
+    hint:"Acordate del video de la máquina: para cada valor que entra tiene que salir <strong>uno solo</strong>. Fijate si hay alguna entrada que aparezca repetida.",
+    explanation:"La entrada $2$ aparece dos veces y cada vez sale un valor distinto ($7$ y $9$). Eso rompe la condición que define a una función: a cada valor de la variable independiente le corresponde <strong>un único</strong> valor de la dependiente. Que las salidas no crezcan de forma constante no es un problema (hay funciones que no son lineales); y que a cada salida le corresponda una sola entrada es otra cosa, que acá ni siquiera hace falta mirar."
+  },
+  {
+    id:"A2", category:"concepto", visual:false,
+    prompt:"Se registra la temperatura del agua de una olla cada minuto mientras se calienta. Para cada instante de tiempo se anota la temperatura medida en ese momento. ¿La temperatura es función del tiempo?",
+    options:[
+      "Sí, porque en cada instante el agua tiene una única temperatura.",
+      "No, porque la temperatura deja de subir cuando llega a los $100$ °C.",
+      "No, porque hay muchos instantes con la misma temperatura.",
+      "Sí, pero solo mientras la temperatura esté subiendo."
+    ],
+    correct:0,
+    hint:"Preguntate: en un mismo instante, ¿puede el agua tener dos temperaturas distintas a la vez?",
+    explanation:"En cada instante el agua tiene una temperatura y solo una: eso alcanza para que sea función. Que la temperatura se estanque en los $100$ °C no rompe nada. Pensalo así: una vez que rompe el hervor, a los $30$ minutos el agua está a $100$ °C, y a los $40$ minutos también. Dos instantes distintos con la misma temperatura, y sin embargo cada uno de ellos tiene su única temperatura. La condición pide una sola <strong>salida</strong> por cada entrada, y no dice nada sobre que las salidas no puedan repetirse: varias entradas pueden compartir salida sin problema."
+  },
+  {
+    id:"A3", category:"concepto", visual:false,
+    prompt:"Se hace corresponder a cada estudiante del curso su fecha de nacimiento. ¿Es una función?",
+    options:[
+      "Sí, porque cada estudiante tiene una sola fecha de nacimiento.",
+      "No, porque dos estudiantes podrían haber nacido el mismo día.",
+      "No, porque las fechas no son números.",
+      "Sí, siempre que no haya dos estudiantes nacidos el mismo día."
+    ],
+    correct:0,
+    hint:"¿Puede alguien tener dos fechas de nacimiento?",
+    explanation:"Cada estudiante tiene una única fecha de nacimiento, así que la correspondencia es función. Que dos compañeros compartan cumpleaños es irrelevante: dos entradas distintas pueden dar la misma salida. Y que las salidas no sean números tampoco importa; la definición por dependencia no exige que lo sean."
+  },
+  {
+    id:"A4", category:"concepto", visual:false,
+    prompt:"A cada número se le hace corresponder un número cuyo cuadrado sea igual a él. Por ejemplo: al $16$ le corresponde $4$, porque $4^2 = 16$; al $25$ le corresponde $5$, porque $5^2 = 25$; al $0$ le corresponde $0$, porque $0^2 = 0$. Pero ojo: al $9$ le corresponde $3$, porque $3^2 = 9$… y también le corresponde $-3$, porque $(-3)^2 = 9$. ¿Es una función?",
+    options:[
+      "No, porque a un mismo número le corresponde más de un valor.",
+      "No, porque los números negativos no tienen raíz cuadrada.",
+      "Sí, porque a cada número se le puede calcular su raíz.",
+      "Sí, porque hay una regla clara para obtener el resultado."
+    ],
+    correct:0,
+    hint:"No alcanza con que exista una regla: hay que ver si la regla deja <strong>una sola</strong> salida por cada entrada.",
+    explanation:"Al $9$ le corresponden dos valores, $3$ y $-3$, porque $3^2 = 9$ y también $(-3)^2 = 9$. Y no es un caso aislado: al $16$ le corresponden $4$ y $-4$; al $25$, $5$ y $-5$. Con eso ya deja de ser función, sin importar que la regla esté clarísima. Ojo con la trampa: que exista un procedimiento bien definido no garantiza nada; lo que define a una función es la <strong>unicidad</strong> de la salida. El único número que se salva es el $0$, que tiene una sola correspondencia, pero alcanza con que falle en un valor para que la correspondencia entera no sea función."
+  },
+  {
+    id:"A5", category:"concepto", visual:false,
+    prompt:"En un kiosco, cada producto tiene un precio marcado en la etiqueta. Se hace corresponder a cada producto su precio. Un alfajor cuesta $\\$1200$ y una golosina también cuesta $\\$1200$. ¿Es una función?",
+    options:[
+      "Sí, porque cada producto tiene un solo precio, aunque dos productos coincidan en el precio.",
+      "No, porque dos productos distintos tienen el mismo precio.",
+      "No, porque los precios cambian con el tiempo.",
+      "Sí, pero solo si ningún precio se repite."
+    ],
+    correct:0,
+    hint:"La condición mira las <strong>entradas</strong>, no las salidas. ¿Hay algún producto con dos precios distintos?",
+    explanation:"Cada producto tiene un único precio, y eso basta. Que el alfajor y la golosina coincidan en $\\$1200$ significa que dos entradas comparten salida, cosa perfectamente permitida. Esta es la confusión más común: la definición exige una sola salida por entrada, y no dice nada sobre que las salidas no puedan repetirse."
+  },
+
+  /* ================= B) DETERMINAR EL DOMINIO ================= */
+  {
+    id:"B1", category:"dominio", visual:false,
+    prompt:"Un globo aerostático desciende. Su altura respecto del suelo, en metros, se modela con la función $g$ definida por $g(t) = -40 \\cdot t + 1200$, donde $t$ es el tiempo en minutos desde que empieza a descender. ¿Cuál es el dominio de $g$ en el contexto del problema?",
+    options:[
+      "$Dom(g) = [0, 30]$",
+      "$Dom(g) = [0, 1200]$",
+      "$Dom(g) = \\mathbb{R}$",
+      "$Dom(g) = [0, 40]$"
+    ],
+    correct:0,
+    hint:"El extremo de abajo lo pone el contexto (¿tiene sentido un tiempo negativo?). El de arriba lo da la raíz: el instante en que el globo toca el suelo.",
+    explanation:"El globo toca el suelo cuando $g(t) = 0$, es decir $-40 \\cdot t + 1200 = 0$, de donde $t = 30$ minutos. Antes de $t = 0$ el globo todavía no empezó a descender, y después de los $30$ minutos la fórmula daría alturas negativas, que no existen. Entonces $Dom(g) = [0, 30]$. El $1200$ es la altura inicial y el $40$ la velocidad de descenso: ninguno de los dos es un tiempo."
+  },
+  {
+    id:"B2", category:"dominio", visual:false,
+    prompt:"Una máquina consume combustible a ritmo constante. El volumen que queda en el tanque, en litros, se modela con $v(x) = -2 \\cdot x + 50$, donde $x$ es el tiempo de funcionamiento en horas. ¿Cuál es el dominio de $v$ en el contexto del problema?",
+    options:[
+      "$Dom(v) = [0, 25]$",
+      "$Dom(v) = [0, 50]$",
+      "$Dom(v) = [0, 2]$",
+      "$Dom(v) = \\mathbb{R}$"
+    ],
+    correct:0,
+    hint:"¿En qué momento el tanque queda vacío? Ese instante es la raíz de la función y marca el extremo superior.",
+    explanation:"El tanque se vacía cuando $v(x) = 0$: resolviendo $-2 \\cdot x + 50 = 0$ queda $x = 25$ horas. El tiempo no puede ser negativo, y pasadas las $25$ horas la fórmula daría volúmenes negativos. Entonces $Dom(v) = [0, 25]$. El $50$ son los litros iniciales, no un tiempo."
+  },
+  {
+    id:"B3", category:"dominio", visual:false,
+    prompt:"Una vela encendida se consume a ritmo constante. Su altura, en centímetros, se modela con $h(t) = -3 \\cdot t + 45$, donde $t$ es el tiempo en minutos desde que se encendió. ¿Cuál es el dominio de $h$ en el contexto del problema?",
+    options:[
+      "$Dom(h) = [0, 15]$",
+      "$Dom(h) = [0, 45]$",
+      "$Dom(h) = [-15, 15]$",
+      "$Dom(h) = [3, 45]$"
+    ],
+    correct:0,
+    hint:"La vela se apaga cuando su altura llega a cero. Calculá la raíz.",
+    explanation:"La vela se termina cuando $h(t) = 0$, o sea $-3 \\cdot t + 45 = 0$, entonces $t = 15$ minutos. El dominio es $[0, 15]$. Los tiempos negativos quedan afuera porque la vela todavía no estaba encendida, y después de los $15$ minutos ya no hay vela: la fórmula seguiría dando números, pero alturas negativas no significan nada acá."
+  },
+  {
+    id:"B4", category:"dominio", visual:false,
+    prompt:"Una pileta se vacía con una bomba. El volumen de agua que queda, en litros, se modela con $V(t) = -25 \\cdot t + 600$, donde $t$ es el tiempo en minutos desde que se enciende la bomba. ¿Cuál es el dominio de $V$ en el contexto del problema?",
+    options:[
+      "$Dom(V) = [0, 24]$",
+      "$Dom(V) = [0, 600]$",
+      "$Dom(V) = [0, 25]$",
+      "$Dom(V) = [24, 600]$"
+    ],
+    correct:0,
+    hint:"El extremo superior es el minuto en que la pileta queda sin agua.",
+    explanation:"La pileta queda vacía cuando $V(t) = 0$: de $-25 \\cdot t + 600 = 0$ sale $t = 24$ minutos. Entonces $Dom(V) = [0, 24]$. Atención a la opción $[0, 600]$: el $600$ son litros, no minutos, y confundir las unidades de las dos variables es un error frecuente."
+  },
+  {
+    id:"B5", category:"dominio", visual:false,
+    prompt:"Un teatro tiene $80$ butacas. La recaudación, en pesos, se modela con $R(n) = 3500 \\cdot n$, donde $n$ es la cantidad de entradas vendidas. ¿Cuál es el dominio de $R$ en el contexto del problema?",
+    options:[
+      "Los números enteros desde $0$ hasta $80$, ambos incluidos.",
+      "Todos los valores entre $0$ y $80$, incluidos los decimales.",
+      "Todos los valores entre $0$ y $3500$.",
+      "Todos los números reales."
+    ],
+    correct:0,
+    hint:"¿Tiene sentido vender media entrada? Fijate si la magnitud que estás midiendo se puede fraccionar o no.",
+    explanation:"Las entradas se venden de a una: no existe media entrada ni $12.7$ entradas. Por eso el dominio no es un intervalo sino los valores enteros de $0$ a $80$. Esta es una diferencia importante respecto de los problemas anteriores: el tiempo, el volumen o la altura se pueden fraccionar, pero las unidades de un producto no. La fórmula no cambia; lo que cambia es la magnitud que se está modelando."
+  },
+
+  /* ================= C) EXPRESIÓN Y DOMINIO ================= */
+  {
+    id:"C1", category:"modelo", visual:false,
+    prompt:"Un estacionamiento cobra $\\$1200$ fijos por ingresar, más $\\$900$ por cada hora de permanencia. El estacionamiento cierra a las $6$ horas de haber ingresado. Si $f(t)$ es el costo total en pesos y $t$ el tiempo en horas, ¿cuál de las siguientes duplas modela la situación?",
+    options:[
+      "$f(t) = 900 \\cdot t + 1200$, con $Dom(f) = [0, 6]$",
+      "$f(t) = 1200 \\cdot t + 900$, con $Dom(f) = [0, 6]$",
+      "$f(t) = 900 \\cdot t + 1200$, con $Dom(f) = [0, 6600]$",
+      "$f(t) = 900 \\cdot t + 1200$, con $Dom(f) = \\mathbb{R}$"
+    ],
+    correct:0,
+    hint:"El costo fijo no depende del tiempo: es lo que se paga aunque $t = 0$. El otro número es el que se multiplica por las horas.",
+    explanation:"El $\\$1200$ se paga una sola vez, sin importar cuánto se quede: es la ordenada al origen. Los $\\$900$ se cobran por cada hora, así que multiplican a $t$: $f(t) = 900 \\cdot t + 1200$. El dominio va de $0$ (recién ingresa) a $6$ (cierra el estacionamiento). El $6600$ es el costo máximo, en pesos, no un tiempo."
+  },
+  {
+    id:"C2", category:"modelo", visual:false,
+    prompt:"Un tanque tiene $20$ litros de agua y se lo empieza a llenar con una canilla que aporta $15$ litros por minuto. El tanque tiene capacidad para $320$ litros. Si $V(t)$ es el volumen en litros y $t$ el tiempo en minutos, ¿cuál dupla modela la situación?",
+    options:[
+      "$V(t) = 15 \\cdot t + 20$, con $Dom(V) = [0, 20]$",
+      "$V(t) = 20 \\cdot t + 15$, con $Dom(V) = [0, 20]$",
+      "$V(t) = 15 \\cdot t + 20$, con $Dom(V) = [0, 320]$",
+      "$V(t) = 15 \\cdot t + 20$, con $Dom(V) = [20, 320]$"
+    ],
+    correct:0,
+    hint:"Primero armá la fórmula. Después preguntate en qué minuto el tanque llega a los $320$ litros, y resolvé esa ecuación.",
+    explanation:"Al inicio ya hay $20$ litros (ordenada al origen) y se suman $15$ por cada minuto: $V(t) = 15 \\cdot t + 20$. El tanque se llena cuando $V(t) = 320$, es decir $15 \\cdot t + 20 = 320$, de donde $t = 20$ minutos. Entonces $Dom(V) = [0, 20]$. Cuidado con $[0, 320]$ y $[20, 320]$: mezclan litros con minutos. El dominio siempre se escribe con valores de la variable <strong>independiente</strong>."
+  },
+  {
+    id:"C3", category:"modelo", visual:false,
+    prompt:"Un remís cobra $\\$1500$ de bajada de bandera más $\\$800$ por kilómetro recorrido. El viaje más largo que hace la empresa es de $30$ km. Si $f(x)$ es el costo en pesos y $x$ la distancia en kilómetros, ¿cuál dupla modela la situación?",
+    options:[
+      "$f(x) = 800 \\cdot x + 1500$, con $Dom(f) = [0, 30]$",
+      "$f(x) = 1500 \\cdot x + 800$, con $Dom(f) = [0, 30]$",
+      "$f(x) = 800 \\cdot x + 1500$, con $Dom(f) = [0, 1500]$",
+      "$f(x) = 2300 \\cdot x$, con $Dom(f) = [0, 30]$"
+    ],
+    correct:0,
+    hint:"La bajada de bandera se paga una vez sola; el otro valor se cobra por cada kilómetro.",
+    explanation:"La bajada de bandera es fija: $\\$1500$, la ordenada al origen. Los $\\$800$ se cobran por kilómetro, así que acompañan a $x$: $f(x) = 800 \\cdot x + 1500$. El dominio son los kilómetros posibles: de $0$ a $30$. La opción $f(x) = 2300 \\cdot x$ suma los dos números, y eso cobraría $\\$2300$ por cada kilómetro: el costo fijo dejaría de ser fijo."
+  },
+  {
+    id:"C4", category:"modelo", visual:false,
+    prompt:"Una vela de $60$ cm se consume a razón de $4$ cm por minuto. Si $h(t)$ es la altura en centímetros y $t$ el tiempo en minutos desde que se enciende, ¿cuál dupla modela la situación?",
+    options:[
+      "$h(t) = -4 \\cdot t + 60$, con $Dom(h) = [0, 15]$",
+      "$h(t) = 4 \\cdot t + 60$, con $Dom(h) = [0, 15]$",
+      "$h(t) = -4 \\cdot t + 60$, con $Dom(h) = [0, 60]$",
+      "$h(t) = -60 \\cdot t + 4$, con $Dom(h) = [0, 15]$"
+    ],
+    correct:0,
+    hint:"Si la vela se consume, ¿la altura crece o decrece con el tiempo? Ese dato define el signo de la pendiente.",
+    explanation:"La altura <strong>baja</strong> $4$ cm por minuto, así que la pendiente es negativa: $h(t) = -4 \\cdot t + 60$. La vela se apaga cuando $h(t) = 0$: de $-4 \\cdot t + 60 = 0$ sale $t = 15$ minutos, y ese es el extremo superior del dominio. La opción con pendiente positiva describiría una vela que crece, y $[0, 60]$ confunde centímetros con minutos."
+  },
+  {
+    id:"C5", category:"modelo", visual:false,
+    prompt:"Un salón de fiestas cobra $\\$45000$ por el alquiler más $\\$12000$ por cada mesa que se arme. En el salón entran como máximo $20$ mesas. Si $C(m)$ es el costo total en pesos y $m$ la cantidad de mesas, ¿cuál dupla modela la situación?",
+    options:[
+      "$C(m) = 12000 \\cdot m + 45000$, y el dominio son los números enteros de $0$ a $20$.",
+      "$C(m) = 12000 \\cdot m + 45000$, con $Dom(C) = [0, 20]$.",
+      "$C(m) = 45000 \\cdot m + 12000$, y el dominio son los números enteros de $0$ a $20$.",
+      "$C(m) = 57000 \\cdot m$, y el dominio son los números enteros de $0$ a $20$."
+    ],
+    correct:0,
+    hint:"Ojo con esta: además de armar la fórmula, fijate si la variable independiente admite valores intermedios. ¿Existe media mesa?",
+    explanation:"El alquiler de $\\$45000$ es fijo y los $\\$12000$ se cobran por mesa: $C(m) = 12000 \\cdot m + 45000$. Ahora bien, las mesas se cuentan de a una: no se puede armar $3.5$ mesas. Por eso el dominio <strong>no</strong> es el intervalo $[0, 20]$ sino los enteros de $0$ a $20$. La diferencia con los problemas de tiempo o volumen no está en la fórmula sino en la magnitud: hay magnitudes que se fraccionan y otras que no."
+  },
+
+  /* ================= D) EVALUAR LA FUNCIÓN ================= */
+  {
+    id:"D1", category:"evaluacion", visual:false,
+    prompt:"El costo de un service de moto se modela con la función $f$, con $Dom(f) = [0, 8]$ y $f(h) = 19700 \\cdot h + 22500$, donde $h$ son las horas de trabajo del mecánico y $f(h)$ el costo en pesos. Si el mecánico trabajó $3$ horas, ¿cuánto cuesta el service?",
+    options:[ "$\\$81600$", "$\\$59100$", "$\\$67500$", "$\\$42200$" ],
+    correct:0,
+    hint:"Reemplazá $h$ por $3$ en la fórmula y resolvé, respetando el orden de las operaciones: primero la multiplicación.",
+    explanation:"$f(3) = 19700 \\cdot 3 + 22500 = 59100 + 22500 = 81600$. El service cuesta $\\$81600$. Un error común es olvidarse de sumar el costo fijo y quedarse en $\\$59100$, que es solo la mano de obra."
+  },
+  {
+    id:"D2", category:"evaluacion", visual:false,
+    prompt:"Un globo desciende según la función $g$, con $Dom(g) = [0, 30]$ y $g(t) = -40 \\cdot t + 1200$, donde $t$ son los minutos y $g(t)$ la altura en metros. ¿A qué altura está el globo a los $18$ minutos?",
+    options:[ "$480$ metros", "$720$ metros", "$1920$ metros", "$1160$ metros" ],
+    correct:0,
+    hint:"$18$ está dentro del dominio, así que la función se puede evaluar ahí. Reemplazá y calculá, sin perder de vista el signo menos.",
+    explanation:"$g(18) = -40 \\cdot 18 + 1200 = -720 + 1200 = 480$ metros. La opción $720$ es la cantidad de metros que <strong>descendió</strong>, no la altura a la que está; y $1920$ sale de sumar en lugar de restar, es decir, de perder el signo de la pendiente."
+  },
+  {
+    id:"D3", category:"evaluacion", visual:false,
+    prompt:"Un remís cobra según la función $f$, con $Dom(f) = [0, 30]$ y $f(x) = 800 \\cdot x + 1500$, donde $x$ son los kilómetros y $f(x)$ el costo en pesos. ¿Cuánto cuesta un viaje de $12$ km?",
+    options:[ "$\\$11100$", "$\\$9600$", "$\\$27600$", "$\\$10400$" ],
+    correct:0,
+    hint:"Reemplazá $x$ por $12$. Acordate de sumar la bajada de bandera al final.",
+    explanation:"$f(12) = 800 \\cdot 12 + 1500 = 9600 + 1500 = 11100$. El viaje cuesta $\\$11100$. Quedarse en $\\$9600$ es olvidar el costo fijo; $\\$27600$ sale de multiplicar $2300 \\cdot 12$, es decir de tratar la bajada de bandera como si se cobrara por kilómetro."
+  },
+  {
+    id:"D4", category:"evaluacion", visual:false,
+    prompt:"Una pileta se vacía según la función $V$, con $Dom(V) = [0, 24]$ y $V(t) = -25 \\cdot t + 600$, donde $t$ son los minutos y $V(t)$ los litros que quedan. ¿En qué minuto quedan $350$ litros en la pileta?",
+    options:[
+      "A los $10$ minutos.",
+      "A los $14$ minutos.",
+      "A los $38$ minutos.",
+      "A los $250$ minutos."
+    ],
+    correct:0,
+    hint:"Acá el camino es el inverso: no reemplazás $t$, sino que sabés cuánto vale $V(t)$ y buscás el $t$. Planteá la ecuación $-25 \\cdot t + 600 = 350$ y despejá.",
+    explanation:"Hay que resolver $-25 \\cdot t + 600 = 350$. Restando $600$ en ambos miembros queda $-25 \\cdot t = -250$, y dividiendo por $-25$ resulta $t = 10$. A los $10$ minutos quedan $350$ litros, y ese valor está dentro del dominio, así que la respuesta tiene sentido. La opción $250$ es el resultado intermedio $600 - 350$, sin dividir por la pendiente."
+  },
+  {
+    id:"D5", category:"evaluacion", visual:false,
+    prompt:"El costo de un service de moto se modela con $f$, con $Dom(f) = [0, 8]$ y $f(h) = 19700 \\cdot h + 22500$, donde $h$ son las horas de trabajo y $f(h)$ el costo en pesos. Un cliente afirma que le cobraron $\\$219500$. ¿Cuántas horas trabajó el mecánico?",
+    options:[
+      "Ningún valor del dominio da ese resultado: ese costo no es posible en este taller.",
+      "$10$ horas.",
+      "$8$ horas.",
+      "$11$ horas."
+    ],
+    correct:0,
+    hint:"Planteá la ecuación y despejá $h$… pero antes de dar la respuesta, fijate si el valor que obtuviste <strong>pertenece al dominio</strong> de la función.",
+    explanation:"Resolviendo $19700 \\cdot h + 22500 = 219500$ se llega a $19700 \\cdot h = 197000$ y entonces $h = 10$. Pero el dominio es $[0, 8]$: el taller no factura trabajos de más de $8$ horas, así que $10$ <strong>no pertenece al dominio</strong> y la función no puede evaluarse ahí. La ecuación tiene solución, pero la función no toma ese valor. Es la distinción central del último capítulo: la fórmula sola aceptaría $h = 10$, pero la función —que es la fórmula <strong>más</strong> su dominio— no. Son dos objetos matemáticos distintos."
+  },
+
+  /* ================= E) DEL GRÁFICO A LA FUNCIÓN ================= */
+  {
+    id:"E1", category:"lectura", visual:true,
+    prompt:"Observá el gráfico. ¿Cuál de las siguientes funciones está representada?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:8},
+      line:{a:2,b:-1},
+      infinite:true,
+      refPoints:[
+        {x:0,y:-1,label:"",dx:0,dy:0},
+        {x:2,y:3,label:"",dx:0,dy:0}
+      ],
+      ariaLabel:"Recta completa que pasa por (0,-1) y (2,3)"
+    },
+    options:[
+      "$f(x) = 2 \\cdot x - 1$, con $Dom(f) = \\mathbb{R}$",
+      "$f(x) = 2 \\cdot x - 1$, con $Dom(f) = [0, 2]$",
+      "$f(x) = x - 1$, con $Dom(f) = \\mathbb{R}$",
+      "$f(x) = -2 \\cdot x - 1$, con $Dom(f) = \\mathbb{R}$"
+    ],
+    correct:0,
+    hint:"Primero sacá la ordenada al origen (dónde corta al eje $y$) y la pendiente. Después mirá si el trazo se corta en algún lado o si sigue de largo en las dos direcciones.",
+    explanation:"La recta corta al eje $y$ en $(0, -1)$, entonces $b = -1$. De $(0,-1)$ a $(2,3)$, la $x$ avanza $2$ y la $y$ sube $4$: la pendiente es $a = 2$. La expresión es $f(x) = 2 \\cdot x - 1$. Y como el trazo no se interrumpe en ningún punto, no hay nada que recorte el dominio: $Dom(f) = \\mathbb{R}$. Ojo con la opción que tiene la fórmula correcta pero un dominio acotado: sería otra función, y su gráfico sería un segmento, no una recta entera."
+  },
+  {
+    id:"E2", category:"lectura", visual:true,
+    prompt:"Observá el gráfico. ¿Cuál de las siguientes funciones está representada?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      segment:{a:-1,b:5,xFrom:1,xTo:4},
+      ariaLabel:"Segmento con extremos en (1,4) y (4,1)"
+    },
+    options:[
+      "$f(x) = -x + 5$, con $Dom(f) = [1, 4]$",
+      "$f(x) = -x + 5$, con $Dom(f) = \\mathbb{R}$",
+      "$f(x) = -x + 5$, con $Dom(f) = [4, 1]$",
+      "$f(x) = x + 5$, con $Dom(f) = [1, 4]$"
+    ],
+    correct:0,
+    hint:"Acordate del segmento azul de la vela. Que el trazo empiece y termine en dos puntos marcados no es un descuido del dibujo: está diciendo algo sobre el dominio.",
+    explanation:"El trazo baja, así que la pendiente es negativa. De $(1,4)$ a $(4,1)$: la $x$ avanza $3$ y la $y$ baja $3$, entonces $a = -1$. Reemplazando en $(1,4)$: $4 = -1 + b$, de donde $b = 5$. La expresión es $f(x) = -x + 5$. Pero el gráfico <strong>no</strong> es una recta entera: es un segmento que empieza en $x=1$ y termina en $x=4$, y esos puntos llenos marcan los extremos del dominio. Por eso $Dom(f) = [1, 4]$. La opción con $\\mathbb{R}$ tiene la misma fórmula pero es <strong>otra función</strong>: su gráfico sería la recta completa."
+  },
+  {
+    id:"E3", category:"lectura", visual:true,
+    prompt:"Observá el gráfico. ¿Cuál de las siguientes funciones está representada?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      segment:{a:0.5,b:2,xFrom:0,xTo:4},
+      refPoints:[{x:2,y:3,label:"",dx:0,dy:0}],
+      ariaLabel:"Segmento con extremos en (0,2) y (4,4), con un punto marcado en (2,3)"
+    },
+    options:[
+      "$f(x) = \\dfrac{1}{2} \\cdot x + 2$, con $Dom(f) = [0, 4]$",
+      "$f(x) = 2 \\cdot x + 2$, con $Dom(f) = [0, 4]$",
+      "$f(x) = \\dfrac{1}{2} \\cdot x + 2$, con $Dom(f) = [2, 4]$",
+      "$f(x) = \\dfrac{1}{2} \\cdot x + 2$, con $Dom(f) = \\mathbb{R}$"
+    ],
+    correct:0,
+    hint:"Cuidado con la pendiente: fijate cuánto sube la $y$ <strong>por cada unidad</strong> que avanza la $x$. Acá la $y$ sube más despacio que la $x$.",
+    explanation:"El segmento corta al eje $y$ en $(0,2)$, así que $b = 2$. De $(0,2)$ a $(4,4)$ la $x$ avanza $4$ y la $y$ sube apenas $2$: por cada unidad de $x$, la $y$ sube media unidad, entonces $a = \\frac{1}{2}$. La expresión es $f(x) = \\frac{1}{2} \\cdot x + 2$, y el punto $(2,3)$ lo verifica. El dominio son las abscisas de los extremos: $[0, 4]$. El error más común acá es leer la pendiente al revés y poner $a = 2$, que daría una recta mucho más empinada."
+  },
+  {
+    id:"E4", category:"lectura", visual:true,
+    prompt:"Observá el gráfico. ¿Cuál de las siguientes funciones está representada?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:8},
+      line:{a:-3,b:6},
+      infinite:true,
+      refPoints:[
+        {x:0,y:6,label:"",dx:0,dy:0},
+        {x:2,y:0,label:"",dx:0,dy:0}
+      ],
+      ariaLabel:"Recta completa que pasa por (0,6) y (2,0)"
+    },
+    options:[
+      "$f(x) = -3 \\cdot x + 6$, con $Dom(f) = \\mathbb{R}$",
+      "$f(x) = 3 \\cdot x + 6$, con $Dom(f) = \\mathbb{R}$",
+      "$f(x) = -3 \\cdot x + 6$, con $Dom(f) = [0, 6]$",
+      "$f(x) = -3 \\cdot x + 6$, con $Dom(f) = [0, 2]$"
+    ],
+    correct:0,
+    hint:"El punto donde la recta cruza el eje $x$ es la raíz. Sirve para calcular la pendiente, pero ojo: no necesariamente recorta el dominio.",
+    explanation:"La ordenada al origen es $b = 6$. La recta cruza el eje $x$ en $(2, 0)$: de $(0,6)$ a $(2,0)$ la $x$ avanza $2$ y la $y$ baja $6$, entonces $a = -3$. La expresión es $f(x) = -3 \\cdot x + 6$. Acá está la trampa: en los problemas del libro la raíz sí marcaba el final del dominio, porque el contexto lo exigía (la vela se apaga, el tanque se vacía). Pero este gráfico <strong>no modela ninguna situación</strong>: es una recta sola, sin contexto que la recorte, y el trazo sigue de largo más allá de la raíz. Por eso $Dom(f) = \\mathbb{R}$."
+  },
+  {
+    id:"E5", category:"lectura", visual:true,
+    prompt:"Observá el gráfico. ¿Cuál de las siguientes funciones está representada?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      segment:{a:1,b:-2,xFrom:-2,xTo:3},
+      ariaLabel:"Segmento con extremos en (-2,-4) y (3,1)"
+    },
+    options:[
+      "$f(x) = x - 2$, con $Dom(f) = [-2, 3]$",
+      "$f(x) = x - 2$, con $Dom(f) = [-4, 1]$",
+      "$f(x) = x + 2$, con $Dom(f) = [-2, 3]$",
+      "$f(x) = x - 2$, con $Dom(f) = \\mathbb{R}$"
+    ],
+    correct:0,
+    hint:"El dominio se escribe con valores de la variable <strong>independiente</strong>. Fijate bien cuáles de los cuatro números que ves en los extremos son abscisas y cuáles son ordenadas.",
+    explanation:"De $(-2,-4)$ a $(3,1)$ la $x$ avanza $5$ y la $y$ sube $5$: la pendiente es $a = 1$. Reemplazando en $(3,1)$: $1 = 3 + b$, entonces $b = -2$ y la expresión es $f(x) = x - 2$. El dominio son las <strong>abscisas</strong> de los extremos, es decir $[-2, 3]$. La opción $[-4, 1]$ usa las ordenadas: es el error de mirar el eje equivocado, el mismo que aparece cuando alguien escribe el dominio en litros en vez de en minutos. Notá además que el dominio puede incluir valores negativos sin ningún problema: acá no hay contexto que lo impida."
+  },
+
+  /* ================= F) ¿EL GRÁFICO ES FUNCIÓN? ================= */
+  {
+    id:"F1", category:"grafico", visual:true,
+    prompt:"Observá el gráfico. Con $x$ como variable independiente e $y$ como variable dependiente, ¿puede este gráfico representar una función?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      // S acostada: sube, se dobla hacia la izquierda, vuelve a doblarse y sigue subiendo
+      curve:"M -85 88 C 40 78, 75 35, -25 12 C -85 -3, -55 -55, 70 -78",
+      ariaLabel:"Curva con forma de S acostada, que se dobla sobre sí misma"
+    },
+    options:[
+      "No, porque hay valores de $x$ a los que les corresponde más de un valor de $y$.",
+      "No, porque la curva no es una recta.",
+      "Sí, porque el trazo es continuo y no se interrumpe.",
+      "Sí, porque a cada valor de $y$ le corresponde un solo valor de $x$."
+    ],
+    correct:0,
+    hint:"Elegí un valor de $x$ en la zona del medio y subí con la mirada en línea vertical desde el eje $x$. ¿Cuántas veces tocás la curva?",
+    explanation:"Si te parás en una abscisa de la zona del medio y mirás hacia arriba en línea vertical, la curva aparece tres veces: hay tres valores de $y$ para esa misma $x$. Eso rompe la unicidad y por lo tanto no es función. Ojo con las otras opciones: que la curva no sea una recta no la descalifica (hay muchísimas funciones que no son lineales), y que el trazo sea continuo tampoco garantiza nada. Ese truco de mirar en línea vertical funciona siempre, y conviene que te lo lleves puesto."
+  },
+  {
+    id:"F2", category:"grafico", visual:true,
+    prompt:"Observá el gráfico. Con $x$ como variable independiente e $y$ como variable dependiente, ¿puede este gráfico representar una función?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      // ondulada creciente: avanza siempre hacia la derecha, sin volver atrás
+      curve:"M -95 80 C -70 78, -60 30, -40 25 C -20 20, -10 -5, 10 -12 C 30 -19, 45 -55, 70 -60 C 82 -62, 90 -70, 95 -78",
+      ariaLabel:"Curva ondulada que sube de izquierda a derecha sin volver atrás"
+    },
+    options:[
+      "Sí, porque para cada valor de $x$ el trazo pasa una sola vez.",
+      "No, porque la curva no es una recta.",
+      "No, porque las ondulaciones hacen que no sea lineal.",
+      "Sí, pero solo en los tramos donde sube."
+    ],
+    correct:0,
+    hint:"Probá el mismo truco: mirá en línea vertical desde varios valores de $x$. ¿En algún lugar la curva aparece dos veces?",
+    explanation:"Por más que ondule, la curva nunca vuelve hacia atrás: para cada valor de $x$ hay exactamente un valor de $y$. Es función. Que no sea una recta no importa: la definición de función no pide que la dependencia sea lineal, y de hecho las funciones lineales son apenas un tipo entre muchos. En este libro estudiamos las lineales, pero el concepto de función es mucho más amplio."
+  },
+  {
+    id:"F3", category:"grafico", visual:true,
+    prompt:"Observá el gráfico. Con $x$ como variable independiente e $y$ como variable dependiente, ¿puede este gráfico representar una función?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      // lazo cerrado (óvalo irregular)
+      curve:"M -55 0 C -55 -50, -10 -70, 25 -55 C 65 -38, 70 15, 35 42 C 0 68, -55 50, -55 0 Z",
+      ariaLabel:"Curva cerrada con forma de lazo"
+    },
+    options:[
+      "No, porque casi todas las abscisas del lazo tienen dos valores de $y$.",
+      "No, porque la curva está cerrada y una función no puede cerrarse.",
+      "Sí, porque el trazo nunca se interrumpe.",
+      "Sí, porque a cada punto del plano le corresponde un solo lugar en la curva."
+    ],
+    correct:0,
+    hint:"Un lazo tiene una parte de arriba y una de abajo. Si mirás en línea vertical desde una $x$ del medio, vas a tocar las dos.",
+    explanation:"Un lazo tiene tapa y piso: para casi cualquier valor de $x$ dentro del lazo, la línea vertical corta la curva dos veces, una arriba y otra abajo. Dos valores de $y$ para la misma $x$, y por lo tanto no es función. Notá que la opción que dice “porque está cerrada” llega a la conclusión correcta por el motivo equivocado: el problema no es que la curva se cierre, es que se superpone verticalmente."
+  },
+  {
+    id:"F4", category:"grafico", visual:true,
+    prompt:"Observá el gráfico. Con $x$ como variable independiente e $y$ como variable dependiente, ¿puede este gráfico representar una función?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      // loma: sube hasta un máximo y baja
+      curve:"M -95 75 C -60 70, -40 -60, 0 -62 C 40 -64, 60 70, 95 75",
+      ariaLabel:"Curva con forma de loma: sube hasta un punto máximo y vuelve a bajar"
+    },
+    options:[
+      "Sí, porque para cada valor de $x$ hay un solo valor de $y$.",
+      "No, porque hay dos valores de $x$ con la misma altura $y$.",
+      "No, porque la curva primero sube y después baja.",
+      "Sí, pero solo en el tramo en que sube."
+    ],
+    correct:0,
+    hint:"Cuidado con esta: que dos puntos distintos estén a la misma altura <strong>no</strong> es un problema. Acordate de lo que pasaba con el agua hirviendo.",
+    explanation:"Es función. La línea vertical corta la curva una sola vez en cualquier $x$, y eso es todo lo que hace falta. Es cierto que hay pares de valores de $x$ que comparten la misma altura —uno de la subida y otro de la bajada—, pero eso está permitido: la condición pide una sola <strong>salida</strong> por cada entrada, no una sola entrada por cada salida. Es exactamente lo que pasaba con el agua hirviendo: a los $30$ y a los $40$ minutos, $100$ °C en los dos casos, y sigue siendo función."
+  },
+  {
+    id:"F5", category:"grafico", visual:true,
+    prompt:"Observá el gráfico. Con $x$ como variable independiente e $y$ como variable dependiente, ¿puede este gráfico representar una función?",
+    graph:{
+      range:{xMin:-6,xMax:6,yMin:-6,yMax:6},
+      // casi vertical con un doblez angosto hacia la izquierda
+      curve:"M -25 88 C 10 55, 30 22, 12 2 C -8 -20, -40 -28, -14 -46 C 2 -58, 20 -74, 30 -88",
+      ariaLabel:"Curva empinada con un doblez angosto hacia la izquierda"
+    },
+    options:[
+      "No, porque en el tramo donde la curva se dobla hay abscisas con dos valores de $y$.",
+      "Sí, porque la curva sube casi todo el tiempo.",
+      "Sí, porque la superposición es muy chica y no llega a romper la condición.",
+      "No, porque una curva tan empinada no puede ser una función."
+    ],
+    correct:0,
+    hint:"Mirá con atención el tramo donde la curva se dobla. La superposición es angosta, pero ¿alcanza con que sea angosta para que no cuente?",
+    explanation:"En el tramo donde la curva se dobla hacia atrás hay abscisas a las que les corresponden dos valores de $y$, y con eso alcanza: no es función. Que la superposición sea angosta no cambia nada: la definición no admite excepciones chiquitas, igual que alcanzaba con que una regla fallara en un solo número. Y ojo con la última opción: una curva empinada, por empinada que sea, puede ser perfectamente una función —el problema no es la inclinación sino el doblez—."
+  }
+
+];
+/* ---------------------------------------------------------------------
+   3) ESTADO Y PARÁMETROS DE URL
+
+   Ver el documento «Parámetros del cuestionario» para el detalle de uso.
+   Resumen:
+     ?ask=N        sortea N preguntas DE CADA categoría (orden final al azar)
+     ?debug=1      vista de revisión: todas listadas, con panel de categorías
+     ?q=ID         ejecuta una sola pregunta
+     ?q=ID&debug=1 esa pregunta, con las opciones sin barajar
+   --------------------------------------------------------------------- */
+
+let order = [];
+let state = [];
+let currentIndex = 0;
+let selectedOption = null;
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function shuffleQuestionOptions(q){
+  const idxs = q.options.map((_, i) => i);
+  const shuffled = shuffle(idxs);
+  const newOptions = shuffled.map(i => q.options[i]);
+  const newCorrect = shuffled.indexOf(q.correct);
+  return Object.assign({}, q, { options:newOptions, correct:newCorrect });
+}
+
+// ?ask=N — cuántas preguntas se sortean DE CADA categoría.
+// Si N no es entero o es menor que 1, se ignora (entran todas).
+// Si N supera el tamaño de una categoría, de esa categoría entran todas.
+function getAskParam(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("ask")) return null;
+  const n = Number(params.get("ask"));
+  if (!Number.isInteger(n) || n < 1) return null;
+  return n;
+}
+
+// ?debug=1 — modo revisión (y, combinado con ?q, opciones sin barajar).
+function getDebugParam(){
+  const params = new URLSearchParams(window.location.search);
+  return params.get("debug") === "1";
+}
+
+// ?q=ID — una sola pregunta. Devuelve la pregunta o null si el id no existe.
+function getSingleQuestion(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("q")) return null;
+  const id = (params.get("q") || "").trim().toUpperCase();
+  return QUESTIONS.find(q => q.id.toUpperCase() === id) || null;
+}
+
+// Agrupa por categoría preservando el orden del documento.
+function groupByCategory(){
+  const groups = new Map();
+  QUESTIONS.forEach(q => {
+    if (!groups.has(q.category)) groups.set(q.category, []);
+    groups.get(q.category).push(q);
+  });
+  return groups;
+}
+
+// Cantidad total de preguntas del cuestionario que se va a armar.
+function questionCount(){
+  if (getSingleQuestion()) return 1;
+  const ask = getAskParam();
+  if (ask === null) return QUESTIONS.length;
+  let total = 0;
+  groupByCategory().forEach(qs => { total += Math.min(ask, qs.length); });
+  return total;
+}
+
+function resetState(){
+  const single = getSingleQuestion();
+
+  if (single){
+    // ?q=ID — una sola pregunta. Con ?debug=1 se respeta el orden de opciones
+    // del archivo fuente, para poder cotejar contra el documento de preguntas.
+    order = getDebugParam() ? [single] : [shuffleQuestionOptions(single)];
+  } else {
+    const ask = getAskParam();
+    let seleccionadas;
+
+    if (ask === null){
+      seleccionadas = QUESTIONS.slice();
+    } else {
+      // N preguntas sorteadas DE CADA categoría por separado
+      seleccionadas = [];
+      groupByCategory().forEach(qs => {
+        seleccionadas.push(...shuffle(qs).slice(0, ask));
+      });
+    }
+
+    // Recién acá se baraja el conjunto completo: el orden final es totalmente
+    // aleatorio y NO agrupa por categoría.
+    order = shuffle(seleccionadas).map(shuffleQuestionOptions);
+  }
+
+  state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
+  currentIndex = 0;
+  selectedOption = null;
+}
+
+function renderMath(container){
+  if (window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters:[
+        {left:"$", right:"$", display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+/* ---------------------------------------------------------------------
+   4) PANTALLA DE INICIO
+   --------------------------------------------------------------------- */
+
+function renderIntro(){
+  const app = document.getElementById("app");
+  const n = questionCount();
+  const single = getSingleQuestion();
+  const ask = getAskParam();
+
+  const singleNote = single
+    ? `<div class="single-note"><strong>Modo de prueba.</strong> Se está ejecutando una sola pregunta (<code>${single.id}</code>)${getDebugParam() ? ", con las opciones en el orden del archivo fuente" : ""}. Para la autoevaluación completa, abrí la página sin parámetros.</div>`
+    : "";
+
+  const askNote = (!single && ask !== null)
+    ? " Se sortean preguntas de cada uno de los seis temas, así que todos quedan representados."
+    : "";
+
+  app.innerHTML = `
+    <div class="card intro-text">
+      ${singleNote}
+      <p>Esta autoevaluación tiene <strong>${n} pregunta${n === 1 ? "" : "s"}</strong> sobre función y dominio: decidir si una correspondencia es o no una función, determinar el dominio de un modelo, construir la expresión algebraica junto con su dominio, evaluar una función y leer funciones a partir de gráficos.${askNote} El orden de las preguntas se sortea cada vez que abrís la página.</p>
+      <p>No hace falta usar GeoGebra ni la calculadora: todos los números fueron elegidos para poder resolverse con cuentas simples.</p>
+      <div class="rules">
+        <div class="rule-item ok">
+          <span class="n">✓ Bien a la primera</span>
+          <p>Sumás <strong>5 puntos</strong> y recibís una confirmación de tu razonamiento.</p>
+        </div>
+        <div class="rule-item help">
+          <span class="n">◐ Un error + ayuda</span>
+          <p>Si te equivocás una vez, aparece una pista. Si después acertás, sumás <strong>3 puntos</strong>.</p>
+        </div>
+        <div class="rule-item no">
+          <span class="n">✕ Segundo error</span>
+          <p>No sumás puntos, pero vas a ver la explicación completa de la respuesta correcta.</p>
+        </div>
+      </div>
+      <p>Al terminar vas a ver tu puntaje y un detalle de qué respondiste bien sin ayuda, qué respondiste bien con ayuda, y qué te conviene repasar.</p>
+      <button class="btn btn-primary btn-block" id="btnStart">Empezar la autoevaluación</button>
+    </div>
+  `;
+  renderMath(app);
+  document.getElementById("btnStart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+}
+
+/* ---------------------------------------------------------------------
+   5) PANTALLA DE PREGUNTA
+   --------------------------------------------------------------------- */
+
+function dotsHTML(){
+  return order.map((q, i) => {
+    let cls = "dot";
+    if (i === currentIndex) cls += " current";
+    else if (state[i].status === "correct-first") cls += " done-ok";
+    else if (state[i].status === "correct-help") cls += " done-help";
+    else if (state[i].status === "incorrect") cls += " done-no";
+    return `<span class="${cls}"></span>`;
+  }).join("");
+}
+
+function renderQuestion(){
+  selectedOption = null;
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  const app = document.getElementById("app");
+
+  const graphHTML = q.visual
+    ? `<div class="graph-wrap">${buildGraphSVG(q.graph)}</div>`
+    : "";
+
+  const optionsHTML = q.options.map((opt, i) => `
+    <button class="option" data-idx="${i}">
+      <span class="letter">${String.fromCharCode(65 + i)}</span>
+      <span class="otext">${opt}</span>
+    </button>
+  `).join("");
+
+  app.innerHTML = `
+    <div class="progress-row">
+      <div class="dots" aria-hidden="true">${dotsHTML()}</div>
+      <span class="qcount">Pregunta ${currentIndex + 1} / ${order.length}</span>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;margin-bottom:14px;">
+        <span class="badge" style="margin-bottom:0;">${CATEGORY_LABELS[q.category]}</span>
+        <span class="qid-label">${q.id}</span>
+      </div>
+      <p class="prompt">${q.prompt}</p>
+      ${graphHTML}
+      <div class="options" id="optionsWrap">${optionsHTML}</div>
+      <div id="feedbackWrap"></div>
+      <div class="quiz-actions" id="actionsWrap">
+        <button class="btn btn-primary" id="btnVerify" disabled>Verificar respuesta</button>
+      </div>
+    </div>
+  `;
+
+  renderMath(app);
+
+  document.querySelectorAll(".option").forEach(btn => {
+    btn.addEventListener("click", () => selectOption(parseInt(btn.dataset.idx, 10)));
+  });
+  document.getElementById("btnVerify").addEventListener("click", verifyAnswer);
+
+  if (st.status === "correct-first" || st.status === "correct-help" || st.status === "incorrect"){
+    lockOptionsVisual(q, st.selectedFirst);
+    showFinalFeedback(q, st);
+    showNextButton();
+  }
+}
+
+function selectOption(idx){
+  const st = state[currentIndex];
+  if (st.status !== "pending" && st.status !== "retry") return;
+  const buttons = document.querySelectorAll(".option");
+  if (buttons[idx].classList.contains("tried")) return;
+  buttons.forEach(b => b.classList.remove("selected"));
+  buttons[idx].classList.add("selected");
+  selectedOption = idx;
+  document.getElementById("btnVerify").disabled = false;
+}
+
+function verifyAnswer(){
+  const q = order[currentIndex];
+  const st = state[currentIndex];
+  if (selectedOption === null) return;
+
+  st.attempts++;
+  const isCorrect = selectedOption === q.correct;
+
+  if (st.attempts === 1) st.selectedFirst = selectedOption;
+
+  if (isCorrect){
+    st.status = st.attempts === 1 ? "correct-first" : "correct-help";
+    st.points = st.attempts === 1 ? 5 : 3;
+    lockOptionsVisual(q, selectedOption);
+    showFinalFeedback(q, st);
+    showNextButton();
+  } else {
+    if (st.attempts === 1){
+      st.status = "retry";
+      document.querySelectorAll(".option")[selectedOption].classList.add("tried");
+      document.querySelectorAll(".option")[selectedOption].classList.remove("selected");
+      selectedOption = null;
+      document.getElementById("btnVerify").disabled = true;
+      document.getElementById("btnVerify").textContent = "Verificar de nuevo";
+      renderFeedback("hint", "Pista", q.hint);
+    } else {
+      st.status = "incorrect";
+      st.points = 0;
+      lockOptionsVisual(q, selectedOption);
+      showFinalFeedback(q, st);
+      showNextButton();
+    }
+  }
+  renderMath(document.getElementById("app"));
+}
+
+function lockOptionsVisual(q, chosenWrong){
+  const buttons = document.querySelectorAll(".option");
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    b.classList.remove("selected", "tried");
+    if (i === q.correct) b.classList.add("correct");
+    else if (i === chosenWrong) b.classList.add("wrong");
+  });
+}
+
+function showFinalFeedback(q, st){
+  if (st.status === "correct-first"){
+    renderFeedback("success", "¡Correcto! (+5 puntos)", q.explanation);
+  } else if (st.status === "correct-help"){
+    renderFeedback("success", "¡Muy bien, lo lograste con la ayuda! (+3 puntos)", q.explanation);
+  } else if (st.status === "incorrect"){
+    renderFeedback("explain", "La respuesta correcta era otra (+0 puntos)", q.explanation);
+  }
+}
+
+function renderFeedback(type, title, body){
+  const wrap = document.getElementById("feedbackWrap");
+  wrap.innerHTML = `
+    <div class="feedback ${type}">
+      <span class="ftitle">${title}</span>
+      <span>${body}</span>
+    </div>
+  `;
+  renderMath(wrap);
+}
+
+function showNextButton(){
+  const actions = document.getElementById("actionsWrap");
+  const isLast = currentIndex === order.length - 1;
+  actions.innerHTML = `<button class="btn btn-primary" id="btnNext">${isLast ? "Ver resultados" : "Siguiente pregunta"}</button>`;
+  document.getElementById("btnNext").addEventListener("click", () => {
+    if (isLast){
+      renderResults();
+    } else {
+      currentIndex++;
+      renderQuestion();
+    }
+  });
+}
+
+/* ---------------------------------------------------------------------
+   6) PANTALLA DE RESULTADOS
+   --------------------------------------------------------------------- */
+
+function renderResults(){
+  const app = document.getElementById("app");
+  const total = state.reduce((sum, s) => sum + s.points, 0);
+  const max = order.length * 5;
+
+  const okFirst = [];
+  const okHelp = [];
+  const wrong = [];
+  order.forEach((q, i) => {
+    const s = state[i];
+    if (s.status === "correct-first") okFirst.push(q);
+    else if (s.status === "correct-help") okHelp.push(q);
+    else wrong.push(q);
+  });
+
+  let msg;
+  const pct = total / max;
+  if (pct >= 0.9) msg = "Excelente manejo de la noción de función y de dominio. Aun así, mirá con atención lo que te haya costado: siempre hay algo para afinar.";
+  else if (pct >= 0.7) msg = "Buen manejo del tema, con algunos puntos concretos para repasar. Fijate en el detalle de abajo antes de seguir avanzando.";
+  else if (pct >= 0.5) msg = "Vas por buen camino, pero conviene repasar varios conceptos antes de seguir. Usá el detalle de abajo como guía de estudio.";
+  else msg = "Este resultado es un buen punto de partida, no un diagnóstico definitivo. Repasá con calma las explicaciones de abajo, y volvé a intentarlo cuando te sientas listo/a.";
+
+  const section = (title, dotClass, list, showAnswer) => {
+    if (list.length === 0){
+      return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (0)</h3><p class="empty-note">No hubo preguntas en este grupo.</p></div>`;
+    }
+    const items = list.map(q => `
+      <div class="result-item">
+        <span class="rtag">${CATEGORY_LABELS[q.category]}</span>
+        <p class="rprompt">${q.prompt}</p>
+        ${showAnswer ? `<div class="rexplain"><strong>Respuesta correcta:</strong> ${q.options[q.correct]}. ${q.explanation}</div>` : ""}
+      </div>
+    `).join("");
+    return `<div class="result-section"><h3><span class="dotmark ${dotClass}"></span>${title} (${list.length})</h3>${items}</div>`;
+  };
+
+  app.innerHTML = `
+    <div class="card">
+      <div class="score-hero">
+        <div class="score-num">${total}<span>/${max}</span></div>
+        <p class="score-msg">${msg}</p>
+      </div>
+      ${section("Respondiste bien sin ayuda", "ok", okFirst, false)}
+      ${section("Respondiste bien con ayuda", "help", okHelp, false)}
+      ${section("Para repasar", "no", wrong, true)}
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btnRestart">Volver a intentar (nuevo orden)</button>
+      </div>
+    </div>
+  `;
+  renderMath(app);
+  document.getElementById("btnRestart").addEventListener("click", () => {
+    resetState();
+    renderQuestion();
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------------------------------------------------------------------
+   7) MODO REVISIÓN (?debug=1)
+
+   Lista TODAS las preguntas en el orden del archivo fuente, agrupadas por
+   categoría, con la correcta marcada y la pista y la explicación a la vista.
+   No se responden acá: cada una tiene un botón que la abre aislada, en una
+   pestaña nueva, funcionando de verdad (?q=ID).
+   --------------------------------------------------------------------- */
+
+function renderDebug(){
+  const app = document.getElementById("app");
+  const groups = groupByCategory();
+
+  const toggles = [...groups.keys()].map(cat => `
+    <label class="cat-toggle" data-cat="${cat}">
+      <input type="checkbox" checked data-cat="${cat}">
+      ${CATEGORY_LABELS[cat]} (${groups.get(cat).length})
+    </label>
+  `).join("");
+
+  const groupsHTML = [...groups.entries()].map(([cat, qs]) => {
+    const cards = qs.map(q => {
+      const graphHTML = q.visual
+        ? `<div class="graph-wrap">${buildGraphSVG(q.graph)}</div>`
+        : "";
+
+      const optionsHTML = q.options.map((opt, i) => `
+        <div class="option ${i === q.correct ? "correct" : ""}">
+          <span class="letter">${String.fromCharCode(65 + i)}</span>
+          <span class="otext">${opt}</span>
+        </div>
+      `).join("");
+
+      return `
+        <div class="card debug-card">
+          <div class="debug-head">
+            <div style="display:flex;align-items:center;">
+              <span class="badge" style="margin-bottom:0;">${CATEGORY_LABELS[q.category]}</span>
+              <span class="qid-label">${q.id}</span>
+            </div>
+            <a class="btn-try" href="?q=${q.id}" target="_blank" rel="noopener">▶ Probar ${q.id}</a>
+          </div>
+          <p class="prompt">${q.prompt}</p>
+          ${graphHTML}
+          <div class="options">${optionsHTML}</div>
+          <p class="debug-note"><strong>Pista:</strong> ${q.hint}</p>
+          <p class="debug-note"><strong>Explicación:</strong> ${q.explanation}</p>
+        </div>
+      `;
+    }).join("");
+
+    return `<div class="cat-group" data-cat="${cat}">
+      <h3>${CATEGORY_LABELS[cat]} — ${qs.length} preguntas</h3>
+      ${cards}
+    </div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="debug-bar">
+      <h2>Modo revisión · debug=1</h2>
+      <p>Las ${QUESTIONS.length} preguntas en el orden del archivo fuente, con las opciones sin barajar y la correcta marcada en verde. Usá las casillas para mostrar u ocultar categorías, y el botón <strong>Probar</strong> de cada tarjeta para abrirla aislada en una pestaña nueva y resolverla como lo haría un estudiante.</p>
+      <div class="cat-toggles">${toggles}</div>
+      <div class="debug-actions">
+        <button class="btn-mini" id="btnAll">Mostrar todas</button>
+        <button class="btn-mini" id="btnNone">Ocultar todas</button>
+        <a class="btn-mini" href="?" style="text-decoration:none;">Salir del modo revisión</a>
+      </div>
+    </div>
+    ${groupsHTML}
+  `;
+
+  renderMath(app);
+
+  const setCat = (cat, visible) => {
+    const g = app.querySelector(`.cat-group[data-cat="${cat}"]`);
+    if (g) g.classList.toggle("hidden", !visible);
+    const lbl = app.querySelector(`.cat-toggle[data-cat="${cat}"]`);
+    if (lbl) lbl.classList.toggle("off", !visible);
+    const chk = app.querySelector(`input[data-cat="${cat}"]`);
+    if (chk) chk.checked = visible;
+  };
+
+  app.querySelectorAll(".cat-toggle input").forEach(chk => {
+    chk.addEventListener("change", () => setCat(chk.dataset.cat, chk.checked));
+  });
+  document.getElementById("btnAll").addEventListener("click", () => {
+    [...groups.keys()].forEach(c => setCat(c, true));
+  });
+  document.getElementById("btnNone").addEventListener("click", () => {
+    [...groups.keys()].forEach(c => setCat(c, false));
+  });
+}
+
+/* ---------------------------------------------------------------------
+   8) INICIO
+   --------------------------------------------------------------------- */
+
+document.addEventListener("DOMContentLoaded", () => {
+  // ?debug=1 sin ?q → vista de revisión. Con ?q, en cambio, debug solo
+  // significa "no barajes las opciones" y el cuestionario corre normal.
+  if (getDebugParam() && !getSingleQuestion()){
+    renderDebug();
+  } else {
+    renderIntro();
+  }
+});
+</script>
+</body>
+</html>
