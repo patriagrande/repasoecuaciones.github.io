@@ -354,6 +354,72 @@
     position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
   }
 
+  /* ---------- Modo revisión (?debug=1) ---------- */
+  .dbg-panel{
+    display:flex; flex-wrap:wrap; gap:8px 16px;
+    padding:12px 14px; margin-bottom:10px;
+    background:var(--paper-deep);
+    border:1px solid var(--grid);
+    border-radius:var(--radius-sm);
+  }
+  .dbg-toggle{display:inline-flex; align-items:center; gap:6px; font-size:14px; cursor:pointer;}
+  .dbg-panel-actions{display:flex; gap:10px; flex-wrap:wrap;}
+  .dbg-panel-actions .btn{font-size:14px; padding:8px 16px;}
+  .dbg-cat{
+    font-family:var(--font-mono);
+    font-size:13px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--muted); margin:26px 0 10px;
+  }
+  .dbg-card{
+    background:var(--paper);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:18px 20px 20px;
+    margin-bottom:14px;
+  }
+  .dbg-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .dbg-head .badge{margin-bottom:0;}
+  .dbg-id{font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--lila);}
+  .dbg-try{
+    margin-left:auto;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.02em;
+    color:var(--teal);
+    background:var(--teal-soft);
+    border:1.5px solid var(--teal);
+    border-radius:999px;
+    padding:7px 16px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .12s ease, color .12s ease;
+  }
+  .dbg-try .play{font-size:11px; line-height:1;}
+  .dbg-try:hover{background:var(--teal); color:#fff;}
+  .dbg-try:active{transform:scale(.97);}
+  .dbg-card .prompt{font-size:17px;}
+  .dbg-options{list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:7px;}
+  .dbg-options li{
+    display:flex; align-items:center; gap:10px;
+    background:#fff; border:1.4px solid var(--grid);
+    border-radius:var(--radius-sm); padding:9px 12px; font-size:15px;
+  }
+  .dbg-options li.dbg-ok{border-color:var(--teal); background:var(--teal-soft);}
+  .dbg-letter{
+    flex:0 0 auto; width:23px; height:23px; border-radius:6px;
+    border:1.4px solid var(--grid);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--muted);
+  }
+  .dbg-options li.dbg-ok .dbg-letter{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .dbg-card .feedback{margin-bottom:8px;}
+  .dbg-card .feedback:last-child{margin-bottom:0;}
+
   @media (prefers-reduced-motion: reduce){
     .btn, .option{transition:none;}
   }
@@ -412,14 +478,6 @@ const CATEGORY_LABELS = {
 
 const QUESTIONS = [
 
-  /* ─────────────────────────────────────────────────────────────────────
-   AÑADIR a CATEGORY_LABELS (para que el badge y los resultados tengan texto):
-
-     simplificar:  "Ordenar / simplificar",
-     distributiva: "Propiedad distributiva"
-   ───────────────────────────────────────────────────────────────────── */
-
-
   // ── SIMPLIFICAR (juntar lo igual con lo igual) ──────────────────────
   {
     id:"S1", category:"simplificar", visual:false,
@@ -449,7 +507,7 @@ const QUESTIONS = [
   },
   {
     id:"S3", category:"simplificar", visual:false,
-    prompt:"Recordá la frutería: las manzanas van con las manzanas y las peras con las peras. Ordená (simplificá) $3 \\cdot a + b + 2 \\cdot a + 4 \\cdot b$. ¿Cuál es el resultado?",
+    prompt:"Recordá la frutería: las manzanas van con las manzanas y las peras con las peras. Ordená (simplificá) la siguiente expresión: $3 \\cdot a + b + 2 \\cdot a + 4 \\cdot b$, e indicá: ¿cuál sería la expresión algebraica correcta?",
     options:[
       "$5 \\cdot a + 5 \\cdot b$",
       "$10 \\cdot a \\cdot b$",
@@ -470,12 +528,12 @@ const QUESTIONS = [
       "$a + 4$"
     ],
     correct:0,
-    hint:"El perímetro es la suma de los cuatro lados: $(a+3) + (a+3) + (1+a) + (1+a)$. También podes escribirlo así (mucho más simple): $2 \\cdot (a+3) + 2 \\cdot (1+a)$.",
+    hint:"El perímetro es la suma de los cuatro lados: $(a+3) + (a+3) + (1+a) + (1+a)$. También podés escribirlo así (mucho más simple): $2 \\cdot (a+3) + 2 \\cdot (1+a)$.",
     explanation:"El perímetro es $2 \\cdot (a+3) +2  \\cdot (1+a)=2 \\cdot a + 6 + 2 \\cdot a + 2 = 4 \\cdot a + 8$. Juntamos las $a$: hay cuatro, así que $4 \\cdot a$. Sumamos los números conocidos: $3 + 3 + 1 + 1 = 8$. El perímetro ordenado es $4 \\cdot a + 8$."
   },
   {
     id:"S5", category:"simplificar", visual:true,
-    prompt:"Un triángulo tiene sus tres lados de longitudes $2 \\cdot m$, $m$ y $m + 4$. Primero dibujalo!!!, luego: escribí la expresión del <strong>perímetro</strong> (la suma de sus tres lados) y ordenala juntando lo igual con lo igual. ¿Cuál es el resultado?",
+    prompt:"Un triángulo tiene sus tres lados de longitudes $2 \\cdot m$, $m$ y $m + 4$. Primero dibujalo, y después escribí la expresión del <strong>perímetro</strong> (la suma de sus tres lados) y ordenala juntando lo igual con lo igual. ¿Cuál es el resultado?",
     options:[
       "$4 \\cdot m + 4$",
       "$3 \\cdot m + 4$",
@@ -503,7 +561,7 @@ const QUESTIONS = [
   },
   {
     id:"D2", category:"distributiva", visual:false,
-    prompt:"Aplicá la propiedad distributiva a la expresión $4 \\cdot (x + 5)$. ¿Cuál es la expresión equivalente?",
+    prompt:"Aplicá la propiedad distributiva a la expresión $4 \\cdot (x + 5)$. ¿Cuál es la expresión algebraica equivalente?",
     options:[
       "$4 \\cdot x + 20$",
       "$4 \\cdot x + 5$",
@@ -512,11 +570,11 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"El $4$ de afuera multiplica a cada término de adentro: al $x$ y también al $5$. No se saltea ninguno.",
-    explanation:"Distribuimos el $4$: $4 \\cdot x + 4 \\cdot 5$. Como $4 \\cdot 5 = 20$, la expresión equivalente es $4 \\cdot x + 20$. La opción $4 \\cdot x + 5$ está mal porque se saltea la multiplicación del $4$ con el $5$."
+    explanation:"La propiedad distributiva hace que el \"factor\" 4 quede multiplicando a los términos de la suma. En este caso distribuimos el $4$: $4 \\cdot x + 4 \\cdot 5$. Como $4 \\cdot 5 = 20$, la expresión equivalente es $4 \\cdot x + 20$."
   },
   {
     id:"D3", category:"distributiva", visual:false,
-    prompt:"La distributiva también vale cuando adentro del paréntesis hay una resta. Aplicala a $5 \\cdot (a - 3)$. ¿Cuál es la expresión equivalente?",
+    prompt:"La distributiva también vale cuando adentro del paréntesis hay una resta. Aplicala a $5 \\cdot (a - 3)$. ¿Cuál es la expresión algebraica equivalente?",
     options:[
       "$5 \\cdot a - 15$",
       "$5 \\cdot a - 3$",
@@ -525,7 +583,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"El $5$ le pega a cada término de adentro, respetando el signo: multiplica al $a$ y también al $3$ que se resta.",
-    explanation:"Distribuimos el $5$ en cada término: $5 \\cdot a - 5 \\cdot 3$. Como $5 \\cdot 3 = 15$, la expresión equivalente es $5 \\cdot a - 15$."
+    explanation:"La propiedad distributiva hace que el \"factor\" 5 quede multiplicando a los términos de la resta. En este caso distribuimos el $5$ en cada término: $5 \\cdot a - 5 \\cdot 3$. Como $5 \\cdot 3 = 15$, la expresión equivalente es $5 \\cdot a - 15$."
   },
   {
     id:"D4", category:"distributiva", visual:true,
@@ -537,12 +595,12 @@ const QUESTIONS = [
       "$n + 6$"
     ],
     correct:0,
-    hint:"El $3$ de afuera multiplica a cada término de adentro del paréntesis: al $n$ y también al $2$.",
+    hint:"Armá la cuenta en tu carpeta: $A = 3 \\cdot (n+2)$. Aplicá la propiedad distributiva... ¡pero hacelo en la carpeta!",
     explanation:"En el rectángulo, $altura=3$ y $base=n + 2$. Su <strong>área</strong> se calcula como: $3 \\cdot (n + 2)=3 \\cdot n + 3 \\cdot 2=3 \\cdot n + 6$."
   },
   {
     id:"D5", category:"distributiva", visual:true,
-    prompt:"En un rectángulo de base $b$ y altura $h$, el perímetro se puede pensar como dos mitades iguales de $b + h$ cada una, o sea $2 \\cdot (b + h)$. Antonella dice que eso es lo mismo que $2 \\cdot b + 2 \\cdot h$. ¿Tiene razón?",
+    prompt:"En un rectángulo de base $b$ y altura $h$ (dibujalo en la carpeta), el perímetro se puede pensar partiendo la figura en 2, por la diagonal. Se calcularía como el doble de la suma de los lados de cada mitad. O sea: $2 \\cdot (b + h)$. Antonella dice que eso es lo mismo que hacer $2 \\cdot b + 2 \\cdot h$. ¿Tiene razón?",
     options:[
       "Sí. La distributiva es el puente entre las dos formas: $2 \\cdot (b + h) = 2 \\cdot b + 2 \\cdot h$.",
       "No, porque el $2$ solo multiplica al primer término, entonces sería $2 \\cdot b + h$.",
@@ -551,7 +609,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Distribuí el $2$ en cada término de adentro del paréntesis, sin saltearte ninguno: multiplica al $b$ y también al $h$.",
-    explanation:"Antonella tiene razón. Al distribuir el $2$ en cada término: $2 \\cdot b + 2 \\cdot h$. Las dos expresiones, $2 \\cdot (b+h)$ y $2 \\cdot b + 2 \\cdot h$, dicen lo mismo: son la misma cantidad (el perímetro) escrita de dos maneras. La opción $2 \\cdot b + h$ está mal porque se saltea la multiplicación del $2$ con el $h$."
+    explanation:"Antonella tiene razón. Porque al aplicar la propiedad distributiva que estamos estudiando encontramos expresiones algebraicas equivalentes."
   },
 
   // ── TRADUCCIÓN (coloquial → algebraico) ─────────────────────────────
@@ -572,14 +630,14 @@ const QUESTIONS = [
     id:"T2", category:"traduccion", visual:false,
     prompt:"La frase dice: <em>\"La cuarta parte de los alfajores que vendió el kiosco es 12.\"</em><br>¿Cuál de las siguientes expresiones algebraicas la traduce correctamente?",
     options:[
-      "$\\dfrac{k}{4} = 12$",
-      "$4 \\cdot k = 12$",
-      "$k - 4 = 12$",
-      "$k + 4 = 12$"
+      "$\\dfrac{a}{4} = 12$",
+      "$4 \\cdot a = 12$",
+      "$a - 4 = 12$",
+      "$a + 4 = 12$"
     ],
     correct:0,
-    hint:"\"La cuarta parte de algo\" significa dividirlo entre $4$. Llamá $k$ a la cantidad desconocida de alfajores.",
-    explanation:"Llamamos $k$ a la cantidad de alfajores. La cuarta parte de $k$ es $\\dfrac{k}{4}$; \"es 12\" da el igual. Traducción: $\\dfrac{k}{4} = 12$."
+    hint:"\"La cuarta parte de algo\" significa dividirlo entre $4$. Llamá $a$ a la cantidad desconocida de alfajores.",
+    explanation:"Llamamos $a$ a la cantidad de alfajores. La cuarta parte de $a$ es $\\dfrac{a}{4}$; \"es 12\" da el igual. Traducción: $\\dfrac{a}{4} = 12$."
   },
   {
     id:"T3", category:"traduccion", visual:false,
@@ -592,7 +650,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"\"Aumentado en 9\" indica que se le suma $9$ a la cantidad desconocida. \"Es igual a\" da el signo $=$.",
-    explanation:"Llamamos $n$ al número desconocido. \"Aumentado en $9$\" se traduce como $n + 9$; \"es igual a $21$\" da el $= 21$. Traducción: $n + 9 = 21$."
+    explanation:"Llamamos $n$ al número desconocido. \"Aumentado en $9$\" se traduce como $n + 9$; Traducción: $n + 9 = 21$."
   },
   {
     id:"T4", category:"traduccion", visual:false,
@@ -605,7 +663,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"La frase tiene un orden: primero \"el triple de $n$\" ($3 \\cdot n$), después \"le restamos $7$\" ($-7$), después \"obtenemos $11$\" ($=11$). El orden del enunciado es el orden de la expresión.",
-    explanation:"Llamamos $n$ al número. \"El triple de $n$\" es $3 \\cdot n$; \"le restamos $7$\" da el $-7$; \"obtenemos $11$\" da el $=11$. Traducción: $3 \\cdot n - 7 = 11$. La opción $3 \\cdot (n-7)=11$ significaría que primero se resta $7$ al número y después se triplica el resultado: eso es una situación distinta."
+    explanation:"Llamamos $n$ al número. \"El triple de $n$\" es $3 \\cdot n$; \"le restamos $7$\" es: $-7$. Traducción: $3 \\cdot n - 7 = 11$."
   },
   {
     id:"T5", category:"traduccion", visual:false,
@@ -618,24 +676,24 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Si el primer número natural es $n$, su sucesor (el siguiente) es siempre $n + 1$. \"La suma\" de ambos es la adición.",
-    explanation:"Llamamos $n$ al primer número natural. El siguiente es $n + 1$ (los naturales van de uno en uno). La suma de ambos es $n + (n+1) = 23$. La opción $2 \\cdot n = 23$ olvida el $+1$ del sucesor."
+    explanation:"Llamamos $n$ al primer número natural. El siguiente es $n + 1$ (los naturales van de uno en uno). La respuesta es: $n + (n+1) = 23$."
   },
   {
     id:"T6", category:"traduccion", visual:false,
-    prompt:"La frase dice: <em>\"Valentina preparó empanadas: hizo 3 veces la misma cantidad en el horno y además tenía 4 guardadas de ayer. En total tiene 19.\"</em><br>¿Cuál es su traducción algebraica correcta?",
+    prompt:"La frase dice: <em>\"Valentina preparó empanadas: horneó 3 fuentes (con la misma cantidad de empanadas cada una)  y agregó  4 que tenía guardadas de ayer. En total tiene 31 empanadas.\"</em><br>¿Cuál es su traducción algebraica correcta?",
     options:[
-      "$3 \\cdot e + 4 = 19$",
-      "$e + 3 \\cdot 4 = 19$",
-      "$3 \\cdot (e + 4) = 19$",
-      "$4 \\cdot e + 3 = 19$"
+      "$3 \\cdot e + 4 = 31$",
+      "$e + 3 \\cdot 4 = 31$",
+      "$3 \\cdot (e + 4) = 31$",
+      "$4 \\cdot e + 3 = 31$"
     ],
     correct:0,
-    hint:"La incógnita es la cantidad que hizo hoy (llamala $e$). \"3 veces esa cantidad\" es $3 \\cdot e$; \"más 4 guardadas\" agrega $+4$; \"en total 19\" da el igual.",
-    explanation:"Llamamos $e$ a las empanadas de hoy. $3 \\cdot e$ son las del horno; $+4$ son las de ayer; $=19$ es el total. La opción $3 \\cdot (e+4)=19$ significaría que las 4 guardadas también se triplican: eso es otra situación diferente."
+    hint:"La incógnita es la cantidad que hizo hoy (llamala $e$). \"3 veces esa cantidad\" es $3 \\cdot e$; \"más 4 guardadas\" agrega $+4$; \"en total 31\" da el igual.",
+    explanation:"Llamamos $e$ a las empanadas que entran en una fuente: $3 \\cdot e$ son las que horneó hoy; $4$ son las que tenía de ayer. La traducción es: $3 \\cdot e + 4 = 31$."
   },
   {
     id:"T7", category:"traduccion", visual:false,
-    prompt:"El enunciado dice dos cosas: <em>\"Entre Sofía y su hermana ahorraron $35.000. Sofía ahorró $9.000 más que su hermana.\"</em><br>¿Cuál de los siguientes pares de expresiones traduce correctamente las DOS frases?",
+    prompt:"El enunciado dice dos cosas: <em>\"Entre Sofía y su hermana ahorraron 35.000 pesos. Sofía ahorró 9.000 pesos más que su hermana.\"</em><br>¿Cuál de los siguientes pares de expresiones traduce correctamente las DOS frases?",
     options:[
       "$s + h = 35000$ &nbsp; y &nbsp; $s = h + 9000$",
       "$s + h = 35000$ &nbsp; y &nbsp; $h = s + 9000$",
@@ -659,7 +717,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"La expresión tiene una letra $x$ (cantidad desconocida), le resta $8$, y el resultado es $15$. Buscá la opción que diga exactamente eso.",
-    explanation:"$x - 8 = 15$ se lee: un número ($x$) al que le quitamos $8$ ($-8$) da $15$ ($=15$). Eso es \"un número disminuido en 8 es 15\". La opción \"8 menos un número\" daría $8 - x$, que es una expresión distinta."
+    explanation:"$x - 8 = 15$ se lee: un número ($x$) al que le restamos (disminuir es quitar, es restar) $8$ da $15$."
   },
   {
     id:"I2", category:"inversa", visual:false,
@@ -672,7 +730,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Fijate en el orden de la expresión: primero $4 \\cdot p$ (cuatro veces la incógnita), después $+3$ (sumar 3), después $=19$. Buscá la opción que respete ese orden.",
-    explanation:"$4 \\cdot p$ es \"el cuádruple de $p$\"; $+3$ es \"más 3\"; $=19$ es \"es 19\". La segunda opción daría $4 \\cdot (p+3) = 19$, que es diferente porque primero se suma y luego se multiplica todo el paréntesis."
+    explanation:"$4 \\cdot p$ es \"el cuádruple de $p$\"; ese $+3$ es sumar 3 luego. La respuesta correcta es: El cuádruple de un número, más 3, es 19."
   },
   {
     id:"I3", category:"inversa", visual:false,
@@ -685,7 +743,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"La barra de fracción indica división. $\\dfrac{t}{2}$ significa \"$t$ dividido 2\", es decir, la mitad de $t$.",
-    explanation:"$\\dfrac{t}{2}$ es la mitad de $t$; $= 51$ dice que esa mitad vale 51. La traducción correcta es \"la mitad de $t$ es 51\". El doble de $t$ se escribiría $2 \\cdot t$, no $\\dfrac{t}{2}$."
+    explanation:"$\\dfrac{t}{2}$ es la mitad de $t$; $= 51$ dice que esa mitad vale 51. La traducción correcta es \"la mitad de $t$ es 51\"."
   },
 
   // ── INCÓGNITA ────────────────────────────────────────────────────────
@@ -728,11 +786,11 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Llamá $s$ al peso de una sandía. «3 sandías» significa multiplicar ese peso por 3. Luego se le suma la pesa de 2 kg. Todo eso se equilibra (es igual) a 17 kg.",
-    explanation:"Llamamos $s$ al peso de una sandía. En el primer platillo hay 3 sandías ($3 \\cdot s$) y una pesa de 2 kg ($+ 2$). Esto se equilibra ($=$) con los 17 kg del otro platillo. Por lo tanto, la expresión es $3 \\cdot s + 2 = 17$."
+    explanation:"Llamamos $s$ al peso de una sandía. En el primer platillo hay 3 sandías (es decir, pesa $3 \\cdot s$) y una pesa de 2 kg (se suma 2 kilos). Esto se equilibra con los 17 kg del otro platillo. Por lo tanto, la expresión es $3 \\cdot s + 2 = 17$."
   },
   {
     id:"B2", category:"balanza", visual:true,
-    prompt:"<b>IMPORTANTE:</b> Es importante asumir que todos los ladrillos pesas lo mismo.<img src=\"./imagenes/02.jpg\" alt=\"Balanza con ladrillos y bolsa de cemento\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    prompt:"<b>IMPORTANTE:</b> Es importante asumir que todos los ladrillos pesan lo mismo.<img src=\"./imagenes/02.jpg\" alt=\"Balanza con ladrillos y bolsa de cemento\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
     options:[
       "$7 \\cdot L = 2 \\cdot L + 6$",
       "$ 6 \\cdot L +1= 2 \\cdot L + 6$",
@@ -741,11 +799,11 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Usá $L$ para identificar el peso de un ladrillo. Fijate cuántos ladrillos hay en cada platillo. Ojo... no te olvides que además hay 6 kg (no importa de qué son esos 6 kg).",
-    explanation:"Si $L$ es el peso del ladrillo, 7 ladrillos pesan $7 \\cdot L$. Esto equivale ($=$) a 2 ladrillos ($2 \\cdot L$) más los 6 kg de cemento ($+ 6$). La igualdad es $7 \\cdot L = 2 \\cdot L + 6$."
+    explanation:"Si $L$ es el peso del ladrillo, 7 ladrillos pesan $7 \\cdot L$ (platillo izquierdo). 2 ladrillos pesan: ($2 \\cdot L$) más los 6 kg de cemento (platillo derecho). La expresión algebraica es: $7 \\cdot L = 2 \\cdot L + 6$."
   },
   {
     id:"B3", category:"balanza", visual:true,
-    prompt:"<b>IMPORTANTE:</b> debemos suponer que todas las cajas son iguales (pesan lo mismo)<img src=\"./imagenes/03.jpg\" alt=\"Balanza con cajas y sobre\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    prompt:"<b>IMPORTANTE:</b> debemos suponer que todas las cajas PESAN lo mismo <img src=\"./imagenes/03.jpg\" alt=\"Balanza con cajas y sobre\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
     options:[
       "$2 \\cdot c + 1,5 = 6 \\cdot c$",
       "$2 \\cdot c = 6 \\cdot c + 1,5$",
@@ -754,11 +812,11 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Llamemos $c$ al peso de una caja. RECORDÁ que asumimos que <b>son todas iguales</b>. Fijate bien cuántas hay en cada platillo de la balanza.",
-    explanation:"Sea $c$ el peso de cada caja. De un lado tenemos 2 cajas ($2 \\cdot c$) más un sobre de 1,5 kg ($+ 1,5$). Del otro lado tenemos 6 cajas iguales ($6 \\cdot c$). El equilibrio se representa con la expresión $2 \\cdot c + 1,5 = 6 \\cdot c$."
+    explanation:"Llamemos $c$ al peso de cada caja. De un lado tenemos 2 cajas ($2 \\cdot c$) más un sobre de 1,5 kg. Del otro lado tenemos 6 cajas iguales ($6 \\cdot c$). La expresión algebraica es: $2 \\cdot c + 1,5 = 6 \\cdot c$."
   },
   {
     id:"B4", category:"balanza", visual:true,
-    prompt:"<b>IMPORTANTE:</b> Podes observar que los frascos tienen tapas diferentes. Más allá de eso debemos suponer que todos los frascos son iguales (pesan lo mismo). El paquete de Harina pesa 1 kg.<img src=\"./imagenes/04.jpg\" alt=\"Balanza con frascos y paquetes de harina\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
+    prompt:"<b>IMPORTANTE:</b> Podes observar que los frascos tienen tapas diferentes. Más allá de eso debemos suponer que todos los frascos pesan lo mismo. El paquete de Harina pesa 1 kg.<img src=\"./imagenes/04.jpg\" alt=\"Balanza con frascos y paquetes de harina\" style=\"max-width:100%; border-radius:8px; margin: 10px auto; display: block;\"><br>¿Cuál de las expresiones algebraicas listadas a continuación expresan de mejor modo la situación ilustrada?",
     options:[
       "$5 \\cdot f = 2 \\cdot f + 2$",
       "$5 \\cdot f = 2 \\cdot f + 1$",
@@ -766,8 +824,8 @@ const QUESTIONS = [
       "$3 \\cdot f + 2 \\cdot f + 2 = 2 \\cdot f$"
     ],
     correct:0,
-    hint:"Llamá $f$ al peso de un frasco; recordá que cada paquete de harina pesa 1 kg (los dos paquetes son idénticos). Contá cuántas cosas de que tipo hay de cada lado de la balanza.",
-    explanation:"Llamando $f$ al peso de un frasco, el primer platillo tiene 5 frascos ($5 \\cdot f$). Este peso «es exactamente igual» ($=$) a 2 frascos ($2 \\cdot f$) más los 2 kilos de harina. La expresión que lo representa es $5 \\cdot f = 2 \\cdot f + 2$."
+    hint:"Llamá $f$ al peso de un frasco; recordá que cada paquete de harina pesa 1 kg (los dos paquetes son idénticos). Contá cuántas cosas de cada tipo hay a cada lado de la balanza.",
+    explanation:"Llamando $f$ al peso de un frasco, el primer platillo tiene 5 frascos ($5 \\cdot f$). Este peso «es exactamente igual» a 2 frascos ($2 \\cdot f$) más los 2 kilos de harina. La expresión algebraica que lo representa es $5 \\cdot f = 2 \\cdot f + 2$."
   },
 
   // ── CONCEPTO ─────────────────────────────────────────────────────────
@@ -782,20 +840,20 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Una de estas afirmaciones describe algo que el capítulo dice explícitamente que NO ocurre, aunque sea una idea muy difundida.",
-    explanation:"\"Las cosas pasan de un lado al otro cambiando de signo\" es un error muy frecuente, pero NO es lo que ocurre. Lo correcto es aplicar la misma operación en AMBOS platillos. Nada se traslada: se opera en los dos lados a la vez."
+    explanation:"Efectivamente: \"Las cosas pasan de un lado al otro cambiando de signo\" es INCORRECTO (es un error muy frecuente). Lo correcto es aplicar la misma operación en AMBOS platillos de la balanza para despejar la incógnita."
   },
   {
     id:"C2", category:"concepto", visual:false,
-    prompt:"En la expresión $2 \\cdot e = 40$, ¿qué diferencia hay entre la letra $e$ y el número $40$?",
+    prompt:"Elegí una situación que se represente por esta expresión algebraica: $2 \\cdot e = 40$",
     options:[
-      "$e$ representa una cantidad desconocida; el $40$ es un dato conocido del problema.",
-      "$e$ es siempre mayor que $40$ por ser una variable.",
-      "$e$ y el $40$ representan lo mismo, solo con distinta notación.",
-      "$e$ es un número real y el $40$ es un número natural, pero en álgebra son equivalentes."
+      "El doble de la edad de Eduardo es 40 años.",
+      "La suma de la edad de Eduardo y 40 años es el doble de su edad.",
+      "40 años es la mitad de la edad de Eduardo.",
+      "Dentro de dos años Eduardo tendrá 40 años."
     ],
     correct:0,
-    hint:"¿Para qué sirve usar una letra en matemática? ¿Qué sabemos sobre $e$ al plantear la expresión, y qué sabemos sobre el $40$?",
-    explanation:"La letra $e$ es un símbolo que \"ocupa el lugar\" de una cantidad que todavía no conocemos. El $40$, en cambio, es un dato explícito que el enunciado ya nos da. Esa es la diferencia fundamental entre una incógnita y un dato conocido."
+    hint:"Fijate que la letra $e$ representa una cantidad desconocida (la edad de Eduardo). El $40$ es un dato conocido. Buscá la opción que respete ese orden: primero el doble de la incógnita, después el igual, después el dato conocido.",
+    explanation:"Bien... la letra $e$ representa nuestra incógnita (edad de Eduardo)... lo demás es conocido."
   },
   {
     id:"C3", category:"concepto", visual:false,
@@ -808,35 +866,35 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"¿La resta es conmutativa? Probá con números concretos: ¿$7 - 3$ es lo mismo que $3 - 7$?",
-    explanation:"El compañero A tiene razón. La frase dice \"el triple de $n$\" primero ($3 \\cdot n$) y \"le restamos $7$\" después ($-7$). La resta NO es conmutativa: $3 \\cdot n - 7 \\neq 7 - 3 \\cdot n$."
+    explanation:"La coma importa... esa \"coma\" en la oración separa los términos de la resta. El compañero A tiene razón. La frase dice el triple de n ($3 \\cdot n$) y \"le restamos $7$\" después."
   },
 
   // ── RAZONAMIENTO ─────────────────────────────────────────────────────
   {
     id:"R1", category:"razonamiento", visual:false,
-    prompt:"Marcela dice: <em>\"Sumarle 8 a un número y después multiplicar el resultado por 3 es lo mismo que multiplicar por 3 y después sumarle 8, porque el orden de los factores no altera el producto.\"</em> ¿Tiene razón?",
+    prompt:"A partir de la siguiente expresión coloquial: <em>\"Sumarle 8 a un número y después multiplicar el resultado por 3\"</em> ¿Cuál es correcta?",
     options:[
-      "No. Marcela confunde una propiedad de la multiplicación con el orden de prioridades entre operaciones distintas.",
-      "Sí. La propiedad conmutativa garantiza que el resultado es el mismo.",
-      "Sí, pero solo si el número es positivo.",
-      "No, porque en álgebra no se puede cambiar el orden de ninguna operación."
+      "$(n + 8) \\cdot 3$",
+      "$n \\cdot 3 + 8$",
+      "$n + 8 \\cdot 3$",
+      "$n \\cdot (8+3)$"
     ],
     correct:0,
-    hint:"Probá con un número concreto, por ejemplo $n = 2$: calculá $(2 + 8) \\cdot 3$ y después $2 \\cdot 3 + 8$. ¿Dan lo mismo?",
-    explanation:"Con $n = 2$: $(2+8) \\cdot 3 = 30$, pero $2 \\cdot 3 + 8 = 14$. No son iguales. La conmutatividad dice que $a \\cdot b = b \\cdot a$ (cambiar el orden de los factores de una única multiplicación). Pero acá hay dos operaciones distintas (suma y multiplicación), y el orden en que se aplican cambia completamente el resultado."
+    hint:"Probá hacer la cuenta en el orden que está planteado",
+    explanation:"Bien... es la multiplicación de una suma por un factor."
   },
   {
     id:"R2", category:"razonamiento", visual:false,
     prompt:"Tomás dice: <em>\"En la expresión algebraica $n + (n+1)$, el $+1$ es tan chico que se puede ignorar, así que queda igual a $2 \\cdot n$.\"</em> ¿Tiene razón?",
     options:[
-      "No. En álgebra no hay aproximaciones: $n + (n+1) = 2 \\cdot n + 1$, y esa unidad importa.",
+      "No. Por chico que sea nada se desprecia. El cálculo es: $n + (n+1) = n+n+1 = 2 \\cdot n + 1$, y esa unidad (el 1) importa.",
       "Sí. En álgebra los números pequeños se desprecian para simplificar.",
       "Depende del valor de $n$: si $n$ es grande, el $+1$ sí se puede ignorar.",
       "Sí, porque $n + n = 2n$ y el $1$ aislado no cambia la expresión algebraica."
     ],
     correct:0,
     hint:"Hacé la cuenta: $n + (n+1)$ es $n + n + 1$. ¿Es lo mismo que $2 \\cdot n$?",
-    explanation:"$n + (n+1) = n + n + 1 = 2 \\cdot n + 1$. Eso es distinto de $2 \\cdot n$. En álgebra no se \"desprecia\" nada: ese $+1$ puede cambiar completamente el sentido de la expresión."
+    explanation:"$n + (n+1) = n + n + 1 = 2 \\cdot n + 1$. Eso es distinto de $2 \\cdot n$. En álgebra no se puede IGNORAR ningún término en NINGUNA operación."
   },
   {
     id:"R3", category:"razonamiento", visual:false,
@@ -849,7 +907,7 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Probá con $n = 4$: calculá $3 \\cdot 4 - 7$ y $7 - 3 \\cdot 4$. ¿Dan el mismo resultado?",
-    explanation:"Con $n = 4$: $3 \\cdot 4 - 7 = 5$ y $7 - 3 \\cdot 4 = -5$. Son opuestos, no iguales. La suma sí es conmutativa ($a + b = b + a$), pero la resta no: $a - b \\neq b - a$ en general."
+    explanation:"Con $n = 4$: $3 \\cdot 4 - 7 = 5$ y $7 - 3 \\cdot 4 = -5$. Son opuestos, no iguales."
   },
   {
     id:"RA4", category:"razonamiento", visual:false,
@@ -862,20 +920,20 @@ const QUESTIONS = [
     ],
     correct:0,
     hint:"Probá con un número concreto. Si $f = 4$: ¿cuánto vale $f + f + f$? ¿Y cuánto vale $3 \\cdot f$? ¿Coinciden?",
-    explanation:"Con $f = 4$: $f + f + f = 4 + 4 + 4 = 12$, y $3 \\cdot f = 3 \\cdot 4 = 12$. Coinciden, y eso ocurre para cualquier valor de $f$: sumar tres veces la misma cantidad es lo mismo que multiplicarla por 3. Las dos traducciones son correctas. La opción D ($f^3$) significaría '$f$ elevado al cubo' ($f \\cdot f \\cdot f$), que es algo completamente distinto."
+    explanation:"$f+f+f=21$ y $3 \\cdot f = 21$ son expresiones equivalentes. La multiplicación es una suma abreviada: $f + f + f = 3 \\cdot f$ para cualquier valor de $f$."
   },
   {
     id:"R5", category:"razonamiento", visual:false,
     prompt:"Para traducir <em>\"Al triple de un número, lo disminuímos en 5 unidades y da como resultado 10\"</em>, Sofía escribe $3 \\cdot n - 5 = 10$. Pero Walter tiene otra idea, él escribe: $3 \\cdot (n-5) = 10$. ¿Quién tiene razón?",
     options:[
-      "Los dos pueden tener razón: la frase es ambigua y admite las dos interpretaciones.",
-      "Solo Sofía, porque es al triple que se disminuye en 5 unidades y da como resultado 10.",
+      "Sofía. La coma en la oración separa los términos de la operación: primero el triple, después la resta.",
+      "Ambos tienen razón... es lo mismo.",
       "Solo Walter, porque primero hay que disminuir en 5 unidades al número y por último calcular el triple.",
       "Ninguno; la frase no se puede traducir porque le faltan datos."
     ],
     correct:0,
-    hint:"Leé la frase con cuidado: ¿\"disminuido en 5\" se aplica al número antes de triplicarlo, o al triple ya calculado? Las dos lecturas son posibles.",
-    explanation:"La frase es genuinamente ambigua. Si \"disminuido en 5\" se refiere al número, es $3 \\cdot (n-5) = 10$ (Walter). Si se refiere al triple, es $3 \\cdot n - 5 = 10$ (Sofía). Esto muestra por qué el lenguaje algebraico es más preciso que el coloquial: el paréntesis resuelve la ambigüedad que la palabra no puede."
+    hint:"Leé la frase con cuidado: La coma importa.",
+    explanation:"La coma en la oración separa los términos de la operación. La frase dice: \"Al triple de un número, lo disminuímos en 5 unidades y da como resultado 10\". El orden es: primero el triple de $n$, después le restamos 5, y finalmente eso es igual a 10. Sofía tiene razón."
   }
 
 ];
@@ -906,44 +964,90 @@ function shuffleQuestionOptions(q){
   return Object.assign({}, q, { options:newOptions, correct:newCorrect });
 }
 
-// Parámetro opcional en la URL: ?ask=N
-// Si N es un entero válido entre 1 y la cantidad total de preguntas, se usa para
-// recortar el cuestionario a N preguntas (elegidas al azar). Si no, se ignora.
+/* ---------------------------------------------------------------------
+   3 bis) PARÁMETROS DE LA URL
+   ---------------------------------------------------------------------
+   index.html            → cuestionario completo, todo al azar (modo estudiante)
+   index.html?ask=2      → sortea 2 preguntas DE CADA CATEGORÍA
+   index.html?debug=1    → vista de revisión: todas las preguntas listadas
+   index.html?q=D4       → ejecuta UNA sola pregunta (opciones barajadas)
+   index.html?q=D4&debug=1 → esa pregunta, con las opciones SIN barajar
+   Prioridad: q  >  debug  >  ask
+   --------------------------------------------------------------------- */
+
+function urlParams(){
+  return new URLSearchParams(window.location.search);
+}
+
+// ?ask=N — cuántas preguntas se sortean DE CADA CATEGORÍA.
+// Si no es un entero >= 1, se ignora (entran todas).
 function getAskParam(){
-  const params = new URLSearchParams(window.location.search);
+  const params = urlParams();
   if (!params.has("ask")) return null;
   const n = Number(params.get("ask"));
-  if (!Number.isInteger(n) || n < 1 || n > QUESTIONS.length) return null;
+  if (!Number.isInteger(n) || n < 1) return null;
   return n;
 }
 
-// Parámetro opcional en la URL: ?debug=1
-// Si debug=1, las preguntas (y sus opciones) se presentan SIEMPRE en el mismo
-// orden, sin barajar: útil para revisar o depurar. Cualquier otro valor, o su
-// omisión, equivale a debug=0 (orden aleatorio, comportamiento por defecto).
+// ?debug=1 — modo revisión (o, junto con q, opciones sin barajar).
 function getDebugParam(){
-  const params = new URLSearchParams(window.location.search);
-  return params.get("debug") === "1";
+  return urlParams().get("debug") === "1";
 }
 
-function questionCount(){
-  const ask = getAskParam();
-  return ask === null ? QUESTIONS.length : ask;
+// ?q=ID — una sola pregunta. Devuelve la pregunta o null si el ID no existe.
+// Acepta minúsculas y espacios sobrantes.
+function getQuestionParam(){
+  const params = urlParams();
+  if (!params.has("q")) return null;
+  const wanted = String(params.get("q")).trim().toLowerCase();
+  if (!wanted) return null;
+  return QUESTIONS.find(q => q.id.toLowerCase() === wanted) || null;
 }
+
+// Agrupa el banco por categoría, respetando el orden de aparición.
+function groupByCategory(){
+  const groups = new Map();
+  QUESTIONS.forEach(q => {
+    if (!groups.has(q.category)) groups.set(q.category, []);
+    groups.get(q.category).push(q);
+  });
+  return groups;
+}
+
+// Arma la lista de preguntas del cuestionario según ask (por categoría).
+function buildQuestionSet(){
+  const ask = getAskParam();
+  if (ask === null) return QUESTIONS.slice();
+  const picked = [];
+  groupByCategory().forEach(list => {
+    picked.push(...shuffle(list).slice(0, ask)); // si ask > tamaño, entran todas
+  });
+  return picked;
+}
+
+// Cuántas preguntas va a tener el cuestionario (para el texto de la intro).
+function questionCount(){
+  const single = getQuestionParam();
+  if (single) return 1;
+  return buildQuestionSet().length;
+}
+
+/* ---------------------------------------------------------------------
+   3 ter) ESTADO INICIAL DEL CUESTIONARIO
+   --------------------------------------------------------------------- */
 
 function resetState(){
-  if (getDebugParam()){
-    // modo debug (?debug=1): preguntas y opciones SIN barajar, orden fijo.
-    order = QUESTIONS.slice();
-  } else {
-    // por defecto (?debug=0 o ausente): esta línea baraja todas las preguntas y sus opciones
-    order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
-    // para edición: poner una sola pregunta al principio (comentar la línea anterior y descomentar la siguiente)
-    //order = [QUESTIONS.find(q => q.id === "D5"), ...shuffle(QUESTIONS.filter(q => q.id !== "B4"))].map(shuffleQuestionOptions);
-  }
+  const single = getQuestionParam();
+  const debug  = getDebugParam();
 
-  const ask = getAskParam();
-  if (ask !== null) order = order.slice(0, ask);
+  if (single){
+    // ?q=ID — una sola pregunta. Con debug=1, opciones en el orden del fuente.
+    order = debug ? [single] : [shuffleQuestionOptions(single)];
+  } else {
+    // Cuestionario normal: se sortea qué preguntas entran (ask), luego se
+    // mezclan entre sí y se barajan las opciones de cada una.
+    order = shuffle(buildQuestionSet()).map(shuffleQuestionOptions);
+  }
 
   state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
   currentIndex = 0;
@@ -963,11 +1067,118 @@ function renderMath(container){
    4) PANTALLA DE INICIO
    --------------------------------------------------------------------- */
 
+function introLeadHTML(){
+  const single = getQuestionParam();
+  if (single){
+    const barajado = getDebugParam()
+      ? "Las opciones aparecen <strong>en el orden del archivo fuente</strong> (sin barajar), para poder cotejarlas."
+      : "Las opciones aparecen barajadas, tal como las vería un estudiante.";
+    return `<p>Estás viendo <strong>una sola pregunta</strong> (<code>${single.id}</code> — ${CATEGORY_LABELS[single.category]}), en modo de prueba. El resto del cuestionario no se carga. ${barajado}</p>`;
+  }
+  const n = questionCount();
+  const ask = getAskParam();
+  const porCat = ask !== null
+    ? ` Se sortean hasta <strong>${ask}</strong> pregunta${ask === 1 ? "" : "s"} de cada categoría temática, así que todos los temas quedan representados.`
+    : "";
+  return `<p>Esta autoevaluación tiene <strong>${n} pregunta${n === 1 ? "" : "s"}</strong> sobre los temas del Capítulo 3: traducir situaciones del lenguaje cotidiano al algebraico, interpretar una expresión algebraica, identificar incógnitas, ordenar y simplificar expresiones, aplicar la propiedad distributiva, y trabajar con el método de la balanza de dos platillos.${porCat} El orden de las preguntas —y el orden de las opciones dentro de cada una— se sortea cada vez que abrís la página.</p>`;
+}
+
+/* ---------------------------------------------------------------------
+   4 bis) VISTA DE REVISIÓN (?debug=1 sin q)
+   --------------------------------------------------------------------- */
+
+function renderDebugView(){
+  const app = document.getElementById("app");
+  const groups = groupByCategory();
+  const cats = Array.from(groups.keys());
+
+  const toggles = cats.map(cat => `
+    <label class="dbg-toggle">
+      <input type="checkbox" data-cat="${cat}" checked>
+      <span>${CATEGORY_LABELS[cat] || cat} (${groups.get(cat).length})</span>
+    </label>
+  `).join("");
+
+  const blocks = cats.map(cat => {
+    const cards = groups.get(cat).map(q => {
+      const opts = q.options.map((opt, i) => `
+        <li class="${i === q.correct ? "dbg-ok" : ""}">
+          <span class="dbg-letter">${String.fromCharCode(65 + i)}</span>
+          <span>${opt}</span>
+        </li>
+      `).join("");
+      return `
+        <div class="dbg-card">
+          <div class="dbg-head">
+            <span class="badge">${CATEGORY_LABELS[q.category] || q.category}</span>
+            <span class="dbg-id">${q.id}</span>
+            <button class="dbg-try" data-id="${q.id}" title="Abrir ${q.id} en una pestaña nueva, con las opciones sin barajar">
+              <span class="play" aria-hidden="true">&#9654;</span>Probar ${q.id}
+            </button>
+          </div>
+          <p class="prompt">${q.prompt}</p>
+          <ol class="dbg-options">${opts}</ol>
+          <div class="feedback hint"><span class="ftitle">Pista</span><span>${q.hint}</span></div>
+          <div class="feedback success"><span class="ftitle">Explicación</span><span>${q.explanation}</span></div>
+        </div>
+      `;
+    }).join("");
+    return `<section class="dbg-block" data-cat="${cat}">
+      <h2 class="dbg-cat">${CATEGORY_LABELS[cat] || cat}</h2>
+      ${cards}
+    </section>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="card">
+      <p style="margin:0 0 4px;"><strong>Modo revisión</strong> — <code>?debug=1</code></p>
+      <p style="margin:0 0 12px; font-size:14px; color:var(--muted);">
+        Las ${QUESTIONS.length} preguntas del banco, en el orden del archivo fuente y agrupadas por categoría.
+        Las opciones no se barajan; la correcta está marcada en verde. Este modo ignora <code>ask</code>.
+      </p>
+      <div class="dbg-panel">${toggles}</div>
+      <div class="dbg-panel-actions">
+        <button class="btn btn-ghost" id="dbgAll">Mostrar todas</button>
+        <button class="btn btn-ghost" id="dbgNone">Ocultar todas</button>
+      </div>
+    </div>
+    ${blocks}
+  `;
+
+  renderMath(app);
+
+  const setCat = (cat, on) => {
+    const block = app.querySelector(`.dbg-block[data-cat="${cat}"]`);
+    if (block) block.style.display = on ? "" : "none";
+  };
+  app.querySelectorAll('.dbg-panel input[type="checkbox"]').forEach(chk => {
+    chk.addEventListener("change", () => setCat(chk.dataset.cat, chk.checked));
+  });
+  document.getElementById("dbgAll").addEventListener("click", () => {
+    app.querySelectorAll('.dbg-panel input[type="checkbox"]').forEach(chk => {
+      chk.checked = true; setCat(chk.dataset.cat, true);
+    });
+  });
+  document.getElementById("dbgNone").addEventListener("click", () => {
+    app.querySelectorAll('.dbg-panel input[type="checkbox"]').forEach(chk => {
+      chk.checked = false; setCat(chk.dataset.cat, false);
+    });
+  });
+  app.querySelectorAll(".dbg-try").forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Se agrega debug=1 para que las opciones NO se barajen: así el orden en
+      // pantalla coincide con el del archivo fuente y es más fácil cotejar.
+      const url = window.location.pathname + "?q=" + encodeURIComponent(btn.dataset.id) + "&debug=1";
+      window.open(url, "_blank", "noopener");
+    });
+  });
+}
+
 function renderIntro(){
   const app = document.getElementById("app");
   app.innerHTML = `
     <div class="card intro-text">
-      <p>Esta autoevaluación tiene <strong>${questionCount()} pregunta${questionCount() === 1 ? "" : "s"}</strong> sobre los temas del Capítulo 3: traducir situaciones del lenguaje cotidiano al algebraico, interpretar una expresión algebraica, identificar incógnitas, y trabajar con el método de la balanza de dos platillos. El orden de las preguntas —y el orden de las opciones dentro de cada una— se sortea cada vez que abrís la página.</p>
+      ${introLeadHTML()}
       <p>Algunos ítems no te piden calcular: te piden analizar si un razonamiento es correcto o incorrecto. Esas son, quizás, las preguntas más interesantes.</p>
       <div class="rules">
         <div class="rule-item ok">
@@ -1210,7 +1421,12 @@ function renderResults(){
    --------------------------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderIntro();
+  // Prioridad: q > debug > ask
+  if (!getQuestionParam() && getDebugParam()){
+    renderDebugView();   // vista de revisión de todo el material
+  } else {
+    renderIntro();       // cuestionario (completo, recortado por ask, o una sola pregunta)
+  }
 });
 </script>
 </body>
