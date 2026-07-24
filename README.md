@@ -39,15 +39,16 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 
 ## Autoevaluaciones
 
-* GEMINI, intento de autoevaluación para medir lo relativo a ecuación de la recta: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/gemini/ecuacion_recta/index.html
+* GEMINI, autoevaluación para medir lo relativo a ecuación de la recta: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/gemini/ecuacion_recta/index.html
 
-* CLAUDE intento de autoevaluación para medir lo relativo a ecuación de la recta https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html
+* CLAUDE autoevaluación para medir lo relativo a ecuación de la recta https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html
 
-* CLAUDE intento de autoevaluación para medir lo relativo a DOMINIO y FUNCIÓN LINEAL [https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html](https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/evalua_funcion/index.html)
+* CLAUDE autoevaluación para medir lo relativo a DOMINIO y FUNCIÓN LINEAL [https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/ecuacion_recta/index.html](https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/evalua_funcion/index.html)
 
 * * INSTRUCCIONES PARA USAR/ADMINISTRAR EL CUESTIONARIO (dominio y función): https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/evalua_funcion/como_administrar_cuestionario.html
       
 * SEGUNDO AÑO, Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
+* * ¿Cómo administrar el cuestionario de segundo?: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
 
 * SEGUNDO AÑO: Balanzas de dos platillos y Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/balanzas/index.html
 
