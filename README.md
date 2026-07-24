@@ -48,7 +48,7 @@ https://patriagrande.github.io/repasoecuaciones.github.io/ecuacion_de_la_recta/i
 * * INSTRUCCIONES PARA USAR/ADMINISTRAR EL CUESTIONARIO (dominio y función): https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/claude/evalua_funcion/como_administrar_cuestionario.html
       
 * SEGUNDO AÑO, Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
-* * ¿Cómo administrar el cuestionario de segundo?: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/index.html
+* * ¿Cómo administrar el cuestionario de segundo?: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/expresiones-algebraicas/como_administrar_cuestionario.html
 
 * SEGUNDO AÑO: Balanzas de dos platillos y Expresiones Algebraicas: https://patriagrande.github.io/repasoecuaciones.github.io/autoevaluaciones/segundo/balanzas/index.html
 
