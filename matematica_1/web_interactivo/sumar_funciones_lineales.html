@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suma de funciones lineales</title>
+<style>
+  :root{
+    --bg:#faf9f5; --surface:#ffffff; --surface-1:#f1efe8;
+    --border:#d3d1c7; --text:#2c2c2a; --text-sec:#5f5e5a; --text-mut:#888780;
+    --col-h:#378ADD; --col-g:#1D9E75; --col-s:#7F77DD;
+    --radius:8px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.6; padding:24px 16px;
+  }
+  .wrap{max-width:920px; margin:0 auto;}
+  h1{font-size:22px; font-weight:500; margin:0 0 4px;}
+  .sub{color:var(--text-sec); font-size:14px; margin:0 0 20px;}
+  .coefs{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;}
+  @media(max-width:560px){.coefs{grid-template-columns:1fr;}}
+  .card{background:var(--surface-1); border-radius:var(--radius); padding:12px;}
+  .card-title{font-size:13px; font-weight:500; margin-bottom:8px;}
+  .row{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .row label{font-size:13px; color:var(--text-sec); min-width:22px;}
+  .row .val{font-size:13px; font-weight:500; min-width:38px; text-align:right;}
+  input[type=range]{flex:1; accent-color:#7F77DD; height:22px;}
+  .toolbar{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  button{
+    font:inherit; font-size:14px; background:var(--surface); color:var(--text);
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:7px 12px; cursor:pointer; display:flex; align-items:center; gap:6px;
+    transition:background .15s, opacity .15s;
+  }
+  button:hover{background:var(--surface-1);}
+  button:active{transform:scale(.98);}
+  .tgl{border-width:1.5px;}
+  .tgl.off{opacity:.45; text-decoration:line-through;}
+  .swatch{width:14px; height:14px; border-radius:3px; display:inline-block;}
+  .spacer{flex:1;}
+  .x0row{display:flex; align-items:center; gap:8px;}
+  .x0row label{font-size:13px; color:var(--text-sec);}
+  canvas{width:100%; border-radius:var(--radius); border:1px solid var(--border); background:var(--surface); display:block;}
+  .readouts{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px;}
+  .ro{background:var(--surface-1); border-radius:var(--radius); padding:8px 10px;}
+  .ro .k{font-size:11px; color:var(--text-mut);}
+  .ro .v{font-size:16px; font-weight:500;}
+  .sumbox{background:#EEEDFE; border-radius:var(--radius); padding:8px 12px; margin-top:8px;}
+  .sumbox .k{font-size:11px; color:#26215C;}
+  .sumbox .v{font-size:18px; font-weight:500; color:#26215C;}
+  .opts{display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; font-size:13px; color:var(--text-sec);}
+  .opts label{display:flex; align-items:center; gap:6px; cursor:pointer;}
+  footer{
+    margin-top:28px; padding-top:16px; border-top:1px solid var(--border);
+    font-size:13px; color:var(--text-sec); text-align:center; line-height:1.7;
+  }
+  footer .mat{font-weight:500; color:var(--text);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Suma de funciones lineales</h1>
+  <p class="sub">La suma de dos funciones lineales se construye punto a punto: para cada x&#8320;, se apila el valor de h sobre el de g.</p>
+
+  <div class="coefs">
+    <div class="card">
+      <div class="card-title" style="color:var(--col-h);">h(x) = a&#8321;&#183;x + b&#8321;</div>
+      <div class="row"><label>a&#8321;</label><input type="range" id="a1" min="-3" max="3" step="0.1" value="0.5"><span class="val" id="a1v">0.5</span></div>
+      <div class="row"><label>b&#8321;</label><input type="range" id="b1" min="-5" max="5" step="0.5" value="2"><span class="val" id="b1v">2</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--col-g);">g(x) = a&#8322;&#183;x + b&#8322;</div>
+      <div class="row"><label>a&#8322;</label><input type="range" id="a2" min="-3" max="3" step="0.1" value="-1"><span class="val" id="a2v">-1</span></div>
+      <div class="row"><label>b&#8322;</label><input type="range" id="b2" min="-5" max="5" step="0.5" value="-1"><span class="val" id="b2v">-1</span></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <button id="play"><span id="playicon">&#9654;</span><span id="playlbl">Play</span></button>
+    <button id="reset">&#8635; Reiniciar</button>
+    <div class="spacer"></div>
+    <div class="x0row"><label>x&#8320;</label><input type="range" id="x0" min="-6" max="6" step="0.05" value="-6" style="width:180px;"></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="tgl" id="tH"><span class="swatch" style="background:var(--col-h);"></span> h(x)</button>
+    <button class="tgl" id="tG"><span class="swatch" style="background:var(--col-g);"></span> g(x)</button>
+    <button class="tgl" id="tS"><span class="swatch" style="background:var(--col-s);"></span> función suma</button>
+    <div class="spacer"></div>
+    <div class="opts">
+      <label><input type="checkbox" id="trace" checked> dejar rastro de la suma</label>
+    </div>
+  </div>
+
+  <canvas id="cv" width="1360" height="900"></canvas>
+
+  <div class="readouts">
+    <div class="ro"><div class="k">x&#8320;</div><div class="v" id="rx">-6</div></div>
+    <div class="ro"><div class="k" style="color:var(--col-h);">h(x&#8320;)</div><div class="v" id="rh" style="color:var(--col-h);">0</div></div>
+    <div class="ro"><div class="k" style="color:var(--col-g);">g(x&#8320;)</div><div class="v" id="rg" style="color:var(--col-g);">0</div></div>
+  </div>
+  <div class="sumbox">
+    <div class="k">(h + g)(x&#8320;) = h(x&#8320;) + g(x&#8320;)</div>
+    <div class="v" id="rs">0</div>
+  </div>
+
+  <footer>
+    <div class="mat">Matem&aacute;tica I &mdash; Estudio de las funciones polin&oacute;micas</div>
+    <div>Universidad Nacional del Comahue &mdash; C.U.R.Z.A.S.</div>
+    <div>Licenciatura en Administraci&oacute;n P&uacute;blica &middot; 2.&ordm; cuatrimestre 2026</div>
+    <div>Lic. Nicol&aacute;s Rosbaco</div>
+    <div>#Milei basta de #Ajuste</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height;
+  var ox=W/2, oy=H/2, u=W/13;
+  var COL_H='#378ADD', COL_G='#1D9E75', COL_S='#7F77DD';
+  var ids=['a1','b1','a2','b2'];
+  var el={}; ids.forEach(function(k){el[k]=document.getElementById(k);});
+  var x0=document.getElementById('x0');
+  var playing=false, raf=null, dir=1;
+  var traceOn=true, tracePts=[];
+  var show={H:true,G:true,S:true};
+
+  function P(){return {a1:+el.a1.value,b1:+el.b1.value,a2:+el.a2.value,b2:+el.b2.value};}
+  function h(x,p){return p.a1*x+p.b1;}
+  function g(x,p){return p.a2*x+p.b2;}
+  function fmt(v){return (Math.round(v*100)/100).toString();}
+  function X(x){return ox+x*u;}
+  function Y(y){return oy-y*u;}
+
+  function grid(){
+    ctx.clearRect(0,0,W,H);
+    ctx.lineWidth=1; ctx.strokeStyle='rgba(136,135,128,0.22)';
+    for(var i=-6;i<=6;i++){
+      ctx.beginPath();ctx.moveTo(X(i),0);ctx.lineTo(X(i),H);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,Y(i));ctx.lineTo(W,Y(i));ctx.stroke();
+    }
+    ctx.lineWidth=2; ctx.strokeStyle='rgba(95,94,90,0.85)';
+    ctx.beginPath();ctx.moveTo(0,oy);ctx.lineTo(W,oy);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(ox,0);ctx.lineTo(ox,H);ctx.stroke();
+    ctx.fillStyle='rgba(95,94,90,0.9)'; ctx.font='20px sans-serif';
+    ctx.textAlign='center';
+    for(var j=-6;j<=6;j++){ if(j!==0){ctx.fillText(j,X(j),oy+24);} }
+    ctx.textAlign='right';
+    for(var k=-6;k<=6;k++){ if(k!==0){ctx.fillText(k,ox-8,Y(k)+7);} }
+  }
+  function line(fn,p,col){
+    ctx.lineWidth=3; ctx.strokeStyle=col;
+    ctx.beginPath();
+    ctx.moveTo(X(-6.5),Y(fn(-6.5,p)));
+    ctx.lineTo(X(6.5),Y(fn(6.5,p)));
+    ctx.stroke();
+  }
+  function sumLine(p){
+    ctx.lineWidth=2; ctx.strokeStyle=COL_S; ctx.setLineDash([2,6]);
+    ctx.beginPath();
+    ctx.moveTo(X(-6.5),Y(h(-6.5,p)+g(-6.5,p)));
+    ctx.lineTo(X(6.5),Y(h(6.5,p)+g(6.5,p)));
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  function dot(x,y,col,r){
+    ctx.fillStyle=col; ctx.beginPath();ctx.arc(X(x),Y(y),r||7,0,7);ctx.fill();
+    ctx.lineWidth=2; ctx.strokeStyle='#fff'; ctx.stroke();
+  }
+  function arrow(x,y1,y2,col){
+    var xp=X(x);
+    ctx.lineWidth=4; ctx.strokeStyle=col;
+    ctx.beginPath();ctx.moveTo(xp,Y(y1));ctx.lineTo(xp,Y(y2));ctx.stroke();
+    var up=y2>=y1?-1:1, ay=Y(y2);
+    ctx.fillStyle=col; ctx.beginPath();
+    ctx.moveTo(xp,ay); ctx.lineTo(xp-8,ay-up*14); ctx.lineTo(xp+8,ay-up*14); ctx.closePath(); ctx.fill();
+  }
+
+  function draw(){
+    var p=P(); var xv=+x0.value;
+    var hv=h(xv,p), gv=g(xv,p), sv=hv+gv;
+    grid();
+    if(show.H) line(h,p,COL_H);
+    if(show.G) line(g,p,COL_G);
+    if(show.S) sumLine(p);
+
+    if(show.S && traceOn){ tracePts.forEach(function(pt){ dot(pt.x,pt.s,COL_S,4); }); }
+
+    ctx.setLineDash([4,6]); ctx.lineWidth=1.5; ctx.strokeStyle='rgba(136,135,128,0.7)';
+    ctx.beginPath();ctx.moveTo(X(xv),Y(0));ctx.lineTo(X(xv),Y(Math.max(hv,gv,sv,0)));ctx.stroke();
+    ctx.setLineDash([]);
+    dot(xv,0,'#5F5E5A',6);
+
+    if(show.H){ dot(xv,hv,COL_H);
+      ctx.font='18px sans-serif'; ctx.textAlign='left'; ctx.fillStyle=COL_H;
+      ctx.fillText('h(x\u2080)='+fmt(hv),X(xv)+12,Y(hv)-6);
+    }
+    if(show.G){ dot(xv,gv,COL_G);
+      ctx.font='18px sans-serif'; ctx.textAlign='left'; ctx.fillStyle=COL_G;
+      ctx.fillText('g(x\u2080)='+fmt(gv),X(xv)+12,Y(gv)+22);
+    }
+    if(show.S){
+      if(show.G) arrow(xv,gv,gv+hv,COL_S);
+      dot(xv,sv,COL_S,8);
+      ctx.font='18px sans-serif'; ctx.textAlign='left'; ctx.fillStyle=COL_S;
+      ctx.fillText('suma='+fmt(sv),X(xv)+12,Y(sv)-10);
+    }
+
+    document.getElementById('rx').textContent=fmt(xv);
+    document.getElementById('rh').textContent=fmt(hv);
+    document.getElementById('rg').textContent=fmt(gv);
+    document.getElementById('rs').textContent=fmt(sv);
+  }
+
+  function pushTrace(){
+    var p=P(), xv=+x0.value;
+    tracePts.push({x:xv,s:h(xv,p)+g(xv,p)});
+    if(tracePts.length>400)tracePts.shift();
+  }
+
+  ids.forEach(function(k){
+    el[k].addEventListener('input',function(){
+      document.getElementById(k+'v').textContent=fmt(+el[k].value);
+      tracePts=[]; draw();
+    });
+  });
+  x0.addEventListener('input',function(){ if(traceOn)pushTrace(); draw(); });
+  document.getElementById('trace').addEventListener('change',function(e){
+    traceOn=e.target.checked; if(!traceOn)tracePts=[]; draw();
+  });
+
+  function bindToggle(btnId,key){
+    var b=document.getElementById(btnId);
+    b.addEventListener('click',function(){
+      show[key]=!show[key];
+      b.classList.toggle('off',!show[key]);
+      draw();
+    });
+  }
+  bindToggle('tH','H'); bindToggle('tG','G'); bindToggle('tS','S');
+
+  var play=document.getElementById('play'), lbl=document.getElementById('playlbl'), pic=document.getElementById('playicon');
+  function step(){
+    var v=+x0.value+dir*0.03;
+    if(v>=6){v=6;dir=-1;} if(v<=-6){v=-6;dir=1;}
+    x0.value=v; if(traceOn)pushTrace(); draw();
+    raf=requestAnimationFrame(step);
+  }
+  play.addEventListener('click',function(){
+    playing=!playing;
+    if(playing){ lbl.textContent='Pausa'; pic.innerHTML='&#10073;&#10073;'; step(); }
+    else{ lbl.textContent='Play'; pic.innerHTML='&#9654;'; cancelAnimationFrame(raf); }
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    playing=false; lbl.textContent='Play'; pic.innerHTML='&#9654;';
+    cancelAnimationFrame(raf); x0.value=-6; dir=1; tracePts=[]; draw();
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>
