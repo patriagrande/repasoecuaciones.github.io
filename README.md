@@ -78,3 +78,8 @@ https://patriagrande.github.io/repasoecuaciones.github.io/porcentaje/opcion3.htm
 # Charlas con Valeria:
 [1] : limites, discontinuidades, algo de matrices y espacios vectoriales, te todo un pco (https://patriagrande.github.io/repasoecuaciones.github.io/matematik/limite_ejercicio01.html)
 
+# Matemática 1
+
+## Interactivos
+
+* sumar lineales: https://patriagrande.github.io/repasoecuaciones.github.io/matematica_1/web_interactivo/sumar_funciones_lineales.html
