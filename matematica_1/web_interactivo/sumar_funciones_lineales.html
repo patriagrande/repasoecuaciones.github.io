@@ -127,6 +127,7 @@
   var x0=document.getElementById('x0');
   var playing=false, raf=null, dir=1;
   var traceOn=true, tracePts=[];
+  var started=false;
   var show={H:true,G:true,S:true};
 
   function P(){return {a1:+el.a1.value,b1:+el.b1.value,a2:+el.a2.value,b2:+el.b2.value};}
@@ -185,7 +186,6 @@
     grid();
     if(show.H) line(h,p,COL_H);
     if(show.G) line(g,p,COL_G);
-    if(show.S) sumLine(p);
 
     if(show.S && traceOn){ tracePts.forEach(function(pt){ dot(pt.x,pt.s,COL_S,4); }); }
 
@@ -202,7 +202,7 @@
       ctx.font='18px sans-serif'; ctx.textAlign='left'; ctx.fillStyle=COL_G;
       ctx.fillText('g(x\u2080)='+fmt(gv),X(xv)+12,Y(gv)+22);
     }
-    if(show.S){
+    if(show.S && started){
       if(show.G) arrow(xv,gv,gv+hv,COL_S);
       dot(xv,sv,COL_S,8);
       ctx.font='18px sans-serif'; ctx.textAlign='left'; ctx.fillStyle=COL_S;
@@ -224,10 +224,10 @@
   ids.forEach(function(k){
     el[k].addEventListener('input',function(){
       document.getElementById(k+'v').textContent=fmt(+el[k].value);
-      tracePts=[]; draw();
+      tracePts=[]; started=false; draw();
     });
   });
-  x0.addEventListener('input',function(){ if(traceOn)pushTrace(); draw(); });
+  x0.addEventListener('input',function(){ started=true; if(traceOn)pushTrace(); draw(); });
   document.getElementById('trace').addEventListener('change',function(e){
     traceOn=e.target.checked; if(!traceOn)tracePts=[]; draw();
   });
@@ -251,12 +251,12 @@
   }
   play.addEventListener('click',function(){
     playing=!playing;
-    if(playing){ lbl.textContent='Pausa'; pic.innerHTML='&#10073;&#10073;'; step(); }
+    if(playing){ started=true; lbl.textContent='Pausa'; pic.innerHTML='&#10073;&#10073;'; step(); }
     else{ lbl.textContent='Play'; pic.innerHTML='&#9654;'; cancelAnimationFrame(raf); }
   });
   document.getElementById('reset').addEventListener('click',function(){
     playing=false; lbl.textContent='Play'; pic.innerHTML='&#9654;';
-    cancelAnimationFrame(raf); x0.value=-6; dir=1; tracePts=[]; draw();
+    cancelAnimationFrame(raf); x0.value=-6; dir=1; tracePts=[]; started=false; draw();
   });
 
   draw();
