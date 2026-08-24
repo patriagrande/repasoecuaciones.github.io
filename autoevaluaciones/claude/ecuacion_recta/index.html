@@ -387,6 +387,116 @@
   @media (prefers-reduced-motion: reduce){
     .btn, .option{transition:none;}
   }
+
+  /* ---------- Panel de revisión (?debug=1) ---------- */
+  .debug-bar{
+    background:var(--paper-deep);
+    border:1px solid var(--grid);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:18px;
+  }
+  .debug-bar h2{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--coral);
+    margin:0 0 4px;
+  }
+  .debug-bar p{font-size:13.5px; color:var(--muted); margin:0 0 12px;}
+  .cat-toggles{display:flex; flex-wrap:wrap; gap:8px;}
+  .cat-toggle{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    background:#fff;
+    border:1.5px solid var(--grid);
+    border-radius:999px;
+    padding:6px 12px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .cat-toggle input{margin:0; cursor:pointer; accent-color:var(--lila);}
+  .cat-toggle.off{opacity:.45;}
+  .debug-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .btn-mini{
+    font-family:var(--font-mono);
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:999px;
+    border:1.5px solid var(--grid);
+    background:#fff;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .btn-mini:hover{border-color:var(--ink);}
+
+  .cat-group{margin-bottom:26px;}
+  .cat-group.hidden{display:none;}
+  .cat-group > h3{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--lila);
+    border-bottom:2px solid var(--lila-soft);
+    padding-bottom:6px;
+    margin:0 0 12px;
+  }
+  .debug-card{position:relative;}
+  .debug-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .btn-try{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:600;
+    padding:7px 14px;
+    border-radius:999px;
+    border:1.5px solid var(--teal);
+    background:var(--teal-soft);
+    color:var(--teal);
+    cursor:pointer;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .btn-try:hover{background:var(--teal); color:#fff;}
+  /* En revisión las opciones se ven, pero no se responden */
+  .debug-card .option{cursor:default;}
+  .debug-card .option:hover{border-color:var(--grid);}
+  .debug-card .option.correct{
+    border-color:var(--teal);
+    background:var(--teal-soft);
+  }
+  .debug-note{
+    font-size:13.5px;
+    line-height:1.55;
+    margin:0 0 8px;
+    padding-left:12px;
+    border-left:3px solid var(--grid);
+    color:var(--muted);
+  }
+  .debug-note strong{color:var(--ink);}
+
+  /* Aviso de modo de una sola pregunta (?q=ID) */
+  .single-note{
+    background:var(--amber-soft);
+    border:1px solid #ecd9bb;
+    border-radius:var(--radius-sm);
+    padding:10px 14px;
+    font-size:13.5px;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .single-note strong{color:var(--amber);}
 </style>
 </head>
 <body>
@@ -841,48 +951,76 @@ function shuffleQuestionOptions(q){
   return Object.assign({}, q, { options:newOptions, correct:newCorrect });
 }
 
-// Parámetro opcional en la URL: ?ask=N
-// Si N es un entero válido entre 1 y la cantidad total de preguntas, se usa para
-// recortar el cuestionario a N preguntas (elegidas al azar entre las 20). Si el
-// parámetro no está, o no es un entero válido en ese rango, se ignora sin más:
-// la app sigue funcionando con las 20 preguntas de siempre.
+// ?ask=N — cuántas preguntas se sortean DE CADA categoría.
+// Si N no es entero o es menor que 1, se ignora (entran todas).
+// Si N supera el tamaño de una categoría, de esa categoría entran todas.
 function getAskParam(){
   const params = new URLSearchParams(window.location.search);
   if (!params.has("ask")) return null;
   const n = Number(params.get("ask"));
-  if (!Number.isInteger(n) || n < 1 || n > QUESTIONS.length) return null;
+  if (!Number.isInteger(n) || n < 1) return null;
   return n;
 }
 
-// Parámetro opcional en la URL: ?debug=N
-// Por defecto debug=0: las preguntas (y sus opciones) se presentan al azar.
-// Con debug=1: se presentan en el mismo orden en que están escritas en el
-// documento, y sin barajar las opciones. Facilita la revisión docente.
+// ?debug=1 — modo revisión (y, combinado con ?q, opciones sin barajar).
 function getDebugParam(){
   const params = new URLSearchParams(window.location.search);
   return params.get("debug") === "1";
 }
 
+// ?q=ID — una sola pregunta. Devuelve la pregunta o null si el id no existe.
+function getSingleQuestion(){
+  const params = new URLSearchParams(window.location.search);
+  if (!params.has("q")) return null;
+  const id = (params.get("q") || "").trim().toUpperCase();
+  return QUESTIONS.find(q => q.id.toUpperCase() === id) || null;
+}
+
+// Agrupa por categoría preservando el orden del documento.
+function groupByCategory(){
+  const groups = new Map();
+  QUESTIONS.forEach(q => {
+    if (!groups.has(q.category)) groups.set(q.category, []);
+    groups.get(q.category).push(q);
+  });
+  return groups;
+}
+
+// Cantidad total de preguntas del cuestionario que se va a armar.
 function questionCount(){
+  if (getSingleQuestion()) return 1;
   const ask = getAskParam();
-  return ask === null ? QUESTIONS.length : ask;
+  if (ask === null) return QUESTIONS.length;
+  let total = 0;
+  groupByCategory().forEach(qs => { total += Math.min(ask, qs.length); });
+  return total;
 }
 
 function resetState(){
-  if (getDebugParam()){
-    // modo debug (?debug=1): orden fijo del documento, sin barajar preguntas ni opciones.
-    order = QUESTIONS.slice();
-  } else {
-    // por defecto (?debug=0): baraja todas las preguntas y sus opciones
-    order = shuffle(QUESTIONS).map(shuffleQuestionOptions);
-    // para edición: descomentar para poner una pregunta puntual al principio (por id)
-    //order = [QUESTIONS.find(q => q.id === "V10"), ...shuffle(QUESTIONS.filter(q => q.id !== "V10"))].map(shuffleQuestionOptions);
-  }
+  const single = getSingleQuestion();
 
-  // si llegó un ?ask=N válido, nos quedamos con las primeras N del array
-  // (barajado -> N al azar; en debug -> las primeras N del documento)
-  const ask = getAskParam();
-  if (ask !== null) order = order.slice(0, ask);
+  if (single){
+    // ?q=ID — una sola pregunta. Con ?debug=1 se respeta el orden de opciones
+    // del archivo fuente, para poder cotejar contra el documento de preguntas.
+    order = getDebugParam() ? [single] : [shuffleQuestionOptions(single)];
+  } else {
+    const ask = getAskParam();
+    let seleccionadas;
+
+    if (ask === null){
+      seleccionadas = QUESTIONS.slice();
+    } else {
+      // N preguntas sorteadas DE CADA categoría por separado
+      seleccionadas = [];
+      groupByCategory().forEach(qs => {
+        seleccionadas.push(...shuffle(qs).slice(0, ask));
+      });
+    }
+
+    // Recién acá se baraja el conjunto completo: el orden final es totalmente
+    // aleatorio y NO agrupa por categoría.
+    order = shuffle(seleccionadas).map(shuffleQuestionOptions);
+  }
 
   state = order.map(() => ({ attempts:0, status:"pending", points:0, selectedFirst:null }));
   currentIndex = 0;
@@ -906,9 +1044,22 @@ function renderMath(container){
 
 function renderIntro(){
   const app = document.getElementById("app");
+  const n = questionCount();
+  const single = getSingleQuestion();
+  const ask = getAskParam();
+
+  const singleNote = single
+    ? `<div class="single-note"><strong>Modo de prueba.</strong> Se está ejecutando una sola pregunta (<code>${single.id}</code>)${getDebugParam() ? ", con las opciones en el orden del archivo fuente" : ""}. Para la autoevaluación completa, abrí la página sin parámetros.</div>`
+    : "";
+
+  const askNote = (!single && ask !== null)
+    ? " Se sortean preguntas de cada uno de los temas, así que todos quedan representados."
+    : "";
+
   app.innerHTML = `
     <div class="card intro-text">
-      <p>Esta autoevaluación tiene <strong>${questionCount()} pregunta${questionCount() === 1 ? "" : "s"}</strong> sobre la ecuación de la recta: identificarla en su forma explícita e implícita, convertir de una forma a la otra, decidir si un punto pertenece a una recta y leer parámetros a partir de un gráfico. El orden de las preguntas se sortea cada vez que abrís la página.</p>
+      ${singleNote}
+      <p>Esta autoevaluación tiene <strong>${n} pregunta${n === 1 ? "" : "s"}</strong> sobre la ecuación de la recta: identificarla en su forma explícita e implícita, convertir de una forma a la otra, decidir si un punto pertenece a una recta y leer parámetros a partir de un gráfico.${askNote} El orden de las preguntas se sortea cada vez que abrís la página.</p>
       <p>No hace falta usar GeoGebra ni la calculadora: todos los números fueron elegidos para poder resolverse con cuentas simples, con enteros o fracciones fáciles.</p>
       <div class="rules">
         <div class="rule-item ok">
@@ -928,6 +1079,7 @@ function renderIntro(){
       <button class="btn btn-primary btn-block" id="btnStart">Empezar la autoevaluación</button>
     </div>
   `;
+  renderMath(app);
   document.getElementById("btnStart").addEventListener("click", () => {
     resetState();
     renderQuestion();
@@ -1156,11 +1308,110 @@ function renderResults(){
 }
 
 /* ---------------------------------------------------------------------
-   7) INICIO
+   7) MODO REVISIÓN (?debug=1)
+
+   Lista TODAS las preguntas en el orden del archivo fuente, agrupadas por
+   categoría, con la correcta marcada y la pista y la explicación a la vista.
+   No se responden acá: cada una tiene un botón que la abre aislada, en una
+   pestaña nueva, funcionando de verdad (?q=ID).
+   --------------------------------------------------------------------- */
+
+function renderDebug(){
+  const app = document.getElementById("app");
+  const groups = groupByCategory();
+
+  const toggles = [...groups.keys()].map(cat => `
+    <label class="cat-toggle" data-cat="${cat}">
+      <input type="checkbox" checked data-cat="${cat}">
+      ${CATEGORY_LABELS[cat]} (${groups.get(cat).length})
+    </label>
+  `).join("");
+
+  const groupsHTML = [...groups.entries()].map(([cat, qs]) => {
+    const cards = qs.map(q => {
+      const graphHTML = q.visual
+        ? `<div class="graph-wrap">${buildGraphSVG(q.graph)}</div>`
+        : "";
+
+      const optionsHTML = q.options.map((opt, i) => `
+        <div class="option ${i === q.correct ? "correct" : ""}">
+          <span class="letter">${String.fromCharCode(65 + i)}</span>
+          <span class="otext">${opt}</span>
+        </div>
+      `).join("");
+
+      return `
+        <div class="card debug-card">
+          <div class="debug-head">
+            <div style="display:flex;align-items:center;">
+              <span class="badge" style="margin-bottom:0;">${CATEGORY_LABELS[q.category]}</span>
+              <span class="qid-label">${q.id}</span>
+            </div>
+            <a class="btn-try" href="?q=${q.id}" target="_blank" rel="noopener">▶ Probar ${q.id}</a>
+          </div>
+          <p class="prompt">${q.prompt}</p>
+          ${graphHTML}
+          <div class="options">${optionsHTML}</div>
+          <p class="debug-note"><strong>Pista:</strong> ${q.hint}</p>
+          <p class="debug-note"><strong>Explicación:</strong> ${q.explanation}</p>
+        </div>
+      `;
+    }).join("");
+
+    return `<div class="cat-group" data-cat="${cat}">
+      <h3>${CATEGORY_LABELS[cat]} — ${qs.length} preguntas</h3>
+      ${cards}
+    </div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="debug-bar">
+      <h2>Modo revisión · debug=1</h2>
+      <p>Las ${QUESTIONS.length} preguntas en el orden del archivo fuente, con las opciones sin barajar y la correcta marcada en verde. Usá las casillas para mostrar u ocultar categorías, y el botón <strong>Probar</strong> de cada tarjeta para abrirla aislada en una pestaña nueva y resolverla como lo haría un estudiante.</p>
+      <div class="cat-toggles">${toggles}</div>
+      <div class="debug-actions">
+        <button class="btn-mini" id="btnAll">Mostrar todas</button>
+        <button class="btn-mini" id="btnNone">Ocultar todas</button>
+        <a class="btn-mini" href="?" style="text-decoration:none;">Salir del modo revisión</a>
+      </div>
+    </div>
+    ${groupsHTML}
+  `;
+
+  renderMath(app);
+
+  const setCat = (cat, visible) => {
+    const g = app.querySelector(`.cat-group[data-cat="${cat}"]`);
+    if (g) g.classList.toggle("hidden", !visible);
+    const lbl = app.querySelector(`.cat-toggle[data-cat="${cat}"]`);
+    if (lbl) lbl.classList.toggle("off", !visible);
+    const chk = app.querySelector(`input[data-cat="${cat}"]`);
+    if (chk) chk.checked = visible;
+  };
+
+  app.querySelectorAll(".cat-toggle input").forEach(chk => {
+    chk.addEventListener("change", () => setCat(chk.dataset.cat, chk.checked));
+  });
+  document.getElementById("btnAll").addEventListener("click", () => {
+    [...groups.keys()].forEach(c => setCat(c, true));
+  });
+  document.getElementById("btnNone").addEventListener("click", () => {
+    [...groups.keys()].forEach(c => setCat(c, false));
+  });
+}
+
+/* ---------------------------------------------------------------------
+   8) INICIO
    --------------------------------------------------------------------- */
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderIntro();
+  // ?debug=1 sin ?q → vista de revisión. Con ?q, en cambio, debug solo
+  // significa "no barajes las opciones" y el cuestionario corre normal.
+  if (getDebugParam() && !getSingleQuestion()){
+    renderDebug();
+  } else {
+    renderIntro();
+  }
 });
 </script>
 </body>
