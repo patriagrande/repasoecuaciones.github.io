@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pantallas y Pitágoras · Una exploración interactiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$']] },
+    svg: { fontCache: 'global' },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b28;
+    --panel-2:#1d2333;
+    --line:#2a3243;
+    --ink:#e6edf3;
+    --ink-dim:#9aa7bd;
+    --cyan:#22d3ee;
+    --cyan-deep:#0e7490;
+    --amber:#fbbf24;
+    --amber-deep:#b45309;
+    --violet:#a78bfa;
+    --serif:Georgia,'Times New Roman',serif;
+    --sans:'Space Grotesk',system-ui,sans-serif;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--serif);line-height:1.7;font-size:18px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.sans{font-family:var(--sans)}
+  a{color:var(--cyan)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,17,23,.82);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;gap:8px;height:60px;flex-wrap:wrap}
+  nav .brand{font-family:var(--sans);font-weight:700;letter-spacing:-.02em;margin-right:auto;font-size:1.05rem}
+  nav .brand span{color:var(--cyan)}
+  nav a.link{
+    font-family:var(--sans);font-size:.86rem;color:var(--ink-dim);
+    text-decoration:none;padding:6px 10px;border-radius:6px;
+  }
+  nav a.link:hover{color:var(--ink);background:var(--panel-2)}
+
+  /* ---------- HERO ---------- */
+  header.hero{position:relative;overflow:hidden;padding:72px 0 40px}
+  .hero-grid{
+    position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 20%,#000 30%,transparent 75%);
+            mask-image:radial-gradient(ellipse 70% 60% at 70% 20%,#000 30%,transparent 75%);
+  }
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(2.3rem,5vw,3.6rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 .5em;font-weight:700}
+  .hero h1 em{font-style:normal;color:var(--cyan)}
+  .hero p.lede{font-size:1.15rem;color:var(--ink-dim);margin:0 0 1.6em;max-width:52ch}
+  .hero .cta{display:inline-block;font-family:var(--sans);font-weight:600;font-size:.95rem;
+    background:var(--cyan);color:#04222b;text-decoration:none;padding:12px 22px;border-radius:8px}
+  .hero .cta:hover{background:#5fe3f5}
+  .hero-art{aspect-ratio:1/1;width:100%}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  .eyebrow{font-family:var(--sans);font-size:.8rem;font-weight:600;color:var(--cyan);
+    display:flex;align-items:center;gap:10px;margin:0 0 12px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--cyan)}
+  h2.title{font-size:clamp(1.7rem,3.5vw,2.4rem);letter-spacing:-.02em;margin:.1em 0 .6em;font-weight:700}
+  .prose{max-width:64ch}
+  .prose p{margin:0 0 1.1em}
+  .prose strong{color:var(--ink);font-weight:400;background:linear-gradient(transparent 62%,rgba(34,211,238,.25) 62%)}
+
+  /* aside / didascalia */
+  .aside{border-left:3px solid var(--amber);background:var(--panel);
+    padding:16px 20px;border-radius:0 8px 8px 0;margin:1.4em 0;font-size:.98rem}
+  .aside .h{font-family:var(--sans);font-weight:600;color:var(--amber);font-size:.82rem;margin-bottom:4px;display:block}
+
+  /* ---------- CONCEPT: diagonal ---------- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;margin-top:8px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+
+  /* ---------- ASPECT RATIO PLAYGROUND ---------- */
+  .ratios{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+  .ratio-btn{font-family:var(--sans);font-size:.85rem;font-weight:500;cursor:pointer;
+    background:var(--panel-2);color:var(--ink-dim);border:1px solid var(--line);
+    padding:8px 14px;border-radius:999px;transition:.15s}
+  .ratio-btn:hover{color:var(--ink)}
+  .ratio-btn.active{background:var(--cyan);color:#04222b;border-color:var(--cyan);font-weight:600}
+  .ar-stage{background:#05070c;border:1px solid var(--line);border-radius:12px;
+    height:320px;display:flex;align-items:center;justify-content:center;padding:24px;position:relative;overflow:hidden}
+  .ar-screen{position:relative;background:linear-gradient(135deg,#0b2530,#062b3a);
+    border:2px solid var(--cyan);border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 0 40px rgba(34,211,238,.25);display:flex;align-items:center;justify-content:center}
+  .ar-label{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);
+    font-family:var(--sans);font-size:.8rem;color:var(--cyan);white-space:nowrap}
+
+
+  /* ---------- RESOLUTION ---------- */
+  .res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+  .res-cell{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+  .res-cell .n{font-family:var(--sans);font-weight:700;font-size:1.15rem;letter-spacing:-.02em}
+  .res-cell .px{font-family:var(--sans);color:var(--cyan);font-size:.85rem;margin-top:2px}
+  .res-cell .note{font-size:.82rem;color:var(--ink-dim);margin-top:6px}
+  .res-bar{height:6px;border-radius:3px;background:var(--cyan);margin-top:12px}
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{position:relative;margin-top:20px}
+  .timeline::before{content:"";position:absolute;left:0;right:0;top:118px;height:2px;
+    background:linear-gradient(90deg,var(--amber),var(--cyan),var(--violet))}
+  .tl-track{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .tl-item .ill{height:118px;display:flex;align-items:flex-end;justify-content:center}
+  .tl-item .dot{width:14px;height:14px;border-radius:50%;background:var(--cyan);margin:0 auto;
+    border:3px solid var(--bg);position:relative;top:-1px}
+  .tl-item h4{font-family:var(--sans);font-size:1rem;margin:16px 0 2px;text-align:center}
+  .tl-item .yr{font-family:var(--sans);font-size:.78rem;color:var(--amber);text-align:center;margin-bottom:8px}
+  .tl-item p{font-size:.9rem;color:var(--ink-dim);text-align:center;margin:0}
+
+  /* ---------- CALCULATOR / DUAL APPLET ---------- */
+  .calc-controls{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:26px}
+  .field label{font-family:var(--sans);font-size:.85rem;color:var(--ink-dim);display:block;margin-bottom:8px}
+  .diag-val{font-family:var(--sans);font-weight:700;color:var(--cyan);font-size:1.2rem}
+  input[type=range]{width:100%;accent-color:var(--cyan)}
+  .sel-row{display:flex;flex-wrap:wrap;gap:8px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .panel-screen{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .panel-screen h4{margin:0 0 4px;font-family:var(--sans);font-size:.95rem}
+  .panel-screen .sub{font-size:.82rem;color:var(--ink-dim);margin-bottom:14px;font-family:var(--sans)}
+  .svg-stage{width:100%;background:#05070c;border-radius:10px}
+  .readout{display:flex;gap:18px;margin-top:14px;font-family:var(--sans);font-size:.85rem;flex-wrap:wrap}
+  .readout b{color:var(--cyan);font-weight:600}
+  .readout .k{color:var(--ink-dim)}
+  .pyth{margin-top:14px;background:#05070c;border:1px solid var(--line);
+    border-radius:8px;padding:6px 12px;overflow-x:auto}
+  .pyth mjx-container[display="true"]{margin:.3em 0!important;font-size:.92em}
+  .pyth b{color:var(--amber)}
+  .vs{align-self:center;text-align:center;font-family:var(--sans);color:var(--ink-dim)}
+
+  /* ---------- EXERCISES ---------- */
+  .ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+  .ex{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
+  .ex .num{font-family:var(--sans);font-weight:700;color:var(--cyan);font-size:.9rem}
+  .ex h4{font-family:var(--sans);font-size:1.05rem;margin:6px 0 8px}
+  .ex p{font-size:.92rem;color:var(--ink-dim);margin:0 0 12px}
+  .ex .tag{font-family:var(--sans);font-size:.72rem;color:var(--amber);border:1px solid var(--amber-deep);
+    padding:2px 8px;border-radius:999px;display:inline-block}
+  .ex.hard .num,.ex.hard .tag{color:var(--violet)}
+  .ex.hard .tag{border-color:var(--violet)}
+  details.hint{margin-top:12px;font-size:.86rem}
+  details.hint summary{font-family:var(--sans);font-size:.82rem;color:var(--cyan);cursor:pointer}
+  details.hint p{color:var(--ink-dim);margin-top:8px}
+
+  /* ---------- MATH ---------- */
+  mjx-container[display="true"]{margin:.6em 0!important;color:var(--ink)}
+  .mathbox{background:#05070c;border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:1.1em 0;overflow-x:auto}
+  .mathbox.amber{border-left:3px solid var(--amber)}
+
+  /* ---------- WORKED EXAMPLE ---------- */
+  .worked{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;margin-top:8px}
+  .worked .givens{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:20px}
+  .worked .given{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-family:var(--sans)}
+  .worked .given .k{font-size:.75rem;color:var(--ink-dim);display:block}
+  .worked .given .v{font-size:1.25rem;font-weight:700;color:var(--cyan)}
+  .worked ol.steps{list-style:none;counter-reset:st;margin:0;padding:0}
+  .worked ol.steps>li{counter-increment:st;position:relative;padding:0 0 22px 46px;border-left:2px solid var(--line);margin-left:15px}
+  .worked ol.steps>li:last-child{border-left-color:transparent;padding-bottom:0}
+  .worked ol.steps>li::before{content:counter(st);position:absolute;left:-16px;top:-2px;
+    width:30px;height:30px;border-radius:50%;background:var(--cyan);color:#04222b;
+    font-family:var(--sans);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+  .worked ol.steps>li h4{font-family:var(--sans);font-size:1rem;margin:2px 0 6px}
+  .worked ol.steps>li p{margin:0;color:var(--ink-dim);font-size:.95rem}
+  .worked .final{background:linear-gradient(135deg,#062b3a,#0b2530);border:1px solid var(--cyan);
+    border-radius:10px;padding:14px 18px;margin-top:6px}
+  .worked .final .h{font-family:var(--sans);font-weight:600;color:var(--cyan);font-size:.85rem;margin-bottom:4px}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;color:var(--ink-dim);font-size:.85rem;font-family:var(--sans)}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+  @media(max-width:860px){
+    .hero .wrap{grid-template-columns:1fr}
+    .hero-art{max-width:380px;order:-1}
+    .two,.calc-controls,.compare{grid-template-columns:1fr}
+    .res-grid{grid-template-columns:1fr 1fr}
+    .tl-track{grid-template-columns:1fr 1fr;gap:32px}
+    .timeline::before{display:none}
+    .ex-grid{grid-template-columns:1fr}
+    .vs{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Pantallas <span>&amp;</span> Pitágoras</div>
+    <a class="link" href="#idea">La idea</a>
+    <a class="link" href="#conceptos">Conceptos</a>
+    <a class="link" href="#ejemplo">Ejemplo</a>
+    <a class="link" href="#historia">Historia</a>
+    <a class="link" href="#calc">Comparador</a>
+    <a class="link" href="#practica">Práctica</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="wrap">
+    <div>
+      <h1>El teorema que <em>mirás</em> todos los días</h1>
+      <p class="lede">Pitágoras no vive solo en el pizarrón. Está en el celular que tenés en la mano, en el televisor del living y en la sala de cine. Vení a descubrir dónde se esconde.</p>
+      <a class="cta" href="#idea">Empecemos</a>
+    </div>
+    <svg class="hero-art" viewBox="0 0 400 400" role="img" aria-label="Pantalla con un triángulo rectángulo inscrito y su diagonal iluminada">
+      <defs>
+        <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0b2530"/><stop offset="1" stop-color="#04202c"/>
+        </linearGradient>
+      </defs>
+      <rect x="60" y="90" width="280" height="200" rx="10" fill="url(#scr)" stroke="#22d3ee" stroke-width="2.5"/>
+      <!-- triangle -->
+      <path d="M60 290 L340 290 L340 90 Z" fill="rgba(34,211,238,.10)"/>
+      <line x1="60" y1="290" x2="340" y2="90" stroke="#22d3ee" stroke-width="3"/>
+      <!-- right angle mark -->
+      <path d="M340 290 h-18 v-18 h18 z" fill="none" stroke="#9aa7bd" stroke-width="1.5"/>
+      <!-- labels -->
+      <text x="220" y="312" fill="#9aa7bd" font-family="Space Grotesk" font-size="15">ancho</text>
+      <text x="352" y="195" fill="#9aa7bd" font-family="Space Grotesk" font-size="15">alto</text>
+      <text x="110" y="180" fill="#22d3ee" font-family="Space Grotesk" font-size="16" transform="rotate(-35 175 180)">diagonal = pulgadas</text>
+      <!-- stand -->
+      <rect x="188" y="290" width="24" height="34" fill="#161b28" stroke="#2a3243"/>
+      <rect x="150" y="322" width="100" height="10" rx="4" fill="#161b28" stroke="#2a3243"/>
+      <!-- pixels hint -->
+      <g fill="#22d3ee" opacity=".35">
+        <rect x="80" y="110" width="6" height="6"/><rect x="92" y="110" width="6" height="6"/><rect x="104" y="110" width="6" height="6"/>
+        <rect x="80" y="122" width="6" height="6"/><rect x="92" y="122" width="6" height="6"/>
+      </g>
+    </svg>
+  </div>
+</header>
+
+<!-- ============ INTRO / LA IDEA ============ -->
+<section id="idea">
+  <div class="wrap">
+    <p class="eyebrow">Antes de empezar</p>
+    <h2 class="title">Un teorema que vive fuera de la escuela</h2>
+    <div class="prose">
+      <p>Seguramente ya lo conocés de memoria: en un triángulo rectángulo, el cuadrado de la hipotenusa es igual
+      a la suma de los cuadrados de los catetos. Lo escribimos como \(a^2+b^2=c^2\), donde \(a\) y \(b\) son los
+      catetos y \(c\) la hipotenusa de un triángulo rectángulo, y hasta ahí parece un ejercicio más para la carpeta,
+      otro <i>abstracto</i> de la matemática que sirve para justificar la visita al colegio y punto (casi casi que 
+      te estarás preguntando si esta lectura que estás haciendo ahora mismo no es parte de lo mismo ¿no?)... 
+      Pero no, la verdad que este Teorema es mucho más, está súper arraigado en las cuestiones más cotidianas.</p>
+      <p>Pero acá viene lo interesante. Pirágoras (este teorema en realidad) esta viviendo (sigiloso)
+      adentro del artefacto que estás usando para leer este texto (no importa si es la compu o el celular).</p>
+      <p>En este recorrido vamos a estudiar el teorema en clave de algo que nos rodea a todes, todo el
+      tiempo: <strong>las pantallas</strong>. La del celular, la de la tele, la del monitor, la del cine.
+      Todas esconden un triángulo rectángulo, y cuando aprendas a verlo, ya no vas a poder dejar de
+      encontrarlo.</p>
+    </div>
+  </div>
+  
+</section>
+
+<!-- ============ CONCEPTOS ============ -->
+<section id="conceptos">
+  <div class="wrap">
+    <p class="eyebrow">Cómo se describe una pantalla</p>
+    <h2 class="title">Dos números lo dicen casi todo</h2>
+    <div class="prose">
+      <p>Cuando alguien vende o compara pantallas, casi nunca dice el ancho y el alto. Usa dos datos: el <strong>tamaño</strong> y la <strong>relación de aspecto</strong>. Con esos dos, más un poco de Pitágoras, se reconstruye todo lo demás.</p>
+    </div>
+
+    <!-- Diagonal -->
+    <div class="two">
+      <div class="card">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Diagonal de una pantalla medida en pulgadas">
+          <rect x="30" y="40" width="240" height="135" rx="6" fill="#0b2530" stroke="#2a3243"/>
+          <line x1="30" y1="175" x2="270" y2="40" stroke="#22d3ee" stroke-width="3"/>
+          <circle cx="30" cy="175" r="4" fill="#22d3ee"/><circle cx="270" cy="40" r="4" fill="#22d3ee"/>
+          <text x="150" y="125" fill="#22d3ee" font-family="Space Grotesk" font-size="14" text-anchor="middle" transform="rotate(-29 150 118)">diagonal</text>
+        </svg>
+      </div>
+      <div>
+        <h3 class="sans" style="margin-top:0">1 · El tamaño (la diagonal, en pulgadas)</h3>
+        <p style="margin:0;color:var(--ink-dim)">El tamaño de una pantalla es la longitud de su <strong style="color:var(--ink)">diagonal</strong>, y se expresa en <strong style="color:var(--ink)">pulgadas</strong> (1 pulgada = 2,54 cm). Por eso un "celular de 6,7"" o una "tele de 55"" hablan siempre de esa línea que cruza la pantalla de esquina a esquina.</p>
+        <div class="aside">
+          <span class="h">Che, ¿y por qué la diagonal?</span>
+          Viene de los viejos televisores de tubo (CRT): el vidrio del tubo se cortaba a partir de una forma circular.
+           Lo que definía el tamaño era el <em>diámetro</em> de ese círculo (recordá que las pantallas eran casi
+           cuadradas). La diagonal del rectángulo coincide casi exacto con ese diámetro, así que medir la diagonal
+           era lo natural. Con los años quedó como estándar comercial por dos motivos: (a) <em>solo número</em>
+           describe el tamaño sin aclarar la forma, (b) —astucia de marketing— la diagonal siempre es el número más
+           grande de los tres (esto ya lo conversamos en el aula). Y ahí, justo ahí, aparece Pitágoras para
+           devolvernos el ancho y el alto.
+           
+        </div>
+      </div>
+    </div>
+
+    <!-- Aspect ratio playground -->
+    <div style="margin-top:44px">
+      <h3 class="sans">2 · La relación de aspecto (la forma)</h3>
+      <p style="color:var(--ink-dim);max-width:64ch">Es la proporción entre el ancho y el alto, y se escribe con dos números separados por dos puntos, como <strong style="color:var(--ink)">4:3</strong> o <strong style="color:var(--ink)">16:9</strong>. El primer número es el ancho y el segundo el alto: leídos como una división, te dicen cuántas unidades de ancho hay por cada tantas de alto. No indica cuán grande es la pantalla, sino qué <strong style="color:var(--ink)">forma</strong> tiene: cuanto mayor es el cociente ancho ÷ alto, más alargada; cuanto más cerca de 1, más cuadrada. Tocá cada formato y mirá cómo cambia la pantalla.</p>
+      <div class="ratios" id="ratioBtns"></div>
+      <div class="ar-stage">
+        <div class="ar-screen" id="arScreen">
+          <div class="ar-label" id="arLabel"></div>
+        </div>
+      </div>
+      <p id="arDesc" style="color:var(--ink-dim);font-family:var(--sans);font-size:.9rem;margin-top:30px"></p>
+
+      <div class="aside">
+        <span class="h">¿Qué quiere decir 4:3?</span>
+        Los dos puntos se leen como una división: <strong style="color:var(--ink)">4:3 significa que el ancho dividido el alto da \(\tfrac{4}{3}\)</strong>. O sea que por cada 4 unidades de ancho, hay 3 de alto. Y "unidad" puede ser cualquier cosa, siempre que uses la misma para los dos lados:
+        <ul style="margin:.7em 0 .2em;padding-left:1.2em;line-height:1.9">
+          <li>Si el ancho es <strong style="color:var(--ink)">4 metros</strong>, el alto es <strong style="color:var(--ink)">3 metros</strong>.</li>
+          <li>Si el ancho es <strong style="color:var(--ink)">4 lapiceras</strong>, el alto es <strong style="color:var(--ink)">3 lapiceras</strong>.</li>
+          <li>Si el ancho es <strong style="color:var(--ink)">40 cm</strong>, el alto es <strong style="color:var(--ink)">30 cm</strong> (porque \(\tfrac{40}{30}=\tfrac{4}{3}\)).</li>
+        </ul>
+        Lo mismo con las demás: en <strong style="color:var(--ink)">16:9</strong>, por cada 16 de ancho hay 9 de alto (\(\tfrac{16}{9}\approx 1{,}78\), más alargada); en <strong style="color:var(--ink)">21:9</strong>, más alargada todavía. Ese cocientecito es la "forma".
+      </div>
+    </div>
+
+    <!-- Resolution -->
+    <div style="margin-top:44px">
+      <h3 class="sans">3 · La resolución (cuántos puntitos)</h3>
+      <p style="color:var(--ink-dim);max-width:64ch">La resolución es la cantidad de
+      <strong style="color:var(--ink)">píxeles</strong> —los puntitos de luz— que forman la imagen.
+      Fijate que casi todas mantienen la forma 16:9: cambia el detalle, no la proporción.</p>
+      <div class="res-grid">
+        <div class="res-cell"><div class="n">HD</div><div class="px">1280 × 720</div><div class="note">~0,9 MP</div><div class="res-bar" style="width:12%"></div></div>
+        <div class="res-cell"><div class="n">Full HD</div><div class="px">1920 × 1080</div><div class="note">~2,1 MP</div><div class="res-bar" style="width:26%"></div></div>
+        <div class="res-cell"><div class="n">4K UHD</div><div class="px">3840 × 2160</div><div class="note">~8,3 MP</div><div class="res-bar" style="width:58%"></div></div>
+        <div class="res-cell"><div class="n">8K</div><div class="px">7680 × 4320</div><div class="note">~33 MP</div><div class="res-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <!-- Bridge to Pythagoras -->
+    <div style="margin-top:44px" class="prose">
+      <h3 class="sans">Y acá se cierra el círculo</h3>
+      <p>Tenemos el tamaño (la diagonal) y la forma (la relación de aspecto). ¿Cómo pasamos de eso al ancho y al alto reales? Con Pitágoras. Si la relación es, por ejemplo, 16:9, el ancho vale \(16x\) y el alto \(9x\) (para algún factor \(x\) que todavía no conocemos). La diagonal es la hipotenusa, así que:</p>
+      <div class="mathbox amber">$$(16 \cdot x)^2 + (9 \cdot x)^2 = D^2$$</div>
+      <p>Despejamos ese factor \(x\) y con él recuperamos las medidas: ancho \(=16x\) y alto \(=9x\). Es exactamente el mismo ejercicio de la carpeta, pero ahora el resultado es el televisor que vas a comprar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EJEMPLO RESUELTO ============ -->
+<section id="ejemplo">
+  <div class="wrap">
+    <p class="eyebrow">Un caso, paso a paso</p>
+    <h2 class="title">Ejemplo resuelto: un monitor de 27" en 16:9</h2>
+    <p style="color:var(--ink-dim);max-width:64ch">Queremos comprar un monitor de <strong style="color:var(--ink)">27 pulgadas</strong> con relación de aspecto <strong style="color:var(--ink)">16:9</strong>. La diagonal ya la conocemos: son esas 27". La pregunta es cuánto mide de ancho y de alto. Seguí el razonamiento.</p>
+
+    <div class="worked">
+      <div class="givens">
+        <div class="given"><span class="k">Diagonal</span><span class="v">27"</span></div>
+        <div class="given"><span class="k">Relación</span><span class="v">16 : 9</span></div>
+        <div class="given"><span class="k">Incógnitas</span><span class="v">ancho · alto</span></div>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <h4>Nombrar los lados con la relación de aspecto</h4>
+          <p>La relación 16:9 no nos da las medidas directas, sino la proporción. Escribimos ancho y alto como múltiplos de un mismo factor \(x\):</p>
+          <div class="mathbox">$$\text{ancho}=16 \cdot x \qquad \text{alto}=9 \cdot x$$</div>
+        </li>
+        <li>
+          <h4>Plantear el Teorema de Pitágoras</h4>
+          <p>El ancho y el alto son los catetos; la diagonal es la hipotenusa. Entonces:</p>
+          <div class="mathbox">$$(16 \cdot x)^2+(9 \cdot x)^2=27^2$$</div>
+        </li>
+        <li>
+          <h4>Desarrollar los cuadrados</h4>
+          <p>Como tenemos potencias de productos, simplemente aplicamos la propiedad distributiva (recordá que la
+           potencia se puede distribuír en la multiplicación). Luego "juntamos", <i>asociamos</i> los términos que
+           tienen \(x^2\):</p>
+          <div class="mathbox">$$256 \cdot x^2+81 \cdot x^2=729 \;\Longrightarrow\; 337x^2=729$$</div>
+        </li>
+        <li>
+          <h4>Despejar el factor <em>x</em></h4>
+          <p>Dividimos por 337 y sacamos raíz cuadrada:</p>
+          <div class="mathbox">$$x^2=\dfrac{729}{337}\approx 2{,}163 \;\Longrightarrow\; x=\sqrt{2{,}163}\approx 1{,}471$$</div>
+        </li>
+        <li>
+          <h4>Volver a las medidas reales</h4>
+          <p>Ahora que tenemos \(x\), reemplazamos en el paso 1. Recordá que 1 pulgada son 2,54 cm, convertimos fácilmente las pulgadas a centímetros:</p>
+          <div class="mathbox">$$\text{ancho}=16\cdot 1{,}471\approx 23{,}53"\approx 59{,}8\ \text{cm}$$
+          $$\text{alto}=9\cdot 1{,}471\approx 13{,}24"\approx 33{,}6\ \text{cm}$$</div>
+        </li>
+      </ol>
+
+      <div class="final">
+        <div class="h">Resultado</div>
+        Un monitor de 27" en 16:9 mide aproximadamente <strong style="color:var(--ink)">59,8 cm de ancho por 33,6 cm de alto</strong>. Podés comprobarlo poniendo estos mismos valores en el comparador de acá abajo.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HISTORIA ============ -->
+<section id="historia">
+  <div class="wrap">
+    <p class="eyebrow">Un viaje en el tiempo</p>
+    <h2 class="title">Cómo cambió la forma de mirar</h2>
+    <p style="color:var(--ink-dim);max-width:64ch">La relación de aspecto no siempre fue la misma. Cada época tuvo su forma de pantalla, y cada cambio cuenta algo sobre la tecnología de su momento.</p>
+    <div class="timeline">
+      <div class="tl-track">
+        <!-- CRT -->
+        <div class="tl-item">
+          <div class="ill">
+            <svg viewBox="0 0 120 110" width="120" height="110" role="img" aria-label="Televisor de tubo CRT">
+              <rect x="14" y="14" width="82" height="72" rx="10" fill="#1d2333" stroke="#b45309" stroke-width="2"/>
+              <rect x="26" y="26" width="58" height="48" rx="8" fill="#0b2530" stroke="#fbbf24"/>
+              <ellipse cx="55" cy="50" rx="26" ry="20" fill="none" stroke="#fbbf24" stroke-width="1" opacity=".4"/>
+              <circle cx="103" cy="30" r="3" fill="#fbbf24"/><circle cx="103" cy="42" r="3" fill="#fbbf24"/>
+              <rect x="34" y="86" width="8" height="14" fill="#1d2333"/><rect x="68" y="86" width="8" height="14" fill="#1d2333"/>
+            </svg>
+          </div>
+          <div class="dot" style="background:var(--amber)"></div>
+          <h4>Tubos (CRT)</h4>
+          <div class="yr">1930 – 2000s · 4:3</div>
+          <p>Voluminosos, pesados y con la pantalla curva. Baja resolución y colores limitados. La forma 4:3 nació de acá.</p>
+        </div>
+        <!-- LCD -->
+        <div class="tl-item">
+          <div class="ill">
+            <svg viewBox="0 0 120 110" width="120" height="110" role="img" aria-label="Pantalla plana LCD">
+              <rect x="10" y="24" width="100" height="58" rx="5" fill="#1d2333" stroke="#2a3243" stroke-width="2"/>
+              <rect x="16" y="30" width="88" height="46" rx="3" fill="#0b2530" stroke="#22d3ee"/>
+              <rect x="52" y="82" width="16" height="10" fill="#1d2333"/>
+              <rect x="40" y="92" width="40" height="6" rx="3" fill="#1d2333"/>
+            </svg>
+          </div>
+          <div class="dot"></div>
+          <h4>Planas (LCD / Plasma)</h4>
+          <div class="yr">Fines 90s – 2000s · 16:9</div>
+          <p>Llegan las pantallas delgadas y livianas. Se populariza el 16:9 y aparecen el HD y el Full HD.</p>
+        </div>
+        <!-- OLED -->
+        <div class="tl-item">
+          <div class="ill">
+            <svg viewBox="0 0 120 110" width="120" height="110" role="img" aria-label="Pantalla OLED ultra delgada 4K">
+              <rect x="8" y="26" width="104" height="54" rx="4" fill="#0b2530" stroke="#22d3ee" stroke-width="2"/>
+              <rect x="8" y="26" width="104" height="54" rx="4" fill="url(#oledg)"/>
+              <defs><linearGradient id="oledg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#a78bfa" stop-opacity=".25"/><stop offset="1" stop-color="#22d3ee" stop-opacity=".25"/>
+              </linearGradient></defs>
+              <line x1="60" y1="80" x2="60" y2="92" stroke="#2a3243" stroke-width="3"/>
+              <rect x="40" y="92" width="40" height="5" rx="2" fill="#1d2333"/>
+            </svg>
+          </div>
+          <div class="dot" style="background:var(--violet)"></div>
+          <h4>LED y OLED</h4>
+          <div class="yr">2010s – hoy · 16:9</div>
+          <p>Negros perfectos, colores vibrantes y resoluciones 4K y 8K. Ultra delgadas y eficientes.</p>
+        </div>
+        <!-- IMAX / Cine -->
+        <div class="tl-item">
+          <div class="ill">
+            <svg viewBox="0 0 120 110" width="120" height="110" role="img" aria-label="Pantalla de cine IMAX casi cuadrada">
+              <rect x="6" y="20" width="108" height="66" rx="4" fill="#0b2530" stroke="#fbbf24" stroke-width="2.5"/>
+              <path d="M12 26 L108 26 M12 80 L108 80" stroke="#fbbf24" stroke-width="1" opacity=".3"/>
+              <rect x="20" y="34" width="80" height="44" fill="rgba(251,191,36,.10)" stroke="#fbbf24" stroke-dasharray="3 3"/>
+              <text x="60" y="60" fill="#fbbf24" font-family="Space Grotesk" font-size="11" text-anchor="middle">IMAX</text>
+            </svg>
+          </div>
+          <div class="dot" style="background:var(--amber)"></div>
+          <h4>Cine e IMAX</h4>
+          <div class="yr">Hoy · hasta 1.43:1</div>
+          <p>Nolan filmó <em>Oppenheimer</em> en IMAX 70&nbsp;mm: una imagen casi cuadrada y enorme, pensada para envolverte por completo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARADOR (DUAL APPLET) ============ -->
+<section id="calc">
+  <div class="wrap">
+    <p class="eyebrow">Superficie de pantalla</p>
+    <h2 class="title">Compará dos pantallas lado a lado</h2>
+    <p style="color:var(--ink-dim);max-width:64ch">Elegí una diagonal y una relación de aspecto para cada pantalla. Vas a ver el triángulo de Pitágoras dibujado, sus medidas reales y el cálculo que hay detrás. Ideal para responder: <em>¿de verdad una de 24" 16:9 es más grande que una de 27" 21:9?</em></p>
+
+    <div class="compare">
+      <div class="panel-screen" data-idx="0">
+        <h4>Pantalla A</h4>
+        <div class="sub" id="sub0"></div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Diagonal: <span class="diag-val" id="dv0">24"</span></label>
+          <input type="range" id="diag0" min="5" max="120" step="1" value="24">
+        </div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Relación de aspecto</label>
+          <div class="sel-row" id="ar0"></div>
+        </div>
+        <svg class="svg-stage" id="svg0" viewBox="0 0 300 200"></svg>
+        <div class="readout" id="ro0"></div>
+        <div class="pyth" id="py0"></div>
+      </div>
+
+      <div class="panel-screen" data-idx="1">
+        <h4>Pantalla B</h4>
+        <div class="sub" id="sub1"></div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Diagonal: <span class="diag-val" id="dv1">27"</span></label>
+          <input type="range" id="diag1" min="5" max="120" step="1" value="27">
+        </div>
+        <div class="field" style="margin-bottom:16px">
+          <label>Relación de aspecto</label>
+          <div class="sel-row" id="ar1"></div>
+        </div>
+        <svg class="svg-stage" id="svg1" viewBox="0 0 300 200"></svg>
+        <div class="readout" id="ro1"></div>
+        <div class="pyth" id="py1"></div>
+      </div>
+    </div>
+    <p id="verdict" style="text-align:center;font-family:var(--sans);color:var(--cyan);margin-top:22px;font-size:.95rem"></p>
+  </div>
+</section>
+
+<!-- ============ PRÁCTICA ============ -->
+<section id="practica">
+  <div class="wrap">
+    <p class="eyebrow">Ahora te toca a vos</p>
+    <h2 class="title">Seis desafíos</h2>
+    <p style="color:var(--ink-dim);max-width:64ch">Usá el comparador de arriba para verificar, pero hacé las cuentas a mano primero. Ese es el músculo que estamos entrenando.</p>
+    <div class="ex-grid">
+      <div class="ex"><div class="num">01</div><span class="tag">Aplicar</span>
+        <h4>Calculá las dimensiones</h4>
+        <p>Encontrá ancho y alto de un monitor de 24" (16:9), un TV de 20" (4:3) y un monitor de 34" (21:9).</p>
+        <details class="hint"><summary>Pista</summary><p>Planteá (ancho)² + (alto)² = diagonal² con ancho = 16x y alto = 9x. Despejá x.</p></details>
+      </div>
+      <div class="ex"><div class="num">02</div><span class="tag">Investigar</span>
+        <h4>Medí y compará</h4>
+        <p>Medí la diagonal de tu celular. Averiguá su relación de aspecto y verificá sus dimensiones con el Teorema de Pitágoras.</p>
+        <details class="hint"><summary>Pista</summary><p>Muchos celulares usan 19,5:9 o 20:9. Convertí pulgadas a cm multiplicando por 2,54.</p></details>
+      </div>
+      <div class="ex"><div class="num">03</div><span class="tag">Diseñar</span>
+        <h4>Diseñá tu pantalla</h4>
+        <p>Imaginá una pantalla de 50". ¿Qué medidas tendría en 5:4 y en 2:1? ¿Cómo se vería el contenido?</p>
+        <details class="hint"><summary>Pista</summary><p>Con la misma diagonal, mientras más "alargada" la relación, más ancha y más baja queda la pantalla.</p></details>
+      </div>
+      <div class="ex hard"><div class="num">04</div><span class="tag">Comparar</span>
+        <h4>El engaño de las pulgadas</h4>
+        <p>Un TV de 32" en 16:9 y otro de 32" en 21:9. ¿Cuál tiene mayor <em>área</em>? Calculá ambas superficies y explicá por qué.</p>
+        <details class="hint"><summary>Pista</summary><p>Igual diagonal no significa igual área. Calculá ancho × alto en cada caso y compará. Te va a sorprender.</p></details>
+      </div>
+      <div class="ex hard"><div class="num">05</div><span class="tag">Cine</span>
+        <h4>Barras negras</h4>
+        <p>Ves una película 21:9 en un TV 16:9 de 40". ¿Qué alto ocupa la imagen y qué alto queda en negro arriba y abajo?</p>
+        <details class="hint"><summary>Pista</summary><p>Primero sacá el ancho del TV (16:9, 40"). Ese ancho es el de la película; con 21:9 obtené su alto y restalo al alto del TV.</p></details>
+      </div>
+      <div class="ex hard"><div class="num">06</div><span class="tag">Modelar</span>
+        <h4>La fórmula general</h4>
+        <p>Demostrá que para una relación \(a:b\) y diagonal \(D\), el ancho es \(\dfrac{a\,D}{\sqrt{a^2+b^2}}\). Verificá con un caso del comparador.</p>
+        <details class="hint"><summary>Pista</summary><p>Partí de (a·x)² + (b·x)² = D², sacá factor común x² y despejá x. Después ancho = a·x.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>¿Qué tiene que ver el Teorema de Pitágoras con nuestra cotidianeidad?</span>
+    <span>ESRN Paulo VI · Lic. Nicolás Rosbaco</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- Aspect ratio playground ---------- */
+const RATIOS = [
+  {k:"16:9",  w:16, h:9,  name:"Widescreen", desc:"El estándar de hoy: series, YouTube, monitores. Un buen equilibrio entre panorámico y práctico."},
+  {k:"4:3",   w:4,  h:3,  name:"Clásico",    desc:"La forma de los viejos televisores y monitores. Más cuadrada; la imagen de la tele analógica."},
+  {k:"21:9",  w:21, h:9,  name:"Ultrawide",  desc:"Extra panorámico, muy usado en monitores gamer y en cine. Ideal para tener todo a la vista."},
+  {k:"1.43:1",w:1.43,h:1, name:"IMAX 70mm",  desc:"Casi cuadrado y gigante. Así filmó Nolan Oppenheimer: una imagen que te envuelve en la sala."}
+];
+const arScreen=document.getElementById('arScreen'),
+      arLabel=document.getElementById('arLabel'),
+      arDesc=document.getElementById('arDesc'),
+      arBtns=document.getElementById('ratioBtns');
+function drawAR(i){
+  const r=RATIOS[i], maxW=520, maxH=250;
+  let w=maxW, h=w*r.h/r.w;
+  if(h>maxH){h=maxH; w=h*r.w/r.h;}
+  arScreen.style.width=w+'px'; arScreen.style.height=h+'px';
+  arLabel.textContent=r.k+" · "+r.name;
+  arDesc.textContent=r.desc;
+  [...arBtns.children].forEach((b,j)=>b.classList.toggle('active',j===i));
+}
+RATIOS.forEach((r,i)=>{
+  const b=document.createElement('button');
+  b.className='ratio-btn'; b.textContent=r.k;
+  b.onclick=()=>drawAR(i); arBtns.appendChild(b);
+});
+drawAR(0);
+
+/* ---------- MathJax re-typeset (debounced) ---------- */
+let tsTimer=null;
+function queueTypeset(){
+  if(!(window.MathJax&&MathJax.typesetPromise))return;
+  clearTimeout(tsTimer);
+  tsTimer=setTimeout(()=>{
+    const nodes=[document.getElementById('py0'),document.getElementById('py1')].filter(Boolean);
+    MathJax.typesetClear&&MathJax.typesetClear(nodes);
+    MathJax.typesetPromise(nodes).catch(()=>{});
+  },120);
+}
+
+/* ---------- Dual comparator ---------- */
+const AR = [
+  {k:"16:9", w:16, h:9},
+  {k:"4:3",  w:4,  h:3},
+  {k:"21:9", w:21, h:9},
+  {k:"1.43:1 (IMAX)", w:1.43, h:1}
+];
+const state=[{diag:24,ar:0},{diag:27,ar:1}];
+
+function buildARrow(idx){
+  const row=document.getElementById('ar'+idx);
+  AR.forEach((a,j)=>{
+    const b=document.createElement('button');
+    b.className='ratio-btn'+(state[idx].ar===j?' active':'');
+    b.textContent=a.k;
+    b.onclick=()=>{state[idx].ar=j;[...row.children].forEach((c,k)=>c.classList.toggle('active',k===j));render(idx);updateVerdict();};
+    row.appendChild(b);
+  });
+}
+function compute(s){
+  const a=AR[s.ar], k=Math.sqrt(a.w*a.w+a.h*a.h);
+  const x=s.diag/k;
+  const wIn=a.w*x, hIn=a.h*x;
+  const areaCm=(wIn*2.54)*(hIn*2.54);
+  return {a,wIn,hIn,wCm:wIn*2.54,hCm:hIn*2.54,areaCm};
+}
+function render(idx){
+  const s=state[idx], c=compute(s);
+  document.getElementById('dv'+idx).textContent=s.diag+'"';
+  document.getElementById('sub'+idx).textContent=s.diag+'" · '+c.a.k;
+  // svg
+  const svg=document.getElementById('svg'+idx);
+  const pad=34, W=300, H=200;
+  const availW=W-2*pad, availH=H-2*pad;
+  let rw=availW, rh=rw*c.hIn/c.wIn;
+  if(rh>availH){rh=availH; rw=rh*c.wIn/c.hIn;}
+  const x0=(W-rw)/2, y0=(H-rh)/2, x1=x0+rw, y1=y0+rh;
+  svg.innerHTML=`
+    <rect x="${x0}" y="${y0}" width="${rw}" height="${rh}" rx="4" fill="#0b2530" stroke="#2a3243"/>
+    <path d="M${x0} ${y1} L${x1} ${y1} L${x1} ${y0} Z" fill="rgba(34,211,238,.10)"/>
+    <line x1="${x0}" y1="${y1}" x2="${x1}" y2="${y0}" stroke="#22d3ee" stroke-width="2.5"/>
+    <path d="M${x1} ${y1} h-12 v-12 h12 z" fill="none" stroke="#9aa7bd" stroke-width="1.2"/>
+    <text x="${(x0+x1)/2}" y="${y1+18}" fill="#9aa7bd" font-family="Space Grotesk" font-size="12" text-anchor="middle">${c.wIn.toFixed(1)}"</text>
+    <text x="${x1+6}" y="${(y0+y1)/2}" fill="#9aa7bd" font-family="Space Grotesk" font-size="12">${c.hIn.toFixed(1)}"</text>
+    <text x="${(x0+x1)/2-6}" y="${(y0+y1)/2-4}" fill="#22d3ee" font-family="Space Grotesk" font-size="12" text-anchor="middle" transform="rotate(-${Math.atan2(rh,rw)*180/Math.PI} ${(x0+x1)/2} ${(y0+y1)/2})">${s.diag}"</text>`;
+  // readout
+  document.getElementById('ro'+idx).innerHTML=
+    `<span><span class="k">Ancho</span> <b>${c.wIn.toFixed(2)}"</b> (${c.wCm.toFixed(1)} cm)</span>`+
+    `<span><span class="k">Alto</span> <b>${c.hIn.toFixed(2)}"</b> (${c.hCm.toFixed(1)} cm)</span>`+
+    `<span><span class="k">Área</span> <b>${(c.areaCm/929).toFixed(2)} ft²</b> · ${Math.round(c.areaCm)} cm²</span>`;
+  const xv=(s.diag/Math.sqrt(c.a.w*c.a.w+c.a.h*c.a.h)).toFixed(3);
+  document.getElementById('py'+idx).innerHTML=
+    `$$(${c.a.w}x)^2+(${c.a.h}x)^2=${s.diag}^2 \\;\\Rightarrow\\; x\\approx ${xv}$$`;
+  queueTypeset();
+}
+function updateVerdict(){
+  const A=compute(state[0]), B=compute(state[1]);
+  const v=document.getElementById('verdict');
+  const dA=(A.areaCm/929), dB=(B.areaCm/929);
+  if(Math.abs(dA-dB)<0.01){v.textContent="Las dos tienen prácticamente la misma superficie.";return;}
+  const big=dA>dB?'A':'B', pct=Math.abs(dA-dB)/Math.min(dA,dB)*100;
+  v.textContent=`Aunque las diagonales parezcan decir otra cosa, la Pantalla ${big} tiene ${pct.toFixed(0)}% más superficie de imagen.`;
+}
+[0,1].forEach(idx=>{
+  buildARrow(idx);
+  document.getElementById('diag'+idx).addEventListener('input',e=>{
+    state[idx].diag=+e.target.value; render(idx); updateVerdict();
+  });
+  render(idx);
+});
+updateVerdict();
+</script>
+</body>
+</html>
