@@ -31,7 +31,9 @@ https://patriagrande.github.io/repasoecuaciones.github.io/presentacion/presentac
 
 # Pitágoras y las Pantallas
 
-https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
+* deprecated: https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas
+  
+* 2026: https://patriagrande.github.io/repasoecuaciones.github.io/pitagoras-pantallas/2026/
 
 # Construyendo la recta
 
