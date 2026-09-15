@@ -367,12 +367,12 @@
 <section id="ejemplo">
   <div class="wrap">
     <p class="eyebrow">Un caso, paso a paso</p>
-    <h2 class="title">Ejemplo resuelto: un monitor de 27" en 16:9</h2>
-    <p style="color:var(--ink-dim);max-width:64ch">Queremos comprar un monitor de <strong style="color:var(--ink)">27 pulgadas</strong> con relación de aspecto <strong style="color:var(--ink)">16:9</strong>. La diagonal ya la conocemos: son esas 27". La pregunta es cuánto mide de ancho y de alto. Seguí el razonamiento.</p>
+    <h2 class="title">Ejemplo resuelto: un monitor de 27&Prime; en 16:9</h2>
+    <p style="color:var(--ink-dim);max-width:64ch">Queremos comprar un monitor de <strong style="color:var(--ink)">27 pulgadas</strong> con relación de aspecto <strong style="color:var(--ink)">16:9</strong>. La diagonal ya la conocemos: son esas 27&Prime;. La pregunta es cuánto mide de ancho y de alto. Seguí el razonamiento.</p>
 
     <div class="worked">
       <div class="givens">
-        <div class="given"><span class="k">Diagonal</span><span class="v">27"</span></div>
+        <div class="given"><span class="k">Diagonal</span><span class="v">27&Prime;</span></div>
         <div class="given"><span class="k">Relación</span><span class="v">16 : 9</span></div>
         <div class="given"><span class="k">Incógnitas</span><span class="v">ancho · alto</span></div>
       </div>
@@ -380,37 +380,51 @@
       <ol class="steps">
         <li>
           <h4>Nombrar los lados con la relación de aspecto</h4>
-          <p>La relación 16:9 no nos da las medidas directas, sino la proporción. Escribimos ancho y alto como múltiplos de un mismo factor \(x\):</p>
+          <p>La relación 16:9 no nos da las medidas directas, sino la proporción entre el ancho y el alto. Como todavía no conocemos cuánto vale cada lado, los escribimos a los dos como múltiplos de un mismo factor \(x\) (todavía desconocido): así respetamos la proporción 16 a 9 sin comprometernos con un número concreto.</p>
           <div class="mathbox">$$\text{ancho}=16 \cdot x \qquad \text{alto}=9 \cdot x$$</div>
+          <p>Cuando averigüemos \(x\), lo reemplazamos acá y recuperamos las medidas reales.</p>
         </li>
         <li>
           <h4>Plantear el Teorema de Pitágoras</h4>
-          <p>El ancho y el alto son los catetos; la diagonal es la hipotenusa. Entonces:</p>
+          <p>El ancho y el alto son los dos catetos (forman el ángulo recto de la esquina de la pantalla); la diagonal, que son las 27&Prime;, es la hipotenusa. Reemplazamos cada lado por lo que escribimos en el paso anterior:</p>
           <div class="mathbox">$$(16 \cdot x)^2+(9 \cdot x)^2=27^2$$</div>
         </li>
         <li>
           <h4>Desarrollar los cuadrados</h4>
-          <p>Como tenemos potencias de productos, simplemente aplicamos la propiedad distributiva (recordá que la
-           potencia se puede distribuír en la multiplicación). Luego "juntamos", <i>asociamos</i> los términos que
-           tienen \(x^2\):</p>
-          <div class="mathbox">$$256 \cdot x^2+81 \cdot x^2=729 \;\Longrightarrow\; 337x^2=729$$</div>
+          <p>En el lado izquierdo tenemos potencias de un producto. Recordá que la potencia se distribuye en la multiplicación, así que \((16\cdot x)^2 = 16^2\cdot x^2\) y lo mismo con el otro término. En el lado derecho, \(27^2\) es una cuenta que ya podemos resolver:</p>
+          <div class="mathbox">$$16^2\cdot x^2+9^2\cdot x^2=27^2$$</div>
+          <p>Resolvemos cada potencia que es un número puro (\(16^2=256\), \(9^2=81\), \(27^2=729\)):</p>
+          <div class="mathbox">$$256\cdot x^2+81\cdot x^2=729$$</div>
+          <p>Del lado izquierdo los dos términos tienen \(x^2\) como factor común, así que los <i>asociamos</i> sumando los coeficientes. Recordá que: <i>si sumamos fibras tenemos fibras; si sumamos pizarrones tenemos pizarrones...</i>; en este caso tenemos  (\(256 \cdot x^2+81 \cdot x^2=337 \cdot x^2\)):</p>
+          <div class="mathbox">$$337 \cdot x^2=729$$</div>
         </li>
         <li>
           <h4>Despejar el factor <em>x</em></h4>
-          <p>Dividimos por 337 y sacamos raíz cuadrada:</p>
-          <div class="mathbox">$$x^2=\dfrac{729}{337}\approx 2{,}163 \;\Longrightarrow\; x=\sqrt{2{,}163}\approx 1{,}471$$</div>
+          <p>El \(x^2\) todavía no está solo: lo multiplica un 337. Para <i>sacarnos de encima el molesto 337</i>, dividimos por 337 en <b style="color:var(--amber)">ambos miembros</b>:</p>
+          <div class="mathbox">$$\dfrac{337 \cdot x^2}{\color{#fbbf24}{337}}=\dfrac{729}{\color{#fbbf24}{337}}$$</div>
+          <p>A la izquierda 337 se cancela con 337 y queda el cuadrado limpio; a la derecha hacemos la división:</p>
+          <div class="mathbox">$$x^2\approx 2{,}163$$</div>
+          <p>Ahora tenemos \(x\) al cuadrado y queremos \(x\). Para deshacer el cuadrado aplicamos raíz cuadrada en <b style="color:var(--amber)">ambos miembros</b>:</p>
+          <div class="mathbox">$${\color{#fbbf24}{\sqrt{\vphantom{2}\smash{x^2}}}}={\color{#fbbf24}{\sqrt{2{,}163}}}$$</div>
+          <p>Y acá aparece el detalle en el que venimos insistiendo todo el año: la raíz de un cuadrado <b>no</b> es el número pelado, es su <b>valor absoluto</b> (\(\sqrt{x^2}=|x|\)). Por eso del lado izquierdo escribimos \(|x|\), no \(x\) a secas:</p>
+          <div class="mathbox amber">$$|x|\approx 1{,}471$$</div>
+          <p>El valor absoluto abre en dos posibilidades: \(x\approx 1{,}471\) o \(x\approx -1{,}471\). Pero \(x\) es un factor de longitud (el ancho es \(16x\) y el alto \(9x\)): si fuera negativo, los lados darían negativos y no existe una pantalla que mida \(-59\) cm. Descartamos la negativa y nos quedamos con la positiva:</p>
+          <div class="mathbox">$$x\approx 1{,}471$$</div>
         </li>
         <li>
           <h4>Volver a las medidas reales</h4>
-          <p>Ahora que tenemos \(x\), reemplazamos en el paso 1. Recordá que 1 pulgada son 2,54 cm, convertimos fácilmente las pulgadas a centímetros:</p>
-          <div class="mathbox">$$\text{ancho}=16\cdot 1{,}471\approx 23{,}53"\approx 59{,}8\ \text{cm}$$
-          $$\text{alto}=9\cdot 1{,}471\approx 13{,}24"\approx 33{,}6\ \text{cm}$$</div>
+          <p>Ya tenemos el factor \(x\). Lo reemplazamos en las expresiones del paso 1 para obtener el ancho y el alto en pulgadas:</p>
+          <div class="mathbox">$$\text{ancho}=16\cdot 1{,}471\approx 23{,}53^{\prime\prime}$$
+          $$\text{alto}=9\cdot 1{,}471\approx 13{,}24^{\prime\prime}$$</div>
+          <p>Como en casa medimos en centímetros y no en pulgadas, convertimos multiplicando por 2,54 (recordá: 1 pulgada = 2,54 cm):</p>
+          <div class="mathbox">$$\text{ancho}\approx 23{,}53\cdot 2{,}54\approx 59{,}8\ \text{cm}$$
+          $$\text{alto}\approx 13{,}24\cdot 2{,}54\approx 33{,}6\ \text{cm}$$</div>
         </li>
       </ol>
 
       <div class="final">
         <div class="h">Resultado</div>
-        Un monitor de 27" en 16:9 mide aproximadamente <strong style="color:var(--ink)">59,8 cm de ancho por 33,6 cm de alto</strong>. Podés comprobarlo poniendo estos mismos valores en el comparador de acá abajo.
+        Un monitor de 27'' en 16:9 mide aproximadamente <strong style="color:var(--ink)">59,8 cm de ancho por 33,6 cm de alto</strong>. Podés comprobarlo poniendo estos mismos valores en el comparador de acá abajo.
       </div>
     </div>
   </div>
