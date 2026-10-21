@@ -23,6 +23,10 @@ https://patriagrande.github.io/repasoecuaciones.github.io/funcionlineal/index.ht
 
 https://patriagrande.github.io/repasoecuaciones.github.io/ecuacionescurza/clase01/index.html
 
+## Secretos Maxima
+
+* producto asterisco: https://patriagrande.github.io/repasoecuaciones.github.io/curzas/secretos_maxima/producto_asterisco.html
+
 # Presentaciones
 
 ## IX Jornadas Investigación y Extensión del CURZAS
