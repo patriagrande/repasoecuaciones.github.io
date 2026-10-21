@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Producto elemento a elemento</title>
+    <meta name="description" content="Matemática I — Matrices. El producto elemento a elemento (producto de Hadamard): qué es, para qué sirve y por qué Maxima lo calcula con el asterisco.">
+
+    <!-- KaTeX: escritura matemática -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Tipografías -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Paleta del material de la cátedra */
+        :root {
+            --azul: #15658e;
+            --azul-claro: #e6f2f7;
+            --naranja: #c46210;
+            --naranja-claro: #fdebdd;
+            --verde: #1b7847;
+            --verde-claro: #e6f5ec;
+            --vino: #961e2d;
+            --vino-claro: #fae8ea;
+            --gris: #5a5a5a;
+            --texto: #1f2328;
+            --fondo: #fbfaf7;
+            --papel: #ffffff;
+            --linea: #ddd8cf;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background: var(--fondo);
+            color: var(--texto);
+            font-family: "Source Sans 3", system-ui, sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .katex { font-size: 1.05em; }
+        /* El MathML oculto de KaTeX no debe generar desplazamiento horizontal */
+        .katex .katex-mathml { left: 0; max-width: 100%; }
+        html, body { overflow-x: clip; }
+
+        header {
+            background: var(--azul);
+            color: #fff;
+            padding: 2.6rem 16px 2.2rem;
+        }
+        header .contenedor { max-width: 860px; margin: 0 auto; }
+        header .materia {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.85;
+            margin: 0 0 0.6rem;
+        }
+        header h1 {
+            font-family: "Source Serif 4", Georgia, serif;
+            font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+            line-height: 1.15;
+            margin: 0 0 0.8rem;
+        }
+        header p.bajada { margin: 0; font-size: 1.1rem; opacity: 0.95; max-width: 46em; }
+
+        main { max-width: 860px; margin: 0 auto; padding: 1.5rem 16px 4rem; }
+
+        nav.indice {
+            background: var(--papel);
+            border: 1px solid var(--linea);
+            border-radius: 8px;
+            padding: 1rem 1.3rem;
+            margin: 0.5rem 0 2rem;
+            font-size: 0.97rem;
+        }
+        nav.indice strong { color: var(--azul); }
+        nav.indice ol { margin: 0.4rem 0 0; padding-left: 1.3rem; }
+        nav.indice a { color: var(--texto); text-decoration: none; border-bottom: 1px solid var(--linea); }
+        nav.indice a:hover { color: var(--azul); border-color: var(--azul); }
+
+        h2 {
+            font-family: "Source Serif 4", Georgia, serif;
+            color: var(--azul);
+            font-size: 1.6rem;
+            line-height: 1.25;
+            margin: 2.8rem 0 0.8rem;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid var(--azul);
+            scroll-margin-top: 1rem;
+        }
+        h3 {
+            color: var(--naranja);
+            font-size: 1.2rem;
+            margin: 2rem 0 0.5rem;
+        }
+
+        p { margin: 0.7rem 0; }
+
+        /* Cajas al estilo del cuadernillo */
+        .caja {
+            border-radius: 8px;
+            border: 1px solid;
+            margin: 1.4rem 0;
+            overflow: hidden;
+            background: var(--papel);
+        }
+        .caja > .titulo {
+            color: #fff;
+            font-weight: 700;
+            padding: 0.45rem 1rem;
+            font-size: 0.98rem;
+        }
+        .caja > .cuerpo { padding: 0.6rem 1.1rem 0.9rem; }
+        .definicion { border-color: var(--naranja); }
+        .definicion > .titulo { background: var(--naranja); }
+        .definicion > .cuerpo { background: var(--naranja-claro); }
+        .ejemplo { border-color: var(--verde); }
+        .ejemplo > .titulo { background: var(--verde); }
+        .ejemplo > .cuerpo { background: var(--verde-claro); }
+        .atencion { border-color: var(--vino); }
+        .atencion > .titulo { background: var(--vino); }
+        .atencion > .cuerpo { background: var(--vino-claro); }
+        .nota {
+            border: 1px solid var(--gris);
+            border-radius: 8px;
+            padding: 0.7rem 1.1rem;
+            background: var(--papel);
+            margin: 1.2rem 0;
+        }
+
+        /* Fórmulas anchas: desplazamiento horizontal en pantallas chicas */
+        .formula {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.2rem 0;
+            margin: 0.6rem 0;
+        }
+        .formula .katex-display { margin: 0.5rem 0; }
+
+        code, pre {
+            font-family: "Source Code Pro", ui-monospace, monospace;
+            font-size: 0.9em;
+        }
+        code {
+            background: #efece6;
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+        pre {
+            background: #23272e;
+            color: #e8e6e3;
+            border-radius: 8px;
+            padding: 0.9rem 1.1rem;
+            overflow-x: auto;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+        pre .entrada { color: #8fc1e3; }
+        pre .salida { color: #f2b880; }
+        pre .comentario { color: #9aa39a; font-style: italic; }
+
+        /* Tabla comparativa */
+        .tabla-envoltorio { overflow-x: auto; margin: 1.2rem 0; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 560px;
+            background: var(--papel);
+            font-size: 0.96rem;
+        }
+        th, td {
+            border-bottom: 1px solid var(--linea);
+            padding: 0.6rem 0.7rem;
+            text-align: left;
+            vertical-align: middle;
+        }
+        thead th {
+            border-bottom: 2px solid var(--azul);
+            color: var(--azul);
+        }
+        tbody th { font-weight: 600; color: var(--gris); width: 26%; }
+
+        /* Imágenes de píxeles */
+        .galeria {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem 1.6rem;
+            align-items: flex-start;
+            justify-content: center;
+            margin: 1.2rem 0;
+        }
+        .galeria figure { margin: 0; text-align: center; }
+        .galeria figcaption {
+            font-size: 0.9rem;
+            color: var(--gris);
+            margin-top: 0.4rem;
+            max-width: 11rem;
+        }
+        .operador {
+            align-self: center;
+            font-size: 1.6rem;
+            color: var(--gris);
+            margin-top: -1.6rem;
+        }
+        .pixeles {
+            display: grid;
+            gap: 1px;
+            background: #b9b4ab;
+            border: 1px solid #b9b4ab;
+            width: 136px;
+            height: 136px;
+        }
+        .pixeles div { width: 100%; height: 100%; }
+
+        footer {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 1.5rem 16px 3rem;
+            color: var(--gris);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--linea);
+        }
+
+        @media (max-width: 520px) {
+            body { font-size: 17px; }
+            .pixeles { width: 112px; height: 112px; }
+            .operador { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="contenedor">
+        <p class="materia">Matemática I &middot; Unidad 5: Matrices &middot; complemento de la clase 15</p>
+        <h1>El producto elemento a elemento: ¿para qué sirve <code style="background:rgba(255,255,255,0.15);color:#fff">A * B</code> en Maxima?</h1>
+        <p class="bajada">Maxima acepta la instrucción <code style="background:rgba(255,255,255,0.15);color:#fff">A * B</code> cuando las dos matrices tienen el mismo orden. No es un error del programa: es otra operación, que tiene nombre propio, propiedades propias y aplicaciones concretas.</p>
+    </div>
+</header>
+
+<main>
+
+    <nav class="indice" aria-label="Contenidos">
+        <strong>Contenidos</strong>
+        <ol>
+            <li><a href="#que-es">¿Qué es el producto elemento a elemento?</a></li>
+            <li><a href="#diferencia">La diferencia con el producto de matrices</a></li>
+            <li><a href="#aplicaciones">¿Para qué sirve?</a></li>
+            <li><a href="#propiedades">Sus propiedades: otro neutro</a></li>
+            <li><a href="#maxima">En Maxima</a></li>
+            <li><a href="#resumen">Cuadro comparativo</a></li>
+        </ol>
+    </nav>
+
+    <!-- ===================================================== -->
+    <h2 id="que-es">1. ¿Qué es el producto elemento a elemento?</h2>
+
+    <p>Cuando sumamos dos matrices del mismo orden, sumamos los elementos que ocupan la misma posición. El producto elemento a elemento hace exactamente lo mismo, pero <strong>multiplicando</strong>.</p>
+
+    <div class="caja definicion">
+        <div class="titulo">Definición: producto elemento a elemento (producto de Hadamard)</div>
+        <div class="cuerpo">
+            <p>Sean \(A = (a_{ij})\) y \(B = (b_{ij})\) dos matrices <strong>del mismo orden</strong> \(m \times n\). Su <strong>producto elemento a elemento</strong> es la matriz \(A \circ B\), también de orden \(m \times n\), tal que</p>
+            <div class="formula">\[ (A \circ B)_{ij} = a_{ij} \cdot b_{ij} \qquad \text{para todo } i \text{ y para todo } j \]</div>
+            <p>Si \(A\) y \(B\) no tienen el mismo orden, este producto <strong>no está definido</strong>.</p>
+        </div>
+    </div>
+
+    <p>Recibe también los nombres de <strong>producto de Hadamard</strong> o <strong>producto de Schur</strong>, por los matemáticos Jacques Hadamard e Issai Schur. En los libros se lo indica con \(A \circ B\) o con \(A \odot B\); nunca con \(A \cdot B\), que está reservado para el producto de matrices.</p>
+
+    <div class="caja ejemplo">
+        <div class="titulo">Ejemplo</div>
+        <div class="cuerpo">
+            <div class="formula">\[
+                M = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
+                \qquad
+                N = \begin{pmatrix} 0 & -1 \\ 2 & 1 \end{pmatrix}
+                \qquad
+                M \circ N =
+                \begin{pmatrix} 1 \cdot 0 & 2 \cdot (-1) \\ 3 \cdot 2 & 4 \cdot 1 \end{pmatrix}
+                =
+                \begin{pmatrix} 0 & -2 \\ 6 & 4 \end{pmatrix}
+            \]</div>
+            <p>Cada elemento del resultado sale de <strong>una sola multiplicación</strong>: la de los dos elementos que están en ese mismo lugar.</p>
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <h2 id="diferencia">2. La diferencia con el producto de matrices</h2>
+
+    <p>Con las mismas matrices, el producto de matrices que estudiamos en clase da otro resultado:</p>
+    <div class="formula">\[
+        M \cdot N =
+        \begin{pmatrix} 1 \cdot 0 + 2 \cdot 2 & 1 \cdot (-1) + 2 \cdot 1 \\ 3 \cdot 0 + 4 \cdot 2 & 3 \cdot (-1) + 4 \cdot 1 \end{pmatrix}
+        =
+        \begin{pmatrix} 4 & 1 \\ 8 & 1 \end{pmatrix}
+        \qquad \neq \qquad
+        M \circ N = \begin{pmatrix} 0 & -2 \\ 6 & 4 \end{pmatrix}
+    \]</div>
+
+    <p>La diferencia de fondo es esta:</p>
+    <ul>
+        <li>El <strong>producto de matrices</strong> \(A \cdot B\) toma una fila de \(A\) y una columna de \(B\), multiplica y <strong>suma</strong>: cada elemento del resultado <em>acumula</em> varias multiplicaciones.</li>
+        <li>El <strong>producto elemento a elemento</strong> \(A \circ B\) multiplica y <strong>deja cada resultado en su lugar</strong>: no suma nada.</li>
+    </ul>
+    <p>Por eso el producto elemento a elemento es útil cuando <strong>cada celda de una tabla tiene que multiplicarse por su propio factor</strong>, sin mezclarse con las demás.</p>
+
+    <!-- ===================================================== -->
+    <h2 id="aplicaciones">3. ¿Para qué sirve?</h2>
+
+    <h3>3.1 Cantidades por precios diferenciados</h3>
+
+    <p>Retomemos la recaudación de tasas municipales. La matriz \(U\) registra cuántos inmuebles de cada categoría hay en tres barrios (filas: Centro, Norte, Sur; columnas: categorías A, B y C):</p>
+    <div class="formula">\[
+        U = \begin{pmatrix} 120 & 80 & 40 \\ 30 & 150 & 90 \\ 10 & 60 & 200 \end{pmatrix}
+    \]</div>
+    <p>En clase la tasa dependía sólo de la categoría, y por eso alcanzaba con una columna de tasas y el producto \(U \cdot T\). Supongamos ahora que el municipio cobra <strong>tasas diferenciadas por zona</strong>: la tasa depende de la categoría <em>y</em> del barrio. Las tasas se organizan en una matriz \(W\) del <strong>mismo orden</strong> que \(U\) (en pesos por inmueble y por mes):</p>
+    <div class="formula">\[
+        W = \begin{pmatrix} 14\,000 & 9\,000 & 6\,000 \\ 12\,000 & 8\,000 & 5\,000 \\ 10\,000 & 7\,000 & 4\,000 \end{pmatrix}
+    \]</div>
+    <p>Lo recaudado en cada barrio y en cada categoría es la cantidad de inmuebles de esa celda por la tasa de esa misma celda:</p>
+    <div class="formula">\[
+        U \circ W =
+        \begin{pmatrix}
+            120 \cdot 14\,000 & 80 \cdot 9\,000 & 40 \cdot 6\,000 \\
+            30 \cdot 12\,000 & 150 \cdot 8\,000 & 90 \cdot 5\,000 \\
+            10 \cdot 10\,000 & 60 \cdot 7\,000 & 200 \cdot 4\,000
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+            1\,680\,000 & 720\,000 & 240\,000 \\
+            360\,000 & 1\,200\,000 & 450\,000 \\
+            100\,000 & 420\,000 & 800\,000
+        \end{pmatrix}
+    \]</div>
+    <p>El resultado está <strong>desagregado</strong>: dice cuánto aporta cada categoría en cada barrio. Si después queremos el total de cada barrio, sumamos cada fila, y eso sí es un producto de matrices, por una columna de unos:</p>
+    <div class="formula">\[
+        (U \circ W) \cdot \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}
+        = \begin{pmatrix} 2\,640\,000 \\ 2\,010\,000 \\ 1\,320\,000 \end{pmatrix}
+        \begin{matrix} \text{Centro} \\ \text{Norte} \\ \text{Sur} \end{matrix}
+    \]</div>
+    <p>Las dos operaciones conviven: el producto elemento a elemento <em>multiplica celda por celda</em> y el producto de matrices <em>acumula</em>.</p>
+
+    <h3>3.2 Actualizaciones porcentuales distintas en cada partida</h3>
+
+    <p>Un presupuesto (en millones de pesos) organizado por área y por rubro:</p>
+    <div class="formula">\[
+        B = \begin{pmatrix} 500 & 200 & 100 \\ 800 & 150 & 120 \end{pmatrix}
+        \begin{matrix} \text{Salud} \\ \text{Educación} \end{matrix}
+        \qquad \text{columnas: salarios, insumos, servicios}
+    \]</div>
+    <p>Si todas las partidas aumentaran el mismo porcentaje, por ejemplo un \(10\,\%\), alcanzaría con el producto por un escalar: \(1.10 \cdot B\). Pero si cada partida se actualiza con <strong>su propio coeficiente</strong>, los coeficientes forman una matriz \(C\) del mismo orden y el presupuesto actualizado es \(B \circ C\):</p>
+    <div class="formula">\[
+        C = \begin{pmatrix} 1.10 & 1.25 & 1.30 \\ 1.10 & 1.20 & 1.30 \end{pmatrix}
+        \qquad
+        B \circ C =
+        \begin{pmatrix} 500 \cdot 1.10 & 200 \cdot 1.25 & 100 \cdot 1.30 \\ 800 \cdot 1.10 & 150 \cdot 1.20 & 120 \cdot 1.30 \end{pmatrix}
+        =
+        \begin{pmatrix} 550 & 250 & 130 \\ 880 & 180 & 156 \end{pmatrix}
+    \]</div>
+
+    <div class="nota">
+        <strong>Para pensar.</strong> Si el coeficiente dependiera sólo del rubro (el mismo para todas las áreas), también podríamos usar el producto de matrices, multiplicando a la derecha por una matriz <strong>diagonal</strong> con los coeficientes:
+        <div class="formula">\[
+            B \cdot \begin{pmatrix} 1.10 & 0 & 0 \\ 0 & 1.25 & 0 \\ 0 & 0 & 1.30 \end{pmatrix}
+        \]</div>
+        Verificá con Maxima que esa cuenta multiplica cada columna de \(B\) por su coeficiente. ¿Por qué no sirve para la matriz \(C\) de arriba, en la que Educación tiene \(1.20\) en insumos?
+    </div>
+
+    <h3>3.3 Máscaras en imágenes digitales</h3>
+
+    <p>Es la aplicación más visual. Una <strong>máscara</strong> es una matriz de ceros y unos del mismo orden que la imagen. Al multiplicar elemento a elemento:</p>
+    <ul>
+        <li>donde la máscara tiene un \(1\), el píxel se <strong>conserva</strong> (\(h_{ij} \cdot 1 = h_{ij}\));</li>
+        <li>donde tiene un \(0\), el píxel se <strong>apaga</strong>, queda en negro (\(h_{ij} \cdot 0 = 0\)).</li>
+    </ul>
+    <p>Con la casita en escala de grises \(H\) y una máscara \(K\) que vale \(1\) sólo en la parte baja de la casa:</p>
+
+    <div class="galeria" aria-label="Imagen, máscara y resultado">
+        <figure><div class="pixeles" data-imagen="H"></div><figcaption>\(H\): la casita</figcaption></figure>
+        <span class="operador">\(\circ\)</span>
+        <figure><div class="pixeles" data-imagen="K"></div><figcaption>\(K\): la máscara (blanco \(= 1\), negro \(= 0\))</figcaption></figure>
+        <span class="operador">\(=\)</span>
+        <figure><div class="pixeles" data-imagen="HK"></div><figcaption>\(H \circ K\): sólo queda lo que la máscara deja ver</figcaption></figure>
+    </div>
+
+    <div class="caja atencion">
+        <div class="titulo">¿Se acuerdan de la casita casi negra del taller?</div>
+        <div class="cuerpo">
+            <p>Cuando escribimos <code>H * V</code> en lugar de <code>H . V</code>, Maxima calculó \(H \circ V\). La matriz de intercambio \(V\) funcionó como una <strong>máscara</strong>: tiene unos sólo en la diagonal secundaria, así que sólo esos píxeles sobrevivieron.</p>
+            <div class="galeria">
+                <figure><div class="pixeles" data-imagen="H"></div><figcaption>\(H\)</figcaption></figure>
+                <span class="operador">\(\circ\)</span>
+                <figure><div class="pixeles" data-imagen="V"></div><figcaption>\(V_8\) vista como máscara</figcaption></figure>
+                <span class="operador">\(=\)</span>
+                <figure><div class="pixeles" data-imagen="HV"></div><figcaption>\(H \circ V\): lo que devolvió <code>H * V</code></figcaption></figure>
+            </div>
+        </div>
+    </div>
+
+    <p>Si en lugar de ceros y unos la matriz tiene factores entre \(0\) y \(1\), en vez de apagar se <strong>atenúa</strong>. Por ejemplo, con factores que bajan hacia los bordes se oscurecen los márgenes de la foto (en fotografía se llama <em>viñeteado</em>):</p>
+    <div class="formula">\[
+        F = \begin{pmatrix}
+            0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 \\
+            0.7 & 0.8 & 0.8 & 0.8 & 0.8 & 0.8 & 0.8 & 0.7 \\
+            0.7 & 0.8 & 0.9 & 0.9 & 0.9 & 0.9 & 0.8 & 0.7 \\
+            0.7 & 0.8 & 0.9 & 1 & 1 & 0.9 & 0.8 & 0.7 \\
+            0.7 & 0.8 & 0.9 & 1 & 1 & 0.9 & 0.8 & 0.7 \\
+            0.7 & 0.8 & 0.9 & 0.9 & 0.9 & 0.9 & 0.8 & 0.7 \\
+            0.7 & 0.8 & 0.8 & 0.8 & 0.8 & 0.8 & 0.8 & 0.7 \\
+            0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7 & 0.7
+        \end{pmatrix}
+    \]</div>
+    <div class="galeria">
+        <figure><div class="pixeles" data-imagen="H"></div><figcaption>\(H\)</figcaption></figure>
+        <span class="operador">\(\circ\)</span>
+        <figure><div class="pixeles" data-imagen="F"></div><figcaption>\(F\): factores de \(0.7\) (gris) a \(1\) (blanco)</figcaption></figure>
+        <span class="operador">\(=\)</span>
+        <figure><div class="pixeles" data-imagen="HF"></div><figcaption>\(H \circ F\): bordes oscurecidos (redondeado)</figcaption></figure>
+    </div>
+    <p>Comparalo con lo que hicimos en clase: \(0.5 \cdot H\) oscurece <em>toda</em> la imagen por igual (un único escalar); \(H \circ F\) oscurece <em>cada píxel con su propio factor</em>.</p>
+
+    <h3>3.4 Planillas de cálculo</h3>
+    <p>En una planilla, escribir <code>=B2*F2</code> en una celda y arrastrar la fórmula a toda la tabla es, exactamente, calcular un producto elemento a elemento entre dos bloques de celdas del mismo tamaño. Se usa todo el tiempo, aunque casi nunca se lo llame por su nombre.</p>
+
+    <h3>3.5 Inteligencia artificial</h3>
+    <p>Las redes neuronales lo usan para decidir qué parte de la información pasa y qué parte se descarta: multiplican elemento a elemento por matrices de valores entre \(0\) y \(1\), que funcionan como máscaras o como compuertas. Es la misma idea que la máscara de la casita, aplicada a millones de números.</p>
+
+    <!-- ===================================================== -->
+    <h2 id="propiedades">4. Sus propiedades: otro neutro</h2>
+
+    <p>Como el producto elemento a elemento se hace posición por posición, y cada posición es una multiplicación de números reales, <strong>hereda</strong> las propiedades de la multiplicación de los reales, igual que la adición de matrices heredaba las de la adición.</p>
+
+    <div class="caja definicion">
+        <div class="titulo">Propiedades del producto elemento a elemento</div>
+        <div class="cuerpo">
+            <p>Para cualesquiera matrices \(A\), \(B\) y \(C\) del mismo orden \(m \times n\):</p>
+            <ol>
+                <li><strong>Conmutativa:</strong> \(A \circ B = B \circ A\), porque \(a_{ij} \cdot b_{ij} = b_{ij} \cdot a_{ij}\).</li>
+                <li><strong>Asociativa:</strong> \((A \circ B) \circ C = A \circ (B \circ C)\).</li>
+                <li><strong>Distributiva respecto de la adición:</strong> \(A \circ (B + C) = A \circ B + A \circ C\).</li>
+                <li><strong>Elemento neutro:</strong> la matriz de unos \(J_{m \times n}\), porque \(a_{ij} \cdot 1 = a_{ij}\):
+                    <div class="formula">\[ A \circ J = J \circ A = A \]</div>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="caja atencion">
+        <div class="titulo">El neutro no es la identidad</div>
+        <div class="cuerpo">
+            <p>Para el producto de matrices, el neutro es la identidad \(I_n\). Para el producto elemento a elemento, el neutro es la matriz de unos \(J\), la misma que usamos en el apunte para sumarle una constante a todos los elementos (\(A + k \cdot J\)). Si multiplicamos elemento a elemento por la identidad, <strong>no</strong> obtenemos la misma matriz:</p>
+            <div class="formula">\[
+                \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \circ \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}
+                = \begin{pmatrix} 1 & 0 \\ 0 & 4 \end{pmatrix}
+            \]</div>
+            <p>La identidad, usada como máscara, conserva sólo la diagonal principal.</p>
+        </div>
+    </div>
+
+    <p>Que sea conmutativa es la diferencia más llamativa con el producto de matrices: \(M \circ N = N \circ M\) siempre, mientras que, en general, \(M \cdot N \neq N \cdot M\). Son dos operaciones distintas, con propiedades distintas.</p>
+
+    <!-- ===================================================== -->
+    <h2 id="maxima">5. En Maxima</h2>
+
+    <p>Maxima usa el asterisco <code>*</code> para el producto elemento a elemento por coherencia con <code>+</code> y <code>-</code>: las tres operan posición por posición. El producto de matrices, que no es conmutativo, se escribe con el punto <code>.</code>.</p>
+
+<pre><span class="entrada">(%i1)  M : matrix([1, 2], [3, 4]);</span>
+<span class="entrada">(%i2)  N : matrix([0, -1], [2, 1]);</span>
+<span class="entrada">(%i3)  M * N;</span>                    <span class="comentario">/* elemento a elemento: M ∘ N */</span>
+<span class="salida">(%o3)  matrix([0, -2], [6, 4])</span>
+<span class="entrada">(%i4)  M . N;</span>                    <span class="comentario">/* producto de matrices: M · N */</span>
+<span class="salida">(%o4)  matrix([4, 1], [8, 1])</span>
+<span class="entrada">(%i5)  is(M * N = N * M);</span>
+<span class="salida">(%o5)  true</span>
+<span class="entrada">(%i6)  is(M . N = N . M);</span>
+<span class="salida">(%o6)  false</span>
+<span class="entrada">(%i7)  J : matrix([1, 1], [1, 1]);</span>
+<span class="entrada">(%i8)  is(M * J = M);</span>               <span class="comentario">/* J es el neutro de * */</span>
+<span class="salida">(%o8)  true</span>
+<span class="entrada">(%i9)  is(M . ident(2) = M);</span>        <span class="comentario">/* I es el neutro de . */</span>
+<span class="salida">(%o9)  true</span></pre>
+
+    <p>Con las potencias pasa lo mismo: <code>M^2</code> eleva al cuadrado cada elemento (es \(M \circ M\)), mientras que <code>M^^2</code> es el producto de matrices \(M \cdot M\).</p>
+
+    <div class="caja atencion">
+        <div class="titulo">Entonces, ¿dónde está el error?</div>
+        <div class="cuerpo">
+            <p><code>A * B</code> no es un error de Maxima: calcula una operación legítima, con sentido y con aplicaciones. El error aparece cuando <strong>queremos</strong> el producto de matrices y escribimos el asterisco. El programa no puede saber cuál de las dos operaciones teníamos en mente: elegir la correcta, y controlar el resultado, sigue siendo nuestra responsabilidad.</p>
+        </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <h2 id="resumen">6. Cuadro comparativo</h2>
+
+    <div class="tabla-envoltorio">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Producto de matrices \(A \cdot B\)</th>
+                    <th>Producto elemento a elemento \(A \circ B\)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>¿Cuándo está definido?</th>
+                    <td>Columnas de \(A\) \(=\) filas de \(B\): \((m \times n) \cdot (n \times p)\)</td>
+                    <td>\(A\) y \(B\) del mismo orden \(m \times n\)</td>
+                </tr>
+                <tr>
+                    <th>Orden del resultado</th>
+                    <td>\(m \times p\)</td>
+                    <td>\(m \times n\)</td>
+                </tr>
+                <tr>
+                    <th>Cada elemento</th>
+                    <td>\(a_{i1} \cdot b_{1j} + a_{i2} \cdot b_{2j} + \cdots + a_{in} \cdot b_{nj}\): multiplica y suma</td>
+                    <td>\(a_{ij} \cdot b_{ij}\): una sola multiplicación</td>
+                </tr>
+                <tr>
+                    <th>¿Conmutativo?</th>
+                    <td>No, en general</td>
+                    <td>Sí, siempre</td>
+                </tr>
+                <tr>
+                    <th>Elemento neutro</th>
+                    <td>La identidad \(I_n\)</td>
+                    <td>La matriz de unos \(J\)</td>
+                </tr>
+                <tr>
+                    <th>En Maxima</th>
+                    <td><code>A . B</code> &nbsp;·&nbsp; potencia: <code>A^^2</code></td>
+                    <td><code>A * B</code> &nbsp;·&nbsp; potencia: <code>A^2</code></td>
+                </tr>
+                <tr>
+                    <th>Sirve para&hellip;</th>
+                    <td>combinar y acumular: costos totales, recaudación por barrio, espejar y girar imágenes</td>
+                    <td>multiplicar cada celda por su propio factor: precios diferenciados, ajustes por partida, máscaras</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</main>
+
+<footer>
+    Matemática I &middot; Matemática y Estadística &middot; Universidad Nacional del Comahue &mdash; C.U.R.Z.A.S. &middot; 2.º cuatrimestre 2026
+</footer>
+
+<script>
+    // ---------------------------------------------------------------
+    // Imágenes de píxeles: cada imagen se dibuja a partir de su matriz
+    // (0 = negro, 255 = blanco; las máscaras van de 0 a 1).
+    // ---------------------------------------------------------------
+    const H = [
+        [230, 230, 230,  60,  60, 230, 230, 230],
+        [210, 210,  60,  60,  60,  60, 210, 210],
+        [190,  60,  60,  60,  60,  60,  60, 190],
+        [ 60,  60,  60,  60,  60,  60,  60,  60],
+        [170,  90, 250, 250,  90,  90,  90, 170],
+        [160,  90, 250, 250,  90,  40,  90, 160],
+        [150,  90,  90,  90,  90,  40,  90, 150],
+        [120,  90,  90,  90,  90,  40,  90, 120]
+    ];
+    const n = 8;
+    const generar = (regla) => Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => regla(i + 1, j + 1)));
+
+    // Máscara K: unos en la parte baja de la casa (filas 5 a 8, columnas 2 a 7)
+    const K = generar((i, j) => (i >= 5 && j >= 2 && j <= 7) ? 1 : 0);
+    // Matriz de intercambio V_8: unos donde i + j = 9
+    const V = generar((i, j) => (i + j === 9) ? 1 : 0);
+    // Viñeteado F: 0.7 en el borde, 1 en el centro
+    const F = generar((i, j) => 0.7 + 0.1 * Math.min(i - 1, j - 1, n - i, n - j));
+
+    // Producto elemento a elemento (redondeado, como haría el programa de imágenes)
+    const hadamard = (A, B) => A.map((fila, i) => fila.map((a, j) => Math.round(a * B[i][j])));
+
+    const imagenes = {
+        H:  { datos: H, max: 255 },
+        K:  { datos: K, max: 1 },
+        HK: { datos: hadamard(H, K), max: 255 },
+        V:  { datos: V, max: 1 },
+        HV: { datos: hadamard(H, V), max: 255 },
+        F:  { datos: F, max: 1 },
+        HF: { datos: hadamard(H, F), max: 255 }
+    };
+
+    document.querySelectorAll(".pixeles").forEach((contenedor) => {
+        const { datos, max } = imagenes[contenedor.dataset.imagen];
+        contenedor.style.gridTemplateColumns = `repeat(${datos[0].length}, 1fr)`;
+        contenedor.setAttribute("role", "img");
+        datos.forEach((fila) => fila.forEach((valor) => {
+            const gris = Math.round(valor / max * 255);
+            const pixel = document.createElement("div");
+            pixel.style.background = `rgb(${gris}, ${gris}, ${gris})`;
+            contenedor.appendChild(pixel);
+        }));
+    });
+
+    // ---------------------------------------------------------------
+    // KaTeX: renderiza \( ... \) y \[ ... \]
+    // ---------------------------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false }
+            ],
+            ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+            throwOnError: false
+        });
+    });
+</script>
+
+</body>
+</html>
