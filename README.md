@@ -17,7 +17,7 @@ Estudio de las funciones lineales en tercer año escuela secundaria.
 https://patriagrande.github.io/repasoecuaciones.github.io/funcionlineal/index.html
 
 
-# Ecuaciones CURZA
+# CURZAS
 
 ## Matemática I - Clase 01
 
