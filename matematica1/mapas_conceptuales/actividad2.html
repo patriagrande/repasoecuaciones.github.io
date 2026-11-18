@@ -1,1 +1,693 @@
-hola
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa de la Actividad 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Plan (Actividad 2): paleta del material de Matemática 1 (azul, naranja, verde Maxima, vino advertencias).
+       Layout: una tarjeta por ítem apilada en vertical; flechas entre tarjetas por un canal a la izquierda. */
+    :root {
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --tinta: #1d2429;
+      --tinta2: #4f5a62;
+      --tinta3: #7d878e;
+      --linea: #d6dde2;
+      --azul: #15658e;
+      --azulClaro: #e6f2f7;
+      --naranja: #c46210;
+      --naranjaClaro: #fdebdd;
+      --verde: #1b7847;
+      --verdeClaro: #e6f5ec;
+      --vino: #961e2d;
+      --vinoClaro: #fae8ea;
+      --rojoOp: #cc0000;
+      --wxFondo: #ffffff;
+      --wxIn: #1c3f94;
+      --wxLabel: #b02020;
+      --wxOutLabel: #2a6e2a;
+      --font-display: "Literata", Georgia, "Times New Roman", serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+        --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+        --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+        --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+      --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+      --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+      --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--tinta); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+    .envoltura { max-width: 980px; margin: 0 auto; padding: 28px 20px 60px; display: grid; gap: 22px; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; }
+    h1 { font-size: 28px; line-height: 1.2; color: var(--azul); }
+    h2 { font-size: 20px; color: var(--azul); }
+    .bajada { color: var(--tinta2); margin: 6px 0 0; max-width: 68ch; }
+    .enunciado { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 10px; padding: 0; }
+    .enunciado summary { cursor: pointer; padding: 10px 16px; font-weight: 600; color: var(--azul); }
+    .enunciado .cuerpo { padding: 0 18px 14px; max-width: 75ch; }
+    .enunciado ul { margin: 6px 0; padding-left: 20px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; position: sticky; top: 0; z-index: 4; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--linea); }
+    .seg { display: inline-flex; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; background: var(--panel); }
+    .seg button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--tinta2); padding: 7px 13px; cursor: pointer; border-right: 1px solid var(--linea); }
+    .seg button:last-child { border-right: 0; }
+    .seg button[aria-pressed="true"] { background: var(--azul); color: var(--panel); }
+    .boton { font: inherit; font-size: 14px; border: 1px solid var(--verde); color: var(--verde); background: var(--panel); border-radius: 8px; padding: 7px 13px; cursor: pointer; }
+    .boton:hover { background: var(--verdeClaro); }
+    button:focus-visible, .tarea:focus-visible, summary:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+    .leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--tinta2); }
+    .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+    .muestra { width: 14px; height: 14px; border-radius: 4px; border: 1px solid; display: inline-block; }
+    .ayuda { font-size: 13px; color: var(--tinta3); margin: 0; }
+
+    #mapa { position: relative; display: grid; gap: 34px; padding-left: 30px; }
+    #flechas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .tarjeta { position: relative; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 14px 16px 12px; display: grid; gap: 10px; }
+    .tarjeta header { display: flex; gap: 12px; align-items: baseline; }
+    .letra { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--naranja); min-width: 1.4em; }
+    .tarjeta h3 { font-size: 17px; color: var(--tinta); }
+    .consigna { font-size: 13.5px; color: var(--tinta2); margin: 2px 0 0; }
+    .ramal { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; align-items: start; }
+    .ramal .rotulo { font-size: 12px; color: var(--tinta3); padding-top: 9px; text-transform: lowercase; }
+    .ramal.solo { grid-template-columns: minmax(0, 1fr); }
+    .cadena { display: flex; flex-wrap: wrap; gap: 8px 4px; align-items: center; }
+    .paso { display: inline-flex; align-items: center; gap: 4px; }
+    .sep { color: var(--tinta3); font-size: 14px; padding: 0 2px; }
+    .tarea { position: relative; font: inherit; font-size: 13px; line-height: 1.3; text-align: left; padding: 7px 10px 7px 9px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); cursor: pointer; max-width: 178px; display: inline-flex; gap: 6px; align-items: flex-start; transition: opacity .2s, border-color .15s; }
+    .tarea .num { font-family: var(--font-mono); font-size: 11px; color: var(--tinta3); padding-top: 1px; }
+    .tarea.r { border-color: var(--azul); }
+    .tarea.k { background: var(--verdeClaro); border-color: var(--verde); }
+    .tarea.c { background: var(--naranjaClaro); border-color: var(--naranja); }
+    .tarea:hover, .tarea.activa { box-shadow: 0 0 0 2px var(--azul); }
+    .tarea .alerta { position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background: var(--vino); color: var(--panel); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+    .tarea.atenuada { opacity: .25; }
+    .tarea.resaltada { box-shadow: 0 0 0 2px var(--vino); }
+    .produce { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-top: 1px dashed var(--linea); padding-top: 9px; }
+    .produce .et { font-size: 12px; color: var(--tinta3); }
+    .pieza { background: var(--azulClaro); border: 1px solid var(--azul); color: var(--tinta); border-radius: 999px; padding: 3px 12px; font-size: 13.5px; }
+    .flecha { fill: none; stroke: var(--azul); stroke-width: 1.6; opacity: .7; }
+    .flecha-et { font-size: 12px; fill: var(--azul); font-family: var(--font-body); }
+
+    #errores { background: var(--vinoClaro); border: 1px solid var(--vino); border-radius: 12px; padding: 12px 16px; display: none; }
+    #errores h2 { color: var(--vino); font-size: 17px; margin-bottom: 6px; }
+    #errores ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+    #errores button { font: inherit; font-size: 13px; background: none; border: 0; padding: 0; color: var(--vino); text-decoration: underline; cursor: pointer; }
+
+    .teoria { display: grid; gap: 10px; }
+    .teoria .grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 10px; }
+    .teo { background: var(--panel); border: 1px solid var(--linea); border-left: 4px solid var(--naranja); border-radius: 0; padding: 10px 14px; font-size: 13.5px; transition: background .4s; }
+    .teo b { color: var(--naranja); }
+    .teo .ap { color: var(--tinta3); font-size: 12px; display: block; margin-top: 4px; }
+    .teo.brilla { background: var(--naranjaClaro); }
+
+    #pop { position: absolute; z-index: 10; width: 440px; max-width: calc(100vw - 24px); max-height: 74vh; overflow: auto; background: var(--panel); border: 1px solid var(--tinta3); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 14px 16px 16px; display: none; font-size: 14px; }
+    #pop.abierto { display: block; }
+    #pop .cab { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    #pop h3 { font-size: 16px; color: var(--azul); }
+    #pop .cerrar { font: inherit; border: 0; background: none; font-size: 20px; line-height: 1; color: var(--tinta3); cursor: pointer; padding: 0 2px; }
+    #pop .refs { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 8px; }
+    #pop .refT { font: inherit; font-size: 12px; border: 1px solid var(--naranja); color: var(--naranja); background: var(--naranjaClaro); border-radius: 6px; padding: 1px 7px; cursor: pointer; }
+    #pop .apunte { font-size: 12px; color: var(--tinta3); align-self: center; }
+    #pop .que { margin: 0 0 8px; }
+    #pop .bloque { border-top: 1px solid var(--linea); padding-top: 8px; margin-top: 8px; }
+    #pop .bloque > .tit { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--tinta2); margin-bottom: 4px; }
+    #pop .bloque.mano > .tit { color: var(--azul); }
+    #pop .bloque.maxima > .tit { color: var(--verde); }
+    #pop p { margin: 4px 0; }
+    #pop mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+    #pop .respuesta { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 8px; padding: 6px 10px; margin-top: 8px; text-align: center; }
+    #pop .atencion { background: var(--vinoClaro); border-left: 3px solid var(--vino); border-radius: 0; padding: 6px 10px; margin-top: 8px; font-size: 13px; }
+    #pop .atencion b { color: var(--vino); }
+    #pop .nota { font-size: 13px; color: var(--tinta2); }
+    .wx { background: var(--wxFondo); border: 1px solid var(--linea); border-radius: 8px; padding: 6px 8px; margin: 6px 0; overflow-x: auto; }
+    .wx.mal { border-color: var(--vino); }
+    .wx .celda { border-left: 2px solid var(--linea); padding-left: 8px; margin: 4px 0; }
+    .wx .ent, .wx .sal { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; }
+    .wx .lab { font-family: var(--font-mono); font-size: 12px; color: var(--wxLabel); }
+    .wx .sal .lab { color: var(--wxOutLabel); }
+    .wx code { font-family: var(--font-mono); font-size: 12.5px; color: var(--wxIn); white-space: pre-wrap; word-break: break-word; }
+    .wx code.err { color: var(--wxLabel); font-size: 12px; }
+    .wx .copiar { font: inherit; font-size: 11px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta2); border-radius: 5px; padding: 1px 6px; cursor: pointer; }
+    .wx .sal mjx-container { margin: 2px 0 !important; }
+    .graf { width: 100%; max-width: 400px; display: block; margin: 6px auto 0; }
+    .graf text { font-family: var(--font-body); font-size: 11px; fill: var(--tinta2); }
+    .graf .eje { stroke: var(--tinta2); stroke-width: 1; }
+    .graf .grilla { stroke: var(--linea); stroke-width: .6; }
+    .aviso { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--tinta); color: var(--panel); padding: 7px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+    .aviso.ver { opacity: 1; }
+    .pie { border-top: 2px solid var(--azul); margin-top: 10px; padding-top: 16px; display: grid; gap: 14px; font-size: 13.5px; color: var(--tinta2); }
+    .pie .descarga { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 10px; padding: 12px 16px; }
+    .pie .descarga p { margin: 0; flex: 1 1 280px; color: var(--tinta); }
+    .pie .btnDescarga { display: inline-block; font-weight: 600; text-decoration: none; background: var(--azul); color: var(--panel); border-radius: 8px; padding: 8px 14px; }
+    .pie .btnDescarga.pendiente { background: transparent; color: var(--tinta3); border: 1px dashed var(--tinta3); font-weight: 500; cursor: default; }
+    .pie .datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 24px; }
+    .pie .datos p { margin: 0; }
+    .pie b { color: var(--tinta); }
+    .pie a { color: var(--azul); }
+    .pie .licencia { color: var(--naranja); }
+    @media (max-width: 720px) {
+      .envoltura { padding: 18px 16px 50px; }
+      h1 { font-size: 23px; }
+      #mapa { padding-left: 22px; }
+      .ramal { grid-template-columns: minmax(0, 1fr); }
+      .ramal .rotulo { padding-top: 0; }
+      #pop.hoja { position: fixed; left: 0 !important; right: 0; bottom: 0; top: auto !important; width: 100%; max-width: 100%; max-height: 72vh; border-radius: 14px 14px 0 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+  <script>
+    (function () {
+      var t = document.documentElement.getAttribute("data-theme");
+      var oscuro = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var rojo = oscuro ? "255,107,107" : "204,0,0";
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+          macros: { op: ["{\\color[RGB]{" + rojo + "}{\\boldsymbol{#1}}}", 1] }
+        },
+        svg: { fontCache: "global" },
+        startup: { typeset: true }
+      };
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+</head>
+<body>
+  <div class="envoltura">
+    <header>
+      <h1>Actividad 2: ecuaciones e inecuaciones</h1>
+      <p class="bajada">Simulacro del examen final · Matemática I. En los tres ítems hay que transformar la expresión en otra equivalente, más simple, sin cambiar su conjunto solución. Y en los tres hay una trampa para quien transforma sin mirar: un valor que el dominio excluye, una raíz cuadrada que se come una solución, un denominador cuyo signo no conocemos.</p>
+    </header>
+
+    <details class="enunciado" open>
+      <summary>Enunciado</summary>
+      <div class="cuerpo">
+        <p>Resolvé cada ecuación justificando las operaciones realizadas (cuando corresponda, indicá el dominio de la expresión y salvá las indeterminaciones).</p>
+        <ul>
+          <li><b>a)</b> \(\dfrac{x^{2} + x}{x - 1} = \dfrac{2}{x - 1}\)</li>
+          <li><b>b)</b> \((x - 3)^{2} = 16\)</li>
+          <li><b>c)</b> Resolvé la inecuación y expresá la solución como intervalo (o unión de intervalos) y en forma gráfica. Mostrá el análisis de signos que usaste: \(\dfrac{x + 3}{x - 1} \leq 2\)</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="barra" role="toolbar" aria-label="Recorridos del mapa">
+      <div class="seg" id="filtros">
+        <button type="button" data-f="todo" aria-pressed="true">Todo</button>
+        <button type="button" data-f="mano" aria-pressed="false">A mano</button>
+        <button type="button" data-f="maxima" aria-pressed="false">Con Maxima</button>
+        <button type="button" data-f="errores" aria-pressed="false">Errores típicos</button>
+      </div>
+      <button type="button" class="boton" id="copiarSesion">Copiar la sesión completa de Maxima</button>
+      <div class="leyenda" aria-label="Referencias">
+        <span><i class="muestra" style="border-color:var(--azul);background:var(--panel)"></i>razonar y justificar</span>
+        <span><i class="muestra" style="border-color:var(--verde);background:var(--verdeClaro)"></i>calcular (se puede delegar a Maxima)</span>
+        <span><i class="muestra" style="border-color:var(--naranja);background:var(--naranjaClaro)"></i>interpretar en el contexto</span>
+        <span><i class="muestra" style="border-color:var(--vino);background:var(--vino);border-radius:50%"></i>tiene un error típico</span>
+      </div>
+      <p class="ayuda">Pasá el mouse por una tarea para ver qué se hace y por qué. Con un clic la ventana queda fija.</p>
+    </div>
+
+    <section id="errores" aria-live="polite">
+      <h2>Errores típicos de esta actividad</h2>
+      <ol id="listaErrores"></ol>
+    </section>
+
+    <div id="mapa">
+      <svg id="flechas" aria-hidden="true">
+        <defs>
+          <marker id="punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M1 1L8 5L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <section class="teoria" id="teoria">
+      <h2>Consideraciones teóricas que usa la actividad</h2>
+      <div class="grilla" id="grillaTeoria"></div>
+    </section>
+    <footer class="pie">
+      <div class="descarga">
+        <p><b>Simulacro del examen final, resuelto y explicado.</b> Cada actividad, con las consideraciones teóricas, la resolución a mano y la resolución asistida por Maxima.</p>
+        <!-- LINK DE DESCARGA: completar el href con la dirección del PDF. Mientras esté vacío, el botón muestra «Disponible próximamente». -->
+        <a class="btnDescarga" id="descargaFinal" href="">Descargar el final resuelto (PDF)</a>
+      </div>
+      <div class="datos">
+        <p><b>Mapa de la Actividad 2</b> · Simulacro del examen final<br>Matemática I · Matemática y Estadística<br>Universidad Nacional del Comahue · C.U.R.Z.A.S.</p>
+        <p><b>Autor:</b> Lic. Nicolás Rosbaco<br>Viedma, Río Negro (Patagonia Argentina)<br><b>Fecha:</b> noviembre de 2026</p>
+        <p><b>Licencia:</b> <a class="licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)</a>. Podés copiar y compartir este material siempre que cites al autor, no lo uses con fines comerciales y lo distribuyas bajo la misma licencia.</p>
+      </div>
+      <p style="margin:0">Sugerencias o correcciones: nicolasrosbaco@curza.com.ar</p>
+    </footer>
+  </div>
+
+  <div id="pop" role="dialog" aria-modal="false" aria-labelledby="popTitulo"></div>
+  <div class="aviso" id="aviso">Copiado</div>
+
+  <script>
+    const r = String.raw;
+
+    const TEORIA = {
+      T1: { t: "Resolver es transformar en ecuaciones equivalentes", x: r`Dos ecuaciones son equivalentes si tienen el mismo conjunto solución. Se puede sumar o restar la misma expresión en ambos miembros, y multiplicar o dividir ambos miembros por la misma expresión no nula. Nada pasa de un miembro al otro: se opera en los dos.`, ap: "[E] Solución y conjunto solución · Leyes de uniformidad y propiedad cancelativa · Ecuaciones equivalentes" },
+      T2: { t: "Ecuaciones racionales: primero el dominio, al final el control", x: r`Los valores que anulan un denominador no pueden ser solución. Plan: (1) dominio; (2) multiplicar ambos miembros por el denominador, no nulo en el dominio; (3) resolver; (4) descartar las soluciones que no pertenecen al dominio.`, ap: "[E] Ecuaciones racionales · Antes de simplificar · Dominio de una ecuación racional" },
+      T3: { t: "Ecuación cuadrática igualada a cero", x: r`\(a \cdot x^2 + b \cdot x + c = 0\) se resuelve con la fórmula resolvente \(x = \dfrac{-b \pm \sqrt{b^2 - 4 \cdot a \cdot c}}{2 \cdot a}\) o con Maxima. Con las raíces se arma la forma factorizada.`, ap: "[C] Forma polinómica · De polinómica a factorizada · [E] Ecuaciones factorizadas" },
+      T4: { t: "La raíz cuadrada de un cuadrado es un valor absoluto", x: r`\(\sqrt{a^2} = |a|\), y no \(a\). Una ecuación \(|x - h| = k\), con \(k > 0\), tiene dos soluciones: \(x - h = k\) o \(x - h = -k\).`, ap: "[E] Propiedades del valor absoluto · Ecuaciones del tipo x² = k" },
+      T5: { t: "Inecuaciones: las leyes de monotonía", x: r`Sumar o restar mantiene la desigualdad. Multiplicar o dividir por un positivo la mantiene; por un negativo, la invierte. Por eso no se multiplica por una expresión con incógnita como \(x - 1\): su signo depende de \(x\).`, ap: "[I] Leyes de monotonía para la desigualdad · No se multiplica por una expresión con incógnita" },
+      T6: { t: "Inecuación racional no comparada con cero", x: r`Se resta ese número en ambos miembros y se reúne todo en una única fracción (común denominador): queda una fracción comparada con cero.`, ap: "[I] Caso 2: la racional NO comparada con cero" },
+      T7: { t: "Inecuación racional comparada con cero: diagrama de signos", x: r`Signo del numerador y del denominador, cada uno en una recta, y regla de los signos para el cociente. En \(\leq\) o \(\geq\), el cero del numerador se incluye; el del denominador, nunca.`, ap: "[I] Cómo se resuelve una inecuación racional · El cero del numerador se incluye; el del denominador jamás · [R] Signo de la función lineal" },
+      T8: { t: "Intervalos y su representación", x: r`El corchete incluye el extremo; el paréntesis, no. El infinito siempre va con paréntesis. En la recta, círculo lleno para un extremo incluido y vacío para uno excluido.`, ap: "[I] Intervalos: la forma de escribir la solución · [R] Intervalos reales" },
+      T9: { t: "Verificar", x: r`Reemplazar un valor en la expresión original y comprobar si la igualdad o la desigualdad resulta verdadera. En una inecuación, probar un valor de cada tramo controla el diagrama de signos.`, ap: "[E] Verificar si un valor es solución de una ecuación · [I] Verificar si un valor es solución de una inecuación" }
+    };
+
+    /* k: r = razonar, k = calcular, c = contexto. solo: 'mano' | 'maxima' (si falta, vale para los dos recorridos). */
+    const ITEMS = [
+      {
+        id: "a", titulo: "Una ecuación racional",
+        consigna: r`\(\dfrac{x^{2} + x}{x - 1} = \dfrac{2}{x - 1}\): indicar el dominio, resolver justificando y salvar las indeterminaciones.`,
+        ramales: [{ tareas: [
+          { n: "Hallar el dominio", k: "k", T: ["T2"],
+            que: r`El único denominador es \(x - 1\). Los valores que lo anulan no pueden ser solución: ahí la expresión no existe.`,
+            mano: r`\[\begin{aligned} x - 1 &= 0 \\ x - 1 \op{+\,1} &= 0 \op{+\,1} \\ x &= 1 \end{aligned}\]<p class="nota">Sumamos \(1\) en ambos miembros. Salvamos la indeterminación excluyendo ese valor:</p><div class="respuesta">\(\text{Dom} = \mathbb{R} - \{1\}\)</div>` },
+          { n: "Multiplicar ambos miembros por (x − 1)", k: "k", T: ["T1", "T2"],
+            que: r`En el dominio \(x - 1 \neq 0\), así que multiplicar ambos miembros por \((x - 1)\) es una operación legítima.`,
+            mano: r`\[\begin{aligned} \dfrac{x^{2} + x}{x - 1} &= \dfrac{2}{x - 1} \qquad (x \neq 1) \\ \dfrac{x^{2} + x}{x - 1} \op{\cdot\,(x - 1)} &= \dfrac{2}{x - 1} \op{\cdot\,(x - 1)} \\ x^{2} + x &= 2 \end{aligned}\]<p class="nota">Simplificar es válido porque \(x - 1 \neq 0\).</p>` },
+          { n: "Igualar a cero", k: "k", T: ["T1"],
+            que: r`Quedó una ecuación cuadrática. Para resolverla la igualamos a cero.`,
+            mano: r`\[\begin{aligned} x^{2} + x \op{-\,2} &= 2 \op{-\,2} \\ x^{2} + x - 2 &= 0 \end{aligned}\]<p class="nota">Restamos \(2\) en ambos miembros.</p>` },
+          { n: "Resolver la cuadrática", k: "k", T: ["T3"],
+            que: r`Con \(a = 1\), \(b = 1\) y \(c = -2\) usamos la fórmula resolvente.`,
+            mano: r`\[b^2 - 4 \cdot a \cdot c = 1^2 - 4 \cdot 1 \cdot (-2) = 1 + 8 = 9\]\[x = \dfrac{-1 \pm \sqrt{9}}{2 \cdot 1} = \dfrac{-1 \pm 3}{2}\]\[x_1 = \dfrac{-1 + 3}{2} = 1 , \qquad x_2 = \dfrac{-1 - 3}{2} = -2\]<p>La forma factorizada es \(x^{2} + x - 2 = (x - 1) \cdot (x + 2)\).</p>`,
+            mx: [
+              { i: "2", e: "solve(x^2 + x - 2 = 0, x);", s: r`\left[ x=1 , x=-2 \right]` },
+              { i: "3", e: "factor(x^2 + x - 2);", s: r`\left(x-1\right)\,\left(x+2\right)` }
+            ],
+            hoja: r`La ecuación transformada tiene dos soluciones, \(1\) y \(-2\). La factorizada muestra de dónde viene el \(1\): el factor \((x - 1)\) es exactamente el denominador.` },
+          { n: "Controlar el dominio y descartar", k: "r", T: ["T2"],
+            que: r`La ecuación transformada tiene dos soluciones, pero la original sólo admite valores del dominio.`,
+            mano: r`<ul style="margin:4px 0;padding-left:18px"><li>\(x = 1\) <b>no</b> pertenece al dominio: es el valor que excluimos al principio. Ahí los dos miembros de la ecuación original dividen por cero. Lo descartamos.</li><li>\(x = -2\) sí pertenece al dominio.</li></ul><div class="respuesta">\(\text{Dom} = \mathbb{R} - \{1\} \qquad S = \{-2\}\)</div>`,
+            mx: [{ i: "1", e: "solve((x^2 + x)/(x - 1) = 2/(x - 1), x);", s: r`\left[ x=-2 \right]` }],
+            hoja: r`Para la ecuación <b>original</b>, Maxima devuelve una sola solución: ya tuvo en cuenta que \(x = 1\) anula el denominador. Comparada con la salida <code>(%o2)</code>, que da \(1\) y \(-2\), es la evidencia de que multiplicar por \((x - 1)\) agregó una solución que la original no tiene.`,
+            at: [
+              r`<b>¿De dónde salió el \(1\)?</b> Al multiplicar por \((x - 1)\) obtuvimos una ecuación que <b>no es equivalente</b> a la original: tiene una solución más. Quien se saltea el control del dominio responde \(S = \{1, -2\}\), y la respuesta es incorrecta.`,
+              r`<b>Que Maxima descarte el \(1\) no te exime de hacerlo vos.</b> La consigna pide indicar el dominio y salvar las indeterminaciones: en la hoja tienen que estar el dominio, el paso de multiplicar justificado y el descarte de \(x = 1\).`
+            ] },
+          { n: "Verificar en la ecuación original", k: "k", T: ["T9"],
+            que: r`Reemplazamos \(x = -2\) en cada miembro de la ecuación original.`,
+            mano: r`<p class="nota">Primer miembro:</p>\[\dfrac{(-2)^{2} + (-2)}{-2 - 1} = \dfrac{4 - 2}{-3} = -\dfrac{2}{3}\]<p class="nota">Segundo miembro:</p>\[\dfrac{2}{-2 - 1} = \dfrac{2}{-3} = -\dfrac{2}{3} \;\checkmark\]`,
+            mx: [
+              { i: "4", e: "((-2)^2 + (-2))/(-2 - 1);", s: r`-\frac{2}{3}` },
+              { i: "5", e: "2/(-2 - 1);", s: r`-\frac{2}{3}` },
+              { i: "6", e: "(1^2 + 1)/(1 - 1);", err: "expt: undefined: 0 to a negative exponent.\n -- an error. To debug this try: debugmode(true);" }
+            ],
+            hoja: r`Con \(x = -2\) los dos miembros valen \(-\dfrac{2}{3}\) \(\checkmark\). Con \(x = 1\), Maxima se niega a calcular: el mensaje (en inglés) avisa que se intentó dividir por cero. Es la confirmación, desde la máquina, de que \(x = 1\) está fuera del dominio.` }
+        ]}],
+        produce: [{ id: "pDom", tex: r`\(\text{Dom} = \mathbb{R} - \{1\}\)` }, { id: "pSa", tex: r`\(S = \{-2\}\)` }]
+      },
+      {
+        id: "b", titulo: "La incógnita dentro de un cuadrado",
+        consigna: r`\((x - 3)^{2} = 16\): resolver justificando las operaciones realizadas.`,
+        ramales: [{ tareas: [
+          { n: "Reconocer el dominio y el camino", k: "r", T: ["T1", "T4"],
+            que: r`No hay denominadores con incógnita y la incógnita aparece en un solo lugar, dentro del cuadrado.`,
+            mano: r`<p>El dominio es \(\mathbb{R}\). Como el cuadrado ya está aislado, el camino más corto es aplicar raíz cuadrada en ambos miembros. Es el mismo paso del ítem e) de la <a href="https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad1.html">Actividad 1</a>.</p>`,
+            at: [r`<b>Desarrollar mal el cuadrado.</b> \((x - 3)^{2}\) no es \(x^{2} - 9\): es \(x^{2} - 6 \cdot x + 9\). El doble producto no se puede saltear. Desarrollar no es un error, pero lleva a una cuadrática completa y a un camino más largo.`] },
+          { n: "Raíz cuadrada en ambos miembros", k: "k", T: ["T4"],
+            que: r`Para liberar la incógnita del cuadrado se aplica raíz cuadrada en ambos miembros.`,
+            mano: r`\[\begin{aligned} (x - 3)^{2} &= 16 \\ \op{\sqrt{(x - 3)^{2}}} &= \op{\sqrt{16}} \\ |x - 3| &= 4 \end{aligned}\]<p>Los números cuya distancia a \(3\) es \(4\) son dos.</p>`,
+            at: [r`<b>Escribir \(\sqrt{(x - 3)^{2}} = x - 3\).</b> Se llega a \(x - 3 = 4\) y se pierde la solución \(x = -1\). La raíz cuadrada de un cuadrado es el valor absoluto.`] },
+          { n: "Resolver los dos casos", k: "k", T: ["T4"],
+            que: r`\(|x - 3| = 4\) se abre en dos ecuaciones.`,
+            mano: r`\[\begin{aligned} x - 3 &= 4 & \qquad x - 3 &= -4 \\ x - 3 \op{+\,3} &= 4 \op{+\,3} & \qquad x - 3 \op{+\,3} &= -4 \op{+\,3} \\ x &= 7 & \qquad x &= -1 \end{aligned}\]<div class="respuesta">\(\text{Dom} = \mathbb{R} \qquad S = \{-1, \, 7\}\)</div>`,
+            mx: [{ i: "7", e: "solve((x - 3)^2 = 16, x);", s: r`\left[ x=7 , x=-1 \right]` }],
+            hoja: r`\(S = \{-1, \, 7\}\). Maxima devuelve las <b>dos</b> soluciones: confirma que la respuesta \(x = 7\) sola está incompleta.`,
+            at: [r`<b>La consigna pide justificar las operaciones.</b> En la hoja tienen que estar la raíz cuadrada en ambos miembros, \(|x - 3| = 4\) y los dos casos; el <code>solve</code> sólo verifica.`] },
+          { n: "Verificar y mirar el gráfico", k: "k", T: ["T9"],
+            que: r`Reemplazamos cada solución en la ecuación original.`,
+            mano: r`<p>Con \(x = 7\): \((7 - 3)^{2} = 4^{2} = 16\) \(\checkmark\). Con \(x = -1\): \((-1 - 3)^{2} = (-4)^{2} = 16\) \(\checkmark\)</p><p class="nota">En el gráfico: la parábola \(y = (x - 3)^2\) corta a la recta \(y = 16\) en dos puntos, simétricos respecto de \(x = 3\).</p>`,
+            g: "cuadrado" }
+        ]}],
+        produce: [{ id: "pSb", tex: r`\(S = \{-1, \, 7\}\)` }]
+      },
+      {
+        id: "c", titulo: "Una inecuación racional",
+        consigna: r`\(\dfrac{x + 3}{x - 1} \leq 2\): expresar la solución como intervalo (o unión de intervalos) y en forma gráfica, mostrando el análisis de signos.`,
+        ramales: [{ tareas: [
+          { n: "Hallar el dominio", k: "r", T: ["T2"],
+            que: r`El denominador es el mismo del ítem a): \(x - 1\) se anula en \(x = 1\).`,
+            mano: r`<div class="respuesta">\(\text{Dom} = \mathbb{R} - \{1\}\)</div><p>El valor \(1\) <b>nunca</b> va a formar parte de la solución.</p>` },
+          { n: "Decidir no multiplicar por (x − 1)", k: "r", T: ["T5"],
+            que: r`En el ítem a) multiplicamos por \((x - 1)\) porque era una <b>ecuación</b>. Acá es una <b>inecuación</b>.`,
+            mano: r`<p>El signo de \(x - 1\) depende de \(x\): no sabríamos si mantener o invertir la desigualdad. El camino correcto es llevar la inecuación a cero.</p>`,
+            at: [r`<b>Multiplicar por \((x - 1)\) como si fuera una ecuación.</b> Si se supone que \(x - 1\) es positivo, se llega a \(x + 3 \leq 2 \cdot x - 2\), es decir \(5 \leq x\), y se pierde todo el tramo \((-\infty, 1)\): ahí \(x - 1\) es negativo y la desigualdad debía invertirse.`] },
+          { n: "Llevar a cero en una sola fracción", k: "k", T: ["T6"],
+            que: r`Restamos \(2\) en ambos miembros (la desigualdad se mantiene) y reunimos todo en una única fracción.`,
+            mano: r`\[\begin{aligned} \dfrac{x + 3}{x - 1} \op{-\,2} &\leq 2 \op{-\,2} \\ \dfrac{x + 3}{x - 1} - 2 &\leq 0 \\ \dfrac{x + 3 - 2 \cdot (x - 1)}{x - 1} &\leq 0 \\ \dfrac{x + 3 - 2 \cdot x + 2}{x - 1} &\leq 0 \\ \dfrac{5 - x}{x - 1} &\leq 0 \end{aligned}\]`,
+            mx: [{ i: "8", e: "factor((x + 3)/(x - 1) - 2);", s: r`-\frac{x-5}{x-1}` }],
+            hoja: r`Es la fracción a la que llegamos a mano, escrita de otra manera: \(-\dfrac{x - 5}{x - 1} = \dfrac{5 - x}{x - 1}\) \(\checkmark\). Maxima sacó afuera el signo menos; en la hoja escribimos \(5 - x\), que es la forma con la que armamos el diagrama.`,
+            at: [r`<b>El signo al distribuir.</b> \(-2 \cdot (x - 1) = -2 \cdot x + 2\), no \(-2 \cdot x - 2\).`] },
+          { n: "Signo del numerador y del denominador", k: "r", T: ["T7"],
+            que: r`Una función lineal cambia de signo sólo en su cero.`,
+            mano: r`<ul style="margin:4px 0;padding-left:18px"><li><b>Numerador</b> \(5 - x\): pendiente \(-1\), decreciente, se anula en \(x = 5\). Positivo a la izquierda de \(5\), negativo a la derecha.</li><li><b>Denominador</b> \(x - 1\): pendiente \(1\), creciente, se anula en \(x = 1\). Negativo a la izquierda de \(1\), positivo a la derecha. En \(x = 1\) el cociente no existe.</li></ul>` },
+          { n: "Armar el diagrama de signos", k: "k", T: ["T7"],
+            que: r`Para el cociente vale la misma regla de los signos que para el producto.`,
+            mano: r`<p>En \((-\infty, 1)\): \(\dfrac{(+)}{(-)} = (-)\); en \((1, 5)\): \(\dfrac{(+)}{(+)} = (+)\); en \((5, +\infty)\): \(\dfrac{(-)}{(+)} = (-)\).</p>`,
+            g: "signos" },
+          { n: "Leer los extremos y escribir la solución", k: "r", T: ["T7", "T8"],
+            que: r`Se pide el cociente menor o igual que cero: los tramos negativos, más los puntos donde el cociente vale \(0\).`,
+            mano: r`<ul style="margin:4px 0;padding-left:18px"><li>\(x = 5\) <b>sí</b> se incluye: el numerador vale \(0\), el cociente vale \(\dfrac{0}{4} = 0\) y se cumple \(0 \leq 0\).</li><li>\(x = 1\) <b>no</b> se incluye: el denominador vale \(0\) y el cociente no existe.</li></ul><div class="respuesta">\(S = (-\infty, \, 1) \cup [5, \, +\infty)\)</div>`,
+            mx: [
+              { i: "9", e: "load(solve_rat_ineq)$" },
+              { i: "10", e: "solve_rat_ineq((x + 3)/(x - 1) <= 2);", s: r`\left[ \left[ x \lt 1 \right] , \left[ x \geq 5 \right] \right]` }
+            ],
+            hoja: r`Hay <b>dos</b> bloques dentro del corchete exterior, separados por una coma que se lee como «o» (unión): \(x < 1\) o \(x \geq 5\). El \(<\) estricto dice que el \(1\) queda afuera (paréntesis); el \(\geq\), que el \(5\) se incluye (corchete).`,
+            at: [r`<b>El diagrama de signos lo hacés vos.</b> La consigna pide mostrar el análisis de signos: llevar a cero, el signo del numerador y del denominador, el del cociente y la lectura de los extremos. <code>solve_rat_ineq</code> sólo controla el resultado.`] },
+          { n: "Representar en la recta y verificar", k: "k", T: ["T8", "T9"],
+            que: r`La consigna pide también la forma gráfica. Probar un valor de cada tramo controla el diagrama.`,
+            mano: r`<p>Con \(x = 0\): \(\dfrac{3}{-1} = -3 \leq 2\) \(\checkmark\). Con \(x = 3\): \(\dfrac{6}{2} = 3\), y \(3 \leq 2\) es falso. Con \(x = 6\): \(\dfrac{9}{5} = 1.8 \leq 2\) \(\checkmark\)</p>`,
+            g: "recta" }
+        ]}],
+        produce: [{ id: "pSc", tex: r`\(S = (-\infty, \, 1) \cup [5, \, +\infty)\)` }]
+      }
+    ];
+
+    const FLECHAS = [
+      { de: "pDom", a: "c", canal: true, et: "Dom" }
+    ];
+
+    const SESION = [
+      "solve((x^2 + x)/(x - 1) = 2/(x - 1), x);",
+      "solve(x^2 + x - 2 = 0, x);",
+      "factor(x^2 + x - 2);",
+      "((-2)^2 + (-2))/(-2 - 1);",
+      "2/(-2 - 1);",
+      "solve((x - 3)^2 = 16, x);",
+      "factor((x + 3)/(x - 1) - 2);",
+      "load(solve_rat_ineq)$",
+      "solve_rat_ineq((x + 3)/(x - 1) <= 2);"
+    ].join("\n");
+
+    /* ---------- gráficos ---------- */
+    function plot(o) {
+      const W = 400, H = 230, ml = 42, mr = 14, mt = 12, mb = 28;
+      const sx = x => ml + (x - o.x0) / (o.x1 - o.x0) * (W - ml - mr);
+      const sy = y => mt + (o.y1 - y) / (o.y1 - o.y0) * (H - mt - mb);
+      let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.alt}">`;
+      o.xt.forEach(x => { s += `<line class="grilla" x1="${sx(x)}" y1="${sy(o.y0)}" x2="${sx(x)}" y2="${sy(o.y1)}"/><text x="${sx(x)}" y="${H - 10}" text-anchor="middle">${x}</text>`; });
+      o.yt.forEach(y => { s += `<line class="grilla" x1="${sx(o.x0)}" y1="${sy(y)}" x2="${sx(o.x1)}" y2="${sy(y)}"/><text x="${ml - 6}" y="${sy(y) + 4}" text-anchor="end">${y}</text>`; });
+      const y0 = Math.max(o.y0, Math.min(o.y1, 0));
+      const xe = Math.max(o.x0, Math.min(o.x1, 0));
+      s += `<line class="eje" x1="${sx(o.x0)}" y1="${sy(y0)}" x2="${sx(o.x1)}" y2="${sy(y0)}"/><line class="eje" x1="${sx(xe)}" y1="${sy(o.y0)}" x2="${sx(xe)}" y2="${sy(o.y1)}"/>`;
+      (o.guias || []).forEach(g => { s += `<polyline points="${g.map(p => sx(p[0]) + "," + sy(p[1])).join(" ")}" style="fill:none;stroke:${g.c || "var(--naranja)"};stroke-dasharray:4 3;stroke-width:1"/>`; });
+      o.fns.forEach(f => {
+        let d = "";
+        for (let i = 0; i <= 120; i++) { const x = f.a + (f.b - f.a) * i / 120; d += (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(f.f(x)).toFixed(1); }
+        s += `<path d="${d}" style="fill:none;stroke:${f.c};stroke-width:2.2"/>`;
+        if (f.et) s += `<text x="${sx(f.et[0])}" y="${sy(f.et[1])}" style="fill:${f.c};font-weight:600">${f.et[2]}</text>`;
+      });
+      (o.pts || []).forEach(p => { s += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="3.6" style="fill:${p[3] || "var(--vino)"}"/><text x="${sx(p[0]) + (p[4] || 6)}" y="${sy(p[1]) - 7}" style="fill:${p[3] || "var(--vino)"}" text-anchor="${p[5] || "start"}">${p[2]}</text>`; });
+      return s + "</svg>";
+    }
+    function diagramaSignos() {
+      const W = 400, x0 = 104, x1 = 388, a = 170, b = 310;
+      const filas = [["5 − x", [["+", x0, b], ["−", b, x1]], [[b, "lleno"]]], ["x − 1", [["−", x0, a], ["+", a, x1]], [[a, "vacio"]]], ["cociente", [["−", x0, a], ["+", a, b], ["−", b, x1]], [[a, "vacio"], [b, "lleno"]]]];
+      let s = `<svg class="graf" viewBox="0 0 ${W} 160" role="img" aria-label="Diagrama de signos del numerador, el denominador y el cociente">`;
+      filas.forEach((f, i) => {
+        const y = 30 + i * 44;
+        f[1].forEach(t => {
+          const col = t[0] === "+" ? "var(--verde)" : "var(--vino)";
+          s += `<line x1="${t[1]}" y1="${y}" x2="${t[2]}" y2="${y}" style="stroke:${col};stroke-width:6;opacity:.5"/><text x="${(t[1] + t[2]) / 2}" y="${y - 8}" text-anchor="middle" style="fill:${col};font-size:14px;font-weight:600">${t[0]}</text>`;
+        });
+        s += `<text x="6" y="${y + 4}" style="fill:${i === 2 ? "var(--azul)" : "var(--naranja)"};font-weight:600">${f[0]}</text>`;
+        f[2].forEach(c => { s += `<circle cx="${c[0]}" cy="${y}" r="4" style="fill:${c[1] === "lleno" ? "var(--tinta)" : "var(--panel)"};stroke:var(--tinta);stroke-width:1.4"/>`; });
+      });
+      s += `<line x1="${a}" y1="10" x2="${a}" y2="128" style="stroke:var(--tinta3);stroke-dasharray:3 3"/><line x1="${b}" y1="10" x2="${b}" y2="128" style="stroke:var(--tinta3);stroke-dasharray:3 3"/>`;
+      s += `<text x="${a}" y="150" text-anchor="middle">1</text><text x="${b}" y="150" text-anchor="middle">5</text>`;
+      return s + "</svg>";
+    }
+    function rectaSolucion() {
+      const W = 400, sx = v => 30 + (v + 3) / 12 * 350;
+      let s = `<svg class="graf" viewBox="0 0 ${W} 70" role="img" aria-label="Solución en la recta: hasta 1 sin incluir, y desde 5 incluido">`;
+      s += `<line x1="16" y1="30" x2="390" y2="30" class="eje"/>`;
+      s += `<line x1="16" y1="30" x2="${sx(1)}" y2="30" style="stroke:var(--azul);stroke-width:6;opacity:.6"/><line x1="${sx(5)}" y1="30" x2="390" y2="30" style="stroke:var(--azul);stroke-width:6;opacity:.6"/>`;
+      s += `<circle cx="${sx(1)}" cy="30" r="5" style="fill:var(--panel);stroke:var(--azul);stroke-width:1.8"/><circle cx="${sx(5)}" cy="30" r="5" style="fill:var(--azul)"/>`;
+      [0, 1, 5].forEach(v => { s += `<line x1="${sx(v)}" y1="25" x2="${sx(v)}" y2="35" class="eje"/><text x="${sx(v)}" y="56" text-anchor="middle">${v}</text>`; });
+      return s + "</svg>";
+    }
+    const GRAF = {
+      cuadrado: () => plot({ alt: "Parábola y = (x − 3)² cortada por la recta y = 16 en x = −1 y x = 7", x0: -3, x1: 9, y0: -4, y1: 40, xt: [-2, 0, 2, 4, 6, 8], yt: [0, 10, 20, 30, 40],
+        guias: [[[-1, 0], [-1, 16]], [[7, 0], [7, 16]], Object.assign([[3, -4], [3, 40]], { c: "var(--tinta3)" })],
+        fns: [{ f: x => (x - 3) ** 2, a: -3, b: 9, c: "var(--azul)", et: [3.4, 36, "y = (x − 3)²"] }, { f: () => 16, a: -3, b: 9, c: "var(--naranja)", et: [-2.8, 18.5, "y = 16"] }],
+        pts: [[-1, 16, "x = −1", "var(--vino)", -6, "end"], [7, 16, "x = 7"]] }),
+      signos: diagramaSignos,
+      recta: rectaSolucion
+    };
+
+    /* ---------- armado del mapa ---------- */
+    const mapa = document.getElementById("mapa");
+    const TAREAS = [];
+    ITEMS.forEach(it => {
+      const card = document.createElement("article");
+      card.className = "tarjeta"; card.id = "item-" + it.id;
+      let h = `<header><span class="letra">${it.id})</span><div><h3>${it.titulo}</h3><p class="consigna">${it.consigna}</p></div></header>`;
+      let num = 0;
+      it.ramales.forEach(rm => {
+        h += `<div class="ramal${rm.rotulo ? "" : " solo"}">${rm.rotulo ? `<span class="rotulo">${rm.rotulo}</span>` : ""}<div class="cadena">`;
+        rm.tareas.forEach((t, j) => {
+          num++; t.id = it.id + num; t.item = it.id; TAREAS.push(t);
+          h += `<span class="paso">${j ? `<span class="sep" aria-hidden="true">→</span>` : ""}<button type="button" class="tarea ${t.k}" id="t-${t.id}" data-id="${t.id}"><span class="num">${it.id}${num}</span><span>${t.n}</span>${t.at ? `<span class="alerta" aria-label="tiene un error típico">!</span>` : ""}</button></span>`;
+        });
+        h += `</div></div>`;
+      });
+      h += `<div class="produce"><span class="et">produce</span>${it.produce.map(p => `<span class="pieza" id="${p.id}">${p.tex}</span>`).join("")}</div>`;
+      card.innerHTML = h;
+      mapa.appendChild(card);
+    });
+    const porId = Object.fromEntries(TAREAS.map(t => [t.id, t]));
+
+    document.getElementById("grillaTeoria").innerHTML = Object.entries(TEORIA).map(([k, v]) =>
+      `<div class="teo" id="teo-${k}"><b>[${k}] ${v.t}.</b> ${v.x}<span class="ap">${v.ap}</span></div>`).join("");
+
+    /* ---------- flechas ---------- */
+    const svgF = document.getElementById("flechas");
+    function dibujarFlechas() {
+      svgF.querySelectorAll("path.flecha, text.flecha-et").forEach(n => n.remove());
+      const base = mapa.getBoundingClientRect();
+      const rel = el => { const b = el.getBoundingClientRect(); return { x: b.left - base.left, y: b.top - base.top, w: b.width, h: b.height }; };
+      FLECHAS.forEach(f => {
+        const p = rel(document.getElementById(f.de));
+        const desde = document.getElementById(f.de).closest(".tarjeta");
+        const card = rel(document.getElementById("item-" + f.a));
+        const cd = rel(desde);
+        let d;
+        const x1 = p.x + p.w / 2, y1 = p.y + p.h;
+        if (f.canal) {
+          const yg = cd.y + cd.h + 12, xg = 10, yt = card.y + 28;
+          d = `M${x1} ${y1} V${yg} H${xg} V${yt} H${card.x - 4}`;
+          const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          t.setAttribute("class", "flecha-et"); t.setAttribute("x", xg + 4); t.setAttribute("y", yg + 16); t.textContent = f.et;
+          svgF.appendChild(t);
+        } else {
+          let x2 = Math.min(Math.max(x1, card.x + 30), card.x + card.w - 30);
+          const y2 = card.y - 3;
+          d = `M${x1} ${y1} C${x1} ${y1 + 26}, ${x2} ${y2 - 26}, ${x2} ${y2}`;
+        }
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d); path.setAttribute("class", "flecha"); path.setAttribute("marker-end", "url(#punta)");
+        svgF.appendChild(path);
+      });
+    }
+
+    /* ---------- filtros ---------- */
+    let filtro = "todo";
+    function aplicarFiltro() {
+      document.querySelectorAll("#filtros button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === filtro));
+      TAREAS.forEach(t => {
+        const el = document.getElementById("t-" + t.id);
+        let atenuar = false;
+        if (filtro === "mano") atenuar = t.solo === "maxima";
+        if (filtro === "maxima") atenuar = t.solo === "mano";
+        if (filtro === "errores") atenuar = !t.at;
+        el.classList.toggle("atenuada", atenuar);
+        el.classList.toggle("resaltada", filtro === "errores" && !!t.at);
+      });
+      document.getElementById("errores").style.display = filtro === "errores" ? "block" : "none";
+      if (pop.classList.contains("abierto") && actual) abrir(actual, true);
+    }
+    document.getElementById("filtros").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      filtro = b.dataset.f; aplicarFiltro();
+    });
+    const lista = document.getElementById("listaErrores");
+    TAREAS.filter(t => t.at).forEach(t => t.at.forEach(a => {
+      const li = document.createElement("li");
+      li.innerHTML = `${a} <button type="button" data-ir="${t.id}">Ir a la tarea ${t.id}</button>`;
+      lista.appendChild(li);
+    }));
+    lista.addEventListener("click", e => {
+      const b = e.target.closest("[data-ir]"); if (!b) return;
+      const el = document.getElementById("t-" + b.dataset.ir);
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      setTimeout(() => { fijada = el; abrir(el); }, 350);
+    });
+
+    /* ---------- ventana ---------- */
+    const pop = document.getElementById("pop");
+    let actual = null, fijada = null, temporizador = null;
+    const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    function sesion(mx, mal) {
+      let h = `<div class="wx${mal ? " mal" : ""}">`;
+      mx.forEach(m => {
+        h += `<div class="celda"><div class="ent"><span class="lab">${mal ? "" : "(%i" + m.i + ")"}</span><code>${esc(m.e)}</code><button type="button" class="copiar" data-copiar="${esc(m.e)}">copiar</button></div>`;
+        if (m.s) h += `<div class="sal"><span class="lab">${mal ? "" : "(%o" + m.i + ")"}</span><span>\\(\\displaystyle ${m.s}\\)</span><span></span></div>`;
+        if (m.err) h += `<div class="sal"><span class="lab"></span><code class="err">${esc(m.err)}</code><span></span></div>`;
+        h += `</div>`;
+      });
+      return h + "</div>";
+    }
+    function contenido(t) {
+      let h = `<div class="cab"><h3 id="popTitulo">${t.id} · ${t.n}</h3><button type="button" class="cerrar" aria-label="Cerrar">×</button></div>`;
+      h += `<div class="refs">${t.T.map(k => `<button type="button" class="refT" data-t="${k}" title="${TEORIA[k].t}">[${k}]</button>`).join("")}<span class="apunte">${t.T.map(k => TEORIA[k].ap).join(" · ")}</span></div>`;
+      h += `<p class="que">${t.que}</p>`;
+      const verMano = filtro !== "maxima" || !t.mx;
+      const verMx = filtro !== "mano";
+      if (t.mano && verMano) {
+        h += `<div class="bloque mano"><div class="tit">${t.mx || t.notaMx ? "A mano" : "En la hoja"}</div>${t.mano}${t.g ? GRAF[t.g]() : ""}</div>`;
+      } else if (t.g) {
+        h += GRAF[t.g]();
+      }
+      if (t.mx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div>${sesion(t.mx)}`;
+        if (t.hoja) h += `<p><b>Volcamos a la hoja.</b> ${t.hoja}</p>`;
+        if (t.mxMal) h += `<p class="nota">Si se olvida el paréntesis:</p>${sesion([t.mxMal], true)}`;
+        h += `</div>`;
+      } else if (t.notaMx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div><p class="nota">${t.notaMx}</p></div>`;
+      }
+      (t.at || []).forEach(a => { h += `<div class="atencion">${a}</div>`; });
+      return h;
+    }
+    function ubicar(el) {
+      if (window.innerWidth <= 720) { pop.classList.add("hoja"); return; }
+      pop.classList.remove("hoja");
+      const b = el.getBoundingClientRect();
+      const ph = pop.offsetHeight, pw = pop.offsetWidth;
+      let top = b.bottom + 8;
+      if (top + ph > window.innerHeight - 8 && b.top - ph - 8 > 8) top = b.top - ph - 8;
+      if (top + ph > window.innerHeight - 8) top = Math.max(8, window.innerHeight - ph - 8);
+      let left = Math.min(Math.max(12, b.left), document.documentElement.clientWidth - pw - 12);
+      pop.style.top = (top + window.scrollY) + "px";
+      pop.style.left = (left + window.scrollX) + "px";
+    }
+    function abrir(el, mismo) {
+      const t = porId[el.dataset.id];
+      if (!mismo && actual === el && pop.classList.contains("abierto")) { ubicar(el); return; }
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      el.classList.add("activa");
+      actual = el;
+      pop.innerHTML = contenido(t);
+      pop.classList.add("abierto");
+      ubicar(el);
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([pop]).then(() => ubicar(el)).catch(() => {});
+    }
+    function cerrar() {
+      pop.classList.remove("abierto");
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      actual = null; fijada = null;
+    }
+    const hover = window.matchMedia("(hover: hover)").matches;
+    mapa.addEventListener("mouseover", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      clearTimeout(temporizador); abrir(el);
+    });
+    mapa.addEventListener("mouseout", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      if (el.contains(e.relatedTarget)) return;
+      temporizador = setTimeout(cerrar, 260);
+    });
+    pop.addEventListener("mouseenter", () => clearTimeout(temporizador));
+    pop.addEventListener("mouseleave", () => { if (!fijada) temporizador = setTimeout(cerrar, 260); });
+    mapa.addEventListener("click", e => {
+      const el = e.target.closest(".tarea"); if (!el) return;
+      clearTimeout(temporizador);
+      if (fijada === el) { cerrar(); return; }
+      fijada = el; abrir(el);
+    });
+    mapa.addEventListener("focusin", e => { const el = e.target.closest(".tarea"); if (el && !fijada) abrir(el); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+    document.addEventListener("click", e => {
+      if (!fijada) return;
+      if (pop.contains(e.target) || e.target.closest(".tarea") || e.target.closest("#listaErrores")) return;
+      cerrar();
+    });
+    pop.addEventListener("click", e => {
+      if (e.target.closest(".cerrar")) { cerrar(); return; }
+      const c = e.target.closest("[data-copiar]");
+      if (c) { copiar(c.getAttribute("data-copiar").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")); return; }
+      const ref = e.target.closest(".refT");
+      if (ref) {
+        const teo = document.getElementById("teo-" + ref.dataset.t);
+        cerrar();
+        teo.scrollIntoView({ block: "center", behavior: "smooth" });
+        teo.classList.add("brilla"); setTimeout(() => teo.classList.remove("brilla"), 1800);
+      }
+    });
+
+    /* ---------- copiar ---------- */
+    const aviso = document.getElementById("aviso");
+    function avisar(txt) { aviso.textContent = txt; aviso.classList.add("ver"); setTimeout(() => aviso.classList.remove("ver"), 1400); }
+    function copiar(txt) {
+      const respaldo = () => {
+        try {
+          const ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove();
+          avisar(ok ? "Copiado" : "No se pudo copiar: seleccioná el texto a mano");
+        } catch (err) { avisar("No se pudo copiar: seleccioná el texto a mano"); }
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => avisar("Copiado"), respaldo);
+        else respaldo();
+      } catch (err) { respaldo(); }
+    }
+    document.getElementById("copiarSesion").addEventListener("click", () => copiar(SESION));
+
+    /* ---------- pie: link de descarga ---------- */
+    (function () {
+      const d = document.getElementById("descargaFinal");
+      if (!d.getAttribute("href")) {
+        d.classList.add("pendiente"); d.textContent = "Disponible próximamente";
+        d.setAttribute("aria-disabled", "true");
+        d.addEventListener("click", e => e.preventDefault());
+      }
+    })();
+
+    /* ---------- arranque ---------- */
+    aplicarFiltro();
+    dibujarFlechas();
+    window.addEventListener("resize", () => { dibujarFlechas(); if (actual) ubicar(actual); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(dibujarFlechas);
+    window.addEventListener("load", () => {
+      dibujarFlechas();
+      if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(dibujarFlechas);
+    });
+    if ("ResizeObserver" in window) new ResizeObserver(dibujarFlechas).observe(mapa);
+  </script>
+</body>
+</html>
