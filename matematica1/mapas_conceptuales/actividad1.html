@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa de la Actividad 1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Plan: paleta del material de Matemática 1 (azul, naranja, verde Maxima, vino advertencias).
+       Layout: una tarjeta por ítem apilada en vertical; flechas entre tarjetas por un canal a la izquierda. */
+    :root {
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --tinta: #1d2429;
+      --tinta2: #4f5a62;
+      --tinta3: #7d878e;
+      --linea: #d6dde2;
+      --azul: #15658e;
+      --azulClaro: #e6f2f7;
+      --naranja: #c46210;
+      --naranjaClaro: #fdebdd;
+      --verde: #1b7847;
+      --verdeClaro: #e6f5ec;
+      --vino: #961e2d;
+      --vinoClaro: #fae8ea;
+      --rojoOp: #cc0000;
+      --wxFondo: #ffffff;
+      --wxIn: #1c3f94;
+      --wxLabel: #b02020;
+      --wxOutLabel: #2a6e2a;
+      --font-display: "Literata", Georgia, "Times New Roman", serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+        --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+        --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+        --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+      --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+      --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+      --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--tinta); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+    .envoltura { max-width: 980px; margin: 0 auto; padding: 28px 20px 60px; display: grid; gap: 22px; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; }
+    h1 { font-size: 28px; line-height: 1.2; color: var(--azul); }
+    h2 { font-size: 20px; color: var(--azul); }
+    .bajada { color: var(--tinta2); margin: 6px 0 0; max-width: 68ch; }
+    .enunciado { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 10px; padding: 0; }
+    .enunciado summary { cursor: pointer; padding: 10px 16px; font-weight: 600; color: var(--azul); }
+    .enunciado .cuerpo { padding: 0 18px 14px; max-width: 75ch; }
+    .enunciado ul { margin: 6px 0; padding-left: 20px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; position: sticky; top: 0; z-index: 4; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--linea); }
+    .seg { display: inline-flex; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; background: var(--panel); }
+    .seg button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--tinta2); padding: 7px 13px; cursor: pointer; border-right: 1px solid var(--linea); }
+    .seg button:last-child { border-right: 0; }
+    .seg button[aria-pressed="true"] { background: var(--azul); color: var(--panel); }
+    .boton { font: inherit; font-size: 14px; border: 1px solid var(--verde); color: var(--verde); background: var(--panel); border-radius: 8px; padding: 7px 13px; cursor: pointer; }
+    .boton:hover { background: var(--verdeClaro); }
+    button:focus-visible, .tarea:focus-visible, summary:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+    .leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--tinta2); }
+    .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+    .muestra { width: 14px; height: 14px; border-radius: 4px; border: 1px solid; display: inline-block; }
+    .ayuda { font-size: 13px; color: var(--tinta3); margin: 0; }
+
+    #mapa { position: relative; display: grid; gap: 34px; padding-left: 30px; }
+    #flechas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .tarjeta { position: relative; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 14px 16px 12px; display: grid; gap: 10px; }
+    .tarjeta header { display: flex; gap: 12px; align-items: baseline; }
+    .letra { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--naranja); min-width: 1.4em; }
+    .tarjeta h3 { font-size: 17px; color: var(--tinta); }
+    .consigna { font-size: 13.5px; color: var(--tinta2); margin: 2px 0 0; }
+    .ramal { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; align-items: start; }
+    .ramal .rotulo { font-size: 12px; color: var(--tinta3); padding-top: 9px; text-transform: lowercase; }
+    .ramal.solo { grid-template-columns: minmax(0, 1fr); }
+    .cadena { display: flex; flex-wrap: wrap; gap: 8px 4px; align-items: center; }
+    .paso { display: inline-flex; align-items: center; gap: 4px; }
+    .sep { color: var(--tinta3); font-size: 14px; padding: 0 2px; }
+    .tarea { position: relative; font: inherit; font-size: 13px; line-height: 1.3; text-align: left; padding: 7px 10px 7px 9px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); cursor: pointer; max-width: 178px; display: inline-flex; gap: 6px; align-items: flex-start; transition: opacity .2s, border-color .15s; }
+    .tarea .num { font-family: var(--font-mono); font-size: 11px; color: var(--tinta3); padding-top: 1px; }
+    .tarea.r { border-color: var(--azul); }
+    .tarea.k { background: var(--verdeClaro); border-color: var(--verde); }
+    .tarea.c { background: var(--naranjaClaro); border-color: var(--naranja); }
+    .tarea:hover, .tarea.activa { box-shadow: 0 0 0 2px var(--azul); }
+    .tarea .alerta { position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background: var(--vino); color: var(--panel); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+    .tarea.atenuada { opacity: .25; }
+    .tarea.resaltada { box-shadow: 0 0 0 2px var(--vino); }
+    .produce { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-top: 1px dashed var(--linea); padding-top: 9px; }
+    .produce .et { font-size: 12px; color: var(--tinta3); }
+    .pieza { background: var(--azulClaro); border: 1px solid var(--azul); color: var(--tinta); border-radius: 999px; padding: 3px 12px; font-size: 13.5px; }
+    .flecha { fill: none; stroke: var(--azul); stroke-width: 1.6; opacity: .7; }
+    .flecha-et { font-size: 12px; fill: var(--azul); font-family: var(--font-body); }
+
+    #errores { background: var(--vinoClaro); border: 1px solid var(--vino); border-radius: 12px; padding: 12px 16px; display: none; }
+    #errores h2 { color: var(--vino); font-size: 17px; margin-bottom: 6px; }
+    #errores ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+    #errores button { font: inherit; font-size: 13px; background: none; border: 0; padding: 0; color: var(--vino); text-decoration: underline; cursor: pointer; }
+
+    .teoria { display: grid; gap: 10px; }
+    .teoria .grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 10px; }
+    .teo { background: var(--panel); border: 1px solid var(--linea); border-left: 4px solid var(--naranja); border-radius: 0; padding: 10px 14px; font-size: 13.5px; transition: background .4s; }
+    .teo b { color: var(--naranja); }
+    .teo .ap { color: var(--tinta3); font-size: 12px; display: block; margin-top: 4px; }
+    .teo.brilla { background: var(--naranjaClaro); }
+
+    #pop { position: absolute; z-index: 10; width: 440px; max-width: calc(100vw - 24px); max-height: 74vh; overflow: auto; background: var(--panel); border: 1px solid var(--tinta3); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 14px 16px 16px; display: none; font-size: 14px; }
+    #pop.abierto { display: block; }
+    #pop .cab { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    #pop h3 { font-size: 16px; color: var(--azul); }
+    #pop .cerrar { font: inherit; border: 0; background: none; font-size: 20px; line-height: 1; color: var(--tinta3); cursor: pointer; padding: 0 2px; }
+    #pop .refs { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 8px; }
+    #pop .refT { font: inherit; font-size: 12px; border: 1px solid var(--naranja); color: var(--naranja); background: var(--naranjaClaro); border-radius: 6px; padding: 1px 7px; cursor: pointer; }
+    #pop .apunte { font-size: 12px; color: var(--tinta3); align-self: center; }
+    #pop .que { margin: 0 0 8px; }
+    #pop .bloque { border-top: 1px solid var(--linea); padding-top: 8px; margin-top: 8px; }
+    #pop .bloque > .tit { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--tinta2); margin-bottom: 4px; }
+    #pop .bloque.mano > .tit { color: var(--azul); }
+    #pop .bloque.maxima > .tit { color: var(--verde); }
+    #pop p { margin: 4px 0; }
+    #pop .respuesta { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 8px; padding: 6px 10px; margin-top: 8px; text-align: center; }
+    #pop .atencion { background: var(--vinoClaro); border-left: 3px solid var(--vino); border-radius: 0; padding: 6px 10px; margin-top: 8px; font-size: 13px; }
+    #pop .atencion b { color: var(--vino); }
+    #pop .nota { font-size: 13px; color: var(--tinta2); }
+    .wx { background: var(--wxFondo); border: 1px solid var(--linea); border-radius: 8px; padding: 6px 8px; margin: 6px 0; overflow-x: auto; }
+    .wx.mal { border-color: var(--vino); }
+    .wx .celda { border-left: 2px solid var(--linea); padding-left: 8px; margin: 4px 0; }
+    .wx .ent, .wx .sal { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; }
+    .wx .lab { font-family: var(--font-mono); font-size: 12px; color: var(--wxLabel); }
+    .wx .sal .lab { color: var(--wxOutLabel); }
+    .wx code { font-family: var(--font-mono); font-size: 12.5px; color: var(--wxIn); white-space: pre-wrap; word-break: break-word; }
+    .wx .copiar { font: inherit; font-size: 11px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta2); border-radius: 5px; padding: 1px 6px; cursor: pointer; }
+    .wx .sal mjx-container { margin: 2px 0 !important; }
+    .graf { width: 100%; max-width: 400px; display: block; margin: 6px auto 0; }
+    .graf text { font-family: var(--font-body); font-size: 11px; fill: var(--tinta2); }
+    .graf .eje { stroke: var(--tinta2); stroke-width: 1; }
+    .graf .grilla { stroke: var(--linea); stroke-width: .6; }
+    .aviso { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--tinta); color: var(--panel); padding: 7px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+    .aviso.ver { opacity: 1; }
+    @media (max-width: 720px) {
+      .envoltura { padding: 18px 16px 50px; }
+      h1 { font-size: 23px; }
+      #mapa { padding-left: 22px; }
+      .ramal { grid-template-columns: minmax(0, 1fr); }
+      .ramal .rotulo { padding-top: 0; }
+      #pop.hoja { position: fixed; left: 0 !important; right: 0; bottom: 0; top: auto !important; width: 100%; max-width: 100%; max-height: 72vh; border-radius: 14px 14px 0 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+  <script>
+    (function () {
+      var t = document.documentElement.getAttribute("data-theme");
+      var oscuro = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var rojo = oscuro ? "255,107,107" : "204,0,0";
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+          macros: { op: ["{\\color[RGB]{" + rojo + "}{\\boldsymbol{#1}}}", 1] }
+        },
+        svg: { fontCache: "global" },
+        startup: { typeset: true }
+      };
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+</head>
+<body>
+  <div class="envoltura">
+    <header>
+      <h1>Actividad 1: de dos lineales a una cuadrática</h1>
+      <p class="bajada">Simulacro del examen final · Matemática I. El mapa recorre, ítem por ítem, las tareas que hay que hacer para resolver la actividad. Cada ítem produce algo que entra en el ítem siguiente: seguí las flechas.</p>
+    </header>
+
+    <details class="enunciado" open>
+      <summary>Enunciado</summary>
+      <div class="cuerpo">
+        <p>La Dirección de Turismo de la Municipalidad organiza una excursión al Balneario El Cóndor en un micro con capacidad para \(50\) pasajeros. Llamamos \(x\) a la cantidad de pasajeros.</p>
+        <ul>
+          <li>El <b>costo total</b> tiene una parte fija de \(\$\,600\,000\) (el alquiler del micro) más \(\$\,20\,000\) por cada pasajero (seguro y vianda).</li>
+          <li>La <b>tarifa</b> que paga cada pasajero baja en forma lineal a medida que se ocupan más asientos: si viajan \(5\) pasajeros, cada uno paga \(\$\,90\,000\); si viajan \(25\), cada uno paga \(\$\,50\,000\).</li>
+        </ul>
+        <p><i>Trabajamos en miles de pesos: si un costo es de \(600\) mil pesos, la función devuelve \(600\).</i></p>
+      </div>
+    </details>
+
+    <div class="barra" role="toolbar" aria-label="Recorridos del mapa">
+      <div class="seg" id="filtros">
+        <button type="button" data-f="todo" aria-pressed="true">Todo</button>
+        <button type="button" data-f="mano" aria-pressed="false">A mano</button>
+        <button type="button" data-f="maxima" aria-pressed="false">Con Maxima</button>
+        <button type="button" data-f="errores" aria-pressed="false">Errores típicos</button>
+      </div>
+      <button type="button" class="boton" id="copiarSesion">Copiar la sesión completa de Maxima</button>
+      <div class="leyenda" aria-label="Referencias">
+        <span><i class="muestra" style="border-color:var(--azul);background:var(--panel)"></i>razonar y justificar</span>
+        <span><i class="muestra" style="border-color:var(--verde);background:var(--verdeClaro)"></i>calcular (se puede delegar a Maxima)</span>
+        <span><i class="muestra" style="border-color:var(--naranja);background:var(--naranjaClaro)"></i>interpretar en el contexto</span>
+        <span><i class="muestra" style="border-color:var(--vino);background:var(--vino);border-radius:50%"></i>tiene un error típico</span>
+      </div>
+      <p class="ayuda">Pasá el mouse por una tarea para ver qué se hace y por qué. Con un clic la ventana queda fija.</p>
+    </div>
+
+    <section id="errores" aria-live="polite">
+      <h2>Errores típicos de esta actividad</h2>
+      <ol id="listaErrores"></ol>
+    </section>
+
+    <div id="mapa">
+      <svg id="flechas" aria-hidden="true">
+        <defs>
+          <marker id="punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M1 1L8 5L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <section class="teoria" id="teoria">
+      <h2>Consideraciones teóricas que usa la actividad</h2>
+      <div class="grilla" id="grillaTeoria"></div>
+    </section>
+  </div>
+
+  <div id="pop" role="dialog" aria-modal="false" aria-labelledby="popTitulo"></div>
+  <div class="aviso" id="aviso">Copiado</div>
+
+  <script>
+    const r = String.raw;
+
+    const TEORIA = {
+      T1: { t: "La función lineal: pendiente y ordenada al origen", x: r`\(f(x) = a \cdot x + b\). La pendiente \(a\) es lo que varía \(f\) cuando \(x\) aumenta en \(1\); la ordenada \(b\) es el valor en \(x = 0\). En costos: costo total = costo por unidad \(\cdot\) cantidad + costo fijo.`, ap: "[R] Forma explícita de la ecuación de la recta · Qué informan la pendiente y la ordenada al origen" },
+      T2: { t: "La ecuación de la recta a partir de dos puntos", x: r`Pendiente por cociente incremental, \(a = \dfrac{y_2 - y_1}{x_2 - x_1}\); la ordenada sale de que un punto de la recta verifica su ecuación. Dos puntos también dan un SEL de dos ecuaciones con dos incógnitas.`, ap: "[R] Del gráfico a la ecuación · Cociente incremental · Ecuación de una recta y pertenencia de un punto" },
+      T3: { t: "La cuadrática como producto de dos lineales", x: r`Si \(g\) y \(h\) son lineales (pendientes no nulas), \(f(x) = g(x) \cdot h(x)\) es polinómica de grado \(2\) y hereda los ceros de los factores.`, ap: "[C] Función polinómica de grado 2 como producto de dos funciones lineales · Los ceros de f" },
+      T4: { t: "Pendientes y concavidad", x: r`La amplitud de \(g \cdot h\) es el producto de las pendientes. Mismo signo: cóncava hacia arriba (mínimo). Distinto signo: cóncava hacia abajo (máximo). Se decide sin desarrollar.`, ap: "[C] Pendientes y concavidad" },
+      T5: { t: "Restar una lineal no cambia la amplitud", x: r`Una lineal no tiene término de grado \(2\): sólo cambian el término lineal y el independiente. El signo menos afecta a todo el paréntesis: \(-(m \cdot x + n) = -m \cdot x - n\).`, ap: "[C] Sumar una cuadrática y una lineal · Operaciones elementales con expresiones algebraicas" },
+      T6: { t: "Las tres formas, el vértice y el extremo", x: r`Polinómica, factorizada y canónica \(a \cdot (x - x_v)^2 + y_v\). \(x_v = -\dfrac{b}{2 \cdot a}\) o promedio de las raíces; \(y_v = f(x_v)\). Si \(a < 0\), el vértice es un máximo.`, ap: "[C] Forma canónica · Vértice de la parábola · Completar cuadrados" },
+      T7: { t: "La incógnita dentro de un cuadrado", x: r`Se opera en ambos miembros hasta aislar el cuadrado y se aplica raíz cuadrada recordando que \(\sqrt{a^2} = |a|\). \(|x - h| = k\), con \(k > 0\), tiene dos soluciones.`, ap: "[E] Leyes de uniformidad · Propiedades del valor absoluto · Ecuaciones del tipo x² = k" },
+      T8: { t: "El signo de una función", x: r`Pedir \(f(x) > 0\) es pedir \(C^+\). Con la forma factorizada se arma un diagrama de signos. Las raíces no pertenecen ni a \(C^+\) ni a \(C^-\).`, ap: "[C] Conjuntos de positividad y de negatividad · [I] Inecuaciones factorizadas" },
+      T9: { t: "Modelo y contexto", x: r`La función acepta cualquier real; el modelo sólo tiene sentido para los valores que admite el problema: acá, naturales hasta la capacidad del micro.`, ap: "[R] Campo de validez · [C] Volvamos a la plaza pública" }
+    };
+
+    /* k: r = razonar, k = calcular, c = contexto. solo: 'mano' | 'maxima' (si falta, vale para los dos recorridos). */
+    const ITEMS = [
+      {
+        id: "a", titulo: "El costo y la tarifa: dos funciones lineales",
+        consigna: r`Escribir \(C(x)\), hallar la ecuación de la recta de la tarifa \(p(x)\) y leer su pendiente en el contexto.`,
+        ramales: [
+          { rotulo: "costo", tareas: [
+            { n: "Reconocer el molde del costo", k: "r", T: ["T1"],
+              que: r`El costo tiene una parte fija y una parte que crece con cada pasajero.`,
+              mano: r`<p>La parte fija vale \(600\) y la parte variable crece \(20\) por cada pasajero: con \(x\) pasajeros, \(20 \cdot x\).</p>\[C(x) = 20 \cdot x + 600\]<p>La pendiente, \(20\), es lo que agrega cada pasajero; la ordenada al origen, \(600\), es lo que cuesta el micro aunque no viaje nadie.</p>`,
+              notaMx: "Acá Maxima no tiene nada para aportar: es leer el enunciado y reconocer el molde." }
+          ]},
+          { rotulo: "tarifa", tareas: [
+            { n: "Ubicar los dos datos en un gráfico", k: "r", T: ["T2"],
+              que: r`La tarifa es lineal: su gráfica es una recta, y el enunciado da dos de sus puntos. Antes de calcular, conviene verlos.`,
+              mano: r`<p>Los datos son \((5, 90)\) y \((25, 50)\): con \(5\) pasajeros cada uno paga \(90\) mil pesos; con \(25\), \(50\) mil.</p>`,
+              g: "tarifa" },
+            { n: "Calcular la pendiente", k: "k", T: ["T2"],
+              que: r`Dos puntos distintos determinan una única recta. La pendiente sale del cociente incremental.`,
+              mano: r`\[a = \dfrac{y_2 - y_1}{x_2 - x_1} = \dfrac{50 - 90}{25 - 5} = \dfrac{-40}{20} = -2\]`,
+              mx: [{ i: "1", e: "solve([90 = a*5 + b, 50 = a*25 + b], [a, b]);", s: r`\left[ \left[ a=-2 , b=100 \right] \right]` }],
+              hoja: r`Cada punto aporta una ecuación con incógnitas \(a\) y \(b\): dos puntos dan un sistema de dos ecuaciones con dos incógnitas. Maxima resuelve las dos juntas: \(a = -2\) y \(b = 100\). Con esto queda resuelto también el paso siguiente.` },
+            { n: "Hallar la ordenada: el punto verifica", k: "k", T: ["T2"], solo: "mano",
+              que: r`El punto \((5, 90)\) pertenece a la recta, así que sus coordenadas verifican la ecuación \(y = -2 \cdot x + b\).`,
+              mano: r`\[\begin{aligned} 90 &= -2 \cdot 5 + b \\ 90 &= -10 + b \\ 90 \op{+\,10} &= -10 + b \op{+\,10} \\ 100 &= b \end{aligned}\]<p class="nota">Sumamos \(10\) en ambos miembros.</p><div class="respuesta">\(p(x) = -2 \cdot x + 100\)</div>` },
+            { n: "Verificar con el otro dato", k: "k", T: ["T2"],
+              que: r`Un control rápido: la recta tiene que pasar también por \((25, 50)\).`,
+              mano: r`\[p(25) = -2 \cdot 25 + 100 = -50 + 100 = 50 \;\checkmark\]` },
+            { n: "Leer la pendiente en el contexto", k: "c", T: ["T1"],
+              que: r`¿Qué significa, en el problema, la pendiente \(-2\)?`,
+              mano: r`<p>Por cada pasajero que se suma, la tarifa que paga <b>cada uno</b> baja \(2\) mil pesos. El signo negativo es el descuento del convenio: la recta es decreciente.</p>` }
+          ]}
+        ],
+        produce: [{ id: "pC", tex: r`\(C(x) = 20 \cdot x + 600\)` }, { id: "pP", tex: r`\(p(x) = -2 \cdot x + 100\)` }]
+      },
+      {
+        id: "b", titulo: "La facturación: el producto de dos lineales",
+        consigna: r`Sin desarrollar el producto, explicar por qué \(F(x) = x \cdot p(x)\) es cuadrática y decidir hacia dónde es cóncava.`,
+        ramales: [{ tareas: [
+          { n: "Armar la facturación como producto", k: "r", T: ["T3"],
+            que: r`La facturación es lo que se recauda: la cantidad de pasajeros multiplicada por lo que paga cada uno.`,
+            mano: r`\[F(x) = \underbrace{x}_{\text{pasajeros}} \cdot \underbrace{(-2 \cdot x + 100)}_{\text{tarifa de cada uno}}\]` },
+          { n: "Reconocer dos factores lineales", k: "r", T: ["T3"],
+            que: r`Que \(F\) sea un producto de dos lineales alcanza para saber que es cuadrática.`,
+            mano: r`<p>\(f_1(x) = x\), de pendiente \(1\), y \(p(x) = -2 \cdot x + 100\), de pendiente \(-2\). El producto de dos funciones lineales de pendiente no nula es una función polinómica de grado \(2\).</p>` },
+          { n: "Decidir la concavidad por las pendientes", k: "r", T: ["T4"],
+            que: r`La amplitud (el coeficiente de \(x^2\)) es el producto de las pendientes de los factores.`,
+            mano: r`\[a = 1 \cdot (-2) = -2 < 0\]<p>Las pendientes tienen signos opuestos: la parábola de \(F\) es <b>cóncava hacia abajo</b>. Lo decidimos sin desarrollar, como pide la consigna.</p>` },
+          { n: "Controlar desarrollando", k: "k", T: ["T3", "T4"], solo: "maxima",
+            que: r`Maxima desarrolla el producto: sirve para controlar lo que anticipamos con las pendientes.`,
+            mx: [{ i: "2", e: "expand(x*(-2*x + 100));", s: r`100\,x-2\,x^2` }],
+            hoja: r`Maxima ordena los términos a su manera; en la hoja escribimos \(F(x) = -2 \cdot x^2 + 100 \cdot x\). El coeficiente de \(x^2\) es \(-2\), como habíamos anticipado.`,
+            at: [r`<b>Maxima confirma, pero no responde la consigna.</b> Hay que decidir la concavidad sin desarrollar: en la hoja tiene que estar el razonamiento con las pendientes (\(1\) y \(-2\), amplitud \(1 \cdot (-2) = -2 < 0\)). Si sólo copiás lo que devolvió Maxima, el ítem no está respondido.`] }
+        ]}],
+        produce: [{ id: "pF", tex: r`\(F(x) = x \cdot (-2 \cdot x + 100)\), cóncava hacia abajo` }]
+      },
+      {
+        id: "c", titulo: "La ganancia: a una parábola le restamos una recta",
+        consigna: r`Escribir \(G(x) = F(x) - C(x)\) en forma polinómica. ¿Restar \(C\) cambió la concavidad?`,
+        ramales: [{ tareas: [
+          { n: "Plantear la resta con paréntesis", k: "r", T: ["T5"],
+            que: r`La ganancia es lo que queda de la facturación una vez pagado el costo. El costo completo va entre paréntesis.`,
+            mano: r`\[G(x) = F(x) - C(x) = x \cdot (-2 \cdot x + 100) - (20 \cdot x + 600)\]` },
+          { n: "Desarrollar y restar todo el costo", k: "k", T: ["T5"],
+            que: r`Desarrollamos \(F\) y restamos todos los términos de \(C\).`,
+            mano: r`\[\begin{aligned} G(x) &= x \cdot (-2 \cdot x + 100) - (20 \cdot x + 600) \\ &= -2 \cdot x^2 + 100 \cdot x - 20 \cdot x - 600 \\ &= -2 \cdot x^2 + 80 \cdot x - 600 \end{aligned}\]`,
+            mx: [{ i: "3", e: "expand(x*(-2*x + 100) - (20*x + 600));", s: r`-2\,x^2+80\,x-600` }],
+            mxMal: { e: "expand(x*(-2*x + 100) - 20*x + 600);", s: r`-2\,x^2+80\,x+600` },
+            hoja: r`\(G(x) = -2 \cdot x^2 + 80 \cdot x - 600\)`,
+            at: [
+              r`<b>El signo menos delante del paréntesis.</b> Restar \(C(x)\) es restar todo el costo, también el fijo: \(-(20 \cdot x + 600) = -20 \cdot x - 600\), no \(-20 \cdot x + 600\).`,
+              r`<b>Maxima hace lo que le escribimos, no lo que quisimos escribir.</b> Sin el paréntesis alrededor del costo, Maxima resta \(20 \cdot x\) pero <b>suma</b> \(600\), y no protesta.`
+            ] },
+          { n: "Justificar que la amplitud no cambia", k: "r", T: ["T5"],
+            que: r`¿Restar \(C(x)\) cambió la concavidad respecto de \(F\)? No.`,
+            mano: r`<p>\(C\) es lineal: no tiene término de grado \(2\). Al restarla sólo cambian el término de grado \(1\) (de \(100 \cdot x\) a \(80 \cdot x\)) y el independiente (de \(0\) a \(-600\)). El coeficiente de \(x^2\) sigue siendo \(-2\): la parábola de \(G\) sigue siendo cóncava hacia abajo.</p>` }
+        ]}],
+        produce: [{ id: "pG", tex: r`\(G(x) = -2 \cdot x^2 + 80 \cdot x - 600\)` }]
+      },
+      {
+        id: "d", titulo: "La forma canónica y la ganancia máxima",
+        consigna: r`Escribir \(G\) en forma canónica. ¿Con cuántos pasajeros la ganancia es máxima? ¿Cuál es esa ganancia?`,
+        ramales: [{ tareas: [
+          { n: "Hallar la abscisa del vértice", k: "k", T: ["T6"],
+            que: r`La canónica es \(G(x) = a \cdot (x - x_v)^2 + y_v\). Ya sabemos que \(a = -2\): falta el vértice.`,
+            mano: r`<p>Con \(a = -2\) y \(b = 80\):</p>\[x_v = -\dfrac{b}{2 \cdot a} = -\dfrac{80}{2 \cdot (-2)} = -\dfrac{80}{-4} = 20\]`,
+            mx: [
+              { i: "4", e: "factor(-2*x^2 + 80*x - 600);", s: r`-2\,\left(x-30\right)\,\left(x-10\right)` },
+              { i: "5", e: "(10 + 30)/2;", s: r`20` }
+            ],
+            hoja: r`De la forma factorizada leemos las raíces, \(10\) y \(30\). La abscisa del vértice es su promedio: \(x_v = 20\).` },
+          { n: "Hallar la ordenada del vértice", k: "k", T: ["T6"],
+            que: r`La ordenada del vértice es el valor de \(G\) en \(x_v\): se reemplaza \(x\) por \(20\).`,
+            mano: r`\[y_v = G(20) = -2 \cdot 20^2 + 80 \cdot 20 - 600 = -800 + 1600 - 600 = 200\]`,
+            mx: [{ i: "6", e: "-2*20^2 + 80*20 - 600;", s: r`200` }],
+            hoja: r`\(V = (20, 200)\)` },
+          { n: "Escribir la forma canónica", k: "r", T: ["T6"],
+            que: r`Con la amplitud y el vértice se escribe la canónica. La escribimos nosotros: Maxima no tiene una orden que la dé directamente.`,
+            mano: r`\[G(x) = -2 \cdot (x - 20)^2 + 200\]<p class="nota">Otro camino, que no se recomienda en el examen: completar cuadrados. Lo que se agrega va en rojo (se suma y se resta lo mismo).</p>\[\begin{aligned} G(x) &= -2 \cdot (x^2 - 40 \cdot x) - 600 \\ &= -2 \cdot (x^2 - 40 \cdot x \op{+\,400} \op{-\,400}) - 600 \\ &= -2 \cdot \left[(x - 20)^2 - 400\right] - 600 \\ &= -2 \cdot (x - 20)^2 + 200 \end{aligned}\]` },
+          { n: "Controlar la canónica", k: "k", T: ["T6"], solo: "maxima",
+            que: r`Desarrollamos la canónica que escribimos: si vuelve la forma polinómica, está bien.`,
+            mx: [{ i: "7", e: "expand(-2*(x - 20)^2 + 200);", s: r`-2\,x^2+80\,x-600` }],
+            hoja: r`La salida es la misma que la de <code>(%o3)</code>: las dos expresiones son la misma función escrita de dos maneras.` },
+          { n: "Justificar el máximo y responder", k: "c", T: ["T6", "T9"],
+            que: r`¿Por qué el vértice es un máximo? ¿Qué dice en el problema?`,
+            mano: r`<p>Porque \(a = -2 < 0\): la parábola es cóncava hacia abajo. La canónica lo muestra sin gráfico: \((x - 20)^2\) nunca es negativo, así que \(-2 \cdot (x - 20)^2\) nunca es positivo y \(G(x)\) nunca supera \(200\).</p><p>Control en el contexto: con \(20\) pasajeros cada uno paga \(p(20) = 60\); \(F(20) = 1200\), \(C(20) = 1000\) y la ganancia es \(1200 - 1000 = 200\) \(\checkmark\)</p><div class="respuesta">La ganancia es máxima con \(20\) pasajeros, y es de \(200\) mil pesos.</div>`,
+            g: "ganancia" }
+        ]}],
+        produce: [{ id: "pV", tex: r`\(G(x) = -2 \cdot (x - 20)^2 + 200\), \(V = (20, 200)\)` }]
+      },
+      {
+        id: "e", titulo: "La ecuación G(x) = 0 desde la forma canónica",
+        consigna: r`Resolver \(G(x) = 0\) a partir de la canónica, operando en ambos miembros. ¿Qué representan las soluciones?`,
+        ramales: [{ tareas: [
+          { n: "Aislar el cuadrado", k: "k", T: ["T7"],
+            que: r`La incógnita está en un solo lugar, dentro del cuadrado. Se opera en ambos miembros (nada pasa de un lado al otro) hasta dejar el cuadrado solo.`,
+            mano: r`\[\begin{aligned} -2 \cdot (x - 20)^2 + 200 &= 0 \\ -2 \cdot (x - 20)^2 + 200 \op{-\,200} &= 0 \op{-\,200} \\ -2 \cdot (x - 20)^2 &= -200 \\ \dfrac{-2 \cdot (x - 20)^2}{\op{-2}} &= \dfrac{-200}{\op{-2}} \\ (x - 20)^2 &= 100 \end{aligned}\]<p class="nota">Restamos \(200\) y después dividimos por \(-2\) en ambos miembros. Este procedimiento va en la hoja también si usás Maxima: la consigna lo pide.</p>` },
+          { n: "Raíz cuadrada en ambos miembros", k: "k", T: ["T7"],
+            que: r`Para liberar la incógnita del cuadrado se aplica raíz cuadrada en ambos miembros.`,
+            mano: r`\[\begin{aligned} \op{\sqrt{(x - 20)^2}} &= \op{\sqrt{100}} \\ |x - 20| &= 10 \end{aligned}\]<p>Los números cuya distancia a \(20\) es \(10\) son dos.</p>`,
+            at: [r`<b>La raíz cuadrada de un cuadrado es un valor absoluto.</b> Escribir \(\sqrt{(x - 20)^2} = x - 20\) lleva a una sola solución y se pierde la otra: \(\sqrt{a^2} = |a|\), no \(a\).`] },
+          { n: "Resolver los dos casos", k: "k", T: ["T7"],
+            que: r`\(|x - 20| = 10\) se abre en dos ecuaciones.`,
+            mano: r`\[\begin{aligned} x - 20 &= 10 & \qquad x - 20 &= -10 \\ x - 20 \op{+\,20} &= 10 \op{+\,20} & \qquad x - 20 \op{+\,20} &= -10 \op{+\,20} \\ x &= 30 & \qquad x &= 10 \end{aligned}\]<div class="respuesta">\(S = \{10, \, 30\}\)</div>`,
+            mx: [{ i: "8", e: "solve(-2*(x - 20)^2 + 200 = 0, x);", s: r`\left[ x=30 , x=10 \right]` }],
+            hoja: r`\(S = \{10, \, 30\}\). Son las mismas raíces que leímos en la forma factorizada <code>(%o4)</code>.`,
+            at: [r`<b>Este ítem pide el procedimiento, no sólo el resultado.</b> El <code>solve</code> da el conjunto solución correcto pero no muestra el camino. Aislar el cuadrado, la raíz cuadrada, \(|x - 20| = 10\) y los dos casos tienen que estar escritos; Maxima sirve para verificar.`] },
+          { n: "Interpretar: puntos de equilibrio", k: "c", T: ["T3", "T9"],
+            que: r`¿Qué representan las soluciones en el problema?`,
+            mano: r`<p>Son los <b>puntos de equilibrio</b>: con \(10\) o con \(30\) pasajeros lo facturado alcanza justo para cubrir el costo. \(F(10) = 800 = C(10)\) y \(F(30) = 1200 = C(30)\) \(\checkmark\)</p><p>Con las raíces sale la forma factorizada, \(G(x) = -2 \cdot (x - 10) \cdot (x - 30)\). Las dos raíces están a distancia \(10\) de \(x_v = 20\): es la simetría de la parábola, y es lo que dice \(|x - 20| = 10\).</p>`,
+            g: "ganancia" }
+        ]}],
+        produce: [{ id: "pS", tex: r`\(S = \{10, \, 30\}\), \(G(x) = -2 \cdot (x - 10) \cdot (x - 30)\)` }]
+      },
+      {
+        id: "f", titulo: "¿Con cuántos pasajeros hay ganancia?",
+        consigna: r`Expresar la respuesta con intervalos e interpretarla en el contexto: ¿qué valores de \(x\) tienen sentido?`,
+        ramales: [{ tareas: [
+          { n: "Traducir «da ganancia» a G(x) > 0", k: "r", T: ["T8"],
+            que: r`Que haya ganancia es que \(G(x) > 0\): se pide el conjunto de positividad \(C^+\).`,
+            mano: r`<p>Usamos la forma factorizada que obtuvimos en el ítem anterior:</p>\[G(x) = -2 \cdot (x - 10) \cdot (x - 30)\]` },
+          { n: "Estudiar el signo de cada factor", k: "r", T: ["T8"],
+            que: r`Cada factor lineal cambia de signo sólo en su cero.`,
+            mano: r`<ul style="margin:4px 0;padding-left:18px"><li>\(-2\) es siempre negativo;</li><li>\(x - 10\) es creciente y se anula en \(10\): negativa a la izquierda, positiva a la derecha;</li><li>\(x - 30\) es creciente y se anula en \(30\): negativa a la izquierda, positiva a la derecha.</li></ul>` },
+          { n: "Armar el diagrama de signos y leerlo", k: "k", T: ["T8"],
+            que: r`Con la regla de los signos se obtiene el signo de \(G\) en cada tramo.`,
+            mano: r`<p>En \((-\infty, 10)\): \((-) \cdot (-) \cdot (-) = (-)\); en \((10, 30)\): \((-) \cdot (+) \cdot (-) = (+)\); en \((30, +\infty)\): \((-) \cdot (+) \cdot (+) = (-)\). La desigualdad es estricta: \(10\) y \(30\) no se incluyen.</p><div class="respuesta">\(C^+ = (10, \, 30)\)</div>`,
+            g: "signos",
+            mx: [
+              { i: "9", e: "load(solve_rat_ineq)$" },
+              { i: "10", e: "solve_rat_ineq(-2*x^2 + 80*x - 600 > 0);", s: r`\left[ \left[ x>10 , x<30 \right] \right]` }
+            ],
+            hoja: r`Dentro del corchete interior la coma se lee como «y»: \(x > 10\) y \(x < 30\), es decir, \(C^+ = (10, \, 30)\). Los extremos van con paréntesis porque las desigualdades son estrictas.` },
+          { n: "Recortar al contexto", k: "c", T: ["T9"],
+            que: r`La función acepta cualquier real; el modelo, no.`,
+            mano: r`<p>La cantidad de pasajeros es un número natural y el micro tiene \(50\) asientos: los valores con sentido son \(x = 0, 1, 2, \ldots, 50\). De ellos, los que están en \((10, 30)\) son los naturales del \(11\) al \(29\).</p><div class="respuesta">La excursión da ganancia si viajan entre \(11\) y \(29\) pasajeros.</div>`,
+            notaMx: "Maxima trabaja con números reales y no sabe que no se puede llevar medio pasajero: esta lectura es siempre nuestra." },
+          { n: "Leer el resultado en el gráfico", k: "c", T: ["T9"],
+            que: r`¿Por qué con más de \(30\) pasajeros se pierde?`,
+            mano: r`<p>Con menos de \(10\) no se llega a cubrir el costo fijo del micro. Con más de \(30\), la tarifa baja tanto que lo que entra por cada asiento nuevo ya no compensa. Hay ganancia donde la parábola de la facturación queda <b>por encima</b> de la recta del costo.</p>`,
+            g: "FC" }
+        ]}],
+        produce: [{ id: "pCp", tex: r`\(C^+ = (10, \, 30)\): de \(11\) a \(29\) pasajeros` }]
+      }
+    ];
+
+    const FLECHAS = [
+      { de: "pP", a: "b" },
+      { de: "pC", a: "c", canal: true, et: "C(x)" },
+      { de: "pF", a: "c" },
+      { de: "pG", a: "d" },
+      { de: "pV", a: "e" },
+      { de: "pS", a: "f" }
+    ];
+
+    const SESION = [
+      "solve([90 = a*5 + b, 50 = a*25 + b], [a, b]);",
+      "expand(x*(-2*x + 100));",
+      "expand(x*(-2*x + 100) - (20*x + 600));",
+      "factor(-2*x^2 + 80*x - 600);",
+      "(10 + 30)/2;",
+      "-2*20^2 + 80*20 - 600;",
+      "expand(-2*(x - 20)^2 + 200);",
+      "solve(-2*(x - 20)^2 + 200 = 0, x);",
+      "load(solve_rat_ineq)$",
+      "solve_rat_ineq(-2*x^2 + 80*x - 600 > 0);"
+    ].join("\n");
+
+    /* ---------- gráficos ---------- */
+    function plot(o) {
+      const W = 400, H = 230, ml = 42, mr = 14, mt = 12, mb = 28;
+      const sx = x => ml + (x - o.x0) / (o.x1 - o.x0) * (W - ml - mr);
+      const sy = y => mt + (o.y1 - y) / (o.y1 - o.y0) * (H - mt - mb);
+      let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.alt}">`;
+      o.xt.forEach(x => { s += `<line class="grilla" x1="${sx(x)}" y1="${sy(o.y0)}" x2="${sx(x)}" y2="${sy(o.y1)}"/><text x="${sx(x)}" y="${H - 10}" text-anchor="middle">${x}</text>`; });
+      o.yt.forEach(y => { s += `<line class="grilla" x1="${sx(o.x0)}" y1="${sy(y)}" x2="${sx(o.x1)}" y2="${sy(y)}"/><text x="${ml - 6}" y="${sy(y) + 4}" text-anchor="end">${y}</text>`; });
+      const y0 = Math.max(o.y0, Math.min(o.y1, 0));
+      s += `<line class="eje" x1="${sx(o.x0)}" y1="${sy(y0)}" x2="${sx(o.x1)}" y2="${sy(y0)}"/><line class="eje" x1="${sx(o.x0)}" y1="${sy(o.y0)}" x2="${sx(o.x0)}" y2="${sy(o.y1)}"/>`;
+      (o.relleno || []).forEach(rl => {
+        let pts = [];
+        for (let i = 0; i <= 40; i++) { const x = rl.a + (rl.b - rl.a) * i / 40; pts.push(`${sx(x)},${sy(rl.sup(x))}`); }
+        for (let i = 40; i >= 0; i--) { const x = rl.a + (rl.b - rl.a) * i / 40; pts.push(`${sx(x)},${sy(rl.inf(x))}`); }
+        s += `<polygon points="${pts.join(" ")}" style="fill:var(--verde);opacity:.18"/>`;
+      });
+      (o.guias || []).forEach(g => { s += `<polyline points="${g.map(p => sx(p[0]) + "," + sy(p[1])).join(" ")}" style="fill:none;stroke:${g.c || "var(--naranja)"};stroke-dasharray:4 3;stroke-width:1"/>`; });
+      o.fns.forEach(f => {
+        let d = "";
+        for (let i = 0; i <= 120; i++) { const x = f.a + (f.b - f.a) * i / 120; d += (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(f.f(x)).toFixed(1); }
+        s += `<path d="${d}" style="fill:none;stroke:${f.c};stroke-width:2.2"/>`;
+        if (f.et) s += `<text x="${sx(f.et[0])}" y="${sy(f.et[1])}" style="fill:${f.c};font-weight:600">${f.et[2]}</text>`;
+      });
+      (o.pts || []).forEach(p => { s += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="3.6" style="fill:${p[3] || "var(--naranja)"}"/><text x="${sx(p[0]) + (p[4] || 6)}" y="${sy(p[1]) - 6}" style="fill:${p[3] || "var(--naranja)"}" text-anchor="${p[5] || "start"}">${p[2]}</text>`; });
+      if (o.xl) s += `<text x="${W - mr}" y="${sy(y0) - 6}" text-anchor="end">${o.xl}</text>`;
+      return s + "</svg>";
+    }
+    function diagramaSignos() {
+      const W = 400, x0 = 78, x1 = 388, a = 170, b = 300;
+      const filas = [["−2", [["−", x0, x1]]], ["x − 10", [["−", x0, a], ["+", a, x1]]], ["x − 30", [["−", x0, b], ["+", b, x1]]], ["G(x)", [["−", x0, a], ["+", a, b], ["−", b, x1]]]];
+      let s = `<svg class="graf" viewBox="0 0 ${W} 200" role="img" aria-label="Diagrama de signos de G">`;
+      filas.forEach((f, i) => {
+        const y = 28 + i * 44;
+        f[1].forEach(t => {
+          const col = t[0] === "+" ? "var(--verde)" : "var(--vino)";
+          s += `<line x1="${t[1]}" y1="${y}" x2="${t[2]}" y2="${y}" style="stroke:${col};stroke-width:6;opacity:.5"/><text x="${(t[1] + t[2]) / 2}" y="${y - 8}" text-anchor="middle" style="fill:${col};font-size:14px;font-weight:600">${t[0]}</text>`;
+        });
+        s += `<text x="6" y="${y + 4}" style="fill:${i === 3 ? "var(--azul)" : "var(--naranja)"};font-weight:600">${f[0]}</text>`;
+        if (i === 1 || i === 3) s += `<circle cx="${a}" cy="${y}" r="3.5" style="fill:var(--tinta)"/>`;
+        if (i === 2 || i === 3) s += `<circle cx="${b}" cy="${y}" r="3.5" style="fill:var(--tinta)"/>`;
+      });
+      s += `<line x1="${a}" y1="10" x2="${a}" y2="168" style="stroke:var(--tinta3);stroke-dasharray:3 3"/><line x1="${b}" y1="10" x2="${b}" y2="168" style="stroke:var(--tinta3);stroke-dasharray:3 3"/>`;
+      s += `<text x="${a}" y="190" text-anchor="middle">10</text><text x="${b}" y="190" text-anchor="middle">30</text>`;
+      return s + "</svg>";
+    }
+    const G = x => -2 * (x - 10) * (x - 30);
+    const GRAF = {
+      tarifa: () => plot({ alt: "Recta de la tarifa por los puntos (5, 90) y (25, 50)", x0: 0, x1: 55, y0: 0, y1: 110, xt: [0, 10, 20, 30, 40, 50], yt: [0, 20, 40, 60, 80, 100], xl: "pasajeros",
+        guias: [[[5, 0], [5, 90], [0, 90]], [[25, 0], [25, 50], [0, 50]]],
+        fns: [{ f: x => -2 * x + 100, a: 0, b: 50, c: "var(--azul)", et: [40, 26, "p"] }],
+        pts: [[5, 90, "(5, 90)"], [25, 50, "(25, 50)"]] }),
+      ganancia: () => plot({ alt: "Parábola de la ganancia con vértice (20, 200) y raíces 10 y 30", x0: 0, x1: 42, y0: -200, y1: 260, xt: [0, 10, 20, 30, 40], yt: [-200, -100, 0, 100, 200], xl: "pasajeros",
+        guias: [[[20, -200], [20, 250]], [[0, 200], [20, 200]]],
+        fns: [{ f: G, a: 6.5, b: 33.5, c: "var(--azul)", et: [34, -150, "G"] }],
+        pts: [[10, 0, "10", "var(--naranja)", -6, "end"], [30, 0, "30"], [20, 200, "V = (20, 200)", "var(--vino)"]] }),
+      FC: () => plot({ alt: "Parábola de la facturación por encima de la recta del costo entre 10 y 30 pasajeros", x0: 0, x1: 52, y0: 0, y1: 1800, xt: [0, 10, 20, 30, 40, 50], yt: [0, 400, 800, 1200, 1600], xl: "pasajeros",
+        relleno: [{ a: 10, b: 30, sup: x => x * (100 - 2 * x), inf: x => 20 * x + 600 }],
+        fns: [{ f: x => x * (100 - 2 * x), a: 0, b: 50, c: "var(--azul)", et: [2, 520, "F"] }, { f: x => 20 * x + 600, a: 0, b: 50, c: "var(--naranja)", et: [44, 1660, "C"] }],
+        pts: [[10, 800, "(10, 800)", "var(--vino)", 6], [30, 1200, "(30, 1200)", "var(--vino)", 6]] }),
+      signos: diagramaSignos
+    };
+
+    /* ---------- armado del mapa ---------- */
+    const mapa = document.getElementById("mapa");
+    const TAREAS = [];
+    ITEMS.forEach(it => {
+      const card = document.createElement("article");
+      card.className = "tarjeta"; card.id = "item-" + it.id;
+      let h = `<header><span class="letra">${it.id})</span><div><h3>${it.titulo}</h3><p class="consigna">${it.consigna}</p></div></header>`;
+      let num = 0;
+      it.ramales.forEach(rm => {
+        h += `<div class="ramal${rm.rotulo ? "" : " solo"}">${rm.rotulo ? `<span class="rotulo">${rm.rotulo}</span>` : ""}<div class="cadena">`;
+        rm.tareas.forEach((t, j) => {
+          num++; t.id = it.id + num; t.item = it.id; TAREAS.push(t);
+          h += `<span class="paso">${j ? `<span class="sep" aria-hidden="true">→</span>` : ""}<button type="button" class="tarea ${t.k}" id="t-${t.id}" data-id="${t.id}"><span class="num">${it.id}${num}</span><span>${t.n}</span>${t.at ? `<span class="alerta" aria-label="tiene un error típico">!</span>` : ""}</button></span>`;
+        });
+        h += `</div></div>`;
+      });
+      h += `<div class="produce"><span class="et">produce</span>${it.produce.map(p => `<span class="pieza" id="${p.id}">${p.tex}</span>`).join("")}</div>`;
+      card.innerHTML = h;
+      mapa.appendChild(card);
+    });
+    const porId = Object.fromEntries(TAREAS.map(t => [t.id, t]));
+
+    document.getElementById("grillaTeoria").innerHTML = Object.entries(TEORIA).map(([k, v]) =>
+      `<div class="teo" id="teo-${k}"><b>[${k}] ${v.t}.</b> ${v.x}<span class="ap">${v.ap}</span></div>`).join("");
+
+    /* ---------- flechas ---------- */
+    const svgF = document.getElementById("flechas");
+    function dibujarFlechas() {
+      svgF.querySelectorAll("path.flecha, text.flecha-et").forEach(n => n.remove());
+      const base = mapa.getBoundingClientRect();
+      const rel = el => { const b = el.getBoundingClientRect(); return { x: b.left - base.left, y: b.top - base.top, w: b.width, h: b.height }; };
+      FLECHAS.forEach(f => {
+        const p = rel(document.getElementById(f.de));
+        const desde = document.getElementById(f.de).closest(".tarjeta");
+        const card = rel(document.getElementById("item-" + f.a));
+        const cd = rel(desde);
+        let d;
+        const x1 = p.x + p.w / 2, y1 = p.y + p.h;
+        if (f.canal) {
+          const yg = cd.y + cd.h + 12, xg = 10, yt = card.y + 28;
+          d = `M${x1} ${y1} V${yg} H${xg} V${yt} H${card.x - 4}`;
+          const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          t.setAttribute("class", "flecha-et"); t.setAttribute("x", xg + 4); t.setAttribute("y", yg + 16); t.textContent = f.et;
+          svgF.appendChild(t);
+        } else {
+          let x2 = Math.min(Math.max(x1, card.x + 30), card.x + card.w - 30);
+          const y2 = card.y - 3;
+          d = `M${x1} ${y1} C${x1} ${y1 + 26}, ${x2} ${y2 - 26}, ${x2} ${y2}`;
+        }
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d); path.setAttribute("class", "flecha"); path.setAttribute("marker-end", "url(#punta)");
+        svgF.appendChild(path);
+      });
+    }
+
+    /* ---------- filtros ---------- */
+    let filtro = "todo";
+    function aplicarFiltro() {
+      document.querySelectorAll("#filtros button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === filtro));
+      TAREAS.forEach(t => {
+        const el = document.getElementById("t-" + t.id);
+        let atenuar = false;
+        if (filtro === "mano") atenuar = t.solo === "maxima";
+        if (filtro === "maxima") atenuar = t.solo === "mano";
+        if (filtro === "errores") atenuar = !t.at;
+        el.classList.toggle("atenuada", atenuar);
+        el.classList.toggle("resaltada", filtro === "errores" && !!t.at);
+      });
+      document.getElementById("errores").style.display = filtro === "errores" ? "block" : "none";
+      if (pop.classList.contains("abierto") && actual) abrir(actual, true);
+    }
+    document.getElementById("filtros").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      filtro = b.dataset.f; aplicarFiltro();
+    });
+    const lista = document.getElementById("listaErrores");
+    TAREAS.filter(t => t.at).forEach(t => t.at.forEach(a => {
+      const li = document.createElement("li");
+      li.innerHTML = `${a} <button type="button" data-ir="${t.id}">Ir a la tarea ${t.id}</button>`;
+      lista.appendChild(li);
+    }));
+    lista.addEventListener("click", e => {
+      const b = e.target.closest("[data-ir]"); if (!b) return;
+      const el = document.getElementById("t-" + b.dataset.ir);
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      setTimeout(() => { fijada = el; abrir(el); }, 350);
+    });
+
+    /* ---------- ventana ---------- */
+    const pop = document.getElementById("pop");
+    let actual = null, fijada = null, temporizador = null;
+    const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    function sesion(mx, mal) {
+      let h = `<div class="wx${mal ? " mal" : ""}">`;
+      mx.forEach(m => {
+        h += `<div class="celda"><div class="ent"><span class="lab">${mal ? "" : "(%i" + m.i + ")"}</span><code>${esc(m.e)}</code><button type="button" class="copiar" data-copiar="${esc(m.e)}">copiar</button></div>`;
+        if (m.s) h += `<div class="sal"><span class="lab">${mal ? "" : "(%o" + m.i + ")"}</span><span>\\(\\displaystyle ${m.s}\\)</span><span></span></div>`;
+        h += `</div>`;
+      });
+      return h + "</div>";
+    }
+    function contenido(t) {
+      let h = `<div class="cab"><h3 id="popTitulo">${t.id} · ${t.n}</h3><button type="button" class="cerrar" aria-label="Cerrar">×</button></div>`;
+      h += `<div class="refs">${t.T.map(k => `<button type="button" class="refT" data-t="${k}" title="${TEORIA[k].t}">[${k}]</button>`).join("")}<span class="apunte">${t.T.map(k => TEORIA[k].ap).join(" · ")}</span></div>`;
+      h += `<p class="que">${t.que}</p>`;
+      const verMano = filtro !== "maxima" || !t.mx;
+      const verMx = filtro !== "mano";
+      if (t.mano && verMano) {
+        h += `<div class="bloque mano"><div class="tit">${t.mx || t.notaMx ? "A mano" : "En la hoja"}</div>${t.mano}${t.g ? GRAF[t.g]() : ""}</div>`;
+      } else if (t.g) {
+        h += GRAF[t.g]();
+      }
+      if (t.mx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div>${sesion(t.mx)}`;
+        if (t.hoja) h += `<p><b>Volcamos a la hoja.</b> ${t.hoja}</p>`;
+        if (t.mxMal) h += `<p class="nota">Si se olvida el paréntesis:</p>${sesion([t.mxMal], true)}`;
+        h += `</div>`;
+      } else if (t.notaMx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div><p class="nota">${t.notaMx}</p></div>`;
+      }
+      (t.at || []).forEach(a => { h += `<div class="atencion">${a}</div>`; });
+      return h;
+    }
+    function ubicar(el) {
+      if (window.innerWidth <= 720) { pop.classList.add("hoja"); return; }
+      pop.classList.remove("hoja");
+      const b = el.getBoundingClientRect();
+      const ph = pop.offsetHeight, pw = pop.offsetWidth;
+      let top = b.bottom + 8;
+      if (top + ph > window.innerHeight - 8 && b.top - ph - 8 > 8) top = b.top - ph - 8;
+      if (top + ph > window.innerHeight - 8) top = Math.max(8, window.innerHeight - ph - 8);
+      let left = Math.min(Math.max(12, b.left), document.documentElement.clientWidth - pw - 12);
+      pop.style.top = (top + window.scrollY) + "px";
+      pop.style.left = (left + window.scrollX) + "px";
+    }
+    function abrir(el, mismo) {
+      const t = porId[el.dataset.id];
+      if (!mismo && actual === el && pop.classList.contains("abierto")) { ubicar(el); return; }
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      el.classList.add("activa");
+      actual = el;
+      pop.innerHTML = contenido(t);
+      pop.classList.add("abierto");
+      ubicar(el);
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([pop]).then(() => ubicar(el)).catch(() => {});
+    }
+    function cerrar() {
+      pop.classList.remove("abierto");
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      actual = null; fijada = null;
+    }
+    const hover = window.matchMedia("(hover: hover)").matches;
+    mapa.addEventListener("mouseover", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      clearTimeout(temporizador); abrir(el);
+    });
+    mapa.addEventListener("mouseout", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      if (el.contains(e.relatedTarget)) return;
+      temporizador = setTimeout(cerrar, 260);
+    });
+    pop.addEventListener("mouseenter", () => clearTimeout(temporizador));
+    pop.addEventListener("mouseleave", () => { if (!fijada) temporizador = setTimeout(cerrar, 260); });
+    mapa.addEventListener("click", e => {
+      const el = e.target.closest(".tarea"); if (!el) return;
+      clearTimeout(temporizador);
+      if (fijada === el) { cerrar(); return; }
+      fijada = el; abrir(el);
+    });
+    mapa.addEventListener("focusin", e => { const el = e.target.closest(".tarea"); if (el && !fijada) abrir(el); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+    document.addEventListener("click", e => {
+      if (!fijada) return;
+      if (pop.contains(e.target) || e.target.closest(".tarea") || e.target.closest("#listaErrores")) return;
+      cerrar();
+    });
+    pop.addEventListener("click", e => {
+      if (e.target.closest(".cerrar")) { cerrar(); return; }
+      const c = e.target.closest("[data-copiar]");
+      if (c) { copiar(c.getAttribute("data-copiar").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")); return; }
+      const ref = e.target.closest(".refT");
+      if (ref) {
+        const teo = document.getElementById("teo-" + ref.dataset.t);
+        cerrar();
+        teo.scrollIntoView({ block: "center", behavior: "smooth" });
+        teo.classList.add("brilla"); setTimeout(() => teo.classList.remove("brilla"), 1800);
+      }
+    });
+
+    /* ---------- copiar ---------- */
+    const aviso = document.getElementById("aviso");
+    function avisar(txt) { aviso.textContent = txt; aviso.classList.add("ver"); setTimeout(() => aviso.classList.remove("ver"), 1400); }
+    function copiar(txt) {
+      const respaldo = () => {
+        try {
+          const ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove();
+          avisar(ok ? "Copiado" : "No se pudo copiar: seleccioná el texto a mano");
+        } catch (err) { avisar("No se pudo copiar: seleccioná el texto a mano"); }
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => avisar("Copiado"), respaldo);
+        else respaldo();
+      } catch (err) { respaldo(); }
+    }
+    document.getElementById("copiarSesion").addEventListener("click", () => copiar(SESION));
+
+    /* ---------- arranque ---------- */
+    aplicarFiltro();
+    dibujarFlechas();
+    window.addEventListener("resize", () => { dibujarFlechas(); if (actual) ubicar(actual); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(dibujarFlechas);
+    window.addEventListener("load", () => {
+      dibujarFlechas();
+      if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(dibujarFlechas);
+    });
+    if ("ResizeObserver" in window) new ResizeObserver(dibujarFlechas).observe(mapa);
+  </script>
+</body>
+</html>
