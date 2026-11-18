@@ -1,1 +1,745 @@
-sajh
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa de la Actividad 5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Plan (Actividad 5): paleta del material de Matemática 1 (azul, naranja, verde Maxima, vino advertencias).
+       Layout: una tarjeta por ítem apilada en vertical; flechas entre tarjetas por un canal a la izquierda. */
+    :root {
+      --bg: #f6f7f8;
+      --panel: #ffffff;
+      --tinta: #1d2429;
+      --tinta2: #4f5a62;
+      --tinta3: #7d878e;
+      --linea: #d6dde2;
+      --azul: #15658e;
+      --azulClaro: #e6f2f7;
+      --naranja: #c46210;
+      --naranjaClaro: #fdebdd;
+      --verde: #1b7847;
+      --verdeClaro: #e6f5ec;
+      --vino: #961e2d;
+      --vinoClaro: #fae8ea;
+      --rojoOp: #cc0000;
+      --wxFondo: #ffffff;
+      --wxIn: #1c3f94;
+      --wxLabel: #b02020;
+      --wxOutLabel: #2a6e2a;
+      --font-display: "Literata", Georgia, "Times New Roman", serif;
+      --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+        --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+        --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+        --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #14191d; --panel: #1c2328; --tinta: #e4e9ec; --tinta2: #aeb8bf; --tinta3: #86929a; --linea: #34404a;
+      --azul: #6bb3dc; --azulClaro: #172c39; --naranja: #f0a35e; --naranjaClaro: #33261a;
+      --verde: #6cc79a; --verdeClaro: #16301f; --vino: #f08a96; --vinoClaro: #3a1d22; --rojoOp: #ff6b6b;
+      --wxFondo: #11161a; --wxIn: #9fb8ff; --wxLabel: #ff8a8a; --wxOutLabel: #8fd68f;
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--tinta); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+    .envoltura { max-width: 980px; margin: 0 auto; padding: 28px 20px 60px; display: grid; gap: 22px; }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; }
+    h1 { font-size: 28px; line-height: 1.2; color: var(--azul); }
+    h2 { font-size: 20px; color: var(--azul); }
+    .bajada { color: var(--tinta2); margin: 6px 0 0; max-width: 68ch; }
+    .enunciado { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 10px; padding: 0; }
+    .enunciado summary { cursor: pointer; padding: 10px 16px; font-weight: 600; color: var(--azul); }
+    .enunciado .cuerpo { padding: 0 18px 14px; max-width: 75ch; }
+    .enunciado ul { margin: 6px 0; padding-left: 20px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; position: sticky; top: 0; z-index: 4; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--linea); }
+    .seg { display: inline-flex; border: 1px solid var(--linea); border-radius: 8px; overflow: hidden; background: var(--panel); }
+    .seg button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--tinta2); padding: 7px 13px; cursor: pointer; border-right: 1px solid var(--linea); }
+    .seg button:last-child { border-right: 0; }
+    .seg button[aria-pressed="true"] { background: var(--azul); color: var(--panel); }
+    .boton { font: inherit; font-size: 14px; border: 1px solid var(--verde); color: var(--verde); background: var(--panel); border-radius: 8px; padding: 7px 13px; cursor: pointer; }
+    .boton:hover { background: var(--verdeClaro); }
+    button:focus-visible, .tarea:focus-visible, summary:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+    .leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--tinta2); }
+    .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+    .muestra { width: 14px; height: 14px; border-radius: 4px; border: 1px solid; display: inline-block; }
+    .ayuda { font-size: 13px; color: var(--tinta3); margin: 0; }
+
+    #mapa { position: relative; display: grid; gap: 34px; padding-left: 30px; }
+    #flechas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .parte { font-size: 18px; color: var(--naranja); margin: 6px 0 -18px; }
+    .tarjeta { position: relative; background: var(--panel); border: 1px solid var(--linea); border-radius: 12px; padding: 14px 16px 12px; display: grid; gap: 10px; }
+    .tarjeta header { display: flex; gap: 12px; align-items: baseline; }
+    .letra { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--naranja); min-width: 1.4em; }
+    .tarjeta h3 { font-size: 17px; color: var(--tinta); }
+    .consigna { font-size: 13.5px; color: var(--tinta2); margin: 2px 0 0; }
+    .ramal { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; align-items: start; }
+    .ramal .rotulo { font-size: 12px; color: var(--tinta3); padding-top: 9px; text-transform: lowercase; }
+    .ramal.solo { grid-template-columns: minmax(0, 1fr); }
+    .cadena { display: flex; flex-wrap: wrap; gap: 8px 4px; align-items: center; }
+    .paso { display: inline-flex; align-items: center; gap: 4px; }
+    .sep { color: var(--tinta3); font-size: 14px; padding: 0 2px; }
+    .tarea { position: relative; font: inherit; font-size: 13px; line-height: 1.3; text-align: left; padding: 7px 10px 7px 9px; border-radius: 8px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta); cursor: pointer; max-width: 178px; display: inline-flex; gap: 6px; align-items: flex-start; transition: opacity .2s, border-color .15s; }
+    .tarea .num { font-family: var(--font-mono); font-size: 11px; color: var(--tinta3); padding-top: 1px; }
+    .tarea.r { border-color: var(--azul); }
+    .tarea.k { background: var(--verdeClaro); border-color: var(--verde); }
+    .tarea.c { background: var(--naranjaClaro); border-color: var(--naranja); }
+    .tarea:hover, .tarea.activa { box-shadow: 0 0 0 2px var(--azul); }
+    .tarea .alerta { position: absolute; top: -7px; right: -7px; width: 17px; height: 17px; border-radius: 50%; background: var(--vino); color: var(--panel); font-size: 11px; font-weight: 600; display: grid; place-items: center; }
+    .tarea.atenuada { opacity: .25; }
+    .tarea.resaltada { box-shadow: 0 0 0 2px var(--vino); }
+    .produce { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-top: 1px dashed var(--linea); padding-top: 9px; }
+    .produce .et { font-size: 12px; color: var(--tinta3); }
+    .pieza { background: var(--azulClaro); border: 1px solid var(--azul); color: var(--tinta); border-radius: 999px; padding: 3px 12px; font-size: 13.5px; }
+    .flecha { fill: none; stroke: var(--azul); stroke-width: 1.6; opacity: .7; }
+    .flecha-et { font-size: 12px; fill: var(--azul); font-family: var(--font-body); }
+
+    #errores { background: var(--vinoClaro); border: 1px solid var(--vino); border-radius: 12px; padding: 12px 16px; display: none; }
+    #errores h2 { color: var(--vino); font-size: 17px; margin-bottom: 6px; }
+    #errores ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+    #errores button { font: inherit; font-size: 13px; background: none; border: 0; padding: 0; color: var(--vino); text-decoration: underline; cursor: pointer; }
+
+    .teoria { display: grid; gap: 10px; }
+    .teoria .grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 10px; }
+    .teo { background: var(--panel); border: 1px solid var(--linea); border-left: 4px solid var(--naranja); border-radius: 0; padding: 10px 14px; font-size: 13.5px; transition: background .4s; }
+    .teo b { color: var(--naranja); }
+    .teo .ap { color: var(--tinta3); font-size: 12px; display: block; margin-top: 4px; }
+    .teo.brilla { background: var(--naranjaClaro); }
+
+    #pop { position: absolute; z-index: 10; width: 440px; max-width: calc(100vw - 24px); max-height: 74vh; overflow: auto; background: var(--panel); border: 1px solid var(--tinta3); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 14px 16px 16px; display: none; font-size: 14px; }
+    #pop.abierto { display: block; }
+    #pop .cab { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+    #pop h3 { font-size: 16px; color: var(--azul); }
+    #pop .cerrar { font: inherit; border: 0; background: none; font-size: 20px; line-height: 1; color: var(--tinta3); cursor: pointer; padding: 0 2px; }
+    #pop .refs { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 8px; }
+    #pop .refT { font: inherit; font-size: 12px; border: 1px solid var(--naranja); color: var(--naranja); background: var(--naranjaClaro); border-radius: 6px; padding: 1px 7px; cursor: pointer; }
+    #pop .apunte { font-size: 12px; color: var(--tinta3); align-self: center; }
+    #pop .que { margin: 0 0 8px; }
+    #pop .bloque { border-top: 1px solid var(--linea); padding-top: 8px; margin-top: 8px; }
+    #pop .bloque > .tit { font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--tinta2); margin-bottom: 4px; }
+    #pop .bloque.mano > .tit { color: var(--azul); }
+    #pop .bloque.maxima > .tit { color: var(--verde); }
+    #pop p { margin: 4px 0; }
+    #pop mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+    #pop .respuesta { background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 8px; padding: 6px 10px; margin-top: 8px; text-align: center; }
+    #pop .atencion { background: var(--vinoClaro); border-left: 3px solid var(--vino); border-radius: 0; padding: 6px 10px; margin-top: 8px; font-size: 13px; }
+    #pop .atencion b { color: var(--vino); }
+    #pop .nota { font-size: 13px; color: var(--tinta2); }
+    .wx { background: var(--wxFondo); border: 1px solid var(--linea); border-radius: 8px; padding: 6px 8px; margin: 6px 0; overflow-x: auto; }
+    .wx.mal { border-color: var(--vino); }
+    .wx .celda { border-left: 2px solid var(--linea); padding-left: 8px; margin: 4px 0; }
+    .wx .ent, .wx .sal { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 6px; align-items: baseline; }
+    .wx .lab { font-family: var(--font-mono); font-size: 12px; color: var(--wxLabel); }
+    .wx .sal .lab { color: var(--wxOutLabel); }
+    .wx code { font-family: var(--font-mono); font-size: 12.5px; color: var(--wxIn); white-space: pre-wrap; word-break: break-word; }
+    .wx code.msg { color: var(--tinta2); font-size: 12px; }
+    .wx code.err { color: var(--wxLabel); font-size: 12px; }
+    .wx .copiar { font: inherit; font-size: 11px; border: 1px solid var(--linea); background: var(--panel); color: var(--tinta2); border-radius: 5px; padding: 1px 6px; cursor: pointer; }
+    .wx .sal mjx-container { margin: 2px 0 !important; }
+    .graf { width: 100%; max-width: 400px; display: block; margin: 6px auto 0; }
+    .graf text { font-family: var(--font-body); font-size: 11px; fill: var(--tinta2); }
+    .graf .eje { stroke: var(--tinta2); stroke-width: 1; }
+    .graf .grilla { stroke: var(--linea); stroke-width: .6; }
+    .aviso { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--tinta); color: var(--panel); padding: 7px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+    .aviso.ver { opacity: 1; }
+    .pie { border-top: 2px solid var(--azul); margin-top: 10px; padding-top: 16px; display: grid; gap: 14px; font-size: 13.5px; color: var(--tinta2); }
+    .pie .descarga { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; background: var(--azulClaro); border: 1px solid var(--azul); border-radius: 10px; padding: 12px 16px; }
+    .pie .descarga p { margin: 0; flex: 1 1 280px; color: var(--tinta); }
+    .pie .btnDescarga { display: inline-block; font-weight: 600; text-decoration: none; background: var(--azul); color: var(--panel); border-radius: 8px; padding: 8px 14px; }
+    .pie .btnDescarga.pendiente { background: transparent; color: var(--tinta3); border: 1px dashed var(--tinta3); font-weight: 500; cursor: default; }
+    .pie .datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px 24px; }
+    .pie .datos p { margin: 0; }
+    .pie b { color: var(--tinta); }
+    .pie a { color: var(--azul); }
+    .pie .licencia { color: var(--naranja); }
+    @media (max-width: 720px) {
+      .envoltura { padding: 18px 16px 50px; }
+      h1 { font-size: 23px; }
+      #mapa { padding-left: 22px; }
+      .ramal { grid-template-columns: minmax(0, 1fr); }
+      .ramal .rotulo { padding-top: 0; }
+      #pop.hoja { position: fixed; left: 0 !important; right: 0; bottom: 0; top: auto !important; width: 100%; max-width: 100%; max-height: 72vh; border-radius: 14px 14px 0 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+  <script>
+    (function () {
+      var t = document.documentElement.getAttribute("data-theme");
+      var oscuro = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var rojo = oscuro ? "255,107,107" : "204,0,0";
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+          macros: { op: ["{\\color[RGB]{" + rojo + "}{\\boldsymbol{#1}}}", 1] }
+        },
+        svg: { fontCache: "global" },
+        startup: { typeset: true }
+      };
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg-full.js" defer></script>
+</head>
+<body>
+  <div class="envoltura">
+    <header>
+      <h1>Actividad 5: dos sistemas con parámetros</h1>
+      <p class="bajada">Práctica extra del simulacro del examen final · Matemática I. Va más allá de lo que pide el final. Un sistema de dos ecuaciones que se puede leer como dos rectas en el plano, y un sistema de tres ecuaciones cuyo determinante se anula en dos valores que resultan ser de tipos distintos.</p>
+    </header>
+
+    <details class="enunciado" open>
+      <summary>Enunciado</summary>
+      <div class="cuerpo">
+        <p><b>I. Un sistema de dos ecuaciones, mirado como dos rectas.</b> \(\left\{ \begin{aligned} k \cdot x + 3 \cdot y &= 6 \\ 2 \cdot x + y &= c \end{aligned} \right.\), donde \(k\) y \(c\) son números reales.</p>
+        <ul>
+          <li><b>a)</b> Escribí cada ecuación en forma explícita e indicá la pendiente y la ordenada al origen de cada recta.</li>
+          <li><b>b)</b> ¿Para qué valores de \(k\) las rectas son secantes? ¿Qué tipo de sistema resulta? Confirmá tu respuesta con el determinante de la matriz de coeficientes.</li>
+          <li><b>c)</b> Para \(k = 6\): ¿para qué valores de \(c\) las rectas son paralelas y para cuáles son coincidentes? Clasificá el sistema en cada caso y, si resulta compatible indeterminado, escribí su solución general.</li>
+        </ul>
+        <p><b>II. Un sistema de tres ecuaciones con dos valores problemáticos.</b> \(\left\{ \begin{aligned} x + y + a \cdot z &= 2 \\ x + a \cdot y + z &= 2 \\ -x - y + 3 \cdot z &= 2 \end{aligned} \right.\), donde \(a\) es un número real.</p>
+        <ul>
+          <li><b>d)</b> ¿Para qué valores de \(a\) el sistema es <b>compatible determinado</b>? Justificá.</li>
+          <li><b>e)</b> Para cada uno de los valores de \(a\) que quedaron excluidos: reemplazá \(a\) por ese valor, resolvé el sistema por <b>triangulación de Gauss</b> y clasificalo. Si resulta compatible indeterminado, escribí su solución general.</li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="barra" role="toolbar" aria-label="Recorridos del mapa">
+      <div class="seg" id="filtros">
+        <button type="button" data-f="todo" aria-pressed="true">Todo</button>
+        <button type="button" data-f="mano" aria-pressed="false">A mano</button>
+        <button type="button" data-f="maxima" aria-pressed="false">Con Maxima</button>
+        <button type="button" data-f="errores" aria-pressed="false">Errores típicos</button>
+      </div>
+      <button type="button" class="boton" id="copiarSesion">Copiar la sesión completa de Maxima</button>
+      <div class="leyenda" aria-label="Referencias">
+        <span><i class="muestra" style="border-color:var(--azul);background:var(--panel)"></i>razonar y justificar</span>
+        <span><i class="muestra" style="border-color:var(--verde);background:var(--verdeClaro)"></i>calcular (se puede delegar a Maxima)</span>
+        <span><i class="muestra" style="border-color:var(--naranja);background:var(--naranjaClaro)"></i>interpretar en el contexto</span>
+        <span><i class="muestra" style="border-color:var(--vino);background:var(--vino);border-radius:50%"></i>tiene un error típico</span>
+      </div>
+      <p class="ayuda">Pasá el mouse por una tarea para ver qué se hace y por qué. Con un clic la ventana queda fija.</p>
+    </div>
+
+    <section id="errores" aria-live="polite">
+      <h2>Errores típicos de esta actividad</h2>
+      <ol id="listaErrores"></ol>
+    </section>
+
+    <div id="mapa">
+      <svg id="flechas" aria-hidden="true">
+        <defs>
+          <marker id="punta" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M1 1L8 5L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+
+    <section class="teoria" id="teoria">
+      <h2>Consideraciones teóricas que usa la actividad</h2>
+      <div class="grilla" id="grillaTeoria"></div>
+    </section>
+    <footer class="pie">
+      <div class="descarga">
+        <p><b>Simulacro del examen final, resuelto y explicado.</b> Cada actividad, con las consideraciones teóricas, la resolución a mano y la resolución asistida por Maxima.</p>
+        <!-- LINK DE DESCARGA: completar el href con la dirección del PDF. Mientras esté vacío, el botón muestra «Disponible próximamente». -->
+        <a class="btnDescarga" id="descargaFinal" href="">Descargar el final resuelto (PDF)</a>
+      </div>
+      <div class="datos">
+        <p><b>Mapa de la Actividad 5 · Práctica extra</b> · Simulacro del examen final<br>Matemática I · Matemática y Estadística<br>Universidad Nacional del Comahue · C.U.R.Z.A.S.</p>
+        <p><b>Autor:</b> Lic. Nicolás Rosbaco<br>Viedma, Río Negro (Patagonia Argentina)<br><b>Fecha:</b> noviembre de 2026</p>
+        <p><b>Licencia:</b> <a class="licencia" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es">Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)</a>. Podés copiar y compartir este material siempre que cites al autor, no lo uses con fines comerciales y lo distribuyas bajo la misma licencia.</p>
+      </div>
+      <p style="margin:0">Sugerencias o correcciones: nicolasrosbaco@curza.com.ar</p>
+    </footer>
+  </div>
+
+  <div id="pop" role="dialog" aria-modal="false" aria-labelledby="popTitulo"></div>
+  <div class="aviso" id="aviso">Copiado</div>
+
+  <script>
+    const r = String.raw;
+
+    /* ---------- gráficos ---------- */
+    function plot(o) {
+      const W = 400, H = 230, ml = 42, mr = 14, mt = 12, mb = 28;
+      const sx = x => ml + (x - o.x0) / (o.x1 - o.x0) * (W - ml - mr);
+      const sy = y => mt + (o.y1 - y) / (o.y1 - o.y0) * (H - mt - mb);
+      let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.alt}">`;
+      o.xt.forEach(x => { s += `<line class="grilla" x1="${sx(x)}" y1="${sy(o.y0)}" x2="${sx(x)}" y2="${sy(o.y1)}"/><text x="${sx(x)}" y="${H - 10}" text-anchor="middle">${x}</text>`; });
+      o.yt.forEach(y => { s += `<line class="grilla" x1="${sx(o.x0)}" y1="${sy(y)}" x2="${sx(o.x1)}" y2="${sy(y)}"/><text x="${ml - 6}" y="${sy(y) + 4}" text-anchor="end">${y}</text>`; });
+      const y0 = Math.max(o.y0, Math.min(o.y1, 0));
+      const xe = Math.max(o.x0, Math.min(o.x1, 0));
+      s += `<line class="eje" x1="${sx(o.x0)}" y1="${sy(y0)}" x2="${sx(o.x1)}" y2="${sy(y0)}"/><line class="eje" x1="${sx(xe)}" y1="${sy(o.y0)}" x2="${sx(xe)}" y2="${sy(o.y1)}"/>`;
+      o.fns.forEach(f => {
+        let d = "";
+        for (let i = 0; i <= 120; i++) { const x = f.a + (f.b - f.a) * i / 120; d += (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(f.f(x)).toFixed(1); }
+        s += `<path d="${d}" style="fill:none;stroke:${f.c};stroke-width:2.2"/>`;
+        if (f.et) s += `<text x="${sx(f.et[0])}" y="${sy(f.et[1])}" style="fill:${f.c};font-weight:600">${f.et[2]}</text>`;
+      });
+      (o.pts || []).forEach(p => { s += `<circle cx="${sx(p[0])}" cy="${sy(p[1])}" r="3.6" style="fill:${p[3] || "var(--vino)"}"/><text x="${sx(p[0]) + (p[4] || 6)}" y="${sy(p[1]) - 7}" style="fill:${p[3] || "var(--vino)"}" text-anchor="${p[5] || "start"}">${p[2]}</text>`; });
+      return s + "</svg>";
+    }
+    function sarrusSVG(m) {
+      const cx = [125, 185, 245], ry = [24, 52, 80, 114, 142];
+      const bajan = ["var(--azul)", "var(--verde)", "var(--naranja)"], suben = ["var(--rojoOp)", "#8e5bc9", "var(--tinta3)"];
+      let s = `<svg class="graf" viewBox="0 0 400 165" role="img" aria-label="Regla de Sarrus con las dos primeras filas copiadas debajo">`;
+      for (let i = 0; i < 3; i++) s += `<line x1="${cx[0]}" y1="${ry[i]}" x2="${cx[2]}" y2="${ry[i + 2]}" style="stroke:${bajan[i]};stroke-width:11;stroke-linecap:round;opacity:.28"/>`;
+      for (let i = 0; i < 3; i++) s += `<line x1="${cx[0]}" y1="${ry[i + 2]}" x2="${cx[2]}" y2="${ry[i]}" style="stroke:${suben[i]};stroke-width:11;stroke-linecap:round;opacity:.28"/>`;
+      const filas = [m[0], m[1], m[2], m[0], m[1]];
+      filas.forEach((f, i) => f.forEach((v, j) => {
+        s += `<text x="${cx[j]}" y="${ry[i] + 5}" text-anchor="middle" style="font-size:15px;fill:${i < 3 ? "var(--tinta)" : "var(--tinta3)"};${/[a-z]/.test(v) ? "font-style:italic;" : ""}">${v}</text>`;
+      }));
+      s += `<line x1="98" y1="8" x2="98" y2="94" class="eje"/><line x1="272" y1="8" x2="272" y2="94" class="eje"/>`;
+      s += `<line x1="92" y1="97" x2="278" y2="97" style="stroke:var(--tinta3);stroke-dasharray:4 3"/>`;
+      s += `<text x="292" y="40" style="fill:var(--azul);font-weight:600">bajan: suman</text><text x="292" y="120" style="fill:var(--rojoOp);font-weight:600">suben: restan</text>`;
+      return s + "</svg>";
+    }
+    function diagramaSignos(o) {
+      const W = 400, x0 = 118, x1 = 388, X = f => x0 + f * (x1 - x0);
+      const H = 40 + o.filas.length * 44;
+      let s = `<svg class="graf" viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagrama de signos">`;
+      o.filas.forEach((f, i) => {
+        const y = 30 + i * 44;
+        f.tramos.forEach(t => {
+          const col = t[0] === "+" ? "var(--verde)" : "var(--vino)";
+          s += `<line x1="${X(t[1])}" y1="${y}" x2="${X(t[2])}" y2="${y}" style="stroke:${col};stroke-width:6;opacity:.5"/><text x="${(X(t[1]) + X(t[2])) / 2}" y="${y - 8}" text-anchor="middle" style="fill:${col};font-size:14px;font-weight:600">${t[0]}</text>`;
+        });
+        s += `<text x="4" y="${y + 4}" style="fill:${f.res ? "var(--azul)" : "var(--naranja)"};font-weight:600">${f.et}</text>`;
+        (f.puntos || []).forEach(p => { s += `<circle cx="${X(p[0])}" cy="${y}" r="4" style="fill:${p[1] === "lleno" ? "var(--tinta)" : "var(--panel)"};stroke:var(--tinta);stroke-width:1.4"/>`; });
+      });
+      o.marcas.forEach(m => { s += `<line x1="${X(m[1])}" y1="10" x2="${X(m[1])}" y2="${H - 30}" style="stroke:var(--tinta3);stroke-dasharray:3 3"/><text x="${X(m[1])}" y="${H - 10}" text-anchor="middle">${m[0]}</text>`; });
+      return s + "</svg>";
+    }
+
+    const TEORIA = {
+      T1: { t: "La ecuación de la recta en forma explícita", x: r`\(y = a \cdot x + b\): la pendiente \(a\) y la ordenada al origen \(b\) se leen directamente. Para llegar a ella se despeja \(y\) operando en ambos miembros.`, ap: "[R] Forma explícita de la ecuación de la recta" },
+      T2: { t: "Dos rectas en el plano", x: r`Pendientes distintas: secantes, un único punto en común. Misma pendiente y distinta ordenada: paralelas, ningún punto en común. Misma pendiente y misma ordenada: coincidentes, infinitos puntos en común.`, ap: "[R] La recta y su ecuación · [S] Sistemas de dos ecuaciones con dos incógnitas" },
+      T3: { t: "Determinante de orden 2", x: r`\(\det \begin{pmatrix} a & b \\ c & d \end{pmatrix} = a \cdot d - b \cdot c\): la diagonal que baja menos la que sube.`, ap: "[M] Cómo se calcula: determinante en matrices de orden 2" },
+      T4: { t: "El determinante decide si es compatible determinado", x: r`Con matriz de coeficientes cuadrada: \(\det(A) \neq 0 \iff\) compatible determinado. Si \(\det(A) = 0\), sólo sabemos que no lo es: puede ser incompatible o compatible indeterminado.`, ap: "[S] Método de la ecuación matricial · En resumen: qué nos dice (y qué no) el método de la ecuación matricial" },
+      T5: { t: "Determinante de orden 3: regla de Sarrus", x: r`Se suman los productos de las diagonales que bajan y se restan los de las que suben, con la letra a cuestas.`, ap: "[M] Cálculo de determinantes en matrices de orden 3 (regla de Sarrus)" },
+      T6: { t: "Triangulación de Gauss", x: r`Operaciones elementales sobre la matriz ampliada hasta una matriz escalonada. Una fila \((0 \;\; 0 \;\; 0 \,|\, c)\) con \(c \neq 0\): incompatible. Una fila nula se descarta; menos pivotes que incógnitas: compatible indeterminado.`, ap: "[S] Definición: operaciones elementales · Método de triangulación de Gauss · Cómo leer la matriz ampliada triangulada" },
+      T7: { t: "Clasificación y solución general", x: r`Compatible determinado, compatible indeterminado o incompatible. En un compatible indeterminado, la incógnita sin pivote funciona como parámetro y la solución general describe las infinitas soluciones.`, ap: "[S] Definición: clasificación de los sistemas de ecuaciones lineales" },
+      T8: { t: "Ecuación cuadrática igualada a cero", x: r`Se resuelve con la fórmula resolvente o factorizando; un producto es cero si, y sólo si, algún factor es cero.`, ap: "[C] Forma polinómica · [E] Ecuaciones factorizadas" }
+    };
+
+    const ITEMS = [
+      {
+        id: "a", parte: "I. Un sistema de dos ecuaciones, mirado como dos rectas",
+        titulo: "Cada ecuación en forma explícita",
+        consigna: r`\(\left\{ \begin{aligned} k \cdot x + 3 \cdot y &= 6 \\ 2 \cdot x + y &= c \end{aligned} \right.\): escribir cada ecuación en forma explícita e indicar pendiente y ordenada al origen.`,
+        ramales: [{ tareas: [
+          { n: "Despejar y en la primera ecuación", k: "k", T: ["T1"],
+            que: r`Operamos en ambos miembros hasta dejar \(y\) sola.`,
+            mano: r`\[\begin{aligned} k \cdot x + 3 \cdot y &= 6 \\ k \cdot x + 3 \cdot y \op{-\,k \cdot x} &= 6 \op{-\,k \cdot x} \\ 3 \cdot y &= -k \cdot x + 6 \\ \dfrac{3 \cdot y}{\op{3}} &= \dfrac{-k \cdot x + 6}{\op{3}} \\ y &= -\dfrac{k}{3} \cdot x + 2 \end{aligned}\]<p>Pendiente \(-\dfrac{k}{3}\), ordenada al origen \(2\).</p>`,
+            mx: [
+              { i: "1", e: "ec1 : k*x + 3*y = 6;" },
+              { i: "2", e: "ec2 : 2*x + y = c;" },
+              { i: "3", e: "solve(ec1, y);", s: r`\left[ y=-\frac{k\,x-6}{3} \right]` }
+            ],
+            hoja: r`Maxima no separa los términos: \(-\dfrac{k \cdot x - 6}{3} = -\dfrac{k}{3} \cdot x + 2\). La pendiente y la ordenada las leemos nosotros.` },
+          { n: "Despejar y en la segunda ecuación", k: "k", T: ["T1"],
+            que: r`Restamos \(2 \cdot x\) en ambos miembros.`,
+            mano: r`\[\begin{aligned} 2 \cdot x + y \op{-\,2 \cdot x} &= c \op{-\,2 \cdot x} \\ y &= -2 \cdot x + c \end{aligned}\]<p>Pendiente \(-2\), ordenada al origen \(c\).</p>`,
+            mx: [{ i: "4", e: "solve(ec2, y);", s: r`\left[ y=c-2\,x \right]` }],
+            hoja: r`\(y = -2 \cdot x + c\).` }
+        ]}],
+        produce: [{ id: "pRectas", tex: r`\(y = -\dfrac{k}{3} \cdot x + 2\) \(\quad y = -2 \cdot x + c\)` }]
+      },
+      {
+        id: "b", titulo: "¿Cuándo son secantes?",
+        consigna: r`¿Para qué valores de \(k\) las rectas son secantes? ¿Qué tipo de sistema resulta? Confirmar con el determinante.`,
+        ramales: [{ tareas: [
+          { n: "Comparar las pendientes", k: "r", T: ["T2"],
+            que: r`Dos rectas son secantes cuando tienen pendientes distintas.`,
+            mano: r`<p>Buscamos cuándo las pendientes son <b>iguales</b>, para excluir ese caso:</p>\[\begin{aligned} -\dfrac{k}{3} &= -2 \\ \op{(-3) \cdot{}} \left(-\dfrac{k}{3}\right) &= \op{(-3) \cdot{}} (-2) \\ k &= 6 \end{aligned}\]<div class="respuesta">Con \(k \neq 6\) las rectas son secantes: un único punto en común, el sistema es compatible determinado.</div>` },
+          { n: "Confirmar con el determinante", k: "k", T: ["T3", "T4"],
+            que: r`El mismo resultado, en el lenguaje de las matrices.`,
+            mano: r`\[\det \begin{pmatrix} k & 3 \\ 2 & 1 \end{pmatrix} = k \cdot 1 - 3 \cdot 2 = k - 6\]<p>\(\det(A) \neq 0 \iff k \neq 6\): la misma condición que con las pendientes.</p>`,
+            mx: [
+              { i: "5", e: "A : coefmatrix([ec1, ec2], [x, y]);", s: r`\begin{pmatrix} k & 3 \\ 2 & 1 \end{pmatrix}` },
+              { i: "6", e: "determinant(A);", s: r`k-6` }
+            ],
+            hoja: r`\(\det(A) = k - 6\).` }
+        ]}],
+        produce: [{ id: "pSec", tex: r`\(k \neq 6\): secantes, compatible determinado` }]
+      },
+      {
+        id: "c", titulo: "Con k = 6: ¿paralelas o coincidentes?",
+        consigna: r`Para \(k = 6\), ¿para qué \(c\) las rectas son paralelas y para cuáles coincidentes? Clasificar y, si es compatible indeterminado, escribir la solución general.`,
+        ramales: [{ tareas: [
+          { n: "Misma pendiente: comparar ordenadas", k: "r", T: ["T2"],
+            que: r`Con \(k = 6\) las dos rectas tienen pendiente \(-2\).`,
+            mano: r`\[y = -2 \cdot x + 2 \qquad\qquad y = -2 \cdot x + c\]<p>Todo depende de la ordenada al origen: si \(c \neq 2\) son paralelas; si \(c = 2\), son la misma recta.</p>`,
+            g: "rectas" },
+          { n: "c ≠ 2: paralelas", k: "r", T: ["T2", "T7"],
+            que: r`Rectas paralelas distintas no tienen ningún punto en común.`,
+            mano: r`<div class="respuesta">\(k = 6\), \(c \neq 2\): el sistema es incompatible, \(S = \varnothing\)</div>`,
+            mx: [{ i: "7", e: "solve(subst([k = 6, c = 5], [ec1, ec2]), [x, y]);", s: r`\left[ \right]` }],
+            hoja: r`Probamos con un valor, \(c = 5\): la lista vacía confirma que no hay solución.` },
+          { n: "c = 2: coincidentes", k: "k", T: ["T2", "T7"],
+            que: r`Todos los puntos de la recta son solución.`,
+            mano: r`<div class="respuesta">\(k = 6\), \(c = 2\): compatible indeterminado, \(S = \{(x, \; 2 - 2 \cdot x) : x \in \mathbb{R}\}\)</div><p class="nota">Por ejemplo, \((0, 2)\) y \((1, 0)\) son soluciones.</p>`,
+            mx: [{ i: "8", e: "solve(subst([k = 6, c = 2], [ec1, ec2]), [x, y]);", msg: "solve: dependent equations eliminated: (2)", s: r`\left[ \left[ x=-\frac{\%r_1-2}{2} , y=\%r_1 \right] \right]` }],
+            hoja: r`Maxima eliminó la ecuación repetida y eligió \(y\) como parámetro (<code>%r1</code>): \(x = \dfrac{2 - y}{2}\). Despejando \(y\) se obtiene \(y = 2 - 2 \cdot x\): es la misma recta, descripta con otro parámetro.`,
+            at: [r`<b>Otro parámetro no es otra solución.</b> Maxima describe el mismo conjunto con \(y\) como parámetro; nosotros usamos \(x\). Las dos expresiones dan los mismos puntos.`] }
+        ]}],
+        produce: [{ id: "pC", tex: r`\(c \neq 2\): incompatible \(\quad c = 2\): compatible indeterminado` }]
+      },
+      {
+        id: "d", parte: "II. Un sistema de tres ecuaciones con dos valores problemáticos",
+        titulo: "¿Para qué a es compatible determinado?",
+        consigna: r`\(\left\{ \begin{aligned} x + y + a \cdot z &= 2 \\ x + a \cdot y + z &= 2 \\ -x - y + 3 \cdot z &= 2 \end{aligned} \right.\). Justificar.`,
+        ramales: [{ tareas: [
+          { n: "Elegir la herramienta", k: "r", T: ["T4"],
+            que: r`Matriz de coeficientes cuadrada: el determinante responde la pregunta.`,
+            mano: r`<p>El sistema es compatible determinado si, y sólo si, \(\det(A) \neq 0\). Buscamos los valores que lo anulan.</p>` },
+          { n: "Calcular det(A) con Sarrus", k: "k", T: ["T5"],
+            que: r`\(A = \begin{pmatrix} 1 & 1 & a \\ 1 & a & 1 \\ -1 & -1 & 3 \end{pmatrix}\)`,
+            mano: r`<p><b>Bajan</b>: \(1 \cdot a \cdot 3 = 3 \cdot a\); \(1 \cdot (-1) \cdot a = -a\); \((-1) \cdot 1 \cdot 1 = -1\).<br><b>Suben</b>: \((-1) \cdot a \cdot a = -a^2\); \(1 \cdot (-1) \cdot 1 = -1\); \(1 \cdot 1 \cdot 3 = 3\).</p>\[\begin{aligned} \det(A) &= (3 \cdot a - a - 1) - (-a^2 - 1 + 3) \\ &= 2 \cdot a - 1 + a^2 - 2 \\ &= a^2 + 2 \cdot a - 3 \end{aligned}\]`,
+            g: "sarrus",
+            mx: [
+              { i: "9", e: "e1 : x + y + a*z = 2;" },
+              { i: "10", e: "e2 : x + a*y + z = 2;" },
+              { i: "11", e: "e3 : -x - y + 3*z = 2;" },
+              { i: "12", e: "M : coefmatrix([e1, e2, e3], [x, y, z]);", s: r`\begin{pmatrix} 1 & 1 & a \\ 1 & a & 1 \\ -1 & -1 & 3 \end{pmatrix}` },
+              { i: "13", e: "B : matrix([2], [2], [2]);" },
+              { i: "14", e: "d : determinant(M);", s: r`\left(a-1\right)\,a+3\,a-3` },
+              { i: "15", e: "expand(d);", s: r`a^2+2\,a-3` }
+            ],
+            hoja: r`Desarrollado, coincide con Sarrus: \(\det(A) = a^2 + 2 \cdot a - 3\).` },
+          { n: "Resolver det(A) = 0", k: "k", T: ["T8"],
+            que: r`Con \(a = 1\), \(b = 2\), \(c = -3\) usamos la fórmula resolvente (las letras de la fórmula no son las del sistema).`,
+            mano: r`\[b^2 - 4 \cdot a \cdot c = 4 + 12 = 16 \qquad a = \dfrac{-2 \pm 4}{2}\]\[a_1 = 1 , \qquad a_2 = -3\]`,
+            mx: [
+              { i: "16", e: "factor(d);", s: r`\left(a-1\right)\,\left(a+3\right)` },
+              { i: "17", e: "solve(d = 0, a);", s: r`\left[ a=-3 , a=1 \right]` }
+            ],
+            hoja: r`Los valores problemáticos son \(a = 1\) y \(a = -3\).` },
+          { n: "Responder", k: "r", T: ["T4"],
+            que: r`Se excluyen los dos valores que anulan el determinante.`,
+            mano: r`<div class="respuesta">El sistema es compatible determinado si, y sólo si, \(a \in \mathbb{R} - \{-3, \, 1\}\)</div>` }
+        ]}],
+        produce: [{ id: "pA", tex: r`compatible determinado \(\iff a \in \mathbb{R} - \{-3, 1\}\)` }]
+      },
+      {
+        id: "e", titulo: "Los dos valores excluidos, por Gauss",
+        consigna: r`Para cada valor excluido: reemplazar, resolver por triangulación de Gauss y clasificar. Si es compatible indeterminado, escribir la solución general.`,
+        ramales: [
+          { rotulo: "a = 1", tareas: [
+            { n: "Triangular", k: "k", T: ["T6"],
+              que: r`Con \(a = 1\), las dos primeras ecuaciones son iguales: ya podemos anticipar una fila nula.`,
+              mano: r`\[\left( \begin{array}{rrr|r} 1 & 1 & 1 & 2 \\ 1 & 1 & 1 & 2 \\ -1 & -1 & 3 & 2 \end{array} \right) \begin{array}{l} {} \\ \op{F_2 \to F_2 - F_1} \\ \op{F_3 \to F_3 + F_1} \end{array} \sim \left( \begin{array}{rrr|r} 1 & 1 & 1 & 2 \\ 0 & 0 & 0 & 0 \\ 0 & 0 & 4 & 4 \end{array} \right)\]\[\begin{array}{l} {} \\ \op{F_2 \leftrightarrow F_3} \\ {} \end{array} \sim \left( \begin{array}{rrr|r} 1 & 1 & 1 & 2 \\ 0 & 0 & 4 & 4 \\ 0 & 0 & 0 & 0 \end{array} \right)\]`,
+              mx: [{ i: "18", e: "triangularize(subst(a = 1, addcol(M, B)));", s: r`\begin{pmatrix} 1 & 1 & 1 & 2 \\ 0 & 0 & 4 & 4 \\ 0 & 0 & 0 & 0 \end{pmatrix}` }],
+              hoja: r`Acá la matriz de Maxima coincide con la nuestra.` },
+            { n: "Leer y escribir la solución general", k: "k", T: ["T6", "T7"],
+              que: r`La fila nula se descarta; quedan dos pivotes para tres incógnitas.`,
+              mano: r`\[\begin{aligned} 4 \cdot z &= 4 & \dfrac{4 \cdot z}{\op{4}} &= \dfrac{4}{\op{4}} & z &= 1 \end{aligned}\]\[\begin{aligned} x + y + 1 \op{-\,1} &= 2 \op{-\,1} \\ x + y \op{-\,y} &= 1 \op{-\,y} \\ x &= 1 - y \end{aligned}\]<div class="respuesta">\(a = 1\): compatible indeterminado, \(S = \{(1 - y, \; y, \; 1) : y \in \mathbb{R}\}\)</div><p class="nota">Verificación con \(y = 0\), la terna \((1, 0, 1)\): \(1 + 0 + 1 = 2\), \(1 + 0 + 1 = 2\), \(-1 - 0 + 3 = 2\) \(\checkmark\)</p>`,
+              mx: [{ i: "20", e: "solve(subst(a = 1, [e1, e2, e3]), [x, y, z]);", msg: "solve: dependent equations eliminated: (2)", s: r`\left[ \left[ x=1-\%r_2 , y=\%r_2 , z=1 \right] \right]` }],
+              hoja: r`El parámetro <code>%r2</code> cumple el papel de \(y\): es nuestra solución general. Se llama <code>%r2</code> porque en esta sesión Maxima ya había usado <code>%r1</code>.` }
+          ]},
+          { rotulo: "a = −3", tareas: [
+            { n: "Triangular", k: "k", T: ["T6"],
+              que: r`Reemplazamos \(a = -3\).`,
+              mano: r`\[\left( \begin{array}{rrr|r} 1 & 1 & -3 & 2 \\ 1 & -3 & 1 & 2 \\ -1 & -1 & 3 & 2 \end{array} \right) \begin{array}{l} {} \\ \op{F_2 \to F_2 - F_1} \\ \op{F_3 \to F_3 + F_1} \end{array} \sim \left( \begin{array}{rrr|r} 1 & 1 & -3 & 2 \\ 0 & -4 & 4 & 0 \\ 0 & 0 & 0 & 4 \end{array} \right)\]`,
+              mx: [{ i: "19", e: "triangularize(subst(a = -3, addcol(M, B)));", s: r`\begin{pmatrix} 1 & 1 & -3 & 2 \\ 0 & -4 & 4 & 0 \\ 0 & 0 & 0 & -16 \end{pmatrix}` }],
+              hoja: r`Maxima llegó a \((0 \;\; 0 \;\; 0 \,|\, -16)\) en lugar de \((0 \;\; 0 \;\; 0 \,|\, 4)\): eligió otras operaciones, pero la lectura es la misma.` },
+            { n: "Leer y clasificar", k: "r", T: ["T6", "T7"],
+              que: r`La última fila es una ecuación.`,
+              mano: r`<p>\(0 \cdot x + 0 \cdot y + 0 \cdot z = 4\), es decir \(0 = 4\): falsa para cualquier terna.</p><div class="respuesta">\(a = -3\): incompatible, \(S = \varnothing\)</div>`,
+              mx: [{ i: "21", e: "solve(subst(a = -3, [e1, e2, e3]), [x, y, z]);", s: r`\left[ \right]` }],
+              hoja: r`Lista vacía: ninguna solución.`,
+              at: [r`<b>Clasificar sólo con el determinante.</b> Con \(a = 1\) y con \(a = -3\) el determinante vale \(0\), pero uno resultó compatible indeterminado y el otro incompatible. Para distinguirlos hace falta Gauss sobre la matriz <b>ampliada</b>.`] }
+          ]}
+        ],
+        produce: [{ id: "pE", tex: r`\(a = 1\): compatible indeterminado \(\quad a = -3\): incompatible` }]
+      }
+    ];
+
+    const FLECHAS = [
+      { de: "pRectas", a: "b" },
+      { de: "pSec", a: "c" },
+      { de: "pA", a: "e" }
+    ];
+
+    const SESION = [
+      "ec1 : k*x + 3*y = 6;",
+      "ec2 : 2*x + y = c;",
+      "solve(ec1, y);",
+      "solve(ec2, y);",
+      "A : coefmatrix([ec1, ec2], [x, y]);",
+      "determinant(A);",
+      "solve(subst([k = 6, c = 5], [ec1, ec2]), [x, y]);",
+      "solve(subst([k = 6, c = 2], [ec1, ec2]), [x, y]);",
+      "e1 : x + y + a*z = 2;",
+      "e2 : x + a*y + z = 2;",
+      "e3 : -x - y + 3*z = 2;",
+      "M : coefmatrix([e1, e2, e3], [x, y, z]);",
+      "B : matrix([2], [2], [2]);",
+      "d : determinant(M);",
+      "expand(d);",
+      "factor(d);",
+      "solve(d = 0, a);",
+      "triangularize(subst(a = 1, addcol(M, B)));",
+      "triangularize(subst(a = -3, addcol(M, B)));",
+      "solve(subst(a = 1, [e1, e2, e3]), [x, y, z]);",
+      "solve(subst(a = -3, [e1, e2, e3]), [x, y, z]);"
+    ].join("\n");
+
+    const GRAF = {
+      sarrus: () => sarrusSVG([["1", "1", "a"], ["1", "a", "1"], ["−1", "−1", "3"]]),
+      rectas: () => plot({ alt: "Con k = 6: la recta y = −2x + 2 y una paralela, y = −2x + 5", x0: -2, x1: 4, y0: -4, y1: 8, xt: [-2, -1, 0, 1, 2, 3, 4], yt: [-4, -2, 0, 2, 4, 6, 8],
+        fns: [{ f: x => -2 * x + 2, a: -2, b: 3, c: "var(--azul)", et: [2.2, -3.4, "y = −2·x + 2"] }, { f: x => -2 * x + 5, a: -1.5, b: 4, c: "var(--naranja)", et: [2.7, 1.4, "c = 5"] }],
+        pts: [[0, 2, "(0, 2)", "var(--azul)", 6], [1, 0, "(1, 0)", "var(--azul)", 6]] })
+    };
+
+    /* ---------- armado del mapa ---------- */
+    const mapa = document.getElementById("mapa");
+    const TAREAS = [];
+    ITEMS.forEach(it => {
+      if (it.parte) { const hp = document.createElement("h2"); hp.className = "parte"; hp.innerHTML = it.parte; mapa.appendChild(hp); }
+      const card = document.createElement("article");
+      card.className = "tarjeta"; card.id = "item-" + it.id;
+      let h = `<header><span class="letra">${it.id})</span><div><h3>${it.titulo}</h3><p class="consigna">${it.consigna}</p></div></header>`;
+      let num = 0;
+      it.ramales.forEach(rm => {
+        h += `<div class="ramal${rm.rotulo ? "" : " solo"}">${rm.rotulo ? `<span class="rotulo">${rm.rotulo}</span>` : ""}<div class="cadena">`;
+        rm.tareas.forEach((t, j) => {
+          num++; t.id = it.id + num; t.item = it.id; TAREAS.push(t);
+          h += `<span class="paso">${j ? `<span class="sep" aria-hidden="true">→</span>` : ""}<button type="button" class="tarea ${t.k}" id="t-${t.id}" data-id="${t.id}"><span class="num">${it.id}${num}</span><span>${t.n}</span>${t.at ? `<span class="alerta" aria-label="tiene un error típico">!</span>` : ""}</button></span>`;
+        });
+        h += `</div></div>`;
+      });
+      h += `<div class="produce"><span class="et">produce</span>${it.produce.map(p => `<span class="pieza" id="${p.id}">${p.tex}</span>`).join("")}</div>`;
+      card.innerHTML = h;
+      mapa.appendChild(card);
+    });
+    const porId = Object.fromEntries(TAREAS.map(t => [t.id, t]));
+
+    document.getElementById("grillaTeoria").innerHTML = Object.entries(TEORIA).map(([k, v]) =>
+      `<div class="teo" id="teo-${k}"><b>[${k}] ${v.t}.</b> ${v.x}<span class="ap">${v.ap}</span></div>`).join("");
+
+    /* ---------- flechas ---------- */
+    const svgF = document.getElementById("flechas");
+    function dibujarFlechas() {
+      svgF.querySelectorAll("path.flecha, text.flecha-et").forEach(n => n.remove());
+      const base = mapa.getBoundingClientRect();
+      const rel = el => { const b = el.getBoundingClientRect(); return { x: b.left - base.left, y: b.top - base.top, w: b.width, h: b.height }; };
+      FLECHAS.forEach(f => {
+        const p = rel(document.getElementById(f.de));
+        const desde = document.getElementById(f.de).closest(".tarjeta");
+        const card = rel(document.getElementById("item-" + f.a));
+        const cd = rel(desde);
+        let d;
+        const x1 = p.x + p.w / 2, y1 = p.y + p.h;
+        if (f.canal) {
+          const yg = cd.y + cd.h + 12, xg = 10, yt = card.y + 28;
+          d = `M${x1} ${y1} V${yg} H${xg} V${yt} H${card.x - 4}`;
+          const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          t.setAttribute("class", "flecha-et"); t.setAttribute("x", xg + 4); t.setAttribute("y", yg + 16); t.textContent = f.et;
+          svgF.appendChild(t);
+        } else {
+          let x2 = Math.min(Math.max(x1, card.x + 30), card.x + card.w - 30);
+          const y2 = card.y - 3;
+          d = `M${x1} ${y1} C${x1} ${y1 + 26}, ${x2} ${y2 - 26}, ${x2} ${y2}`;
+        }
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", d); path.setAttribute("class", "flecha"); path.setAttribute("marker-end", "url(#punta)");
+        svgF.appendChild(path);
+      });
+    }
+
+    /* ---------- filtros ---------- */
+    let filtro = "todo";
+    function aplicarFiltro() {
+      document.querySelectorAll("#filtros button").forEach(b => b.setAttribute("aria-pressed", b.dataset.f === filtro));
+      TAREAS.forEach(t => {
+        const el = document.getElementById("t-" + t.id);
+        let atenuar = false;
+        if (filtro === "mano") atenuar = t.solo === "maxima";
+        if (filtro === "maxima") atenuar = t.solo === "mano";
+        if (filtro === "errores") atenuar = !t.at;
+        el.classList.toggle("atenuada", atenuar);
+        el.classList.toggle("resaltada", filtro === "errores" && !!t.at);
+      });
+      document.getElementById("errores").style.display = filtro === "errores" ? "block" : "none";
+      if (pop.classList.contains("abierto") && actual) abrir(actual, true);
+    }
+    document.getElementById("filtros").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      filtro = b.dataset.f; aplicarFiltro();
+    });
+    const lista = document.getElementById("listaErrores");
+    TAREAS.filter(t => t.at).forEach(t => t.at.forEach(a => {
+      const li = document.createElement("li");
+      li.innerHTML = `${a} <button type="button" data-ir="${t.id}">Ir a la tarea ${t.id}</button>`;
+      lista.appendChild(li);
+    }));
+    lista.addEventListener("click", e => {
+      const b = e.target.closest("[data-ir]"); if (!b) return;
+      const el = document.getElementById("t-" + b.dataset.ir);
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+      setTimeout(() => { fijada = el; abrir(el); }, 350);
+    });
+
+    /* ---------- ventana ---------- */
+    const pop = document.getElementById("pop");
+    let actual = null, fijada = null, temporizador = null;
+    const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    function sesion(mx, mal) {
+      let h = `<div class="wx${mal ? " mal" : ""}">`;
+      mx.forEach(m => {
+        h += `<div class="celda"><div class="ent"><span class="lab">${mal ? "" : "(%i" + m.i + ")"}</span><code>${esc(m.e)}</code><button type="button" class="copiar" data-copiar="${esc(m.e)}">copiar</button></div>`;
+        if (m.msg) h += `<div class="sal"><span class="lab"></span><code class="msg">${esc(m.msg)}</code><span></span></div>`;
+        if (m.s) h += `<div class="sal"><span class="lab">${mal ? "" : "(%o" + m.i + ")"}</span><span>\\(\\displaystyle ${m.s}\\)</span><span></span></div>`;
+        if (m.err) h += `<div class="sal"><span class="lab"></span><code class="err">${esc(m.err)}</code><span></span></div>`;
+        h += `</div>`;
+      });
+      return h + "</div>";
+    }
+    function contenido(t) {
+      let h = `<div class="cab"><h3 id="popTitulo">${t.id} · ${t.n}</h3><button type="button" class="cerrar" aria-label="Cerrar">×</button></div>`;
+      h += `<div class="refs">${t.T.map(k => `<button type="button" class="refT" data-t="${k}" title="${TEORIA[k].t}">[${k}]</button>`).join("")}<span class="apunte">${t.T.map(k => TEORIA[k].ap).join(" · ")}</span></div>`;
+      h += `<p class="que">${t.que}</p>`;
+      const verMano = filtro !== "maxima" || !t.mx;
+      const verMx = filtro !== "mano";
+      if (t.mano && verMano) {
+        h += `<div class="bloque mano"><div class="tit">${t.mx || t.notaMx ? "A mano" : "En la hoja"}</div>${t.mano}${t.g ? GRAF[t.g]() : ""}</div>`;
+      } else if (t.g) {
+        h += GRAF[t.g]();
+      }
+      if (t.mx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div>${sesion(t.mx)}`;
+        if (t.hoja) h += `<p><b>Volcamos a la hoja.</b> ${t.hoja}</p>`;
+        if (t.mxMal) h += `<p class="nota">Si se olvida el paréntesis:</p>${sesion([t.mxMal], true)}`;
+        h += `</div>`;
+      } else if (t.notaMx && verMx) {
+        h += `<div class="bloque maxima"><div class="tit">Con Maxima</div><p class="nota">${t.notaMx}</p></div>`;
+      }
+      (t.at || []).forEach(a => { h += `<div class="atencion">${a}</div>`; });
+      return h;
+    }
+    function ubicar(el) {
+      pop.style.maxHeight = "";
+      if (window.innerWidth <= 720) { pop.classList.add("hoja"); return; }
+      pop.classList.remove("hoja");
+      const b = el.getBoundingClientRect();
+      const abajo = window.innerHeight - b.bottom - 16, arriba = b.top - 16;
+      let ph = pop.offsetHeight;
+      const pw = pop.offsetWidth;
+      let top;
+      if (ph <= abajo) top = b.bottom + 8;
+      else if (ph <= arriba) top = b.top - ph - 8;
+      else if (abajo >= arriba) { pop.style.maxHeight = Math.max(160, abajo) + "px"; top = b.bottom + 8; }
+      else { pop.style.maxHeight = Math.max(160, arriba) + "px"; ph = pop.offsetHeight; top = b.top - ph - 8; }
+      let left = Math.min(Math.max(12, b.left), document.documentElement.clientWidth - pw - 12);
+      pop.style.top = (top + window.scrollY) + "px";
+      pop.style.left = (left + window.scrollX) + "px";
+    }
+    function abrir(el, mismo) {
+      const t = porId[el.dataset.id];
+      if (!mismo && actual === el && pop.classList.contains("abierto")) { ubicar(el); return; }
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      el.classList.add("activa");
+      actual = el;
+      pop.innerHTML = contenido(t);
+      pop.classList.add("abierto");
+      ubicar(el);
+      if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([pop]).then(() => ubicar(el)).catch(() => {});
+    }
+    function cerrar() {
+      pop.classList.remove("abierto");
+      document.querySelectorAll(".tarea.activa").forEach(n => n.classList.remove("activa"));
+      actual = null; fijada = null;
+    }
+    const hover = window.matchMedia("(hover: hover)").matches;
+    mapa.addEventListener("mouseover", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      clearTimeout(temporizador); abrir(el);
+    });
+    mapa.addEventListener("mouseout", e => {
+      const el = e.target.closest(".tarea"); if (!el || !hover || fijada) return;
+      if (el.contains(e.relatedTarget)) return;
+      temporizador = setTimeout(cerrar, 260);
+    });
+    pop.addEventListener("mouseenter", () => clearTimeout(temporizador));
+    pop.addEventListener("mouseleave", () => { if (!fijada) temporizador = setTimeout(cerrar, 260); });
+    mapa.addEventListener("click", e => {
+      const el = e.target.closest(".tarea"); if (!el) return;
+      clearTimeout(temporizador);
+      if (fijada === el) { cerrar(); return; }
+      fijada = el; abrir(el);
+    });
+    mapa.addEventListener("focusin", e => { const el = e.target.closest(".tarea"); if (el && !fijada) abrir(el); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") cerrar(); });
+    document.addEventListener("click", e => {
+      if (!fijada) return;
+      if (pop.contains(e.target) || e.target.closest(".tarea") || e.target.closest("#listaErrores")) return;
+      cerrar();
+    });
+    pop.addEventListener("click", e => {
+      if (e.target.closest(".cerrar")) { cerrar(); return; }
+      const c = e.target.closest("[data-copiar]");
+      if (c) { copiar(c.getAttribute("data-copiar").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")); return; }
+      const ref = e.target.closest(".refT");
+      if (ref) {
+        const teo = document.getElementById("teo-" + ref.dataset.t);
+        cerrar();
+        teo.scrollIntoView({ block: "center", behavior: "smooth" });
+        teo.classList.add("brilla"); setTimeout(() => teo.classList.remove("brilla"), 1800);
+      }
+    });
+
+    /* ---------- copiar ---------- */
+    const aviso = document.getElementById("aviso");
+    function avisar(txt) { aviso.textContent = txt; aviso.classList.add("ver"); setTimeout(() => aviso.classList.remove("ver"), 1400); }
+    function copiar(txt) {
+      const respaldo = () => {
+        try {
+          const ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove();
+          avisar(ok ? "Copiado" : "No se pudo copiar: seleccioná el texto a mano");
+        } catch (err) { avisar("No se pudo copiar: seleccioná el texto a mano"); }
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => avisar("Copiado"), respaldo);
+        else respaldo();
+      } catch (err) { respaldo(); }
+    }
+    document.getElementById("copiarSesion").addEventListener("click", () => copiar(SESION));
+
+    /* ---------- pie: link de descarga ---------- */
+    (function () {
+      const d = document.getElementById("descargaFinal");
+      if (!d.getAttribute("href")) {
+        d.classList.add("pendiente"); d.textContent = "Disponible próximamente";
+        d.setAttribute("aria-disabled", "true");
+        d.addEventListener("click", e => e.preventDefault());
+      }
+    })();
+
+    /* ---------- arranque ---------- */
+    aplicarFiltro();
+    dibujarFlechas();
+    window.addEventListener("resize", () => { dibujarFlechas(); if (actual) ubicar(actual); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(dibujarFlechas);
+    window.addEventListener("load", () => {
+      dibujarFlechas();
+      if (window.MathJax && MathJax.startup && MathJax.startup.promise) MathJax.startup.promise.then(dibujarFlechas);
+    });
+    if ("ResizeObserver" in window) new ResizeObserver(dibujarFlechas).observe(mapa);
+  </script>
+</body>
+</html>
