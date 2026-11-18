@@ -19,6 +19,14 @@ https://patriagrande.github.io/repasoecuaciones.github.io/funcionlineal/index.ht
 
 # CURZAS
 
+## Mapas interactivos simulacro de parcial
+
+* https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad1.html
+* https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad2.html
+* https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad3.html
+* https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad4.html
+* https://patriagrande.github.io/repasoecuaciones.github.io/matematica1/mapas_conceptuales/actividad5.html
+
 ## Matemática I - Clase 01
 
 https://patriagrande.github.io/repasoecuaciones.github.io/ecuacionescurza/clase01/index.html
